@@ -18,3 +18,151 @@ body{
 .modal-open .modal {
   overflow-x: auto;
 }
+
+/**
+ * STATIC FORM CSS
+ */
+ #census-form-container {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  overflow-x: scroll; }
+
+.census-form-holder {
+  background-color: #aed2e0;
+  padding: 10px; }
+  .census-form-holder hr {
+    border-top-color: #989cc7; }
+  .census-form-holder .text-muted {
+    color: #717598; }
+
+.main-form-structure {
+  background-color: #aed2e0; }
+  .main-form-structure .text-muted {
+    color: #5f5c5c; }
+
+.main-form-structure > thead > tr > th,
+.main-form-structure > tr > th,
+.main-form-structure > tbody > tr > td,
+.main-form-structure > tr > td,
+.inner-form-structure > thead > tr > th,
+.inner-form-structure > tr > th,
+.inner-form-structure > tbody > tr > td,
+.inner-form-structure > tr > td {
+  border-collapse: collapse; }
+
+.table-full-width {
+  min-width: 100%; }
+
+.table-item-bordered > thead > tr > th,
+.table-item-bordered > tr > th,
+.table-item-bordered > tbody > tr > td,
+.table-item-bordered > tbody > tr > th,
+.table-item-bordered > tr > td {
+  border: 1px solid #666;
+  vertical-align: top; }
+
+.vertical-form-elem {
+  float: left;
+  display: block;
+  /* IE 9 */
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg); }
+
+.select2-sm {
+  width: 150px; }
+
+@media (max-width: 412px) {
+  .select2-sm {
+    width: auto; } }
+
+.select2-md {
+  width: 200px; }
+
+.select2-lg {
+  width: 300px; }
+
+.input-small {
+  width: 150px; }
+
+.input-medium {
+  width: 200px; }
+
+.input-large {
+  width: 300px; }
+
+.input-group .input-small,
+.form-group .input-small {
+  width: 150px; }
+
+.input-group .input-medium,
+.form-group .input-medium {
+  width: 200px; }
+
+.input-group .input-large,
+.form-group .input-large {
+  width: 300px; }
+
+.static-table-head {
+  background-color: #5a5aa0;
+  color: #fff;
+  padding: 10px; }
+
+.unit-number-block-right {
+  float: right;
+  margin: 10px;
+  width: 300px; }
+
+.has-table-separator {
+  border-bottom: 5px solid #5a5aa0; }
+
+@media (max-width: 768px) {
+  .item-group [class|="col"]:last-child .form-group {
+    border-bottom: 1px solid #989cc7;
+    padding-bottom: 10px; } }
+
+.fl-scrolls, .fl-scrolls div {
+  font-size: 0;
+  line-height: 0;
+  margin: 0;
+  padding: 0; }
+
+.fl-scrolls {
+  bottom: 0;
+  height: 35px;
+  overflow: auto;
+  position: fixed; }
+
+.fl-scrolls div {
+  height: 1px;
+  overflow: hidden; }
+
+.fl-scrolls div:before {
+  content: "";
+  /* fixes #6 */ }
+
+.fl-scrolls-hidden {
+  bottom: 9999px; }
+
+.fl-scrolls-viewport {
+  /* It can be any type of positioning except static. Redefine in your CSS as needed */
+  position: relative; }
+
+.fl-scrolls-body {
+  overflow: auto; }
+
+.fl-scrolls-viewport .fl-scrolls {
+  left: 0;
+  position: absolute; }
+
+.fl-scrolls-hoverable .fl-scrolls {
+  opacity: 0;
+  transition: opacity 0.5s ease 0.3s; }
+
+.fl-scrolls-hoverable:hover .fl-scrolls {
+  opacity: 1; }
+
+@media (max-width: 768px) {
+  .footer {
+    position: relative;
+    margin-bottom: 20px; } }
