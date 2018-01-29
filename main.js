@@ -7,7 +7,6 @@ let mainWindow
 function createWindow(){
 
 	mainWindow = new BrowserWindow({width:1024, height:800});
-
 	mainWindow.loadURL('file://' + __dirname + '/index.html');
 
 	
@@ -16,6 +15,9 @@ function createWindow(){
 	mainWindow.on('closed', function(){
 		mainWindow = null;
 	});
+
+	mainWindow.maximize();
+
 }
 
 app.on('ready', createWindow);

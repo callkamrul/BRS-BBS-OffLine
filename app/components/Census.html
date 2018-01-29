@@ -3,6 +3,8 @@
 		<span class="clickable right-float">
 			<i v-show="isEdit==false" @click="addCensus" class="glyphicon glyphicon-plus"></i>
 			<i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
+			<button v-show="isEdit==true" class="btn btn-primary" type="button" @click="saveCensus" value="submit">
+				<i class="icon-paperplane"></i> সাবমিট</button>
 		</span>
 	</h2>
 	<div v-show="isEdit == false" id="censuses">
@@ -41,8 +43,8 @@
 	<div id="census-modal" v-show="isEdit == true">
 		<!-- <h4 class="modal-title">{{census.id > 0 ? 'Edit census' : 'Add a new census' }}</h4> -->
 		<div class="modal-body">
-			<form class="ui form" @submit.prevent="saveCensus">
-				
+			<form class="ui form">
+
 				<div id="census-form-container">
 					<table class="main-form-structure table-full-width" style="width: 2125px; background-color: #f5f5f5;">
 						<tbody>
@@ -63,7 +65,7 @@
 									<div class="unit-number-block-right">
 										<label for="unit-id-number">প্রতিষ্ঠানের আইডেন্টিফিকেশন নম্বর</label>
 										<input class="form-control" id="unit-id-number" readonly="readonly" tabindex="-1" placeholder="ফর্মটি সংরক্ষণের সময় স্বয়ংক্রীয়ভাবে তৈরি হবে"
-										 name="unit_identification_code" type="text">
+										 name="unit_identification_code" v-bind="census.unit_identification_code" type="text">
 									</div>
 									<h6 class="no-margin">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h6>
 									<h5 class="no-margin">অর্থনৈতিক শুমারি ২০১৩ প্রকল্প</h5>
@@ -106,11 +108,10 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="division-id" required="required" tabindex="-1"  name="division_id"
-																		 aria-required="true">
+																		<select class="select form-control" id="division-id" required="required" tabindex="-1" name="division_id" aria-required="true">
 																			<option value=""></option>
 																		</select>
-																		<input name="division_id" type="hidden" value="0">
+																		<input name="division_id" v-model="census.division_id" type="hidden" value="0">
 																	</div>
 																</td>
 															</tr>
@@ -120,11 +121,10 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="district-id" required="required" tabindex="-1"  name="district_id"
-																		 aria-required="true">
+																		<select class="select form-control" id="district-id" required="required" tabindex="-1" name="district_id" aria-required="true">
 																			<option value=""></option>
 																		</select>
-																		<input name="district_id" type="hidden" value="0">
+																		<input name="district_id" v-model="census.district_id" type="hidden" value="0">
 																	</div>
 
 																</td>
@@ -136,11 +136,10 @@
 																<td>
 																	<div class="form-group">
 
-																		<select class="select form-control" id="thana-upz-id" required="required" tabindex="-1"  name="thana_upz_id"
-																		 aria-required="true">
+																		<select class="select form-control" id="thana-upz-id" required="required" tabindex="-1" name="thana_upz_id" aria-required="true">
 																			<option value=""></option>
 																		</select>
-																		<input name="thana_upz_id" type="hidden" value="0">
+																		<input name="thana_upz_id" v-model="census.thana_upz_id" type="hidden" value="0">
 																	</div>
 
 																</td>
@@ -152,14 +151,14 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-hidden-accessible" id="ward-union-id"  name="ward_union_id"
-																		 tabindex="-1" aria-hidden="true" aria-required="true">
+																		<select class="select form-control select2-control select2-hidden-accessible" id="ward-union-id" name="ward_union_id" tabindex="-1"
+																		 aria-hidden="true" aria-required="true">
 																			<option selected="selected" value=""></option>
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																				 tabindex="0" aria-labelledby="select2-ward-union-id-container">
+																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																				 aria-labelledby="select2-ward-union-id-container">
 																					<span class="select2-selection__rendered" id="select2-ward-union-id-container" title=""></span>
 																					<span class="select2-selection__arrow" role="presentation">
 																						<b role="presentation"></b>
@@ -186,8 +185,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																				 tabindex="0" aria-labelledby="select2-mahallah-id-container">
+																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																				 aria-labelledby="select2-mahallah-id-container">
 																					<span class="select2-selection__rendered" id="select2-mahallah-id-container" title=""></span>
 																					<span class="select2-selection__arrow" role="presentation">
 																						<b role="presentation"></b>
@@ -208,28 +207,10 @@
 																	<small class="text-danger">*</small>
 																</td>
 																<td class="form-group ">
-																	<select class="select form-control select2-control select2-hidden-accessible" id="rmo-code" required="required" name="rmo_code"
-																	 tabindex="-1" aria-hidden="true" aria-required="true">
+																	<select id="rmo-code" required="required" name="rmo_code" tabindex="-1" aria-hidden="true" aria-required="true" v-model="census.RMO_CODE">
 																		<option selected="selected" value=""></option>
-																		<option value="1">1 - Rural</option>
-																		<option value="2">2 - Municipality</option>
-																		<option value="3">3 - Upazila Head Quarter</option>
-																		<option value="4">5 - Cantonment</option>
-																		<option value="5">7 - Growth Center</option>
-																		<option value="6">9 - City Corporation</option>
+																		<option v-for="rmo in rmos" value="rmo.ID">{{rmo.NAME}}</option>
 																	</select>
-																	<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																		<span class="selection">
-																			<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																			 tabindex="0" aria-labelledby="select2-rmo-code-container">
-																				<span class="select2-selection__rendered" id="select2-rmo-code-container" title=""></span>
-																				<span class="select2-selection__arrow" role="presentation">
-																					<b role="presentation"></b>
-																				</span>
-																			</span>
-																		</span>
-																		<span class="dropdown-wrapper" aria-hidden="true"></span>
-																	</span>
 																</td>
 															</tr>
 														</tbody>
@@ -250,7 +231,7 @@
 																<td colspan="3">
 																	<div class="form-group">
 																		<input class="form-control" id="serial-no-unit" placeholder="" required="required" pattern="[0-9]" maxlength="3" style="width:75px;"
-																		 name="serial_no_unit" type="text" aria-required="true">
+																		 name="serial_no_unit" v-model="census.serial_no_unit" type="text" aria-required="true">
 																	</div>
 
 																</td>
@@ -262,8 +243,8 @@
 																</td>
 																<td colspan="3">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="unit-name" placeholder="" required="required" name="name_of_unit" type="text"
-																		 aria-required="true">
+																		<input class="form-control input-uppercase" id="unit-name" placeholder="" required="required" name="name_of_unit" v-model="census.NAME_OF_UNIT"
+																		 type="text" aria-required="true">
 																	</div>
 																</td>
 															</tr>
@@ -287,7 +268,7 @@
 																</td>
 																<td colspan="3">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="house-name" name="name_of_house" type="text">
+																		<input class="form-control input-uppercase" id="house-name" name="name_of_house" v-model="census.name_of_house" type="text">
 																	</div>
 
 																</td>
@@ -299,7 +280,7 @@
 																</td>
 																<td colspan="3">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="road" name="no_name_of_road" type="text">
+																		<input class="form-control input-uppercase" id="road" name="no_name_of_road" v-model="census.no_name_of_road" type="text">
 																	</div>
 
 																</td>
@@ -311,7 +292,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="floor-level" name="floor_level" type="text">
+																		<input class="form-control input-uppercase" id="floor-level" name="floor_level" v-model="census.floor_level" type="text">
 																	</div>
 
 																</td>
@@ -320,7 +301,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="holding-number" name="holiding_no" type="text">
+																		<input class="form-control input-uppercase" id="holding-number" name="holiding_no" v-model="census.holiding_no" type="text">
 																	</div>
 
 																</td>
@@ -331,7 +312,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control" id="phone" name="phone" type="text">
+																		<input class="form-control" id="phone" name="phone" v-model="census.phone" type="text">
 																	</div>
 
 																</td>
@@ -340,7 +321,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control" id="fax" placeholder="" name="fax" type="text">
+																		<input class="form-control" id="fax" placeholder="" name="fax" v-model="census.fax" type="text">
 																	</div>
 
 																</td>
@@ -351,7 +332,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control" id="email" placeholder="someone@example.com" name="email" type="email">
+																		<input class="form-control" id="email" placeholder="someone@example.com" name="email" v-model="census.email" type="email">
 																	</div>
 
 																</td>
@@ -360,7 +341,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control" id="website" placeholder="http://www.example.com" name="website" type="text">
+																		<input class="form-control" id="website" placeholder="http://www.example.com" name="website" v-model="census.website" type="text">
 																	</div>
 
 																</td>
@@ -372,8 +353,8 @@
 													</table>
 												</td>
 												<td rowspan="2" class="padding-10 valign-middle">
-													<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="legal-ownership-code"
-													 style="width: 500px" name="legal_ownership_code" tabindex="-1" aria-hidden="true">
+													<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="legal-ownership-code" style="width: 500px"
+													 name="legal_ownership_code" tabindex="-1" aria-hidden="true">
 														<option selected="selected" value=""></option>
 														<option value="1">01 - ব্যক্তিগত/পারিবারিক</option>
 														<option value="21">02 - একক মালিকানাধীন</option>
@@ -400,8 +381,8 @@
 													</span>
 												</td>
 												<td rowspan="2" class="padding-10 valign-middle">
-													<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="type-of-ownership"
-													 name="type_of_ownership" tabindex="-1" aria-hidden="true">
+													<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="type-of-ownership" name="type_of_ownership"
+													 tabindex="-1" aria-hidden="true">
 														<option selected="selected" value=""></option>
 														<option value="1">01 - বাংলাদেশী</option>
 														<option value="2">02 - প্রবাসী বাংলাদেশী</option>
@@ -432,8 +413,8 @@
 															</tr>
 															<tr>
 																<td class="padding-10">
-																	<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="head-gender-code"
-																	 name="head_gender_code" tabindex="-1" aria-hidden="true">
+																	<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="head-gender-code" name="head_gender_code"
+																	 tabindex="-1" aria-hidden="true">
 																		<option selected="selected" value=""></option>
 																		<option value="1">1 - পুরুষ</option>
 																		<option value="2">2 - মহিলা</option>
@@ -441,8 +422,8 @@
 																	</select>
 																	<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																		<span class="selection">
-																			<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																			 aria-expanded="false" tabindex="0" aria-labelledby="select2-head-gender-code-container">
+																			<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																			 tabindex="0" aria-labelledby="select2-head-gender-code-container">
 																				<span class="select2-selection__rendered" id="select2-head-gender-code-container" title=""></span>
 																				<span class="select2-selection__arrow" role="presentation">
 																					<b role="presentation"></b>
@@ -454,11 +435,11 @@
 																</td>
 																<td class="padding-10">
 																	<input class="form-control input-small" id="head-unit-age" min="0" placeholder="(পূর্ণ বছরে লিখুন)" pattern="[0-9]" maxlength="2"
-																	 name="head_of_unit_age" type="text">
+																	 name="head_of_unit_age" v-model="census.head_of_unit_age" type="text">
 																</td>
 																<td class="padding-10">
-																	<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="head-education-code"
-																	 name="head_education_code" tabindex="-1" aria-hidden="true">
+																	<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="head-education-code" name="head_education_code"
+																	 tabindex="-1" aria-hidden="true">
 																		<option selected="selected" value=""></option>
 																		<option value="21">00 - স্কুলে যায় নি বা ১ম শ্রেণি পাশ করে নি</option>
 																		<option value="22">01 - ১ম শ্রেণি</option>
@@ -478,8 +459,8 @@
 																	</select>
 																	<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																		<span class="selection">
-																			<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																			 aria-expanded="false" tabindex="0" aria-labelledby="select2-head-education-code-container">
+																			<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																			 tabindex="0" aria-labelledby="select2-head-education-code-container">
 																				<span class="select2-selection__rendered" id="select2-head-education-code-container" title=""></span>
 																				<span class="select2-selection__arrow" role="presentation">
 																					<b role="presentation"></b>
@@ -513,8 +494,8 @@
 																	</select>
 																	<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																		<span class="selection">
-																			<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																			 aria-expanded="false" tabindex="0" aria-labelledby="select2-unit-type-code-container">
+																			<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																			 tabindex="0" aria-labelledby="select2-unit-type-code-container">
 																				<span class="select2-selection__rendered" id="select2-unit-type-code-container" title=""></span>
 																				<span class="select2-selection__arrow" role="presentation">
 																					<b role="presentation"></b>
@@ -552,11 +533,10 @@
 																			<option value="1">1 - হ্যাঁ</option>
 																			<option value="2">2 - না</option>
 																		</select>
-																		<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr"
-																		 style="width: 100%;">
+																		<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="-1" aria-labelledby="select2-is-under-ent-group-container">
+																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="-1" aria-labelledby="select2-is-under-ent-group-container">
 																					<span class="select2-selection__rendered" id="select2-is-under-ent-group-container" title=""></span>
 																					<span class="select2-selection__arrow" role="presentation">
 																						<b role="presentation"></b>
@@ -581,11 +561,10 @@
 																			<option value="262">ASHA </option>
 																			<option value="261">POLYCON LIMITED</option>
 																		</select>
-																		<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr"
-																		 style="width: 100%;">
+																		<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																				 tabindex="-1" aria-labelledby="select2-enterprise-group-id-container">
+																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"
+																				 aria-labelledby="select2-enterprise-group-id-container">
 																					<span class="select2-selection__rendered" id="select2-enterprise-group-id-container">
 																						<span class="select2-selection__placeholder">এন্টারপ্রাইজ গ্রুপ</span>
 																					</span>
@@ -626,11 +605,10 @@
 																				<option value="1">1 - হ্যাঁ</option>
 																				<option value="2">2 - না</option>
 																			</select>
-																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr"
-																			 style="width: 100%;">
+																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
 																				<span class="selection">
-																					<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																					 aria-expanded="false" tabindex="-1" aria-labelledby="select2-is-under-ent-container">
+																					<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																					 tabindex="-1" aria-labelledby="select2-is-under-ent-container">
 																						<span class="select2-selection__rendered" id="select2-is-under-ent-container" title=""></span>
 																						<span class="select2-selection__arrow" role="presentation">
 																							<b role="presentation"></b>
@@ -650,11 +628,10 @@
 																				<option value="262">ASHA </option>
 																				<option value="261">POLYCON LIMITED</option>
 																			</select>
-																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr"
-																			 style="width: 100%;">
+																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
 																				<span class="selection">
-																					<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																					 tabindex="-1" aria-labelledby="select2-enterprise-container">
+																					<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"
+																					 aria-labelledby="select2-enterprise-container">
 																						<span class="select2-selection__rendered" id="select2-enterprise-container" title=""></span>
 																						<span class="select2-selection__arrow" role="presentation">
 																							<b role="presentation"></b>
@@ -691,11 +668,10 @@
 																				<option value="1">1 - হ্যাঁ</option>
 																				<option value="2">2 - না</option>
 																			</select>
-																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr"
-																			 style="width: 100%;">
+																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
 																				<span class="selection">
-																					<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																					 aria-expanded="false" tabindex="-1" aria-labelledby="select2-is-under-ent-group-2-container">
+																					<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																					 tabindex="-1" aria-labelledby="select2-is-under-ent-group-2-container">
 																						<span class="select2-selection__rendered" id="select2-is-under-ent-group-2-container" title=""></span>
 																						<span class="select2-selection__arrow" role="presentation">
 																							<b role="presentation"></b>
@@ -715,11 +691,10 @@
 																				<option value="262">ASHA </option>
 																				<option value="261">POLYCON LIMITED</option>
 																			</select>
-																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr"
-																			 style="width: 100%;">
+																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
 																				<span class="selection">
-																					<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																					 tabindex="-1" aria-labelledby="select2-enterprise-group-id-2-container">
+																					<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"
+																					 aria-labelledby="select2-enterprise-group-id-2-container">
 																						<span class="select2-selection__rendered" id="select2-enterprise-group-id-2-container" title=""></span>
 																						<span class="select2-selection__arrow" role="presentation">
 																							<b role="presentation"></b>
@@ -749,8 +724,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-unit-mode-code-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-unit-mode-code-container">
 																	<span class="select2-selection__rendered" id="select2-unit-mode-code-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -792,7 +767,8 @@
 																				</td>
 																				<td colspan="3">
 																					<div class="form-group">
-																						<input class="form-control input-uppercase" id="head-office-name" name="head_office_name" type="text">
+																						<input class="form-control input-uppercase" id="head-office-name" name="head_office_name" v-model="census.head_office_name"
+																						 type="text">
 																					</div>
 																				</td>
 																			</tr>
@@ -803,7 +779,8 @@
 																				</td>
 																				<td colspan="3">
 																					<div class="form-group">
-																						<input class="form-control input-uppercase" id="head-office-mahallah" name="head_office_mahallah" type="text">
+																						<input class="form-control input-uppercase" id="head-office-mahallah" name="head_office_mahallah" v-model="census.head_office_mahallah"
+																						 type="text">
 																					</div>
 																				</td>
 																			</tr>
@@ -814,7 +791,8 @@
 																				</td>
 																				<td colspan="3">
 																					<div class="form-group">
-																						<input class="form-control input-uppercase" id="head-office-house" name="head_office_house" type="text">
+																						<input class="form-control input-uppercase" id="head-office-house" name="head_office_house" v-model="census.head_office_house"
+																						 type="text">
 																					</div>
 
 																				</td>
@@ -826,7 +804,8 @@
 																				</td>
 																				<td colspan="3">
 																					<div class="form-group">
-																						<input class="form-control input-uppercase" id="head-office-road" name="head_office_road" type="text">
+																						<input class="form-control input-uppercase" id="head-office-road" name="head_office_road" v-model="census.head_office_road"
+																						 type="text">
 																					</div>
 
 																				</td>
@@ -838,7 +817,8 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" id="head-office-floor-level" name="head_office_floor_level" type="text">
+																						<input class="form-control" id="head-office-floor-level" name="head_office_floor_level" v-model="census.head_office_floor_level"
+																						 type="text">
 																					</div>
 
 																				</td>
@@ -847,7 +827,8 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" id="head-office-holding-number" name="head_office_holiding_no" type="text">
+																						<input class="form-control" id="head-office-holding-number" name="head_office_holiding_no" v-model="census.head_office_holiding_no"
+																						 type="text">
 																					</div>
 
 																				</td>
@@ -858,7 +839,7 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" id="head-office-phone" name="head_office_phone" type="text">
+																						<input class="form-control" id="head-office-phone" name="head_office_phone" v-model="census.head_office_phone" type="text">
 																					</div>
 
 																				</td>
@@ -867,7 +848,7 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" id="head-office-fax" name="head_office_fax" type="text">
+																						<input class="form-control" id="head-office-fax" name="head_office_fax" v-model="census.head_office_fax" type="text">
 																					</div>
 
 																				</td>
@@ -879,7 +860,8 @@
 																				<td>
 																					<div class="form-group">
 
-																						<input class="form-control" id="head-office-email" placeholder="someone@example.com" name="head_office_email" type="email">
+																						<input class="form-control" id="head-office-email" placeholder="someone@example.com" name="head_office_email" v-model="census.head_office_email"
+																						 type="email">
 																					</div>
 
 																				</td>
@@ -888,7 +870,8 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" id="head-office-website" placeholder="http://www.example.com" name="head_office_website" type="text">
+																						<input class="form-control" id="head-office-website" placeholder="http://www.example.com" name="head_office_website" v-model="census.head_office_website"
+																						 type="text">
 																					</div>
 
 																				</td>
@@ -909,29 +892,10 @@
 																				<td>
 																					<div class="form-group">
 																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-division" name="head_office_division"
-																						 tabindex="-1" aria-hidden="true">
+																						 tabindex="-1" aria-hidden="true" v-model="census.HEAD_OFFICE_DIVISION">
 																							<option selected="selected" value=""></option>
-																							<option value="1">10 - BARISHAL</option>
-																							<option value="2">20 - CHITTAGONG</option>
-																							<option value="3">30 - DHAKA</option>
-																							<option value="4">40 - KHULNA</option>
-																							<option value="9">45 - MYMENSINGH</option>
-																							<option value="5">50 - RAJSHAHI</option>
-																							<option value="6">55 - RANGPUR</option>
-																							<option value="7">60 - SYLHET</option>
+																							<option v-for="item in divisions" value="item.ID">{{item.NAME}}</option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																								 aria-expanded="false" tabindex="0" aria-labelledby="select2-head-office-division-container">
-																									<span class="select2-selection__rendered" id="select2-head-office-division-container" title=""></span>
-																									<span class="select2-selection__arrow" role="presentation">
-																										<b role="presentation"></b>
-																									</span>
-																								</span>
-																							</span>
-																							<span class="dropdown-wrapper" aria-hidden="true"></span>
-																						</span>
 
 																					</div>
 																				</td>
@@ -948,8 +912,8 @@
 																						</select>
 																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																								 aria-expanded="false" tabindex="0" aria-labelledby="select2-head-office-district-container">
+																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																								 tabindex="0" aria-labelledby="select2-head-office-district-container">
 																									<span class="select2-selection__rendered" id="select2-head-office-district-container" title=""></span>
 																									<span class="select2-selection__arrow" role="presentation">
 																										<b role="presentation"></b>
@@ -974,8 +938,8 @@
 																						</select>
 																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																								 aria-expanded="false" tabindex="0" aria-labelledby="select2-head-office-thana-upz-container">
+																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																								 tabindex="0" aria-labelledby="select2-head-office-thana-upz-container">
 																									<span class="select2-selection__rendered" id="select2-head-office-thana-upz-container" title=""></span>
 																									<span class="select2-selection__arrow" role="presentation">
 																										<b role="presentation"></b>
@@ -1000,8 +964,8 @@
 																						</select>
 																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																								 aria-expanded="false" tabindex="0" aria-labelledby="select2-head-office-ward-union-container">
+																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																								 tabindex="0" aria-labelledby="select2-head-office-ward-union-container">
 																									<span class="select2-selection__rendered" id="select2-head-office-ward-union-container" title=""></span>
 																									<span class="select2-selection__arrow" role="presentation">
 																										<b role="presentation"></b>
@@ -1026,8 +990,8 @@
 																						</select>
 																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																								 aria-expanded="false" tabindex="0" aria-labelledby="select2-head-office-mauza-container">
+																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																								 tabindex="0" aria-labelledby="select2-head-office-mauza-container">
 																									<span class="select2-selection__rendered" id="select2-head-office-mauza-container" title=""></span>
 																									<span class="select2-selection__arrow" role="presentation">
 																										<b role="presentation"></b>
@@ -1057,11 +1021,10 @@
 																							<option value="5">7 - Growth Center</option>
 																							<option value="6">9 - City Corporation</option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default select2-container--below" dir="ltr"
-																						 style="width: 100%;">
+																						<span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 100%;">
 																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																								 aria-expanded="false" tabindex="0" aria-labelledby="select2-head-office-rmo-code-container">
+																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																								 tabindex="0" aria-labelledby="select2-head-office-rmo-code-container">
 																									<span class="select2-selection__rendered" id="select2-head-office-rmo-code-container" title=""></span>
 																									<span class="select2-selection__arrow" role="presentation">
 																										<b role="presentation"></b>
@@ -1097,8 +1060,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																				 tabindex="0" aria-labelledby="select2-is-reporting-unit-container">
+																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																				 aria-labelledby="select2-is-reporting-unit-container">
 																					<span class="select2-selection__rendered" id="select2-is-reporting-unit-container" title=""></span>
 																					<span class="select2-selection__arrow" role="presentation">
 																						<b role="presentation"></b>
@@ -1131,8 +1094,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-has-trade-license-container">
+																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-has-trade-license-container">
 																					<span class="select2-selection__rendered" id="select2-has-trade-license-container" title=""></span>
 																					<span class="select2-selection__arrow" role="presentation">
 																						<b role="presentation"></b>
@@ -1165,8 +1128,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																				 tabindex="0" aria-labelledby="select2-trade-license-authority-container">
+																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																				 aria-labelledby="select2-trade-license-authority-container">
 																					<span class="select2-selection__rendered" id="select2-trade-license-authority-container" title=""></span>
 																					<span class="select2-selection__arrow" role="presentation">
 																						<b role="presentation"></b>
@@ -1190,7 +1153,8 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<input class="form-control" id="trade-license-number" maxlength="10" name="trade_license_number" type="text">
+																		<input class="form-control" id="trade-license-number" maxlength="10" name="trade_license_number" v-model="census.trade_license_number"
+																		 type="text">
 																	</div>
 																</td>
 															</tr>
@@ -1214,8 +1178,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-is-registered-container">
+																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-is-registered-container">
 																					<span class="select2-selection__rendered" id="select2-is-registered-container" title=""></span>
 																					<span class="select2-selection__arrow" role="presentation">
 																						<b role="presentation"></b>
@@ -1272,8 +1236,8 @@
 																						</select>
 																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																							<span class="selection">
-																								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																								 tabindex="0" aria-labelledby="select2-reg_org_code1-dz-container">
+																								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																								 aria-labelledby="select2-reg_org_code1-dz-container">
 																									<span class="select2-selection__rendered" id="select2-reg_org_code1-dz-container">
 																										<span class="select2-selection__placeholder"></span>
 																									</span>
@@ -1312,8 +1276,8 @@
 																						</select>
 																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																							<span class="selection">
-																								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																								 tabindex="0" aria-labelledby="select2-reg_org_code2-qc-container">
+																								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																								 aria-labelledby="select2-reg_org_code2-qc-container">
 																									<span class="select2-selection__rendered" id="select2-reg_org_code2-qc-container">
 																										<span class="select2-selection__placeholder"></span>
 																									</span>
@@ -1352,8 +1316,8 @@
 																						</select>
 																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																							<span class="selection">
-																								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																								 tabindex="0" aria-labelledby="select2-reg_org_code3-4j-container">
+																								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																								 aria-labelledby="select2-reg_org_code3-4j-container">
 																									<span class="select2-selection__rendered" id="select2-reg_org_code3-4j-container">
 																										<span class="select2-selection__placeholder"></span>
 																									</span>
@@ -1377,21 +1341,21 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" maxlength="10" name="registration_no1" type="text">
+																						<input class="form-control" maxlength="10" name="registration_no1" v-model="census.registration_no1" type="text">
 																					</div>
 																				</td>
 																			</tr>
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" maxlength="10" name="registration_no2" type="text">
+																						<input class="form-control" maxlength="10" name="registration_no2" v-model="census.registration_no2" type="text">
 																					</div>
 																				</td>
 																			</tr>
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" maxlength="10" name="registration_no3" type="text">
+																						<input class="form-control" maxlength="10" name="registration_no3" v-model="census.registration_no3" type="text">
 																					</div>
 																				</td>
 																			</tr>
@@ -1442,8 +1406,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-is-under-permission-auth-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-is-under-permission-auth-container">
 																	<span class="select2-selection__rendered" id="select2-is-under-permission-auth-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -1471,8 +1435,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-permission_auth_id1-fg-container">
+																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-permission_auth_id1-fg-container">
 																					<span class="select2-selection__rendered" id="select2-permission_auth_id1-fg-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -1500,8 +1464,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-permission_auth_id2-y0-container">
+																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-permission_auth_id2-y0-container">
 																					<span class="select2-selection__rendered" id="select2-permission_auth_id2-y0-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -1529,8 +1493,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-permission_auth_id3-9y-container">
+																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-permission_auth_id3-9y-container">
 																					<span class="select2-selection__rendered" id="select2-permission_auth_id3-9y-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -1558,8 +1522,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-permission_auth_id4-i2-container">
+																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-permission_auth_id4-i2-container">
 																					<span class="select2-selection__rendered" id="select2-permission_auth_id4-i2-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -1587,8 +1551,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-permission_auth_id5-li-container">
+																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-permission_auth_id5-li-container">
 																					<span class="select2-selection__rendered" id="select2-permission_auth_id5-li-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -1616,8 +1580,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-permission_auth_id6-tp-container">
+																				<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-permission_auth_id6-tp-container">
 																					<span class="select2-selection__rendered" id="select2-permission_auth_id6-tp-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -1640,42 +1604,48 @@
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no1" type="text">
+																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no1" v-model="census.approval_registration_no1"
+																		 type="text">
 																	</div>
 																</td>
 															</tr>
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no2" type="text">
+																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no2" v-model="census.approval_registration_no2"
+																		 type="text">
 																	</div>
 																</td>
 															</tr>
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no3" type="text">
+																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no3" v-model="census.approval_registration_no3"
+																		 type="text">
 																	</div>
 																</td>
 															</tr>
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no4" type="text">
+																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no4" v-model="census.approval_registration_no4"
+																		 type="text">
 																	</div>
 																</td>
 															</tr>
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no5" type="text">
+																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no5" v-model="census.approval_registration_no5"
+																		 type="text">
 																	</div>
 																</td>
 															</tr>
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no6" type="text">
+																		<input class="form-control input-medium" maxlength="10" name="approval_registration_no6" v-model="census.approval_registration_no6"
+																		 type="text">
 																	</div>
 																</td>
 															</tr>
@@ -1693,8 +1663,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-has-environmental-control-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-has-environmental-control-container">
 																	<span class="select2-selection__rendered" id="select2-has-environmental-control-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -1716,8 +1686,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-membership-authority-container">
+																<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-membership-authority-container">
 																	<span class="select2-selection__rendered" id="select2-membership-authority-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -1738,8 +1708,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-has-specialized-zone-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-has-specialized-zone-container">
 																	<span class="select2-selection__rendered" id="select2-has-specialized-zone-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -1762,8 +1732,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-membership-authority-container">
+																<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-membership-authority-container">
 																	<span class="select2-selection__rendered" id="select2-membership-authority-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -1784,8 +1754,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																 tabindex="0" aria-labelledby="select2-has-membership-container">
+																<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																 aria-labelledby="select2-has-membership-container">
 																	<span class="select2-selection__rendered" id="select2-has-membership-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -1798,14 +1768,14 @@
 													<div>
 														<label for="membership-authority">১৫.১ অ্যাসোসিয়েশনের নাম</label>
 														<div class="form-group">
-															<input class="form-control" id="membership-authority" name="membership_authority" type="text">
+															<input class="form-control" id="membership-authority" name="membership_authority" v-model="census.membership_authority" type="text">
 														</div>
 
 													</div>
 													<div>
 														<label for="membership-number">১৫.২ সদস্য নম্বর</label>
 														<div class="form-group">
-															<input class="form-control" id="membership-number" name="membership_number" type="text">
+															<input class="form-control" id="membership-number" name="membership_number" v-model="census.membership_number" type="text">
 														</div>
 
 													</div>
@@ -1821,8 +1791,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																 tabindex="0" aria-labelledby="select2-has-chamber-membership-container">
+																<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																 aria-labelledby="select2-has-chamber-membership-container">
 																	<span class="select2-selection__rendered" id="select2-has-chamber-membership-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -1835,14 +1805,15 @@
 													<div>
 														<label for="chamber-name">১৬.১ চেম্বারের নাম</label>
 														<div class="form-group">
-															<input class="form-control" id="chamber-name" name="chamber_name" type="text">
+															<input class="form-control" id="chamber-name" name="chamber_name" v-model="census.chamber_name" type="text">
 														</div>
 
 													</div>
 													<div>
 														<label for="chamber-membership-number">১৬.২ সদস্য নম্বর</label>
 														<div class="form-group">
-															<input class="form-control" id="chamber-membership-number" name="chamber_membership_number" type="text">
+															<input class="form-control" id="chamber-membership-number" name="chamber_membership_number" v-model="census.chamber_membership_number"
+															 type="text">
 														</div>
 
 													</div>
@@ -1851,7 +1822,8 @@
 
 
 													<div class="form-group">
-														<input class="form-control" id="establishment-year" placeholder="eg. 1970" min="0" name="year_of_establishment" type="number">
+														<input class="form-control" id="establishment-year" placeholder="eg. 1970" min="0" name="year_of_establishment" v-model="census.year_of_establishment"
+														 type="number">
 														<div>
 															(ইংরেজি সাল লিখুন)
 														</div>
@@ -1866,7 +1838,8 @@
 																<td class="padding-10">
 																	১৮. প্রতিষ্ঠানটির বাণিজ্যিক কার্যক্রম শুরুর সাল
 																	<div class="form-group">
-																		<input class="form-control" id="inception-year" placeholder="eg. 1970" min="0" name="year_of_inception" type="number">
+																		<input class="form-control" id="inception-year" placeholder="eg. 1970" min="0" name="year_of_inception" v-model="census.year_of_inception"
+																		 type="number">
 																		<div>
 																			(ইংরেজি সাল লিখুন)
 																		</div>
@@ -1921,8 +1894,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																 tabindex="0" aria-labelledby="select2-unit-current-status-container">
+																<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																 aria-labelledby="select2-unit-current-status-container">
 																	<span class="select2-selection__rendered" id="select2-unit-current-status-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -1956,8 +1929,8 @@
 															</select>
 															<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																<span class="selection">
-																	<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																	 aria-expanded="false" tabindex="0" aria-labelledby="select2-reopen-month-container">
+																	<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																	 tabindex="0" aria-labelledby="select2-reopen-month-container">
 																		<span class="select2-selection__rendered" id="select2-reopen-month-container" title=""></span>
 																		<span class="select2-selection__arrow" role="presentation">
 																			<b role="presentation"></b>
@@ -2008,8 +1981,8 @@
 															</select>
 															<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																<span class="selection">
-																	<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true"
-																	 aria-expanded="false" tabindex="0" aria-labelledby="select2-closing-reason-container">
+																	<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
+																	 tabindex="0" aria-labelledby="select2-closing-reason-container">
 																		<span class="select2-selection__rendered" id="select2-closing-reason-container" title=""></span>
 																		<span class="select2-selection__arrow" role="presentation">
 																			<b role="presentation"></b>
@@ -2558,8 +2531,8 @@
 															</select>
 															<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																<span class="selection">
-																	<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false"
-																	 tabindex="0" aria-labelledby="select2-main-industrial-code-container">
+																	<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+																	 aria-labelledby="select2-main-industrial-code-container">
 																		<span class="select2-selection__rendered" id="select2-main-industrial-code-container" title=""></span>
 																		<span class="select2-selection__arrow" role="presentation">
 																			<b role="presentation"></b>
@@ -3108,8 +3081,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-minor_industrial_code1-og-container">
+																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-minor_industrial_code1-og-container">
 																					<span class="select2-selection__rendered" id="select2-minor_industrial_code1-og-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -3652,8 +3625,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-minor_industrial_code2-d7-container">
+																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-minor_industrial_code2-d7-container">
 																					<span class="select2-selection__rendered" id="select2-minor_industrial_code2-d7-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -4196,8 +4169,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-minor_industrial_code3-qj-container">
+																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-minor_industrial_code3-qj-container">
 																					<span class="select2-selection__rendered" id="select2-minor_industrial_code3-qj-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -4750,8 +4723,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-supporting_industrial_code1-ub-container">
+																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-supporting_industrial_code1-ub-container">
 																					<span class="select2-selection__rendered" id="select2-supporting_industrial_code1-ub-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -5294,8 +5267,8 @@
 																		</select>
 																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																				 aria-expanded="false" tabindex="0" aria-labelledby="select2-supporting_industrial_code2-wx-container">
+																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																				 tabindex="0" aria-labelledby="select2-supporting_industrial_code2-wx-container">
 																					<span class="select2-selection__rendered" id="select2-supporting_industrial_code2-wx-container">
 																						<span class="select2-selection__placeholder"></span>
 																					</span>
@@ -8281,8 +8254,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-product_bsic_code1-qo-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-product_bsic_code1-qo-container">
 																	<span class="select2-selection__rendered" id="select2-product_bsic_code1-qo-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -11235,8 +11208,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-product_bsic_code2-v8-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-product_bsic_code2-v8-container">
 																	<span class="select2-selection__rendered" id="select2-product_bsic_code2-v8-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -14189,8 +14162,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-product_bsic_code3-lr-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-product_bsic_code3-lr-container">
 																	<span class="select2-selection__rendered" id="select2-product_bsic_code3-lr-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -17143,8 +17116,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-product_bsic_code4-4t-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-product_bsic_code4-4t-container">
 																	<span class="select2-selection__rendered" id="select2-product_bsic_code4-4t-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -20097,8 +20070,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-product_bsic_code5-6u-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-product_bsic_code5-6u-container">
 																	<span class="select2-selection__rendered" id="select2-product_bsic_code5-6u-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -23051,8 +23024,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-product_bsic_code6-p2-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-product_bsic_code6-p2-container">
 																	<span class="select2-selection__rendered" id="select2-product_bsic_code6-p2-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -26019,8 +25992,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-service_bsic_code1-29-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-service_bsic_code1-29-container">
 																	<span class="select2-selection__rendered" id="select2-service_bsic_code1-29-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -28975,8 +28948,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-service_bsic_code2-ox-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-service_bsic_code2-ox-container">
 																	<span class="select2-selection__rendered" id="select2-service_bsic_code2-ox-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -31931,8 +31904,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-service_bsic_code3-ev-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-service_bsic_code3-ev-container">
 																	<span class="select2-selection__rendered" id="select2-service_bsic_code3-ev-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -34887,8 +34860,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-service_bsic_code4-a0-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-service_bsic_code4-a0-container">
 																	<span class="select2-selection__rendered" id="select2-service_bsic_code4-a0-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -37843,8 +37816,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-service_bsic_code5-k2-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-service_bsic_code5-k2-container">
 																	<span class="select2-selection__rendered" id="select2-service_bsic_code5-k2-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -40799,8 +40772,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-service_bsic_code6-u7-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-service_bsic_code6-u7-container">
 																	<span class="select2-selection__rendered" id="select2-service_bsic_code6-u7-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -40840,8 +40813,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-is-export-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-is-export-container">
 																	<span class="select2-selection__rendered" id="select2-is-export-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -40854,7 +40827,7 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<input class="form-control input-medium" id="export-erc-code" name="export_erc_code" type="text">
+														<input class="form-control input-medium" id="export-erc-code" name="export_erc_code" v-model="census.export_erc_code" type="text">
 													</div>
 												</td>
 
@@ -40868,8 +40841,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-is-export-product-services-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-is-export-product-services-container">
 																	<span class="select2-selection__rendered" id="select2-is-export-product-services-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -43824,8 +43797,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-export_product_services1-uk-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-export_product_services1-uk-container">
 																	<span class="select2-selection__rendered" id="select2-export_product_services1-uk-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -46769,8 +46742,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-export_product_services2-se-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-export_product_services2-se-container">
 																	<span class="select2-selection__rendered" id="select2-export_product_services2-se-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -49714,8 +49687,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-export_product_services3-co-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-export_product_services3-co-container">
 																	<span class="select2-selection__rendered" id="select2-export_product_services3-co-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -49749,8 +49722,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-is-import-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-is-import-container">
 																	<span class="select2-selection__rendered" id="select2-is-import-container" title=""></span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
@@ -49763,7 +49736,7 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<input class="form-control" id="import-irc-code" name="import_irc_code" type="text">
+														<input class="form-control" id="import-irc-code" name="import_irc_code" v-model="census.import_irc_code" type="text">
 													</div>
 												</td>
 												<td colspan="2" class="padding-10">
@@ -52710,8 +52683,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-import_product_services1-jb-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-import_product_services1-jb-container">
 																	<span class="select2-selection__rendered" id="select2-import_product_services1-jb-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -55655,8 +55628,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-import_product_services2-ez-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-import_product_services2-ez-container">
 																	<span class="select2-selection__rendered" id="select2-import_product_services2-ez-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -58600,8 +58573,8 @@
 														</select>
 														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
 															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true"
-																 aria-expanded="false" tabindex="0" aria-labelledby="select2-import_product_services3-6y-container">
+																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
+																 tabindex="0" aria-labelledby="select2-import_product_services3-6y-container">
 																	<span class="select2-selection__rendered" id="select2-import_product_services3-6y-container">
 																		<span class="select2-selection__placeholder"></span>
 																	</span>
@@ -58741,7 +58714,7 @@
 														<div class="input-group" style="width: 100%;">
 															<div class="input-group-addon">৳</div>
 															<input class="form-control" id="last-year-production-raw-materials" placeholder="অংকে লিখুন" pattern="[0-9]" maxlength="11"
-															 name="last_year_prod_raw_materials" type="text">
+															 name="last_year_prod_raw_materials" v-model="census.last_year_prod_raw_materials" type="text">
 														</div>
 													</div>
 
@@ -58763,7 +58736,7 @@
 														<div class="input-group" style="width: 100%;">
 															<div class="input-group-addon">৳</div>
 															<input class="form-control" id="last-year-other-expenses-amount" placeholder="অংকে লিখুন" pattern="[0-9]" maxlength="11"
-															 name="last_year_other_expenses_sum" type="text">
+															 name="last_year_other_expenses_sum" v-model="census.last_year_other_expenses_sum" type="text">
 														</div>
 													</div>
 
@@ -59099,7 +59072,7 @@
 												<td class="padding-10">
 													৩৬. প্রতিষ্ঠানটির ই-টিআইএন (e-TIN) নং (যদি থাকে)
 													<div class="form-group">
-														<input class="form-control" maxlength="12" id="tin-number" name="tin_no" type="text">
+														<input class="form-control" maxlength="12" id="tin-number" name="tin_no" v-model="census.tin_no" type="text">
 													</div>
 
 												</td>
@@ -59108,7 +59081,7 @@
 												<td class="padding-10">
 													৩৭. প্রতিষ্ঠানটির ভ্যাট (VAT) নং (যদি থাকে)
 													<div class="form-group">
-														<input class="form-control" maxlength="12" id="vat-number" name="vat_no" type="text">
+														<input class="form-control" maxlength="12" id="vat-number" name="vat_no" v-model="census.vat_no" type="text">
 													</div>
 
 												</td>
@@ -59153,7 +59126,7 @@
 												<td width="100">নাম</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-name" placeholder="" name="provider_name" type="text">
+														<input class="form-control " id="provider-name" placeholder="" name="provider_name" v-model="census.provider_name" type="text">
 													</div>
 												</td>
 											</tr>
@@ -59161,7 +59134,8 @@
 												<td>পদবি</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-designation" placeholder="" name="provider_designation" type="text">
+														<input class="form-control " id="provider-designation" placeholder="" name="provider_designation" v-model="census.provider_designation"
+														 type="text">
 													</div>
 												</td>
 											</tr>
@@ -59169,7 +59143,7 @@
 												<td>NID নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-nid" placeholder="" name="provider_nid" type="text">
+														<input class="form-control " id="provider-nid" placeholder="" name="provider_nid" v-model="census.provider_nid" type="text">
 													</div>
 												</td>
 											</tr>
@@ -59177,7 +59151,8 @@
 												<td>প্রাতিষ্ঠানিক আইডি নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-org_id_no" placeholder="" name="provider_org_id_no" type="text">
+														<input class="form-control " id="provider-org_id_no" placeholder="" name="provider_org_id_no" v-model="census.provider_org_id_no"
+														 type="text">
 													</div>
 												</td>
 											</tr>
@@ -59185,7 +59160,8 @@
 												<td>মোবাইল নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-mobile_no" maxlength="11" placeholder="" name="provider_mobile_no" type="text">
+														<input class="form-control " id="provider-mobile_no" maxlength="11" placeholder="" name="provider_mobile_no" v-model="census.provider_mobile_no"
+														 type="text">
 													</div>
 												</td>
 											</tr>
@@ -59201,19 +59177,20 @@
 												<td class="padding-5">তথ্যসংগ্রহকারীর নাম</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="collector-name" placeholder="" name="collector_name" type="text">
+														<input class="form-control " id="collector-name" placeholder="" name="collector_name" v-model="census.collector_name" type="text">
 													</div>
 												</td>
 												<td class="padding-5">NID নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="collector-nid" placeholder="" name="collector_nid" type="text">
+														<input class="form-control " id="collector-nid" placeholder="" name="collector_nid" v-model="census.collector_nid" type="text">
 													</div>
 												</td>
 												<td class="padding-5">মোবাইল নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="collector-mobile_no" maxlength="11" placeholder="" name="collector_mobile_no" type="text">
+														<input class="form-control " id="collector-mobile_no" maxlength="11" placeholder="" name="collector_mobile_no" v-model="census.collector_mobile_no"
+														 type="text">
 													</div>
 												</td>
 											</tr>
@@ -59221,13 +59198,15 @@
 												<td class="padding-5">সুপারভাইজারের নাম</td>
 												<td colspan="3">
 													<div class="form-group">
-														<input class="form-control " id="supervisor-name" placeholder="" name="supervisor_name" type="text">
+														<input class="form-control " id="supervisor-name" placeholder="" name="supervisor_name" v-model="census.supervisor_name"
+														 type="text">
 													</div>
 												</td>
 												<td class="padding-5">মোবাইল নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="supervisor-mobile_no" maxlength="11" placeholder="" name="supervisor_mobile_no" type="text">
+														<input class="form-control " id="supervisor-mobile_no" maxlength="11" placeholder="" name="supervisor_mobile_no" v-model="census.supervisor_mobile_no"
+														 type="text">
 													</div>
 												</td>
 											</tr>
@@ -59235,7 +59214,8 @@
 												<td class="padding-5">সুপারভাইজিং কর্মকর্তার নাম</td>
 												<td colspan="3">
 													<div class="form-group">
-														<input class="form-control " id="supervising_officer-name" placeholder="" name="supervising_officer_name" type="text">
+														<input class="form-control " id="supervising_officer-name" placeholder="" name="supervising_officer_name" v-model="census.supervising_officer_name"
+														 type="text">
 													</div>
 												</td>
 												<td class="padding-5">মোবাইল নম্বর</td>

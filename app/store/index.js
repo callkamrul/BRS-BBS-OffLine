@@ -2,9 +2,20 @@ import { EventEmitter } from 'events';
 
 const store = new EventEmitter();
 
+store.getAllCommonConfigList = function (cb, $table_name, $lang = 'en') {
+	var list = [];
+
+	db.each(`SELECT id, name
+From ${$table_name}`, function (err, row) {
+			list.push(row);
+		}, function (err, rowCount) {
+			cb(null, list);
+		});
+}
+
 store.getCensuses = function (cb) {
 	var censuses = {};
-	
+
 	db.each(`SELECT census.id AS id,
 	census.census_year AS census_year,
 	census.serial_no_unit AS serial_no,
@@ -21,10 +32,10 @@ store.getCensuses = function (cb) {
 	census.district_id AS district_id,
 	census.division_id AS division_id
 From census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code`, function (err, row) {
-		censuses[row.id] = row;
-	}, function (err, rowCount) {
-		cb(null, censuses);
-	});
+			censuses[row.id] = row;
+		}, function (err, rowCount) {
+			cb(null, censuses);
+		});
 }
 
 store.getCensus = function (catId, cb) {
@@ -39,11 +50,11 @@ store.addCensus = (Census) => {
 		var stmt = db.prepare(`insert into census
 		('division_id', 'district_id', 'serial_no_unit', 'name_of_unit', 'name_of_mahallah') 
 		values(?, ?, ?, ?, ?)`);
-		
-		stmt.run(Census.division_id, 
+
+		stmt.run(Census.division_id,
 			Census.district_id,
-			Census.serial_no_unit, 
-			Census.name_of_unit, 
+			Census.serial_no_unit,
+			Census.name_of_unit,
 			Census.name_of_mahallah);
 
 		store.emit('data-updated');
@@ -58,15 +69,15 @@ store.editCensus = (catId, Census) => {
 		serial_no_unit=?, 
 		name_of_unit=?, 
 		name_of_mahallah=?  
-		where id=?`, 
-		{
-			1: Census.division_id, 
-			2: Census.district_id,
-			3: Census.serial_no_unit, 
-			4: Census.name_of_unit, 
-			5: Census.name_of_mahallah,
-			6: Census.id
-		});
+		where id=?`,
+			{
+				1: Census.division_id,
+				2: Census.district_id,
+				3: Census.serial_no_unit,
+				4: Census.name_of_unit,
+				5: Census.name_of_mahallah,
+				6: Census.id
+			});
 		store.emit('data-updated');
 	});
 }
