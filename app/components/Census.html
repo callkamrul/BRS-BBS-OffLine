@@ -1,5 +1,5 @@
 <div>
-	<h2> Economic Census Information
+	<h2> স্ট্যাটিস্টিক্যাল বিজনেস রেজিস্টার
 		<span class="clickable right-float">
 			<i v-show="isEdit==false" @click="addCensus" class="glyphicon glyphicon-plus"></i>
 			<i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
@@ -23,9 +23,9 @@
 						<tr v-for="(Census, id) in censuses">
 							<td>{{Census.unit_identification_code}}</td>
 							<td>{{Census.name_of_unit}}</td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>{{Census.unit_type_name}}</td>
+							<td>{{Census.census_year}}</td>
+							<td>{{Census.is_registred}}</td>
 							<td>
 								<button @click="editCensus(id)" class="btn btn-success">
 									<i class="edit fa fa-edit"></i> Edit</button>
@@ -39,7 +39,7 @@
 		</div>
 	</div>
 	<div id="census-modal" v-show="isEdit == true">
-		<h4 class="modal-title">{{census.id > 0 ? 'Edit census' : 'Add a new census' }}</h4>
+		<!-- <h4 class="modal-title">{{census.id > 0 ? 'Edit census' : 'Add a new census' }}</h4> -->
 		<div class="modal-body">
 			<form class="ui form" @submit.prevent="saveCensus">
 				
@@ -59264,7 +59264,7 @@
 							<div class="col-sm-4 text-right">
 								<button class="btn btn-default" type="button" @click="backToList" value="Close">
 									<i class="icon-floppy-disk"></i> Close</button>
-								<button class="btn btn-primary" type="submit" name="approval_flow_submission" value="submit">
+								<button class="btn btn-primary" type="button" @click="saveCensus" value="submit">
 									<i class="icon-paperplane"></i> সাবমিট</button>
 							</div>
 						</div>

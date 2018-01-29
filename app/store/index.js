@@ -5,7 +5,22 @@ const store = new EventEmitter();
 store.getCensuses = function (cb) {
 	var censuses = {};
 	
-	db.each("select * from census", function (err, row) {
+	db.each(`SELECT census.id AS id,
+	census.census_year AS census_year,
+	census.serial_no_unit AS serial_no,
+	census.name_of_unit AS name_of_unit,
+	census.unit_type_code,
+	census.unit_identification_code AS unit_identification_code,
+	census.is_registered AS is_registred,
+   
+	cc_unit_type.name AS unit_type_name,
+	cc_unit_type.name_bn AS unit_type_name_bn,
+	census.operator_user_id AS operator_user_id,
+	census.present_status_id AS present_status_id,
+	census.thana_upz_id AS thana_upz_id,
+	census.district_id AS district_id,
+	census.division_id AS division_id
+From census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code`, function (err, row) {
 		censuses[row.id] = row;
 	}, function (err, rowCount) {
 		cb(null, censuses);
