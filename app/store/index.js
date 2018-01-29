@@ -4,6 +4,7 @@ const store = new EventEmitter();
 
 store.getCensuses = function (cb) {
 	var censuses = {};
+	
 	db.each("select * from census", function (err, row) {
 		censuses[row.id] = row;
 	}, function (err, rowCount) {

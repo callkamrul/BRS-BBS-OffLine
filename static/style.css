@@ -131,7 +131,8 @@ body{
   bottom: 0;
   height: 35px;
   overflow: auto;
-  position: fixed; }
+  position: fixed;
+  z-index: 999; }
 
 .fl-scrolls div {
   height: 1px;
