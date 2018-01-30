@@ -5,7 +5,7 @@ const store = new EventEmitter();
 store.getAllCommonConfigList = function (cb, $table_name, $lang = 'en') {
 	var list = [];
 
-	db.each(`SELECT id, name
+	db.each(`SELECT ID, NAME_BN AS NAME
 From ${$table_name}`, function (err, row) {
 			list.push(row);
 		}, function (err, rowCount) {
