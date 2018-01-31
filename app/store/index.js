@@ -2,10 +2,21 @@ import { EventEmitter } from 'events';
 
 const store = new EventEmitter();
 
+store.getDivisionList = function(cb)
+{
+	var list =[];
+	db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From DIVISIONS`, function (err, row) {
+				list.push(row);
+			}, function (err, rowCount) {
+				cb(null, list);
+			});
+}
+
 store.getAllCommonConfigList = function (cb, $table_name, $lang = 'en') {
 	var list = [];
 
-	db.each(`SELECT ID, NAME_BN AS NAME
+	db.each(`SELECT ID, (CODE ||' - '|| NAME_BN) AS NAME
 From ${$table_name}`, function (err, row) {
 			list.push(row);
 		}, function (err, rowCount) {

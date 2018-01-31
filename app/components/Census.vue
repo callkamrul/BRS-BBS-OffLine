@@ -68,7 +68,7 @@ export default {
     //}
   },
   mounted() {
-    store.getAllCommonConfigList((err, list) => { this.divisions = list}, 'divisions');
+    store.getDivisionList((err, list) => { this.divisions = list});
     store.getAllCommonConfigList((err, list) => { this.rmos = list}, 'cc_rmo')
 
   },
@@ -86,12 +86,17 @@ export default {
     },
     addCensus() {
       this.census = {
-        id: 0,
+        ID: 0,
         division_id: 0,
         district_id: 0,
-        serial_no_unit: 0,
-        name_of_unit: "",
-        name_of_mahallah: ""
+        RMO_CODE:0,
+        serial_no_unit:"",
+        NAME_OF_UNIT: "",
+        name_of_mahallah: "",
+
+        HEAD_OFFICE_DIVISION: 0,
+        head_office_district: 0,
+        CENSUS_YEAR: "2018"
       };
       this.isEdit = true;
     },

@@ -207,7 +207,7 @@
 																	<small class="text-danger">*</small>
 																</td>
 																<td class="form-group ">
-																	<select id="rmo-code" required="required" name="rmo_code" tabindex="-1" aria-hidden="true" aria-required="true" v-model="census.RMO_CODE">
+																	<select id="rmo-code" class="select form-control" required="required" name="rmo_code" tabindex="-1" aria-hidden="true" aria-required="true" v-model="census.RMO_CODE">
 																		<option selected="selected" value=""></option>
 																		<option v-for="rmo in rmos" value="rmo.ID">{{rmo.NAME}}</option>
 																	</select>
