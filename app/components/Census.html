@@ -394,24 +394,8 @@
 																	<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="unit-type-code" required="required"
 																	 name="unit_type_code" tabindex="-1" aria-hidden="true" aria-required="true">
 																		<option selected="selected" value=""></option>
-																		<option value="1">1 - এন্টারপ্রাইজ গ্রুপ</option>
-																		<option value="2">2 - এন্টারপ্রাইজ</option>
-																		<option value="3">3 - এস্টাবলিশমেন্ট</option>
+																		<option v-for="item in unit_types" value="item.ID">{{item.NAME}}</option>
 																	</select>
-																	<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																		<span class="selection">
-																			<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
-																			 tabindex="0" aria-labelledby="select2-unit-type-code-container">
-																				<span class="select2-selection__rendered" id="select2-unit-type-code-container" title=""></span>
-																				<span class="select2-selection__arrow" role="presentation">
-																					<b role="presentation"></b>
-																				</span>
-																			</span>
-																		</span>
-																		<span class="dropdown-wrapper" aria-hidden="true"></span>
-																	</span>
-
-
 																</td>
 															</tr>
 														</tbody>
@@ -439,20 +423,7 @@
 																			<option value="1">1 - হ্যাঁ</option>
 																			<option value="2">2 - না</option>
 																		</select>
-																		<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
-																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
-																				 tabindex="-1" aria-labelledby="select2-is-under-ent-group-container">
-																					<span class="select2-selection__rendered" id="select2-is-under-ent-group-container" title=""></span>
-																					<span class="select2-selection__arrow" role="presentation">
-																						<b role="presentation"></b>
-																					</span>
-																				</span>
-																			</span>
-																			<span class="dropdown-wrapper" aria-hidden="true"></span>
-																		</span>
 																	</div>
-
 																</td>
 															</tr>
 															<tr>
@@ -467,24 +438,9 @@
 																			<option value="262">ASHA </option>
 																			<option value="261">POLYCON LIMITED</option>
 																		</select>
-																		<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
-																			<span class="selection">
-																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"
-																				 aria-labelledby="select2-enterprise-group-id-container">
-																					<span class="select2-selection__rendered" id="select2-enterprise-group-id-container">
-																						<span class="select2-selection__placeholder">এন্টারপ্রাইজ গ্রুপ</span>
-																					</span>
-																					<span class="select2-selection__arrow" role="presentation">
-																						<b role="presentation"></b>
-																					</span>
-																				</span>
-																			</span>
-																			<span class="dropdown-wrapper" aria-hidden="true"></span>
-																		</span>
 																	</div>
 																</td>
 															</tr>
-
 														</tbody>
 													</table>
 												</td>
@@ -511,18 +467,6 @@
 																				<option value="1">1 - হ্যাঁ</option>
 																				<option value="2">2 - না</option>
 																			</select>
-																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
-																				<span class="selection">
-																					<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
-																					 tabindex="-1" aria-labelledby="select2-is-under-ent-container">
-																						<span class="select2-selection__rendered" id="select2-is-under-ent-container" title=""></span>
-																						<span class="select2-selection__arrow" role="presentation">
-																							<b role="presentation"></b>
-																						</span>
-																					</span>
-																				</span>
-																				<span class="dropdown-wrapper" aria-hidden="true"></span>
-																			</span>
 																		</div>
 																	</div>
 																	<div class="text-center">
@@ -534,24 +478,8 @@
 																				<option value="262">ASHA </option>
 																				<option value="261">POLYCON LIMITED</option>
 																			</select>
-																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
-																				<span class="selection">
-																					<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"
-																					 aria-labelledby="select2-enterprise-container">
-																						<span class="select2-selection__rendered" id="select2-enterprise-container" title=""></span>
-																						<span class="select2-selection__arrow" role="presentation">
-																							<b role="presentation"></b>
-																						</span>
-																					</span>
-																				</span>
-																				<span class="dropdown-wrapper" aria-hidden="true"></span>
-																			</span>
 																		</div>
-
 																	</div>
-
-
-
 																</td>
 															</tr>
 														</tbody>
@@ -574,18 +502,6 @@
 																				<option value="1">1 - হ্যাঁ</option>
 																				<option value="2">2 - না</option>
 																			</select>
-																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
-																				<span class="selection">
-																					<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
-																					 tabindex="-1" aria-labelledby="select2-is-under-ent-group-2-container">
-																						<span class="select2-selection__rendered" id="select2-is-under-ent-group-2-container" title=""></span>
-																						<span class="select2-selection__arrow" role="presentation">
-																							<b role="presentation"></b>
-																						</span>
-																					</span>
-																				</span>
-																				<span class="dropdown-wrapper" aria-hidden="true"></span>
-																			</span>
 																		</div>
 																	</div>
 																	<div class="text-center">
@@ -597,18 +513,6 @@
 																				<option value="262">ASHA </option>
 																				<option value="261">POLYCON LIMITED</option>
 																			</select>
-																			<span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;">
-																				<span class="selection">
-																					<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"
-																					 aria-labelledby="select2-enterprise-group-id-2-container">
-																						<span class="select2-selection__rendered" id="select2-enterprise-group-id-2-container" title=""></span>
-																						<span class="select2-selection__arrow" role="presentation">
-																							<b role="presentation"></b>
-																						</span>
-																					</span>
-																				</span>
-																				<span class="dropdown-wrapper" aria-hidden="true"></span>
-																			</span>
 																		</div>
 																	</div>
 																</td>
@@ -628,18 +532,6 @@
 															<option value="5">5 - শাখা কার্যালয়</option>
 															<option value="6">6 - একক/স্বতন্ত্র প্রতিষ্ঠান</option>
 														</select>
-														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-															<span class="selection">
-																<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
-																 tabindex="0" aria-labelledby="select2-unit-mode-code-container">
-																	<span class="select2-selection__rendered" id="select2-unit-mode-code-container" title=""></span>
-																	<span class="select2-selection__arrow" role="presentation">
-																		<b role="presentation"></b>
-																	</span>
-																</span>
-															</span>
-															<span class="dropdown-wrapper" aria-hidden="true"></span>
-														</span>
 													</div>
 
 												</td>
@@ -816,18 +708,6 @@
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
-																								 tabindex="0" aria-labelledby="select2-head-office-district-container">
-																									<span class="select2-selection__rendered" id="select2-head-office-district-container" title=""></span>
-																									<span class="select2-selection__arrow" role="presentation">
-																										<b role="presentation"></b>
-																									</span>
-																								</span>
-																							</span>
-																							<span class="dropdown-wrapper" aria-hidden="true"></span>
-																						</span>
 																					</div>
 
 																				</td>
@@ -842,20 +722,7 @@
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
-																								 tabindex="0" aria-labelledby="select2-head-office-thana-upz-container">
-																									<span class="select2-selection__rendered" id="select2-head-office-thana-upz-container" title=""></span>
-																									<span class="select2-selection__arrow" role="presentation">
-																										<b role="presentation"></b>
-																									</span>
-																								</span>
-																							</span>
-																							<span class="dropdown-wrapper" aria-hidden="true"></span>
-																						</span>
 																					</div>
-
 																				</td>
 																			</tr>
 																			<tr>
@@ -868,20 +735,7 @@
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
-																								 tabindex="0" aria-labelledby="select2-head-office-ward-union-container">
-																									<span class="select2-selection__rendered" id="select2-head-office-ward-union-container" title=""></span>
-																									<span class="select2-selection__arrow" role="presentation">
-																										<b role="presentation"></b>
-																									</span>
-																								</span>
-																							</span>
-																							<span class="dropdown-wrapper" aria-hidden="true"></span>
-																						</span>
 																					</div>
-
 																				</td>
 																			</tr>
 																			<tr>
@@ -894,21 +748,7 @@
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
-																								 tabindex="0" aria-labelledby="select2-head-office-mauza-container">
-																									<span class="select2-selection__rendered" id="select2-head-office-mauza-container" title=""></span>
-																									<span class="select2-selection__arrow" role="presentation">
-																										<b role="presentation"></b>
-																									</span>
-																								</span>
-																							</span>
-																							<span class="dropdown-wrapper" aria-hidden="true"></span>
-																						</span>
 																					</div>
-
-
 																				</td>
 																			</tr>
 																			<tr>
@@ -927,18 +767,7 @@
 																							<option value="5">7 - Growth Center</option>
 																							<option value="6">9 - City Corporation</option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 100%;">
-																							<span class="selection">
-																								<span class="select2-selection select2-selection--single select2-md" role="combobox" aria-haspopup="true" aria-expanded="false"
-																								 tabindex="0" aria-labelledby="select2-head-office-rmo-code-container">
-																									<span class="select2-selection__rendered" id="select2-head-office-rmo-code-container" title=""></span>
-																									<span class="select2-selection__arrow" role="presentation">
-																										<b role="presentation"></b>
-																									</span>
-																								</span>
-																							</span>
-																							<span class="dropdown-wrapper" aria-hidden="true"></span>
-																						</span>
+																						
 																					</div>
 																				</td>
 																			</tr>
@@ -964,18 +793,6 @@
 																			<option value="1">1 - হ্যাঁ</option>
 																			<option value="2">2 - না</option>
 																		</select>
-																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																			<span class="selection">
-																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
-																				 aria-labelledby="select2-is-reporting-unit-container">
-																					<span class="select2-selection__rendered" id="select2-is-reporting-unit-container" title=""></span>
-																					<span class="select2-selection__arrow" role="presentation">
-																						<b role="presentation"></b>
-																					</span>
-																				</span>
-																			</span>
-																			<span class="dropdown-wrapper" aria-hidden="true"></span>
-																		</span>
 																	</div>
 																</td>
 															</tr>
@@ -998,18 +815,6 @@
 																			<option value="2">2 - না</option>
 																			<option value="3">3 - প্রয়োজ্য নয়</option>
 																		</select>
-																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
-																				 tabindex="0" aria-labelledby="select2-has-trade-license-container">
-																					<span class="select2-selection__rendered" id="select2-has-trade-license-container" title=""></span>
-																					<span class="select2-selection__arrow" role="presentation">
-																						<b role="presentation"></b>
-																					</span>
-																				</span>
-																			</span>
-																			<span class="dropdown-wrapper" aria-hidden="true"></span>
-																		</span>
 																	</div>
 																</td>
 															</tr>
@@ -1032,18 +837,6 @@
 																			<option value="2">02 - পৌরসভা</option>
 																			<option value="3">03 - ইউনিয়ন পরিষদ</option>
 																		</select>
-																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																			<span class="selection">
-																				<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
-																				 aria-labelledby="select2-trade-license-authority-container">
-																					<span class="select2-selection__rendered" id="select2-trade-license-authority-container" title=""></span>
-																					<span class="select2-selection__arrow" role="presentation">
-																						<b role="presentation"></b>
-																					</span>
-																				</span>
-																			</span>
-																			<span class="dropdown-wrapper" aria-hidden="true"></span>
-																		</span>
 																	</div>
 																</td>
 															</tr>
@@ -1082,18 +875,6 @@
 																			<option value="1">1 - হ্যাঁ</option>
 																			<option value="2">2 - না</option>
 																		</select>
-																		<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																			<span class="selection">
-																				<span class="select2-selection select2-selection--single select2-sm" role="combobox" aria-haspopup="true" aria-expanded="false"
-																				 tabindex="0" aria-labelledby="select2-is-registered-container">
-																					<span class="select2-selection__rendered" id="select2-is-registered-container" title=""></span>
-																					<span class="select2-selection__arrow" role="presentation">
-																						<b role="presentation"></b>
-																					</span>
-																				</span>
-																			</span>
-																			<span class="dropdown-wrapper" aria-hidden="true"></span>
-																		</span>
 																	</div>
 																</td>
 															</tr>
@@ -1140,20 +921,6 @@
 																							<option value="24">15 - জাতীয় গৃহায়ণ কর্তৃপক্ষ</option>
 																							<option value="41">16 - বাংলাদেশ ক্ষুদ্র ও কুটির শিল্প কর্পোরেশন </option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																							<span class="selection">
-																								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
-																								 aria-labelledby="select2-reg_org_code1-dz-container">
-																									<span class="select2-selection__rendered" id="select2-reg_org_code1-dz-container">
-																										<span class="select2-selection__placeholder"></span>
-																									</span>
-																									<span class="select2-selection__arrow" role="presentation">
-																										<b role="presentation"></b>
-																									</span>
-																								</span>
-																							</span>
-																							<span class="dropdown-wrapper" aria-hidden="true"></span>
-																						</span>
 																					</div>
 																				</td>
 																			</tr>
@@ -1180,20 +947,6 @@
 																							<option value="24">15 - জাতীয় গৃহায়ণ কর্তৃপক্ষ</option>
 																							<option value="41">16 - বাংলাদেশ ক্ষুদ্র ও কুটির শিল্প কর্পোরেশন </option>
 																						</select>
-																						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																							<span class="selection">
-																								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
-																								 aria-labelledby="select2-reg_org_code2-qc-container">
-																									<span class="select2-selection__rendered" id="select2-reg_org_code2-qc-container">
-																										<span class="select2-selection__placeholder"></span>
-																									</span>
-																									<span class="select2-selection__arrow" role="presentation">
-																										<b role="presentation"></b>
-																									</span>
-																								</span>
-																							</span>
-																							<span class="dropdown-wrapper" aria-hidden="true"></span>
-																						</span>
 																					</div>
 																				</td>
 																			</tr>
