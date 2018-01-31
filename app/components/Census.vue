@@ -69,7 +69,15 @@ export default {
   },
   mounted() {
     store.getDivisionList((err, list) => { this.divisions = list});
-    store.getAllCommonConfigList((err, list) => { this.rmos = list}, 'cc_rmo')
+    store.getAllCommonConfigList((err, list) => { this.rmos = list}, 'cc_rmo');
+    store.getAllCommonConfigList((err, list) => { this.legal_ownerships = list}, 'CC_LEGAL_OWNERSHIPS');
+    store.getAllCommonConfigList((err, list) => { this.type_of_ownerships = list}, 'CC_OWNERSHIP_TYPES');
+    store.getAllCommonConfigList((err, list) => { this.genders = list}, 'CC_GENDER');
+    store.getAllCommonConfigList((err, list) => { this.educations = list}, 'CC_EDUCATION');
+    
+
+    
+    
 
   },
   computed: {
