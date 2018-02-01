@@ -120,8 +120,8 @@ export default {
       });
     },
     saveCensus() {
-      if (this.census.id > 0) {
-        store.editCensus(this.census.id, this.census);
+      if (this.census.ID > 0) {
+        store.editCensus(this.census.ID, this.census);
       } else {
         store.addCensus(this.census);
       }

@@ -24,7 +24,7 @@
 					<tbody>
 						<tr v-for="(Census, id) in censuses">
 							<td>{{Census.unit_identification_code}}</td>
-							<td>{{Census.name_of_unit}}</td>
+							<td>{{Census.NAME_OF_UNIT}}</td>
 							<td>{{Census.unit_type_name}}</td>
 							<td>{{Census.census_year}}</td>
 							<td>{{Census.is_registred}}</td>
@@ -107,7 +107,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="division-id" required="required" tabindex="-1" name="division_id" aria-required="true">
+																		<select class="select form-control" id="division-id" required="required" tabindex="-1" name="division_id" v-model="census.division_id" aria-required="true">
 																			<option value=""></option>
 																		</select>
 																		<input name="division_id" v-model="census.division_id" type="hidden" value="0">
@@ -120,7 +120,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="district-id" required="required" tabindex="-1" name="district_id" aria-required="true">
+																		<select class="select form-control" id="district-id" required="required" tabindex="-1" name="district_id" v-model="census.district_id" aria-required="true">
 																			<option value=""></option>
 																		</select>
 																		<input name="district_id" v-model="census.district_id" type="hidden" value="0">
@@ -133,7 +133,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="thana-upz-id" required="required" tabindex="-1" name="thana_upz_id" aria-required="true">
+																		<select class="select form-control" id="thana-upz-id" required="required" tabindex="-1" name="thana_upz_id" v-model="census.thana_upz_id" aria-required="true">
 																			<option value=""></option>
 																		</select>
 																		<input name="thana_upz_id" v-model="census.thana_upz_id" type="hidden" value="0">
@@ -148,7 +148,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-hidden-accessible" id="ward-union-id" name="ward_union_id" tabindex="-1"
+																		<select class="select form-control select2-control select2-hidden-accessible" id="ward-union-id" name="ward_union_id" v-model="census.ward_union_id" tabindex="-1"
 																		 aria-hidden="true" aria-required="true">
 																			<option selected="selected" value=""></option>
 																		</select>
@@ -165,7 +165,7 @@
 																<td>
 																	<div class="form-group">
 
-																		<select class="select form-control select2-control select2-hidden-accessible" id="mahallah-id" required="required" name="mahallah_id"
+																		<select class="select form-control select2-control select2-hidden-accessible" id="mahallah-id" required="required" name="mahallah_id" v-model="census.mahallah_id"
 																		 tabindex="-1" aria-hidden="true" aria-required="true">
 																			<option selected="selected" value=""></option>
 																		</select>
@@ -327,7 +327,7 @@
 													</table>
 												</td>
 												<td rowspan="2" class="padding-10 valign-middle">
-													<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="legal-ownership-code" style="width: 500px"
+													<select class="select form-control " id="legal-ownership-code" style="width: 500px"
 													 name="legal_ownership_code" tabindex="-1" aria-hidden="true">
 														<option selected="selected" value=""></option>
 														<option v-for="item in legal_ownerships" value="item.ID">{{item.NAME}}</option>
@@ -336,7 +336,7 @@
 													
 												</td>
 												<td rowspan="2" class="padding-10 valign-middle">
-													<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="type-of-ownership" name="type_of_ownership"
+													<select class="select form-control " id="type-of-ownership" name="type_of_ownership" v-model="census.type_of_ownership"
 													 tabindex="-1" aria-hidden="true">
 														<option selected="selected" value=""></option>
 														<option v-for="item in type_of_ownerships" value="item.ID">{{item.NAME}}</option>
@@ -353,7 +353,7 @@
 															</tr>
 															<tr>
 																<td class="padding-10">
-																	<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="head-gender-code" name="head_gender_code"
+																	<select class="select form-control " id="head-gender-code" name="head_gender_code" v-model="census.head_gender_code"
 																	 tabindex="-1" aria-hidden="true">
 																		<option selected="selected" value=""></option>
 																		<option v-for="item in genders" value="item.ID">{{item.NAME}}</option>
@@ -365,7 +365,7 @@
 																	 name="head_of_unit_age" v-model="census.head_of_unit_age" type="text">
 																</td>
 																<td class="padding-10">
-																	<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="head-education-code" name="head_education_code"
+																	<select class="select form-control " id="head-education-code" name="head_education_code" v-model="census.head_education_code"
 																	 tabindex="-1" aria-hidden="true">
 																		<option selected="selected" value=""></option>
 																		<option v-for="item in educations" value="item.ID">{{item.NAME}}</option>
@@ -388,7 +388,7 @@
 															<tr>
 																<td class="padding-10 ">
 
-																	<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="unit-type-code" required="required"
+																	<select class="select form-control " id="unit-type-code" required="required"
 																	 name="unit_type_code" tabindex="-1" aria-hidden="true" aria-required="true">
 																		<option selected="selected" value=""></option>
 																		<option v-for="item in unit_types" value="item.ID">{{item.NAME}}</option>
@@ -414,7 +414,7 @@
 																</td>
 																<td class="padding-10" style="width: 300px;">
 																	<div class="form-group select2-width--auto">
-																		<select class="select form-control select2-control select2-sm select2-hidden-accessible" disabled="" id="is-under-ent-group"
+																		<select class="select form-control " disabled="" id="is-under-ent-group"
 																		 name="is_under_ent_group" tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">1 - হ্যাঁ</option>
@@ -458,7 +458,7 @@
 
 																	<div class="text-center">
 																		<div class="form-group select2-width--auto ">
-																			<select class="select form-control select2-control select2-sm select2-hidden-accessible" disabled="" id="is-under-ent" name="is_under_enterprise"
+																			<select class="select form-control " disabled="" id="is-under-ent" name="is_under_enterprise" v-model="census.is_under_enterprise"
 																			 tabindex="-1" aria-hidden="true">
 																				<option selected="selected" value=""></option>
 																				<option value="1">1 - হ্যাঁ</option>
@@ -469,7 +469,7 @@
 																	<div class="text-center">
 																		<label for="enterprise">এন্টারপ্রাইজ</label>
 																		<div class="form-group ">
-																			<select class="select form-control select2-control select2-hidden-accessible" disabled="" id="enterprise" name="enterprise_id"
+																			<select class="select form-control select2-control select2-hidden-accessible" disabled="" id="enterprise" name="enterprise_id" v-model="census.enterprise_id"
 																			 tabindex="-1" aria-hidden="true">
 																				<option selected="selected" value=""></option>
 																				<option value="262">ASHA </option>
@@ -493,7 +493,7 @@
 																	<div class="text-center">
 
 																		<div class="form-group select2-width--auto">
-																			<select class="select form-control select2-control select2-sm select2-hidden-accessible" disabled="" id="is-under-ent-group-2"
+																			<select class="select form-control " disabled="" id="is-under-ent-group-2"
 																			 name="is_under_ent_group" tabindex="-1" aria-hidden="true">
 																				<option selected="selected" value=""></option>
 																				<option value="1">1 - হ্যাঁ</option>
@@ -504,7 +504,7 @@
 																	<div class="text-center">
 																		<label for="enterprise-group-id-2">এন্টারপ্রাইজ গ্রুপ</label>
 																		<div class="form-group ">
-																			<select class="select form-control select2-control select2-hidden-accessible" disabled="" id="enterprise-group-id-2" name="enterprise_group_id_2"
+																			<select class="select form-control select2-control select2-hidden-accessible" disabled="" id="enterprise-group-id-2" name="enterprise_group_id_2" v-model="census.enterprise_group_id_2"
 																			 tabindex="-1" aria-hidden="true">
 																				<option selected="selected" value=""></option>
 																				<option value="262">ASHA </option>
@@ -519,7 +519,7 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="unit-mode-code" name="unit_mode_code"
+														<select class="select form-control " id="unit-mode-code" name="unit_mode_code" v-model="census.unit_mode_code"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - প্রধান কার্যালয়</option>
@@ -701,7 +701,7 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-district" name="head_office_district"
+																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-district" name="head_office_district" v-model="census.head_office_district"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																						</select>
@@ -715,7 +715,7 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-thana-upz" name="head_office_thana_upz"
+																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-thana-upz" name="head_office_thana_upz" v-model="census.head_office_thana_upz"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																						</select>
@@ -728,7 +728,7 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-ward-union" name="head_office_ward_union"
+																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-ward-union" name="head_office_ward_union" v-model="census.head_office_ward_union"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																						</select>
@@ -741,7 +741,7 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-mauza" name="head_office_mauza"
+																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-mauza" name="head_office_mauza" v-model="census.head_office_mauza"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																						</select>
@@ -754,7 +754,7 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-rmo-code" name="head_office_rmo_code"
+																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-rmo-code" name="head_office_rmo_code" v-model="census.head_office_rmo_code"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																							<option value="1">1 - Rural</option>
@@ -784,7 +784,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group ">
-																		<select class="select form-control select2-control select2-hidden-accessible" id="is-reporting-unit" name="is_reporting_unit"
+																		<select class="select form-control select2-control select2-hidden-accessible" id="is-reporting-unit" name="is_reporting_unit" v-model="census.is_reporting_unit"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">1 - হ্যাঁ</option>
@@ -805,7 +805,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="has-trade-license" name="has_trade_license"
+																		<select class="select form-control " id="has-trade-license" name="has_trade_license" v-model="census.has_trade_license"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">1 - হ্যাঁ</option>
@@ -827,7 +827,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-hidden-accessible" id="trade-license-authority" name="trade_license_authority"
+																		<select class="select form-control select2-control select2-hidden-accessible" id="trade-license-authority" name="trade_license_authority" v-model="census.trade_license_authority"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">01 - সিটি কর্পোরেশন</option>
@@ -866,7 +866,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="is-registered" name="is_registered"
+																		<select class="select form-control " id="is-registered" name="is_registered" v-model="census.is_registered"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">1 - হ্যাঁ</option>
@@ -898,7 +898,7 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code1" tabindex="-1"
+																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code1" v-model="census.reg_org_code1" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
@@ -910,7 +910,7 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code2" tabindex="-1"
+																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code2" v-model="census.reg_org_code2" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
@@ -922,7 +922,7 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code3" tabindex="-1"
+																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code3" v-model="census.reg_org_code3" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
@@ -999,7 +999,7 @@
 											<tr>
 												<td class="padding-10 valign-middle text-center" style="width: 250px;">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="is-under-permission-auth" name="is_under_permission_auth"
+														<select class="select form-control " id="is-under-permission-auth" name="is_under_permission_auth" v-model="census.is_under_permission_auth"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - হ্যাঁ</option>
@@ -1025,7 +1025,7 @@
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id1"
+																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id1" v-model="census.permission_auth_id1"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
@@ -1041,7 +1041,7 @@
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id2"
+																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id2" v-model="census.permission_auth_id2"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
@@ -1057,7 +1057,7 @@
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id3"
+																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id3" v-model="census.permission_auth_id3"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
@@ -1073,7 +1073,7 @@
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id4"
+																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id4" v-model="census.permission_auth_id4"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
@@ -1089,7 +1089,7 @@
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id5"
+																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id5" v-model="census.permission_auth_id5"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
@@ -1105,7 +1105,7 @@
 															<tr>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id6"
+																		<select class="select form-control select2-control select2-md select2-hidden-accessible" data-placeholder="" name="permission_auth_id6" v-model="census.permission_auth_id6"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
@@ -1178,7 +1178,7 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="has-environmental-control" name="has_environmental_control"
+														<select class="select form-control " id="has-environmental-control" name="has_environmental_control" v-model="census.has_environmental_control"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - হ্যাঁ</option>
@@ -1189,7 +1189,7 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-md select2-hidden-accessible" id="membership-authority" name="pollution_control_measure_id"
+														<select class="select form-control select2-control select2-md select2-hidden-accessible" id="membership-authority" name="pollution_control_measure_id" v-model="census.pollution_control_measure_id"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - তরল বর্জ্য ব্যবস্থাপনা প্ল্যান্ট (ETP)</option>
@@ -1201,7 +1201,7 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="has-specialized-zone" name="has_specialized_zone"
+														<select class="select form-control " id="has-specialized-zone" name="has_specialized_zone" v-model="census.has_specialized_zone"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - হ্যাঁ</option>
@@ -1212,7 +1212,7 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-md select2-hidden-accessible" id="membership-authority" name="specialty_code_id"
+														<select class="select form-control select2-control select2-md select2-hidden-accessible" id="membership-authority" name="specialty_code_id" v-model="census.specialty_code_id"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">01 - বাংলাদেশ বিনিয়োগ উন্নয়ন কর্তৃপক্ষ</option>
@@ -1225,7 +1225,7 @@
 												</td>
 												<td class="padding-10">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-hidden-accessible" id="has-membership" name="has_membership" tabindex="-1"
+														<select class="select form-control select2-control select2-hidden-accessible" id="has-membership" name="has_membership" v-model="census.has_membership" tabindex="-1"
 														 aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - হ্যাঁ</option>
@@ -1251,7 +1251,7 @@
 												</td>
 												<td class="padding-10">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-hidden-accessible" id="has-chamber-membership" name="has_chamber_membership"
+														<select class="select form-control select2-control select2-hidden-accessible" id="has-chamber-membership" name="has_chamber_membership" v-model="census.has_chamber_membership"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - হ্যাঁ</option>
@@ -1341,7 +1341,7 @@
 											<tr>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-hidden-accessible" id="unit-current-status" name="current_status_of_unit"
+														<select class="select form-control select2-control select2-hidden-accessible" id="unit-current-status" name="current_status_of_unit" v-model="census.current_status_of_unit"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - চলমান</option>
@@ -1357,7 +1357,7 @@
 														<label for="reopen-month">মাস</label>
 														<div class="form-group">
 
-															<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="reopen-month" name="tmp_closed_reopen_month"
+															<select class="select form-control " id="reopen-month" name="tmp_closed_reopen_month" v-model="census.tmp_closed_reopen_month"
 															 tabindex="-1" aria-hidden="true">
 																<option selected="selected" value=""></option>
 																<option value="1">01 - জানুয়ারী</option>
@@ -1397,7 +1397,7 @@
 												<td class="padding-10 valign-middle">
 													<div>
 														<div class="form-group">
-															<select class="select form-control select2-control select2-md select2-hidden-accessible" id="closing-reason" name="reason_of_close_code"
+															<select class="select form-control select2-control select2-md select2-hidden-accessible" id="closing-reason" name="reason_of_close_code" v-model="census.reason_of_close_code"
 															 tabindex="-1" aria-hidden="true">
 																<option selected="selected" value=""></option>
 																<option value="1">1 - মূলধনের অভাব</option>
@@ -1434,7 +1434,7 @@
 													<div>
 														<label for="main-industrial-code" class="text-center" style="display: block">কোড</label>
 														<div class="form-group">
-															<select class="select form-control select2-control select2-hidden-accessible" id="main-industrial-code" name="main_industrial_code"
+															<select class="select form-control select2-control select2-hidden-accessible" id="main-industrial-code" name="main_industrial_code" v-model="census.main_industrial_code"
 															 tabindex="-1" aria-hidden="true">
 																<option selected="selected" value=""></option>
 																<option value="1301">0111</option>
@@ -1460,7 +1460,7 @@
 																</td>
 																<td class="padding-10 valign-top">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="minor_industrial_code1"
+																		<select class="select form-control " data-placeholder="" name="minor_industrial_code1" v-model="census.minor_industrial_code1"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1301">0111</option>
@@ -1478,7 +1478,7 @@
 																</td>
 																<td class="padding-10 valign-top">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="minor_industrial_code2"
+																		<select class="select form-control " data-placeholder="" name="minor_industrial_code2" v-model="census.minor_industrial_code2"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1301">0111</option>
@@ -1496,7 +1496,7 @@
 																</td>
 																<td class="padding-10 valign-top">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="minor_industrial_code3"
+																		<select class="select form-control " data-placeholder="" name="minor_industrial_code3" v-model="census.minor_industrial_code3"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1301">0111</option>
@@ -1524,7 +1524,7 @@
 																</td>
 																<td class="padding-10 valign-top">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="supporting_industrial_code1"
+																		<select class="select form-control " data-placeholder="" name="supporting_industrial_code1" v-model="census.supporting_industrial_code1"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1301">0111</option>
@@ -1542,7 +1542,7 @@
 																</td>
 																<td class="padding-10 valign-top">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="supporting_industrial_code2"
+																		<select class="select form-control " data-placeholder="" name="supporting_industrial_code2" v-model="census.supporting_industrial_code2"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1301">0111</option>
@@ -1593,7 +1593,7 @@
 												</td>
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="product_bsic_code1"
+														<select class="select form-control " data-placeholder="" name="product_bsic_code1" v-model="census.product_bsic_code1"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1609,7 +1609,7 @@
 												</td>
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="product_bsic_code2"
+														<select class="select form-control " data-placeholder="" name="product_bsic_code2" v-model="census.product_bsic_code2"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1625,7 +1625,7 @@
 												</td>
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="product_bsic_code3"
+														<select class="select form-control " data-placeholder="" name="product_bsic_code3" v-model="census.product_bsic_code3"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1641,7 +1641,7 @@
 												</td>
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="product_bsic_code4"
+														<select class="select form-control " data-placeholder="" name="product_bsic_code4" v-model="census.product_bsic_code4"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1657,7 +1657,7 @@
 												</td>
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="product_bsic_code5"
+														<select class="select form-control " data-placeholder="" name="product_bsic_code5" v-model="census.product_bsic_code5"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1675,7 +1675,7 @@
 												</td>
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="product_bsic_code6"
+														<select class="select form-control " data-placeholder="" name="product_bsic_code6" v-model="census.product_bsic_code6"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1707,7 +1707,7 @@
 
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="service_bsic_code1"
+														<select class="select form-control " data-placeholder="" name="service_bsic_code1" v-model="census.service_bsic_code1"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1727,7 +1727,7 @@
 
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="service_bsic_code2"
+														<select class="select form-control " data-placeholder="" name="service_bsic_code2" v-model="census.service_bsic_code2"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1746,7 +1746,7 @@
 
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="service_bsic_code3"
+														<select class="select form-control " data-placeholder="" name="service_bsic_code3" v-model="census.service_bsic_code3"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1766,7 +1766,7 @@
 
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="service_bsic_code4"
+														<select class="select form-control " data-placeholder="" name="service_bsic_code4" v-model="census.service_bsic_code4"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1786,7 +1786,7 @@
 
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="service_bsic_code5"
+														<select class="select form-control " data-placeholder="" name="service_bsic_code5" v-model="census.service_bsic_code5"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1806,7 +1806,7 @@
 
 												<td>
 													<div class="form-group padding-3">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="service_bsic_code6"
+														<select class="select form-control " data-placeholder="" name="service_bsic_code6" v-model="census.service_bsic_code6"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1834,7 +1834,7 @@
 											<tr>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="is-export" name="is_export"
+														<select class="select form-control " id="is-export" name="is_export" v-model="census.is_export"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - হ্যাঁ</option>
@@ -1851,7 +1851,7 @@
 
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="is-export-product-services"
+														<select class="select form-control " id="is-export-product-services"
 														 name="is_export_product_services" tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - হ্যাঁ</option>
@@ -1873,7 +1873,7 @@
 												</td>
 												<td class="padding-10">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="export_product_services1"
+														<select class="select form-control " data-placeholder="" name="export_product_services1" v-model="census.export_product_services1"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1882,7 +1882,7 @@
 														
 													</div>
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="export_product_services2"
+														<select class="select form-control " data-placeholder="" name="export_product_services2" v-model="census.export_product_services2"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1891,7 +1891,7 @@
 														
 													</div>
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="export_product_services3"
+														<select class="select form-control " data-placeholder="" name="export_product_services3" v-model="census.export_product_services3"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1913,7 +1913,7 @@
 											<tr>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="is-import" name="is_import"
+														<select class="select form-control " id="is-import" name="is_import" v-model="census.is_import"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - হ্যাঁ</option>
@@ -1940,7 +1940,7 @@
 												</td>
 												<td class="padding-10 ">
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="import_product_services1"
+														<select class="select form-control " data-placeholder="" name="import_product_services1" v-model="census.import_product_services1"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1949,7 +1949,7 @@
 														
 													</div>
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="import_product_services2"
+														<select class="select form-control " data-placeholder="" name="import_product_services2" v-model="census.import_product_services2"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -1958,7 +1958,7 @@
 														
 													</div>
 													<div class="form-group">
-														<select class="select form-control select2-control select2-sm select2-hidden-accessible" data-placeholder="" name="import_product_services3"
+														<select class="select form-control " data-placeholder="" name="import_product_services3" v-model="census.import_product_services3"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="2980">00000</option>
@@ -2034,7 +2034,7 @@
 								</td>
 								<td class="padding-10">
 									<div class="form-group">
-										<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="has-foreign-res-investment"
+										<select class="select form-control " id="has-foreign-res-investment"
 										 name="has_foreign_res_investement" tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
 											<option value="1">1 - হ্যাঁ</option>
@@ -2119,7 +2119,7 @@
 								</td>
 								<td class="padding-10 valign-middle">
 									<div class="form-group">
-										<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="have-any-loan" name="have_any_loan"
+										<select class="select form-control " id="have-any-loan" name="have_any_loan" v-model="census.have_any_loan"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
 											<option value="1">1 - হ্যাঁ</option>
@@ -2151,7 +2151,7 @@
 							<tr>
 								<td class="padding-10 valign-middle">
 									<div class="form-group">
-										<select class="select form-control select2-control select2-md select2-hidden-accessible" id="loan-org-type" name="loan_fin_org_type"
+										<select class="select form-control select2-control select2-md select2-hidden-accessible" id="loan-org-type" name="loan_fin_org_type" v-model="census.loan_fin_org_type"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
 											<option value="1">1 - ব্যাংক</option>
@@ -2192,7 +2192,7 @@
 								</td>
 								<td class="padding-10 valign-middle">
 									<div class="form-group">
-										<select class="select form-control select2-control select2-sm select2-hidden-accessible" id="have-accounting-account" name="have_accounting_account"
+										<select class="select form-control " id="have-accounting-account" name="have_accounting_account" v-model="census.have_accounting_account"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
 											<option value="1">1 - হ্যাঁ</option>
@@ -2204,7 +2204,7 @@
 
 								<td class="padding-10 valign-middle">
 									<div class="form-group">
-										<select class="select form-control select2-control select2-md select2-hidden-accessible" id="loan-org-type" name="accounting_account_type_id"
+										<select class="select form-control select2-control select2-md select2-hidden-accessible" id="loan-org-type" name="accounting_account_type_id" v-model="census.accounting_account_type_id"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
 											<option value="1">1 - অর্থবছর</option>
@@ -2564,4 +2564,5 @@
 			</form>
 		</div>
 	</div>
+	<!-- {{census | json}} -->
 </div>

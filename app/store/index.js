@@ -30,7 +30,7 @@ store.getCensuses = function (cb) {
 	db.each(`SELECT census.id AS id,
 	census.census_year AS census_year,
 	census.serial_no_unit AS serial_no,
-	census.name_of_unit AS name_of_unit,
+	census.NAME_OF_UNIT AS NAME_OF_UNIT,
 	census.unit_type_code,
 	census.unit_identification_code AS unit_identification_code,
 	census.is_registered AS is_registred,
@@ -59,13 +59,13 @@ store.getCensus = function (catId, cb) {
 store.addCensus = (Census) => {
 	db.serialize(function () {
 		var stmt = db.prepare(`insert into census
-		('division_id', 'district_id', 'serial_no_unit', 'name_of_unit', 'name_of_mahallah') 
+		('division_id', 'district_id', 'serial_no_unit', 'NAME_OF_UNIT', 'name_of_mahallah') 
 		values(?, ?, ?, ?, ?)`);
 
 		stmt.run(Census.division_id,
 			Census.district_id,
 			Census.serial_no_unit,
-			Census.name_of_unit,
+			Census.NAME_OF_UNIT,
 			Census.name_of_mahallah);
 
 		store.emit('data-updated');
@@ -78,16 +78,16 @@ store.editCensus = (catId, Census) => {
 		division_id=?, 
 		district_id=?, 
 		serial_no_unit=?, 
-		name_of_unit=?, 
+		NAME_OF_UNIT=?, 
 		name_of_mahallah=?  
-		where id=?`,
+		where ID=?`,
 			{
 				1: Census.division_id,
 				2: Census.district_id,
 				3: Census.serial_no_unit,
-				4: Census.name_of_unit,
+				4: Census.NAME_OF_UNIT,
 				5: Census.name_of_mahallah,
-				6: Census.id
+				6: Census.ID
 			});
 		store.emit('data-updated');
 	});

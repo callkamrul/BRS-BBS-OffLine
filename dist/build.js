@@ -11460,7 +11460,7 @@
 	store.getCensuses = function (cb) {
 		var censuses = {};
 
-		db.each('SELECT census.id AS id,\n\tcensus.census_year AS census_year,\n\tcensus.serial_no_unit AS serial_no,\n\tcensus.name_of_unit AS name_of_unit,\n\tcensus.unit_type_code,\n\tcensus.unit_identification_code AS unit_identification_code,\n\tcensus.is_registered AS is_registred,\n   \n\tcc_unit_type.name AS unit_type_name,\n\tcc_unit_type.name_bn AS unit_type_name_bn,\n\tcensus.operator_user_id AS operator_user_id,\n\tcensus.present_status_id AS present_status_id,\n\tcensus.thana_upz_id AS thana_upz_id,\n\tcensus.district_id AS district_id,\n\tcensus.division_id AS division_id\nFrom census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code', function (err, row) {
+		db.each('SELECT census.id AS id,\n\tcensus.census_year AS census_year,\n\tcensus.serial_no_unit AS serial_no,\n\tcensus.NAME_OF_UNIT AS NAME_OF_UNIT,\n\tcensus.unit_type_code,\n\tcensus.unit_identification_code AS unit_identification_code,\n\tcensus.is_registered AS is_registred,\n   \n\tcc_unit_type.name AS unit_type_name,\n\tcc_unit_type.name_bn AS unit_type_name_bn,\n\tcensus.operator_user_id AS operator_user_id,\n\tcensus.present_status_id AS present_status_id,\n\tcensus.thana_upz_id AS thana_upz_id,\n\tcensus.district_id AS district_id,\n\tcensus.division_id AS division_id\nFrom census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code', function (err, row) {
 			censuses[row.id] = row;
 		}, function (err, rowCount) {
 			cb(null, censuses);
@@ -11475,9 +11475,9 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'division_id\', \'district_id\', \'serial_no_unit\', \'name_of_unit\', \'name_of_mahallah\') \n\t\tvalues(?, ?, ?, ?, ?)');
+			var stmt = db.prepare('insert into census\n\t\t(\'division_id\', \'district_id\', \'serial_no_unit\', \'NAME_OF_UNIT\', \'name_of_mahallah\') \n\t\tvalues(?, ?, ?, ?, ?)');
 
-			stmt.run(Census.division_id, Census.district_id, Census.serial_no_unit, Census.name_of_unit, Census.name_of_mahallah);
+			stmt.run(Census.division_id, Census.district_id, Census.serial_no_unit, Census.NAME_OF_UNIT, Census.name_of_mahallah);
 
 			store.emit('data-updated');
 		});
@@ -11485,13 +11485,13 @@
 
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			db.run('update census set \n\t\tdivision_id=?, \n\t\tdistrict_id=?, \n\t\tserial_no_unit=?, \n\t\tname_of_unit=?, \n\t\tname_of_mahallah=?  \n\t\twhere id=?', {
+			db.run('update census set \n\t\tdivision_id=?, \n\t\tdistrict_id=?, \n\t\tserial_no_unit=?, \n\t\tNAME_OF_UNIT=?, \n\t\tname_of_mahallah=?  \n\t\twhere ID=?', {
 				1: Census.division_id,
 				2: Census.district_id,
 				3: Census.serial_no_unit,
-				4: Census.name_of_unit,
+				4: Census.NAME_OF_UNIT,
 				5: Census.name_of_mahallah,
-				6: Census.id
+				6: Census.ID
 			});
 			store.emit('data-updated');
 		});
@@ -12003,8 +12003,8 @@
 	      });
 	    },
 	    saveCensus: function saveCensus() {
-	      if (this.census.id > 0) {
-	        _store2.default.editCensus(this.census.id, this.census);
+	      if (this.census.ID > 0) {
+	        _store2.default.editCensus(this.census.ID, this.census);
 	      } else {
 	        _store2.default.addCensus(this.census);
 	      }
@@ -12097,7 +12097,7 @@
 	  }, [_c('div', [_c('table', {
 	    staticClass: "table table-bordered "
 	  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.censuses), function(Census, id) {
-	    return _c('tr', [_c('td', [_vm._v(_vm._s(Census.unit_identification_code))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(Census.name_of_unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(Census.unit_type_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(Census.census_year))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(Census.is_registred))]), _vm._v(" "), _c('td', [_c('button', {
+	    return _c('tr', [_c('td', [_vm._v(_vm._s(Census.unit_identification_code))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(Census.NAME_OF_UNIT))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(Census.unit_type_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(Census.census_year))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(Census.is_registred))]), _vm._v(" "), _c('td', [_c('button', {
 	      staticClass: "btn btn-success",
 	      on: {
 	        "click": function($event) {
@@ -12169,7 +12169,37 @@
 	    }
 	  }, [_c('tbody', [_c('tr', [_vm._m(4), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
-	  }, [_vm._m(5), _vm._v(" "), _c('input', {
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.division_id),
+	      expression: "census.division_id"
+	    }],
+	    staticClass: "select form-control",
+	    attrs: {
+	      "id": "division-id",
+	      "required": "required",
+	      "tabindex": "-1",
+	      "name": "division_id",
+	      "aria-required": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "division_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "value": ""
+	    }
+	  })]), _vm._v(" "), _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -12190,9 +12220,39 @@
 	        _vm.$set(_vm.census, "division_id", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(5), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
-	  }, [_vm._m(7), _vm._v(" "), _c('input', {
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.district_id),
+	      expression: "census.district_id"
+	    }],
+	    staticClass: "select form-control",
+	    attrs: {
+	      "id": "district-id",
+	      "required": "required",
+	      "tabindex": "-1",
+	      "name": "district_id",
+	      "aria-required": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "district_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "value": ""
+	    }
+	  })]), _vm._v(" "), _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -12213,9 +12273,39 @@
 	        _vm.$set(_vm.census, "district_id", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(8), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
-	  }, [_vm._m(9), _vm._v(" "), _c('input', {
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.thana_upz_id),
+	      expression: "census.thana_upz_id"
+	    }],
+	    staticClass: "select form-control",
+	    attrs: {
+	      "id": "thana-upz-id",
+	      "required": "required",
+	      "tabindex": "-1",
+	      "name": "thana_upz_id",
+	      "aria-required": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "thana_upz_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "value": ""
+	    }
+	  })]), _vm._v(" "), _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -12236,7 +12326,74 @@
 	        _vm.$set(_vm.census, "thana_upz_id", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _c('tr', [_vm._m(12), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(7), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.ward_union_id),
+	      expression: "census.ward_union_id"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "id": "ward-union-id",
+	      "name": "ward_union_id",
+	      "tabindex": "-1",
+	      "aria-hidden": "true",
+	      "aria-required": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "ward_union_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(8), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.mahallah_id),
+	      expression: "census.mahallah_id"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "id": "mahallah-id",
+	      "required": "required",
+	      "name": "mahallah_id",
+	      "tabindex": "-1",
+	      "aria-hidden": "true",
+	      "aria-required": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "mahallah_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(9), _vm._v(" "), _c('td', {
 	    staticClass: "form-group "
 	  }, [_c('select', {
 	    directives: [{
@@ -12286,7 +12443,7 @@
 	      "width": "700",
 	      "border": "0"
 	    }
-	  }, [_c('tbody', [_c('tr', [_vm._m(13), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_c('tr', [_vm._m(10), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12322,7 +12479,7 @@
 	        _vm.$set(_vm.census, "serial_no_unit", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(14), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(11), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12353,7 +12510,7 @@
 	        _vm.$set(_vm.census, "NAME_OF_UNIT", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _vm._m(15), _vm._v(" "), _c('tr', [_vm._m(16), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _vm._m(12), _vm._v(" "), _c('tr', [_vm._m(13), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12381,7 +12538,7 @@
 	        _vm.$set(_vm.census, "name_of_house", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(17), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(14), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12409,7 +12566,7 @@
 	        _vm.$set(_vm.census, "no_name_of_road", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(18), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(15), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12433,7 +12590,7 @@
 	        _vm.$set(_vm.census, "floor_level", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(19), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(16), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12457,7 +12614,7 @@
 	        _vm.$set(_vm.census, "holiding_no", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(20), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(17), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12481,7 +12638,7 @@
 	        _vm.$set(_vm.census, "phone", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(21), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12506,7 +12663,7 @@
 	        _vm.$set(_vm.census, "fax", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(22), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(19), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12531,7 +12688,7 @@
 	        _vm.$set(_vm.census, "email", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(23), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(20), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12562,7 +12719,7 @@
 	      "rowspan": "2"
 	    }
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    staticStyle: {
 	      "width": "500px"
 	    },
@@ -12589,12 +12746,29 @@
 	      "rowspan": "2"
 	    }
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.type_of_ownership),
+	      expression: "census.type_of_ownership"
+	    }],
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "type-of-ownership",
 	      "name": "type_of_ownership",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "type_of_ownership", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -12609,15 +12783,32 @@
 	    }, [_vm._v(_vm._s(item.NAME))])
 	  })], 2)]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(24), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(21), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.head_gender_code),
+	      expression: "census.head_gender_code"
+	    }],
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "head-gender-code",
 	      "name": "head_gender_code",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "head_gender_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -12661,12 +12852,29 @@
 	  })]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.head_education_code),
+	      expression: "census.head_education_code"
+	    }],
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "head-education-code",
 	      "name": "head_education_code",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "head_education_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -12681,10 +12889,10 @@
 	    }, [_vm._v(_vm._s(item.NAME))])
 	  })], 2)])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(25), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(22), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 "
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "unit-type-code",
 	      "required": "required",
@@ -12704,7 +12912,220 @@
 	        "value": "item.ID"
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])])])])]), _vm._v(" "), _vm._m(26), _vm._v(" "), _vm._m(27), _vm._v(" "), _vm._m(28)])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
+	  })], 2)])])])])])]), _vm._v(" "), _vm._m(23), _vm._v(" "), _vm._m(24), _vm._v(" "), _c('tr', [_c('td', {
+	    attrs: {
+	      "colspan": "2"
+	    }
+	  }, [_c('table', {
+	    staticClass: "table-full-width",
+	    attrs: {
+	      "width": "100%"
+	    }
+	  }, [_c('tbody', [_vm._m(25), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "text-center"
+	  }, [_c('div', {
+	    staticClass: "form-group select2-width--auto "
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.is_under_enterprise),
+	      expression: "census.is_under_enterprise"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "disabled": "",
+	      "id": "is-under-ent",
+	      "name": "is_under_enterprise",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "is_under_enterprise", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('div', {
+	    staticClass: "text-center"
+	  }, [_c('label', {
+	    attrs: {
+	      "for": "enterprise"
+	    }
+	  }, [_vm._v("এন্টারপ্রাইজ")]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group "
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.enterprise_id),
+	      expression: "census.enterprise_id"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "disabled": "",
+	      "id": "enterprise",
+	      "name": "enterprise_id",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "enterprise_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "262"
+	    }
+	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "261"
+	    }
+	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width",
+	    attrs: {
+	      "width": "100%"
+	    }
+	  }, [_c('tbody', [_vm._m(26), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_vm._m(27), _vm._v(" "), _c('div', {
+	    staticClass: "text-center"
+	  }, [_c('label', {
+	    attrs: {
+	      "for": "enterprise-group-id-2"
+	    }
+	  }, [_vm._v("এন্টারপ্রাইজ গ্রুপ")]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group "
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.enterprise_group_id_2),
+	      expression: "census.enterprise_group_id_2"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "disabled": "",
+	      "id": "enterprise-group-id-2",
+	      "name": "enterprise_group_id_2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "enterprise_group_id_2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "262"
+	    }
+	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "261"
+	    }
+	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.unit_mode_code),
+	      expression: "census.unit_mode_code"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "unit-mode-code",
+	      "name": "unit_mode_code",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "unit_mode_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - প্রধান কার্যালয়")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - বিভাগীয় কার্যালয়")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("3 - আঞ্চলিক কার্যালয়")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("4 - জেলা কার্যালয়")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("5 - শাখা কার্যালয়")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "6"
+	    }
+	  }, [_vm._v("6 - একক/স্বতন্ত্র প্রতিষ্ঠান")])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
 	  }, [_c('tbody', [_c('tr', [_c('td', {
 	    attrs: {
@@ -12715,7 +13136,7 @@
 	    attrs: {
 	      "width": "900"
 	    }
-	  }, [_c('tbody', [_vm._m(29), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(28), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10",
 	    attrs: {
 	      "width": "60%"
@@ -12724,7 +13145,7 @@
 	    attrs: {
 	      "border": "0"
 	    }
-	  }, [_c('tbody', [_c('tr', [_vm._m(30), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_c('tr', [_vm._m(29), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12752,7 +13173,7 @@
 	        _vm.$set(_vm.census, "head_office_name", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(31), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(30), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12780,7 +13201,7 @@
 	        _vm.$set(_vm.census, "head_office_mahallah", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(32), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(31), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12808,7 +13229,7 @@
 	        _vm.$set(_vm.census, "head_office_house", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(33), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(32), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12836,7 +13257,7 @@
 	        _vm.$set(_vm.census, "head_office_road", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(34), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(33), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12860,7 +13281,7 @@
 	        _vm.$set(_vm.census, "head_office_floor_level", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(35), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(34), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12884,7 +13305,7 @@
 	        _vm.$set(_vm.census, "head_office_holiding_no", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(36), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(35), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12908,7 +13329,7 @@
 	        _vm.$set(_vm.census, "head_office_phone", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(37), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(36), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12932,7 +13353,7 @@
 	        _vm.$set(_vm.census, "head_office_fax", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(38), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(37), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12957,7 +13378,7 @@
 	        _vm.$set(_vm.census, "head_office_email", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(39), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(38), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -12988,7 +13409,7 @@
 	    attrs: {
 	      "border": "0"
 	    }
-	  }, [_c('tbody', [_c('tr', [_vm._m(40), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_c('tbody', [_c('tr', [_vm._m(39), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -13026,9 +13447,333 @@
 	        "value": "item.ID"
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])]), _vm._v(" "), _vm._m(41), _vm._v(" "), _vm._m(42), _vm._v(" "), _vm._m(43), _vm._v(" "), _vm._m(44), _vm._v(" "), _vm._m(45)])])])])])])]), _vm._v(" "), _vm._m(46), _vm._v(" "), _vm._m(47), _vm._v(" "), _vm._m(48), _vm._v(" "), _c('td', [_c('table', {
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(40), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.head_office_district),
+	      expression: "census.head_office_district"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "head-office-district",
+	      "name": "head_office_district",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "head_office_district", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(41), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.head_office_thana_upz),
+	      expression: "census.head_office_thana_upz"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "head-office-thana-upz",
+	      "name": "head_office_thana_upz",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "head_office_thana_upz", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(42), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.head_office_ward_union),
+	      expression: "census.head_office_ward_union"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "head-office-ward-union",
+	      "name": "head_office_ward_union",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "head_office_ward_union", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(43), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.head_office_mauza),
+	      expression: "census.head_office_mauza"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "head-office-mauza",
+	      "name": "head_office_mauza",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "head_office_mauza", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(44), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.head_office_rmo_code),
+	      expression: "census.head_office_rmo_code"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "head-office-rmo-code",
+	      "name": "head_office_rmo_code",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "head_office_rmo_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - Rural")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - Municipality")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("3 - Upazila Head Quarter")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("5 - Cantonment")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("7 - Growth Center")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "6"
+	    }
+	  }, [_vm._v("9 - City Corporation")])])])])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(49), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(45), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group "
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.is_reporting_unit),
+	      expression: "census.is_reporting_unit"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "id": "is-reporting-unit",
+	      "name": "is_reporting_unit",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "is_reporting_unit", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_vm._m(46), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.has_trade_license),
+	      expression: "census.has_trade_license"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "has-trade-license",
+	      "name": "has_trade_license",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "has_trade_license", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("3 - প্রয়োজ্য নয়")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_vm._m(47), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.trade_license_authority),
+	      expression: "census.trade_license_authority"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "id": "trade-license-authority",
+	      "name": "trade_license_authority",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "trade_license_authority", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - সিটি কর্পোরেশন")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - পৌরসভা")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - ইউনিয়ন পরিষদ")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_vm._m(48), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13055,13 +13800,169 @@
 	        _vm.$set(_vm.census, "trade_license_number", $event.target.value)
 	      }
 	    }
-	  })])])])])])]), _vm._v(" "), _vm._m(50)]), _vm._v(" "), _c('tr', [_c('td', {
+	  })])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_vm._m(49), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.is_registered),
+	      expression: "census.is_registered"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "is-registered",
+	      "name": "is_registered",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "is_registered", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    attrs: {
 	      "colspan": "5"
 	    }
 	  }, [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(51), _vm._v(" "), _c('tr', [_vm._m(52), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(50), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.reg_org_code1),
+	      expression: "census.reg_org_code1"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "reg_org_code1",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "reg_org_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.reg_org_code2),
+	      expression: "census.reg_org_code2"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "reg_org_code2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "reg_org_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.reg_org_code3),
+	      expression: "census.reg_org_code3"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "reg_org_code3",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "reg_org_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -13139,7 +14040,368 @@
 	    }
 	  })])])])])])])])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(53), _vm._v(" "), _c('tr', [_vm._m(54), _vm._v(" "), _vm._m(55), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(51), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10 valign-middle text-center",
+	    staticStyle: {
+	      "width": "250px"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.is_under_permission_auth),
+	      expression: "census.is_under_permission_auth"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "is-under-permission-auth",
+	      "name": "is_under_permission_auth",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "is_under_permission_auth", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])]), _vm._v(" "), _vm._m(52)])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.permission_auth_id1),
+	      expression: "census.permission_auth_id1"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "permission_auth_id1",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "permission_auth_id1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.permission_auth_id2),
+	      expression: "census.permission_auth_id2"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "permission_auth_id2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "permission_auth_id2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.permission_auth_id3),
+	      expression: "census.permission_auth_id3"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "permission_auth_id3",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "permission_auth_id3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.permission_auth_id4),
+	      expression: "census.permission_auth_id4"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "permission_auth_id4",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "permission_auth_id4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.permission_auth_id5),
+	      expression: "census.permission_auth_id5"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "permission_auth_id5",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "permission_auth_id5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.permission_auth_id6),
+	      expression: "census.permission_auth_id6"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "permission_auth_id6",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "permission_auth_id6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -13287,9 +14549,229 @@
 	        _vm.$set(_vm.census, "approval_registration_no6", $event.target.value)
 	      }
 	    }
-	  })])])])])])]), _vm._v(" "), _vm._m(56), _vm._v(" "), _vm._m(57), _vm._v(" "), _vm._m(58), _vm._v(" "), _vm._m(59), _vm._v(" "), _c('td', {
+	  })])])])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.has_environmental_control),
+	      expression: "census.has_environmental_control"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "has-environmental-control",
+	      "name": "has_environmental_control",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "has_environmental_control", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.pollution_control_measure_id),
+	      expression: "census.pollution_control_measure_id"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "membership-authority",
+	      "name": "pollution_control_measure_id",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "pollution_control_measure_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - তরল বর্জ্য ব্যবস্থাপনা প্ল্যান্ট (ETP)")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - বায়ু দূষণ নিয়ন্ত্রণ ব্যবস্থা (ATP)")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("3 - কঠিন বর্জ্য ব্যবস্থাপনা ")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.has_specialized_zone),
+	      expression: "census.has_specialized_zone"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "has-specialized-zone",
+	      "name": "has_specialized_zone",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "has_specialized_zone", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.specialty_code_id),
+	      expression: "census.specialty_code_id"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "membership-authority",
+	      "name": "specialty_code_id",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "specialty_code_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - বাংলাদেশ বিনিয়োগ উন্নয়ন কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - বাংলাদেশ রপ্তানি প্রক্রিয়াকরণ অঞ্চল কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - বাংলাদেশ অর্থনৈতিক অঞ্চল কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("04 - বাংলাদেশ ক্ষুদ্র ও কুটির শিল্প কর্পোরেশন")])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._m(60), _vm._v(" "), _c('div', [_c('label', {
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.has_membership),
+	      expression: "census.has_membership"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "id": "has-membership",
+	      "name": "has_membership",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "has_membership", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])]), _vm._v(" "), _c('div', [_c('label', {
 	    attrs: {
 	      "for": "membership-authority"
 	    }
@@ -13347,7 +14829,47 @@
 	    }
 	  })])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._m(61), _vm._v(" "), _c('div', [_c('label', {
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.has_chamber_membership),
+	      expression: "census.has_chamber_membership"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "id": "has-chamber-membership",
+	      "name": "has_chamber_membership",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "has_chamber_membership", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])]), _vm._v(" "), _c('div', [_c('label', {
 	    attrs: {
 	      "for": "chamber-name"
 	    }
@@ -13433,7 +14955,7 @@
 	    }
 	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(62), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(53), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t১৮. প্রতিষ্ঠানটির বাণিজ্যিক কার্যক্রম শুরুর সাল\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('div', {
 	    staticClass: "form-group"
@@ -13461,17 +14983,981 @@
 	        _vm.$set(_vm.census, "year_of_inception", $event.target.value)
 	      }
 	    }
-	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])])])])])])])])])])])]), _vm._v(" "), _vm._m(63)])]), _vm._v(" "), _c('table', {
+	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])])])])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
+	    staticClass: "table-full-width table-item-bordered"
+	  }, [_c('tbody', [_vm._m(54), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.current_status_of_unit),
+	      expression: "census.current_status_of_unit"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "id": "unit-current-status",
+	      "name": "current_status_of_unit",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "current_status_of_unit", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - চলমান")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - সাময়িকভাবে বন্ধ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("3 - স্থায়ীভাবে বন্ধ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "21"
+	    }
+	  }, [_vm._v("4 - লে-অফ")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', [_c('label', {
+	    attrs: {
+	      "for": "reopen-month"
+	    }
+	  }, [_vm._v("মাস")]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.tmp_closed_reopen_month),
+	      expression: "census.tmp_closed_reopen_month"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "reopen-month",
+	      "name": "tmp_closed_reopen_month",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "tmp_closed_reopen_month", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("01 - জানুয়ারী")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("02 - ফেব্রুয়ারী")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("03 - মার্চ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("04 - এপ্রিল")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("05 - মে")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "6"
+	    }
+	  }, [_vm._v("06 - জুন")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "7"
+	    }
+	  }, [_vm._v("07 - জুলাই")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "8"
+	    }
+	  }, [_vm._v("08 - আগস্ট")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "9"
+	    }
+	  }, [_vm._v("09 - সেপ্টেম্বর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "10"
+	    }
+	  }, [_vm._v("10 - অক্টোবর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "11"
+	    }
+	  }, [_vm._v("11 - নভেম্বর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "12"
+	    }
+	  }, [_vm._v("12 - ডিসেম্বর")])])])]), _vm._v(" "), _vm._m(55)]), _vm._v(" "), _vm._m(56), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.reason_of_close_code),
+	      expression: "census.reason_of_close_code"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "closing-reason",
+	      "name": "reason_of_close_code",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "reason_of_close_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - মূলধনের অভাব")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - জনবলের অভাব")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("3 - জলবায়ুগত সমস্যা")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "4"
+	    }
+	  }, [_vm._v("4 - মেশিনারি সমস্যা")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "5"
+	    }
+	  }, [_vm._v("5 - ইউটিলিটি সমস্যা")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "6"
+	    }
+	  }, [_vm._v("6 - কাঁচামালের সমস্যা")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "7"
+	    }
+	  }, [_vm._v("7 - মৌসুমী উৎপাদন")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "8"
+	    }
+	  }, [_vm._v("8 - আইনগত জটিলতা")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "9"
+	    }
+	  }, [_vm._v("9 - ব্যবসার ধরন পরিবর্তন")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "10"
+	    }
+	  }, [_vm._v("10 - প্রাকৃতিক দুর্যোগ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "11"
+	    }
+	  }, [_vm._v("11 - অগ্নিকান্ড")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "12"
+	    }
+	  }, [_vm._v("12 - অন্যান্য দুর্ঘটনা")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "13"
+	    }
+	  }, [_vm._v("13 - অন্যান্য")])])])]), _vm._v(" "), _vm._m(57)]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_vm._m(58), _vm._v(" "), _c('div', [_c('label', {
+	    staticClass: "text-center",
+	    staticStyle: {
+	      "display": "block"
+	    },
+	    attrs: {
+	      "for": "main-industrial-code"
+	    }
+	  }, [_vm._v("কোড")]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.main_industrial_code),
+	      expression: "census.main_industrial_code"
+	    }],
+	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    attrs: {
+	      "id": "main-industrial-code",
+	      "name": "main_industrial_code",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "main_industrial_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1301"
+	    }
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_vm._m(59), _vm._v(" "), _c('tr', [_vm._m(60), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-top"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.minor_industrial_code1),
+	      expression: "census.minor_industrial_code1"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "minor_industrial_code1",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "minor_industrial_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1301"
+	    }
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(61), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-top"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.minor_industrial_code2),
+	      expression: "census.minor_industrial_code2"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "minor_industrial_code2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "minor_industrial_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1301"
+	    }
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(62), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-top"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.minor_industrial_code3),
+	      expression: "census.minor_industrial_code3"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "minor_industrial_code3",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "minor_industrial_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1301"
+	    }
+	  }, [_vm._v("0111")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_vm._m(63), _vm._v(" "), _c('tr', [_vm._m(64), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-top"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.supporting_industrial_code1),
+	      expression: "census.supporting_industrial_code1"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "supporting_industrial_code1",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "supporting_industrial_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1301"
+	    }
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(65), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-top"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.supporting_industrial_code2),
+	      expression: "census.supporting_industrial_code2"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "supporting_industrial_code2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "supporting_industrial_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1301"
+	    }
+	  }, [_vm._v("0111")])])])])])])])])])])])])])])]), _vm._v(" "), _c('table', {
 	    staticClass: "main-form-structure table-full-width table-item-bordered has-table-separator",
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_vm._m(64), _vm._v(" "), _c('tbody', [_c('tr', [_vm._m(65), _vm._v(" "), _vm._m(66), _vm._v(" "), _c('td', [_c('table', {
+	  }, [_vm._m(66), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('table', {
+	    staticClass: "table-full-width",
+	    attrs: {
+	      "width": "400"
+	    }
+	  }, [_c('tbody', [_vm._m(67), _vm._v(" "), _c('tr', [_vm._m(68), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.product_bsic_code1),
+	      expression: "census.product_bsic_code1"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "product_bsic_code1",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "product_bsic_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(69), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.product_bsic_code2),
+	      expression: "census.product_bsic_code2"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "product_bsic_code2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "product_bsic_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(70), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.product_bsic_code3),
+	      expression: "census.product_bsic_code3"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "product_bsic_code3",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "product_bsic_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(71), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.product_bsic_code4),
+	      expression: "census.product_bsic_code4"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "product_bsic_code4",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "product_bsic_code4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(72), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.product_bsic_code5),
+	      expression: "census.product_bsic_code5"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "product_bsic_code5",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "product_bsic_code5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(73), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.product_bsic_code6),
+	      expression: "census.product_bsic_code6"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "product_bsic_code6",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "product_bsic_code6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('table', {
+	    staticClass: "table-full-width",
+	    attrs: {
+	      "width": "400"
+	    }
+	  }, [_c('tbody', [_vm._m(74), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-3"
+	  }, [_vm._v("১.")]), _vm._v(" "), _vm._m(75), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.service_bsic_code1),
+	      expression: "census.service_bsic_code1"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "service_bsic_code1",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "service_bsic_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-3"
+	  }, [_vm._v("২.")]), _vm._v(" "), _vm._m(76), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.service_bsic_code2),
+	      expression: "census.service_bsic_code2"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "service_bsic_code2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "service_bsic_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-3"
+	  }, [_vm._v("৩.")]), _vm._v(" "), _vm._m(77), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.service_bsic_code3),
+	      expression: "census.service_bsic_code3"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "service_bsic_code3",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "service_bsic_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-3"
+	  }, [_vm._v("৪.")]), _vm._v(" "), _vm._m(78), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.service_bsic_code4),
+	      expression: "census.service_bsic_code4"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "service_bsic_code4",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "service_bsic_code4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-3"
+	  }, [_vm._v("৫.")]), _vm._v(" "), _vm._m(79), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.service_bsic_code5),
+	      expression: "census.service_bsic_code5"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "service_bsic_code5",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "service_bsic_code5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-3"
+	  }, [_vm._v("৬.")]), _vm._v(" "), _vm._m(80), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.service_bsic_code6),
+	      expression: "census.service_bsic_code6"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "service_bsic_code6",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "service_bsic_code6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered",
 	    attrs: {
 	      "width": "1160"
 	    }
-	  }, [_c('tbody', [_vm._m(67), _vm._v(" "), _c('tr', [_vm._m(68), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(81), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.is_export),
+	      expression: "census.is_export"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "is-export",
+	      "name": "is_export",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "is_export", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13497,7 +15983,159 @@
 	        _vm.$set(_vm.census, "export_erc_code", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(69), _vm._v(" "), _vm._m(70), _vm._v(" "), _vm._m(71)]), _vm._v(" "), _vm._m(72), _vm._v(" "), _c('tr', [_vm._m(73), _vm._v(" "), _c('td', {
+	  })])]), _vm._v(" "), _vm._m(82), _vm._v(" "), _vm._m(83), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.export_product_services1),
+	      expression: "census.export_product_services1"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "export_product_services1",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "export_product_services1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.export_product_services2),
+	      expression: "census.export_product_services2"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "export_product_services2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "export_product_services2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.export_product_services3),
+	      expression: "census.export_product_services3"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "export_product_services3",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "export_product_services3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _vm._m(84), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.is_import),
+	      expression: "census.is_import"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "is-import",
+	      "name": "is_import",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "is_import", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13523,18 +16161,128 @@
 	        _vm.$set(_vm.census, "import_irc_code", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(74), _vm._v(" "), _vm._m(75)])])])])])])]), _vm._v(" "), _c('table', {
+	  })])]), _vm._v(" "), _vm._m(85), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 "
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.import_product_services1),
+	      expression: "census.import_product_services1"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "import_product_services1",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "import_product_services1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.import_product_services2),
+	      expression: "census.import_product_services2"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "import_product_services2",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "import_product_services2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.import_product_services3),
+	      expression: "census.import_product_services3"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "data-placeholder": "",
+	      "name": "import_product_services3",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "import_product_services3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2980"
+	    }
+	  }, [_vm._v("00000")])])])])])])])])])])]), _vm._v(" "), _c('table', {
 	    staticClass: "main-form-structure table-full-width table-item-bordered",
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(76), _vm._v(" "), _vm._m(77), _vm._v(" "), _vm._m(78), _vm._v(" "), _c('tr', [_vm._m(79), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(86), _vm._v(" "), _vm._m(87), _vm._v(" "), _vm._m(88), _vm._v(" "), _c('tr', [_vm._m(89), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
 	  }, [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(80), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(90), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13570,7 +16318,7 @@
 	        _vm.$set(_vm.census, "last_year_prod_raw_materials", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _vm._m(81), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _vm._m(91), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13606,7 +16354,180 @@
 	        _vm.$set(_vm.census, "last_year_other_expenses_sum", $event.target.value)
 	      }
 	    }
-	  })])])])])])])]), _vm._v(" "), _vm._m(82)])])]), _vm._v(" "), _vm._m(83), _vm._v(" "), _c('table', {
+	  })])])])])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.have_any_loan),
+	      expression: "census.have_any_loan"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "have-any-loan",
+	      "name": "have_any_loan",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "have_any_loan", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])])])])]), _vm._v(" "), _c('table', {
+	    staticClass: "main-form-structure table-full-width table-item-bordered",
+	    staticStyle: {
+	      "width": "2125px"
+	    }
+	  }, [_c('tbody', [_vm._m(92), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.loan_fin_org_type),
+	      expression: "census.loan_fin_org_type"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "loan-org-type",
+	      "name": "loan_fin_org_type",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "loan_fin_org_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _vm._m(93), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.have_accounting_account),
+	      expression: "census.have_accounting_account"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "have-accounting-account",
+	      "name": "have_accounting_account",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "have_accounting_account", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.accounting_account_type_id),
+	      expression: "census.accounting_account_type_id"
+	    }],
+	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    attrs: {
+	      "id": "loan-org-type",
+	      "name": "accounting_account_type_id",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "accounting_account_type_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - অর্থবছর")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - খ্রিস্টাব্দ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "3"
+	    }
+	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _vm._m(94)])])]), _vm._v(" "), _c('table', {
 	    staticClass: "main-form-structure table-full-width table-item-bordered",
 	    staticStyle: {
 	      "width": "2125px"
@@ -13680,7 +16601,7 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩৮. তথ্যপ্রদানকারী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৯. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_vm._m(84), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৯. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_vm._m(95), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -13992,7 +16913,7 @@
 	    }
 	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-5"
-	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(85)])])])])])])]), _vm._v(" "), _c('nav', {
+	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(96)])])])])])])]), _vm._v(" "), _c('nav', {
 	    staticStyle: {
 	      "width": "2125px"
 	    },
@@ -14027,7 +16948,7 @@
 	    }
 	  }, [_c('i', {
 	    staticClass: "icon-paperplane"
-	  }), _vm._v(" সাবমিট")])])])])])])])])])
+	  }), _vm._v(" সাবমিট")])])])])])])])]), _vm._v("\r\n\t" + _vm._s(_vm._f("json")(_vm.census)) + "\r\n")])
 	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('thead', [_c('tr', [_c('th', [_vm._v("প্রাতিষ্ঠানিক আইডি নম্বর")]), _vm._v(" "), _c('th', [_vm._v("প্রতিষ্ঠানের নাম")]), _vm._v(" "), _c('th', [_vm._v("ইউনিট/কোম্পানীর ধরণ")]), _vm._v(" "), _c('th', [_vm._v("শুমারির বছর")]), _vm._v(" "), _c('th', [_vm._v("নিবন্ধিত কি?")]), _vm._v(" "), _c('th')])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -14083,41 +17004,11 @@
 	    }
 	  }, [_vm._v("১.১ বিভাগ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('select', {
-	    staticClass: "select form-control",
-	    attrs: {
-	      "id": "division-id",
-	      "required": "required",
-	      "tabindex": "-1",
-	      "name": "division_id",
-	      "aria-required": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "value": ""
-	    }
-	  })])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "district-id"
 	    }
 	  }, [_vm._v("১.২ জেলা")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('select', {
-	    staticClass: "select form-control",
-	    attrs: {
-	      "id": "district-id",
-	      "required": "required",
-	      "tabindex": "-1",
-	      "name": "district_id",
-	      "aria-required": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "value": ""
-	    }
-	  })])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', [_c('label', {
 	    attrs: {
@@ -14125,69 +17016,21 @@
 	    }
 	  }, [_vm._v("১.৩ থানা/উপজেলা")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('select', {
-	    staticClass: "select form-control",
-	    attrs: {
-	      "id": "thana-upz-id",
-	      "required": "required",
-	      "tabindex": "-1",
-	      "name": "thana_upz_id",
-	      "aria-required": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "value": ""
-	    }
-	  })])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('label', {
+	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "ward-union-id"
 	    }
 	  }, [_vm._v("১.৪ ওয়ার্ড/ইউনিয়ন")]), _vm._v(" "), _c('small', {
 	    staticClass: "text-danger"
-	  }, [_vm._v("*")])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "id": "ward-union-id",
-	      "name": "ward_union_id",
-	      "tabindex": "-1",
-	      "aria-hidden": "true",
-	      "aria-required": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  })])])])])
+	  }, [_vm._v("*")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('label', {
+	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "mahallah-id"
 	    }
 	  }, [_vm._v("১.৫ মৌজা")]), _vm._v(" "), _c('small', {
 	    staticClass: "text-danger"
-	  }, [_vm._v("*")])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "id": "mahallah-id",
-	      "required": "required",
-	      "name": "mahallah_id",
-	      "tabindex": "-1",
-	      "aria-hidden": "true",
-	      "aria-required": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  })])])])])
+	  }, [_vm._v("*")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', [_c('label', {
 	    attrs: {
@@ -14339,7 +17182,7 @@
 	  }, [_c('div', {
 	    staticClass: "form-group select2-width--auto"
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "disabled": "",
 	      "id": "is-under-ent-group",
@@ -14404,90 +17247,20 @@
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("৭. প্রতিষ্ঠানের ধরন ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', {
-	    attrs: {
-	      "colspan": "2"
-	    }
-	  }, [_c('table', {
-	    staticClass: "table-full-width",
-	    attrs: {
-	      "width": "100%"
-	    }
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered"
-	  }, [_vm._v(" ৬.৩ এটি কোন এন্টারপ্রাইজের অন্তর্ভুক্ত কি? ")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "text-center"
-	  }, [_c('div', {
-	    staticClass: "form-group select2-width--auto "
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "disabled": "",
-	      "id": "is-under-ent",
-	      "name": "is_under_enterprise",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('div', {
-	    staticClass: "text-center"
-	  }, [_c('label', {
-	    attrs: {
-	      "for": "enterprise"
-	    }
-	  }, [_vm._v("এন্টারপ্রাইজ")]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group "
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "disabled": "",
-	      "id": "enterprise",
-	      "name": "enterprise_id",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "262"
-	    }
-	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "261"
-	    }
-	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
-	    staticClass: "table-full-width",
-	    attrs: {
-	      "width": "100%"
-	    }
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  }, [_vm._v(" ৬.৩ এটি কোন এন্টারপ্রাইজের অন্তর্ভুক্ত কি? ")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered"
-	  }, [_vm._v("৬.৪ এটি কোন এন্টারপ্রাইজ গ্রুপের অন্তর্ভুক্ত কি? ")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
+	  }, [_vm._v("৬.৪ এটি কোন এন্টারপ্রাইজ গ্রুপের অন্তর্ভুক্ত কি? ")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
 	    staticClass: "text-center"
 	  }, [_c('div', {
 	    staticClass: "form-group select2-width--auto"
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "disabled": "",
 	      "id": "is-under-ent-group-2",
@@ -14508,78 +17281,7 @@
 	    attrs: {
 	      "value": "2"
 	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('div', {
-	    staticClass: "text-center"
-	  }, [_c('label', {
-	    attrs: {
-	      "for": "enterprise-group-id-2"
-	    }
-	  }, [_vm._v("এন্টারপ্রাইজ গ্রুপ")]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group "
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "disabled": "",
-	      "id": "enterprise-group-id-2",
-	      "name": "enterprise_group_id_2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "262"
-	    }
-	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "261"
-	    }
-	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "unit-mode-code",
-	      "name": "unit_mode_code",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - প্রধান কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - বিভাগীয় কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - আঞ্চলিক কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("4 - জেলা কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("5 - শাখা কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "6"
-	    }
-	  }, [_vm._v("6 - একক/স্বতন্ত্র প্রতিষ্ঠান")])])])])])
+	  }, [_vm._v("2 - না")])])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10",
@@ -14654,244 +17356,56 @@
 	    }
 	  }, [_vm._v("বিভাগ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('label', {
+	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "head-office-district"
 	    }
-	  }, [_vm._v("জেলা")])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "head-office-district",
-	      "name": "head_office_district",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  })])])])])
+	  }, [_vm._v("জেলা")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('label', {
+	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "head-office-thana-upz"
 	    }
-	  }, [_vm._v("থানা/উপজেলা")])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "head-office-thana-upz",
-	      "name": "head_office_thana_upz",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  })])])])])
+	  }, [_vm._v("থানা/উপজেলা")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('label', {
+	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "head-office-ward-union"
 	    }
-	  }, [_vm._v("ওয়ার্ড/ইউনিয়ন")])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "head-office-ward-union",
-	      "name": "head_office_ward_union",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  })])])])])
+	  }, [_vm._v("ওয়ার্ড/ইউনিয়ন")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('label', {
+	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "head-office-mauza"
 	    }
-	  }, [_vm._v("মৌজা")])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "head-office-mauza",
-	      "name": "head_office_mauza",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  })])])])])
+	  }, [_vm._v("মৌজা")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('label', {
+	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "head-office-rmo-code"
 	    }
-	  }, [_vm._v("RMO")])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "head-office-rmo-code",
-	      "name": "head_office_rmo_code",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - Rural")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - Municipality")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - Upazila Head Quarter")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("5 - Cantonment")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("7 - Growth Center")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "6"
-	    }
-	  }, [_vm._v("9 - City Corporation")])])])])])
+	  }, [_vm._v("RMO")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered",
 	    attrs: {
 	      "colspan": "2"
 	    }
-	  }, [_vm._v("৯. প্রতিষ্ঠানটি কি রিপোর্টিং ইউনিট?")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group "
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "id": "is-reporting-unit",
-	      "name": "is_reporting_unit",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])])])])])
+	  }, [_vm._v("৯. প্রতিষ্ঠানটি কি রিপোর্টিং ইউনিট?")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered",
 	    attrs: {
 	      "colspan": "2"
 	    }
-	  }, [_vm._v("১০. প্রতিষ্ঠানটির ট্রেড লাইসেন্স আছে কি?")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "has-trade-license",
-	      "name": "has_trade_license",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - প্রয়োজ্য নয়")])])])])])])])])
+	  }, [_vm._v("১০. প্রতিষ্ঠানটির ট্রেড লাইসেন্স আছে কি?")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered",
 	    attrs: {
 	      "colspan": "2"
 	    }
-	  }, [_vm._v("১০.১ ট্রেড লাইসেন্স প্রদানকারী কর্তৃপক্ষের কোড")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "id": "trade-license-authority",
-	      "name": "trade_license_authority",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - সিটি কর্পোরেশন")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - পৌরসভা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - ইউনিয়ন পরিষদ")])])])])])])])])
+	  }, [_vm._v("১০.১ ট্রেড লাইসেন্স প্রদানকারী কর্তৃপক্ষের কোড")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered",
@@ -14900,39 +17414,12 @@
 	    }
 	  }, [_vm._v("১০.২ প্রতিষ্ঠানের ট্রেড লাইসেন্স নম্বর")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered",
 	    attrs: {
 	      "colspan": "2"
 	    }
-	  }, [_vm._v("১১. প্রতিষ্ঠানটি কোন কর্তৃপক্ষের আওতায় নিবন্ধিত কিনা?")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "is-registered",
-	      "name": "is_registered",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])])])])])
+	  }, [_vm._v("১১. প্রতিষ্ঠানটি কোন কর্তৃপক্ষের আওতায় নিবন্ধিত কিনা?")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10",
@@ -14942,69 +17429,6 @@
 	  }, [_vm._v("১১.১ নিবন্ধন প্রদানকারী কর্তৃপক্ষের কোড\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(একাধিক উত্তর প্রযোজ্য)")])]), _vm._v(" "), _c('th', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("১১.২ প্রতিষ্ঠানের নিবন্ধন নম্বর\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(একাধিক উত্তর প্রযোজ্য)")])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "reg_org_code1",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "reg_org_code2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "reg_org_code3",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])])])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10"
@@ -15031,35 +17455,7 @@
 	    }
 	  }, [_vm._v("১৭. প্রতিষ্ঠানটি স্থাপনের সাল")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle text-center",
-	    staticStyle: {
-	      "width": "250px"
-	    }
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "is-under-permission-auth",
-	      "name": "is_under_permission_auth",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])]), _vm._v(" "), _c('span', {
+	  return _c('span', {
 	    staticClass: "select2 select2-container select2-container--default",
 	    staticStyle: {
 	      "width": "100%"
@@ -15098,401 +17494,13 @@
 	    attrs: {
 	      "aria-hidden": "true"
 	    }
-	  })])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "permission_auth_id1",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "permission_auth_id2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "permission_auth_id3",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "permission_auth_id4",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "permission_auth_id5",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "permission_auth_id6",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "has-environmental-control",
-	      "name": "has_environmental_control",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "membership-authority",
-	      "name": "pollution_control_measure_id",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - তরল বর্জ্য ব্যবস্থাপনা প্ল্যান্ট (ETP)")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - বায়ু দূষণ নিয়ন্ত্রণ ব্যবস্থা (ATP)")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - কঠিন বর্জ্য ব্যবস্থাপনা ")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "has-specialized-zone",
-	      "name": "has_specialized_zone",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "membership-authority",
-	      "name": "specialty_code_id",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - বাংলাদেশ বিনিয়োগ উন্নয়ন কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ রপ্তানি প্রক্রিয়াকরণ অঞ্চল কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - বাংলাদেশ অর্থনৈতিক অঞ্চল কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ক্ষুদ্র ও কুটির শিল্প কর্পোরেশন")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "id": "has-membership",
-	      "name": "has_membership",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "id": "has-chamber-membership",
-	      "name": "has_chamber_membership",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])
+	  })])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', {
 	    staticClass: "bottom-bordered"
 	  }, [_c('td', [_vm._v(" ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('table', {
-	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("১৯. বর্তমানে প্রতিষ্ঠানটির অবস্থা")]), _vm._v(" "), _c('th', {
 	    staticClass: "padding-10"
@@ -15506,109 +17514,9 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("২১. প্রতিষ্ঠানের অপ্রধান অর্থনৈতিক কর্মকান্ডের বিবরণ ও শিল্প কোড (যদি থাকে)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(একাধিক উত্তর প্রযোজ্য)")])]), _vm._v(" "), _c('th', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("২২. প্রতিষ্ঠানের সহায়ক অর্থনৈতিক কর্মকান্ডের বিবরণ ও শিল্প কোড (যদি থাকে)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(একাধিক উত্তর প্রযোজ্য)")])])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "id": "unit-current-status",
-	      "name": "current_status_of_unit",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - চলমান")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - সাময়িকভাবে বন্ধ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - স্থায়ীভাবে বন্ধ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "21"
-	    }
-	  }, [_vm._v("4 - লে-অফ")])])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', [_c('label', {
-	    attrs: {
-	      "for": "reopen-month"
-	    }
-	  }, [_vm._v("মাস")]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "reopen-month",
-	      "name": "tmp_closed_reopen_month",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - জানুয়ারী")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - ফেব্রুয়ারী")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - মার্চ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - এপ্রিল")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - মে")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "6"
-	    }
-	  }, [_vm._v("06 - জুন")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "7"
-	    }
-	  }, [_vm._v("07 - জুলাই")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "8"
-	    }
-	  }, [_vm._v("08 - আগস্ট")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "9"
-	    }
-	  }, [_vm._v("09 - সেপ্টেম্বর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "10"
-	    }
-	  }, [_vm._v("10 - অক্টোবর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "11"
-	    }
-	  }, [_vm._v("11 - নভেম্বর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "12"
-	    }
-	  }, [_vm._v("12 - ডিসেম্বর")])])])]), _vm._v(" "), _c('div', [_c('label', {
+	  }, [_vm._v("২২. প্রতিষ্ঠানের সহায়ক অর্থনৈতিক কর্মকান্ডের বিবরণ ও শিল্প কোড (যদি থাকে)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(একাধিক উত্তর প্রযোজ্য)")])])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', [_c('label', {
 	    attrs: {
 	      "for": "reopen-year"
 	    }
@@ -15624,7 +17532,9 @@
 	      "name": "tmp_closed_reopen_year",
 	      "type": "text"
 	    }
-	  })])])]), _vm._v(" "), _c('td', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15638,76 +17548,9 @@
 	      "name": "tmp_permanently_close_year",
 	      "type": "text"
 	    }
-	  })])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "closing-reason",
-	      "name": "reason_of_close_code",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - মূলধনের অভাব")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - জনবলের অভাব")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - জলবায়ুগত সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("4 - মেশিনারি সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("5 - ইউটিলিটি সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "6"
-	    }
-	  }, [_vm._v("6 - কাঁচামালের সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "7"
-	    }
-	  }, [_vm._v("7 - মৌসুমী উৎপাদন")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "8"
-	    }
-	  }, [_vm._v("8 - আইনগত জটিলতা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "9"
-	    }
-	  }, [_vm._v("9 - ব্যবসার ধরন পরিবর্তন")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "10"
-	    }
-	  }, [_vm._v("10 - প্রাকৃতিক দুর্যোগ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "11"
-	    }
-	  }, [_vm._v("11 - অগ্নিকান্ড")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "12"
-	    }
-	  }, [_vm._v("12 - অন্যান্য দুর্ঘটনা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "13"
-	    }
-	  }, [_vm._v("13 - অন্যান্য")])])])]), _vm._v(" "), _c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    staticClass: "form-control",
@@ -15718,9 +17561,9 @@
 	      "name": "reason_of_close_other",
 	      "type": "text"
 	    }
-	  })])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', [_c('label', {
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', [_c('label', {
 	    staticClass: "text-center",
 	    staticStyle: {
 	      "display": "block"
@@ -15738,40 +17581,15 @@
 	      "name": "main_economic_act_desc",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('div', [_c('label', {
-	    staticClass: "text-center",
-	    staticStyle: {
-	      "display": "block"
-	    },
-	    attrs: {
-	      "for": "main-industrial-code"
-	    }
-	  }, [_vm._v("কোড")]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "id": "main-industrial-code",
-	      "name": "main_industrial_code",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1301"
-	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('td', [_c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', [_c('td', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('tr', [_c('td', {
 	    staticClass: " text-center"
 	  }, [_vm._v("বিবরণ ")]), _vm._v(" "), _c('td', {
 	    staticClass: " text-center"
-	  }, [_vm._v("কোড")])]), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("কোড")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15782,28 +17600,9 @@
 	      "name": "minor_economic_act_desc1",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-top"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "minor_industrial_code1",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1301"
-	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15814,28 +17613,9 @@
 	      "name": "minor_economic_act_desc2",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-top"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "minor_industrial_code2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1301"
-	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15846,34 +17626,15 @@
 	      "name": "minor_economic_act_desc3",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-top"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "minor_industrial_code3",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1301"
-	    }
-	  }, [_vm._v("0111")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', [_c('td', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('tr', [_c('td', {
 	    staticClass: " text-center"
 	  }, [_vm._v("বিবরণ ")]), _vm._v(" "), _c('td', {
 	    staticClass: "text-center"
-	  }, [_vm._v("কোড")])]), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("কোড")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15884,28 +17645,9 @@
 	      "name": "supporting_economic_act_desc1",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-top"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "supporting_industrial_code1",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1301"
-	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15916,28 +17658,7 @@
 	      "name": "supporting_economic_act_desc2",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-top"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "supporting_industrial_code2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1301"
-	    }
-	  }, [_vm._v("0111")])])])])])])])])])])])])])
+	  })])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('thead', [_c('tr', [_c('th', {
 	    staticClass: "padding-10"
@@ -15947,18 +17668,13 @@
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("২৫. প্রতিষ্ঠানটির পণ্য/সেবা আমদানি/রপ্তানি")])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('table', {
-	    staticClass: "table-full-width",
-	    attrs: {
-	      "width": "400"
-	    }
-	  }, [_c('tbody', [_c('tr', [_c('td', {
+	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("বিবরণ ")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 text-center"
-	  }, [_vm._v("কোড")])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }, [_vm._v("কোড")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -15967,26 +17683,9 @@
 	      "name": "product_description1",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "product_bsic_code1",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -15995,26 +17694,9 @@
 	      "name": "product_description2",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "product_bsic_code2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16023,26 +17705,9 @@
 	      "name": "product_description3",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "product_bsic_code3",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16051,26 +17716,9 @@
 	      "name": "product_description4",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "product_bsic_code4",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16079,26 +17727,9 @@
 	      "name": "product_description5",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "product_bsic_code5",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16107,41 +17738,15 @@
 	      "name": "product_description6",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "product_bsic_code6",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])])])])])
+	  })])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('table', {
-	    staticClass: "table-full-width",
-	    attrs: {
-	      "width": "400"
-	    }
-	  }, [_c('tbody', [_c('tr', [_c('td', [_vm._v(" ")]), _vm._v(" "), _c('td', {
+	  return _c('tr', [_c('td', [_vm._v(" ")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("বিবরণ ")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 text-center"
-	  }, [_vm._v("কোড")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-3"
-	  }, [_vm._v("১.")]), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("কোড")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16150,28 +17755,9 @@
 	      "name": "service_description1",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "service_bsic_code1",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-3"
-	  }, [_vm._v("২.")]), _vm._v(" "), _c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16180,28 +17766,9 @@
 	      "name": "service_description2",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "service_bsic_code2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-3"
-	  }, [_vm._v("৩.")]), _vm._v(" "), _c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16210,28 +17777,9 @@
 	      "name": "service_description3",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "service_bsic_code3",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-3"
-	  }, [_vm._v("৪.")]), _vm._v(" "), _c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16240,28 +17788,9 @@
 	      "name": "service_description4",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "service_bsic_code4",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-3"
-	  }, [_vm._v("৫.")]), _vm._v(" "), _c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16270,28 +17799,9 @@
 	      "name": "service_description5",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "service_bsic_code5",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-3"
-	  }, [_vm._v("৬.")]), _vm._v(" "), _c('td', [_c('div', {
+	  })])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('textarea', {
 	    staticClass: "form-control enable-bangla",
@@ -16300,26 +17810,7 @@
 	      "name": "service_description6",
 	      "cols": "50"
 	    }
-	  })])]), _vm._v(" "), _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "service_bsic_code6",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])])])])])
+	  })])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -16338,34 +17829,7 @@
 	  }, [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "is-export",
-	      "name": "is_export",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "is-export-product-services",
 	      "name": "is_export_product_services",
@@ -16418,67 +17882,6 @@
 	    }
 	  })])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "export_product_services1",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "export_product_services2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "export_product_services3",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("২৫.৫ প্রতিষ্ঠানটি সরাসরি পণ্য/সেবা আমদানি করে কি? ")]), _vm._v(" "), _c('td', {
@@ -16491,33 +17894,6 @@
 	  }, [_vm._v("২৫.৭ আমদানীকৃত পণ্য/সেবার নাম লিখুন\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(একাধিক উত্তর প্রযোজ্য)")])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("কোড")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "is-import",
-	      "name": "is_import",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', {
 	    staticClass: "padding-10",
@@ -16552,67 +17928,6 @@
 	      "cols": "50"
 	    }
 	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 "
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "import_product_services1",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "import_product_services2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "data-placeholder": "",
-	      "name": "import_product_services3",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2980"
-	    }
-	  }, [_vm._v("00000")])])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -16703,7 +18018,7 @@
 	  }, [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "has-foreign-res-investment",
 	      "name": "has_foreign_res_investement",
@@ -16790,39 +18105,7 @@
 	    }
 	  })])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "have-any-loan",
-	      "name": "have_any_loan",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('table', {
-	    staticClass: "main-form-structure table-full-width table-item-bordered",
-	    staticStyle: {
-	      "width": "2125px"
-	    }
-	  }, [_c('tbody', [_c('tr', [_c('td', {
+	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩২.১ ঋণের উৎসের ধরন")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
@@ -16832,28 +18115,9 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩৩.১ হিসাব বছরের ধরন")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 text-center"
-	  }, [_vm._v("৩৪. প্রতিষ্ঠানে নিয়োজিত (দেশি-বিদেশিসহ) জনবলের ধরন ও সংখ্যা")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "loan-org-type",
-	      "name": "loan_fin_org_type",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৪. প্রতিষ্ঠানে নিয়োজিত (দেশি-বিদেশিসহ) জনবলের ধরন ও সংখ্যা")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16891,61 +18155,9 @@
 	      "name": "loan_received_2016_2017",
 	      "type": "text"
 	    }
-	  })])])])])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-sm select2-hidden-accessible",
-	    attrs: {
-	      "id": "have-accounting-account",
-	      "name": "have_accounting_account",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
-	    attrs: {
-	      "id": "loan-org-type",
-	      "name": "accounting_account_type_id",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - অর্থবছর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - খ্রিস্টাব্দ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _c('td', [_c('table', {
+	  })])])])])])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
 	  }, [_c('tbody', [_c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -17187,7 +18399,7 @@
 	      "name": "female_seasonal_worker",
 	      "type": "text"
 	    }
-	  })])])])])])])])])])])
+	  })])])])])])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', {
 	    staticClass: "padding-10 valign-middle",
