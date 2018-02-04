@@ -18,7 +18,15 @@ export default {
         SERIAL_NO_UNIT: 0,
         NAME_OF_UNIT: "",
         NAME_OF_MAHALLAH: "",
-        NAME_OF_HOUSE: ""
+        NAME_OF_HOUSE: "",
+        NO_NAME_OF_ROAD: "",
+        FLOOR_LEVEL: "",
+        HOLIDING_NO: "",
+        PHONE: "",
+        FAX: "",
+        EMAIL: "",
+        WEBSITE: ""
+
       },
       rmos:[],
       divisions: [],

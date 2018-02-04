@@ -11475,9 +11475,9 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'division_id\', \'district_id\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\') \n\t\tvalues(?, ?, ?, ?, ?, ?)');
+			var stmt = db.prepare('insert into census\n\t\t(\'division_id\', \'district_id\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\') \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
 
-			stmt.run(Census.division_id, Census.district_id, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE);
+			stmt.run(Census.division_id, Census.district_id, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE);
 
 			store.emit('data-updated');
 		});
@@ -11485,14 +11485,22 @@
 
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			db.run('update census set \n\t\tdivision_id=?, \n\t\tdistrict_id=?, \n\t\tSERIAL_NO_UNIT=?, \n\t\tNAME_OF_UNIT=?, \n\t\tNAME_OF_MAHALLAH=?,\n\t\tNAME_OF_HOUSE=?  \n\t\twhere ID=?', {
+			db.run('update census set \n\t\tdivision_id=?, \n\t\tdistrict_id=?, \n\t\tSERIAL_NO_UNIT=?, \n\t\tNAME_OF_UNIT=?, \n\t\tNAME_OF_MAHALLAH=?,\n\t\tNAME_OF_HOUSE=?,\n\t\tNO_NAME_OF_ROAD=?,\n\t\tFLOOR_LEVEL=?,\n\t\tHOLIDING_NO=?,\n\t\tPHONE=?,\n\t\tFAX=?,\n\t\tEMAIL=?,\n\t\tWEBSITE=?  \n\t\twhere ID=?', {
 				1: Census.division_id,
 				2: Census.district_id,
 				3: Census.SERIAL_NO_UNIT,
 				4: Census.NAME_OF_UNIT,
 				5: Census.NAME_OF_MAHALLAH,
 				6: Census.NAME_OF_HOUSE,
-				7: Census.ID
+				7: Census.NO_NAME_OF_ROAD,
+				8: Census.FLOOR_LEVEL,
+				9: Census.HOLIDING_NO,
+				10: Census.PHONE,
+				11: Census.FAX,
+				12: Census.EMAIL,
+				13: Census.WEBSITE,
+
+				14: Census.ID
 			});
 			store.emit('data-updated');
 		});
@@ -11897,7 +11905,15 @@
 	        SERIAL_NO_UNIT: 0,
 	        NAME_OF_UNIT: "",
 	        NAME_OF_MAHALLAH: "",
-	        NAME_OF_HOUSE: ""
+	        NAME_OF_HOUSE: "",
+	        NO_NAME_OF_ROAD: "",
+	        FLOOR_LEVEL: "",
+	        HOLIDING_NO: "",
+	        PHONE: "",
+	        FAX: "",
+	        EMAIL: "",
+	        WEBSITE: ""
+
 	      },
 	      rmos: [],
 	      divisions: [],
@@ -12580,8 +12596,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.no_name_of_road),
-	      expression: "census.no_name_of_road"
+	      value: (_vm.census.NO_NAME_OF_ROAD),
+	      expression: "census.NO_NAME_OF_ROAD"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -12590,12 +12606,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.no_name_of_road)
+	      "value": (_vm.census.NO_NAME_OF_ROAD)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "no_name_of_road", $event.target.value)
+	        _vm.$set(_vm.census, "NO_NAME_OF_ROAD", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(15), _vm._v(" "), _c('td', [_c('div', {
@@ -12604,8 +12620,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.floor_level),
-	      expression: "census.floor_level"
+	      value: (_vm.census.FLOOR_LEVEL),
+	      expression: "census.FLOOR_LEVEL"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -12614,12 +12630,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.floor_level)
+	      "value": (_vm.census.FLOOR_LEVEL)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "floor_level", $event.target.value)
+	        _vm.$set(_vm.census, "FLOOR_LEVEL", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _vm._m(16), _vm._v(" "), _c('td', [_c('div', {
@@ -12628,8 +12644,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.holiding_no),
-	      expression: "census.holiding_no"
+	      value: (_vm.census.HOLIDING_NO),
+	      expression: "census.HOLIDING_NO"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -12638,12 +12654,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.holiding_no)
+	      "value": (_vm.census.HOLIDING_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "holiding_no", $event.target.value)
+	        _vm.$set(_vm.census, "HOLIDING_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(17), _vm._v(" "), _c('td', [_c('div', {
@@ -12652,8 +12668,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.phone),
-	      expression: "census.phone"
+	      value: (_vm.census.PHONE),
+	      expression: "census.PHONE"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -12662,12 +12678,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.phone)
+	      "value": (_vm.census.PHONE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "phone", $event.target.value)
+	        _vm.$set(_vm.census, "PHONE", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('td', [_c('div', {
@@ -12676,8 +12692,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.fax),
-	      expression: "census.fax"
+	      value: (_vm.census.FAX),
+	      expression: "census.FAX"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -12687,12 +12703,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.fax)
+	      "value": (_vm.census.FAX)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "fax", $event.target.value)
+	        _vm.$set(_vm.census, "FAX", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(19), _vm._v(" "), _c('td', [_c('div', {
@@ -12701,8 +12717,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.email),
-	      expression: "census.email"
+	      value: (_vm.census.EMAIL),
+	      expression: "census.EMAIL"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -12712,12 +12728,12 @@
 	      "type": "email"
 	    },
 	    domProps: {
-	      "value": (_vm.census.email)
+	      "value": (_vm.census.EMAIL)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "email", $event.target.value)
+	        _vm.$set(_vm.census, "EMAIL", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _vm._m(20), _vm._v(" "), _c('td', [_c('div', {
@@ -12726,8 +12742,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.website),
-	      expression: "census.website"
+	      value: (_vm.census.WEBSITE),
+	      expression: "census.WEBSITE"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -12737,12 +12753,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.website)
+	      "value": (_vm.census.WEBSITE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "website", $event.target.value)
+	        _vm.$set(_vm.census, "WEBSITE", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', {
