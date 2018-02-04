@@ -15,9 +15,10 @@ export default {
         id: 0,
         division_id: 0,
         district_id: 0,
-        serial_no_unit: 0,
-        name_of_unit: "",
-        name_of_mahallah: ""
+        SERIAL_NO_UNIT: 0,
+        NAME_OF_UNIT: "",
+        NAME_OF_MAHALLAH: "",
+        NAME_OF_HOUSE: ""
       },
       rmos:[],
       divisions: [],

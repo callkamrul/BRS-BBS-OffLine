@@ -11460,7 +11460,7 @@
 	store.getCensuses = function (cb) {
 		var censuses = {};
 
-		db.each('SELECT census.id AS id,\n\tcensus.census_year AS census_year,\n\tcensus.serial_no_unit AS serial_no,\n\tcensus.NAME_OF_UNIT AS NAME_OF_UNIT,\n\tcensus.unit_type_code,\n\tcensus.unit_identification_code AS unit_identification_code,\n\tcensus.is_registered AS is_registred,\n   \n\tcc_unit_type.name AS unit_type_name,\n\tcc_unit_type.name_bn AS unit_type_name_bn,\n\tcensus.operator_user_id AS operator_user_id,\n\tcensus.present_status_id AS present_status_id,\n\tcensus.thana_upz_id AS thana_upz_id,\n\tcensus.district_id AS district_id,\n\tcensus.division_id AS division_id\nFrom census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code', function (err, row) {
+		db.each('SELECT census.id AS id,\n\tcensus.census_year AS census_year,\n\tcensus.SERIAL_NO_UNIT AS serial_no,\n\tcensus.NAME_OF_UNIT AS NAME_OF_UNIT,\n\tcensus.unit_type_code,\n\tcensus.unit_identification_code AS unit_identification_code,\n\tcensus.is_registered AS is_registred,\n   \n\tcc_unit_type.name AS unit_type_name,\n\tcc_unit_type.name_bn AS unit_type_name_bn,\n\tcensus.operator_user_id AS operator_user_id,\n\tcensus.present_status_id AS present_status_id,\n\tcensus.thana_upz_id AS thana_upz_id,\n\tcensus.district_id AS district_id,\n\tcensus.division_id AS division_id\nFrom census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code', function (err, row) {
 			censuses[row.id] = row;
 		}, function (err, rowCount) {
 			cb(null, censuses);
@@ -11475,9 +11475,9 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'division_id\', \'district_id\', \'serial_no_unit\', \'NAME_OF_UNIT\', \'name_of_mahallah\') \n\t\tvalues(?, ?, ?, ?, ?)');
+			var stmt = db.prepare('insert into census\n\t\t(\'division_id\', \'district_id\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\') \n\t\tvalues(?, ?, ?, ?, ?, ?)');
 
-			stmt.run(Census.division_id, Census.district_id, Census.serial_no_unit, Census.NAME_OF_UNIT, Census.name_of_mahallah);
+			stmt.run(Census.division_id, Census.district_id, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE);
 
 			store.emit('data-updated');
 		});
@@ -11485,13 +11485,14 @@
 
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			db.run('update census set \n\t\tdivision_id=?, \n\t\tdistrict_id=?, \n\t\tserial_no_unit=?, \n\t\tNAME_OF_UNIT=?, \n\t\tname_of_mahallah=?  \n\t\twhere ID=?', {
+			db.run('update census set \n\t\tdivision_id=?, \n\t\tdistrict_id=?, \n\t\tSERIAL_NO_UNIT=?, \n\t\tNAME_OF_UNIT=?, \n\t\tNAME_OF_MAHALLAH=?,\n\t\tNAME_OF_HOUSE=?  \n\t\twhere ID=?', {
 				1: Census.division_id,
 				2: Census.district_id,
-				3: Census.serial_no_unit,
+				3: Census.SERIAL_NO_UNIT,
 				4: Census.NAME_OF_UNIT,
-				5: Census.name_of_mahallah,
-				6: Census.ID
+				5: Census.NAME_OF_MAHALLAH,
+				6: Census.NAME_OF_HOUSE,
+				7: Census.ID
 			});
 			store.emit('data-updated');
 		});
@@ -11499,7 +11500,7 @@
 
 	store.deleteCensus = function (catId) {
 		db.serialize(function () {
-			var stmt = db.prepare("delete from census where id=?");
+			var stmt = db.prepare("delete from census where ID=?");
 			stmt.run(catId);
 			store.emit('data-updated');
 		});
@@ -11893,9 +11894,10 @@
 	        id: 0,
 	        division_id: 0,
 	        district_id: 0,
-	        serial_no_unit: 0,
-	        name_of_unit: "",
-	        name_of_mahallah: ""
+	        SERIAL_NO_UNIT: 0,
+	        NAME_OF_UNIT: "",
+	        NAME_OF_MAHALLAH: "",
+	        NAME_OF_HOUSE: ""
 	      },
 	      rmos: [],
 	      divisions: [],
@@ -12149,7 +12151,7 @@
 	    attrs: {
 	      "for": "unit-id-number"
 	    }
-	  }, [_vm._v("প্রতিষ্ঠানের আইডেন্টিফিকেশন নম্বর")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.census.UNIT_IDENTIFICATION_CODE))])]), _vm._v(" "), _c('h6', {
+	  }, [_vm._v("প্রতিষ্ঠানের আইডেন্টিফিকেশন নম্বর")]), _vm._v(" "), _c('div', [_vm._v(_vm._s(_vm.census.UNIT_IDENTIFICATION_CODE))])]), _vm._v(" "), _c('h6', {
 	    staticClass: "no-margin"
 	  }, [_vm._v("গণপ্রজাতন্ত্রী বাংলাদেশ সরকার")]), _vm._v(" "), _c('h5', {
 	    staticClass: "no-margin"
@@ -12453,8 +12455,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.serial_no_unit),
-	      expression: "census.serial_no_unit"
+	      value: (_vm.census.SERIAL_NO_UNIT),
+	      expression: "census.SERIAL_NO_UNIT"
 	    }],
 	    staticClass: "form-control",
 	    staticStyle: {
@@ -12471,12 +12473,12 @@
 	      "aria-required": "true"
 	    },
 	    domProps: {
-	      "value": (_vm.census.serial_no_unit)
+	      "value": (_vm.census.SERIAL_NO_UNIT)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "serial_no_unit", $event.target.value)
+	        _vm.$set(_vm.census, "SERIAL_NO_UNIT", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(11), _vm._v(" "), _c('td', {
@@ -12510,7 +12512,7 @@
 	        _vm.$set(_vm.census, "NAME_OF_UNIT", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _vm._m(12), _vm._v(" "), _c('tr', [_vm._m(13), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(12), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -12520,8 +12522,38 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.name_of_house),
-	      expression: "census.name_of_house"
+	      value: (_vm.census.NAME_OF_MAHALLAH),
+	      expression: "census.NAME_OF_MAHALLAH"
+	    }],
+	    staticClass: "form-control input-uppercase",
+	    attrs: {
+	      "id": "mahallah-name",
+	      "placeholder": "",
+	      "required": "required",
+	      "name": "name_of_mahallah",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.NAME_OF_MAHALLAH)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "NAME_OF_MAHALLAH", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(13), _vm._v(" "), _c('td', {
+	    attrs: {
+	      "colspan": "3"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.NAME_OF_HOUSE),
+	      expression: "census.NAME_OF_HOUSE"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -12530,12 +12562,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.name_of_house)
+	      "value": (_vm.census.NAME_OF_HOUSE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "name_of_house", $event.target.value)
+	        _vm.$set(_vm.census, "NAME_OF_HOUSE", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(14), _vm._v(" "), _c('td', {
@@ -16948,7 +16980,7 @@
 	    }
 	  }, [_c('i', {
 	    staticClass: "icon-paperplane"
-	  }), _vm._v(" সাবমিট")])])])])])])])]), _vm._v("\r\n\t" + _vm._s(_vm._f("json")(_vm.census)) + "\r\n")])
+	  }), _vm._v(" সাবমিট")])])])])])])])])])
 	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('thead', [_c('tr', [_c('th', [_vm._v("প্রাতিষ্ঠানিক আইডি নম্বর")]), _vm._v(" "), _c('th', [_vm._v("প্রতিষ্ঠানের নাম")]), _vm._v(" "), _c('th', [_vm._v("ইউনিট/কোম্পানীর ধরণ")]), _vm._v(" "), _c('th', [_vm._v("শুমারির বছর")]), _vm._v(" "), _c('th', [_vm._v("নিবন্ধিত কি?")]), _vm._v(" "), _c('th')])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -17061,35 +17093,19 @@
 	    staticClass: "text-danger"
 	  }, [_vm._v("*")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', [_c('label', {
+	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "mahallah-name"
 	    }
 	  }, [_vm._v("২.৩ গ্রাম/মহল্লা")]), _vm._v(" "), _c('small', {
 	    staticClass: "text-danger"
-	  }, [_vm._v("*")])]), _vm._v(" "), _c('td', {
-	    attrs: {
-	      "colspan": "3"
-	    }
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('input', {
-	    staticClass: "form-control input-uppercase",
-	    attrs: {
-	      "id": "mahallah-name",
-	      "placeholder": "",
-	      "required": "required",
-	      "name": "name_of_mahallah",
-	      "type": "text",
-	      "aria-required": "true"
-	    }
-	  })])])])
+	  }, [_vm._v("*")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', [_c('label', {
 	    attrs: {
 	      "for": "house-name"
 	    }
-	  }, [_vm._v("২.৪ বাড়ি/মার্কেটের নাম")])])
+	  }, [_vm._v("২.৪ বাড়ি / মার্কেটের নাম")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', [_c('label', {
 	    attrs: {

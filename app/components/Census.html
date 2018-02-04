@@ -64,7 +64,7 @@
 								<th class="text-center">
 									<div class="unit-number-block-right">
 										<label for="unit-id-number">প্রতিষ্ঠানের আইডেন্টিফিকেশন নম্বর</label>
-										<span>{{census.UNIT_IDENTIFICATION_CODE}}</span>
+										<div>{{census.UNIT_IDENTIFICATION_CODE}}</div>
 									</div>
 									<h6 class="no-margin">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h6>
 									<h5 class="no-margin">অর্থনৈতিক শুমারি ২০১৩ প্রকল্প</h5>
@@ -205,7 +205,7 @@
 																<td colspan="3">
 																	<div class="form-group">
 																		<input class="form-control" id="serial-no-unit" placeholder="" required="required" pattern="[0-9]" maxlength="3" style="width:75px;"
-																		 name="serial_no_unit" v-model="census.serial_no_unit" type="text" aria-required="true">
+																		 name="serial_no_unit" v-model="census.SERIAL_NO_UNIT" type="text" aria-required="true">
 																	</div>
 
 																</td>
@@ -217,8 +217,7 @@
 																</td>
 																<td colspan="3">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="unit-name" placeholder="" required="required" name="name_of_unit" v-model="census.NAME_OF_UNIT"
-																		 type="text" aria-required="true">
+																		<input class="form-control input-uppercase" id="unit-name" placeholder="" required="required" name="name_of_unit" v-model="census.NAME_OF_UNIT" type="text" aria-required="true">
 																	</div>
 																</td>
 															</tr>
@@ -230,19 +229,18 @@
 																</td>
 																<td colspan="3" class="">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="mahallah-name" placeholder="" required="required" name="name_of_mahallah"
-																		 type="text" aria-required="true">
+																		<input class="form-control input-uppercase" id="mahallah-name" placeholder="" required="required" name="name_of_mahallah" v-model="census.NAME_OF_MAHALLAH"	type="text" >
 																	</div>
 																</td>
 															</tr>
 
 															<tr>
 																<td>
-																	<label for="house-name">২.৪ বাড়ি/মার্কেটের নাম</label>
+																	<label for="house-name">২.৪ বাড়ি / মার্কেটের নাম</label>
 																</td>
 																<td colspan="3">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="house-name" name="name_of_house" v-model="census.name_of_house" type="text">
+																		<input class="form-control input-uppercase" id="house-name" name="name_of_house" v-model="census.NAME_OF_HOUSE" type="text">
 																	</div>
 
 																</td>
