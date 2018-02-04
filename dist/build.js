@@ -11475,9 +11475,9 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'division_id\', \'district_id\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\') \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
+			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\') \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
 
-			stmt.run(Census.division_id, Census.district_id, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE);
+			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE);
 
 			store.emit('data-updated');
 		});
@@ -11485,22 +11485,26 @@
 
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			db.run('update census set \n\t\tdivision_id=?, \n\t\tdistrict_id=?, \n\t\tSERIAL_NO_UNIT=?, \n\t\tNAME_OF_UNIT=?, \n\t\tNAME_OF_MAHALLAH=?,\n\t\tNAME_OF_HOUSE=?,\n\t\tNO_NAME_OF_ROAD=?,\n\t\tFLOOR_LEVEL=?,\n\t\tHOLIDING_NO=?,\n\t\tPHONE=?,\n\t\tFAX=?,\n\t\tEMAIL=?,\n\t\tWEBSITE=?  \n\t\twhere ID=?', {
-				1: Census.division_id,
-				2: Census.district_id,
-				3: Census.SERIAL_NO_UNIT,
-				4: Census.NAME_OF_UNIT,
-				5: Census.NAME_OF_MAHALLAH,
-				6: Census.NAME_OF_HOUSE,
-				7: Census.NO_NAME_OF_ROAD,
-				8: Census.FLOOR_LEVEL,
-				9: Census.HOLIDING_NO,
-				10: Census.PHONE,
-				11: Census.FAX,
-				12: Census.EMAIL,
-				13: Census.WEBSITE,
+			db.run('update census set \n\t\tDIVISION_ID=?, \n\t\tDISTRICT_ID=?, \n\t\tTHANA_UPZ_ID=?, \n\t\tWARD_UNION_ID=?, \n\t\tMAHALLAH_ID=?, \n\t\tRMO_CODE=?, \n\t\tSERIAL_NO_UNIT=?, \n\t\tNAME_OF_UNIT=?, \n\t\tNAME_OF_MAHALLAH=?,\n\t\tNAME_OF_HOUSE=?,\n\t\tNO_NAME_OF_ROAD=?,\n\t\tFLOOR_LEVEL=?,\n\t\tHOLIDING_NO=?,\n\t\tPHONE=?,\n\t\tFAX=?,\n\t\tEMAIL=?,\n\t\tWEBSITE=?  \n\t\twhere ID=?', {
+				1: Census.DIVISION_ID,
+				2: Census.DISTRICT_ID,
+				3: Census.THANA_UPZ_ID,
+				4: Census.WARD_UNION_ID,
+				5: Census.MAHALLAH_ID,
+				6: Census.RMO_CODE,
+				7: Census.SERIAL_NO_UNIT,
+				8: Census.NAME_OF_UNIT,
+				9: Census.NAME_OF_MAHALLAH,
+				10: Census.NAME_OF_HOUSE,
+				11: Census.NO_NAME_OF_ROAD,
+				12: Census.FLOOR_LEVEL,
+				13: Census.HOLIDING_NO,
+				14: Census.PHONE,
+				15: Census.FAX,
+				16: Census.EMAIL,
+				17: Census.WEBSITE,
 
-				14: Census.ID
+				18: Census.ID
 			});
 			store.emit('data-updated');
 		});
@@ -11900,8 +11904,12 @@
 	      selectedCensus: "",
 	      census: {
 	        id: 0,
-	        division_id: 0,
-	        district_id: 0,
+	        DIVISION_ID: 0,
+	        DISTRICT_ID: 0,
+	        THANA_UPZ_ID: 0,
+	        WARD_UNION_ID: 0,
+	        MAHALLAH_ID: 0,
+	        RMO_CODE: 0,
 	        SERIAL_NO_UNIT: 0,
 	        NAME_OF_UNIT: "",
 	        NAME_OF_MAHALLAH: "",
@@ -12191,8 +12199,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.division_id),
-	      expression: "census.division_id"
+	      value: (_vm.census.DIVISION_ID),
+	      expression: "census.DIVISION_ID"
 	    }],
 	    staticClass: "select form-control",
 	    attrs: {
@@ -12210,42 +12218,21 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "division_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "DIVISION_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "value": ""
 	    }
-	  })]), _vm._v(" "), _c('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.census.division_id),
-	      expression: "census.division_id"
-	    }],
-	    attrs: {
-	      "name": "division_id",
-	      "type": "hidden",
-	      "value": "0"
-	    },
-	    domProps: {
-	      "value": (_vm.census.division_id)
-	    },
-	    on: {
-	      "input": function($event) {
-	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "division_id", $event.target.value)
-	      }
-	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(5), _vm._v(" "), _c('td', [_c('div', {
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(5), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.district_id),
-	      expression: "census.district_id"
+	      value: (_vm.census.DISTRICT_ID),
+	      expression: "census.DISTRICT_ID"
 	    }],
 	    staticClass: "select form-control",
 	    attrs: {
@@ -12263,42 +12250,21 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "district_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "DISTRICT_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "value": ""
 	    }
-	  })]), _vm._v(" "), _c('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.census.district_id),
-	      expression: "census.district_id"
-	    }],
-	    attrs: {
-	      "name": "district_id",
-	      "type": "hidden",
-	      "value": "0"
-	    },
-	    domProps: {
-	      "value": (_vm.census.district_id)
-	    },
-	    on: {
-	      "input": function($event) {
-	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "district_id", $event.target.value)
-	      }
-	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.thana_upz_id),
-	      expression: "census.thana_upz_id"
+	      value: (_vm.census.THANA_UPZ_ID),
+	      expression: "census.THANA_UPZ_ID"
 	    }],
 	    staticClass: "select form-control",
 	    attrs: {
@@ -12316,42 +12282,21 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "thana_upz_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "THANA_UPZ_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "value": ""
 	    }
-	  })]), _vm._v(" "), _c('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.census.thana_upz_id),
-	      expression: "census.thana_upz_id"
-	    }],
-	    attrs: {
-	      "name": "thana_upz_id",
-	      "type": "hidden",
-	      "value": "0"
-	    },
-	    domProps: {
-	      "value": (_vm.census.thana_upz_id)
-	    },
-	    on: {
-	      "input": function($event) {
-	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "thana_upz_id", $event.target.value)
-	      }
-	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(7), _vm._v(" "), _c('td', [_c('div', {
+	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(7), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.ward_union_id),
-	      expression: "census.ward_union_id"
+	      value: (_vm.census.WARD_UNION_ID),
+	      expression: "census.WARD_UNION_ID"
 	    }],
 	    staticClass: "select form-control select2-control select2-hidden-accessible",
 	    attrs: {
@@ -12369,7 +12314,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "ward_union_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "WARD_UNION_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -12383,8 +12328,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.mahallah_id),
-	      expression: "census.mahallah_id"
+	      value: (_vm.census.MAHALLAH_ID),
+	      expression: "census.MAHALLAH_ID"
 	    }],
 	    staticClass: "select form-control select2-control select2-hidden-accessible",
 	    attrs: {
@@ -12403,7 +12348,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "mahallah_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "MAHALLAH_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -12447,8 +12392,8 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.rmos), function(rmo) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "rmo.ID"
+	      domProps: {
+	        "value": rmo.ID
 	      }
 	    }, [_vm._v(_vm._s(rmo.NAME))])
 	  })], 2)])])])])]), _vm._v(" "), _c('td', {
@@ -12784,8 +12729,8 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.legal_ownerships), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
 	  })], 2)]), _vm._v(" "), _c('td', {
@@ -12825,8 +12770,8 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.type_of_ownerships), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
 	  })], 2)]), _vm._v(" "), _c('td', [_c('table', {
@@ -12865,8 +12810,8 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.genders), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
 	  })], 2)]), _vm._v(" "), _c('td', {
@@ -12931,8 +12876,8 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.educations), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
 	  })], 2)])])])])]), _vm._v(" "), _c('td', [_c('table', {
@@ -16998,7 +16943,7 @@
 	    staticClass: "icon-paperplane"
 	  }), _vm._v(" সাবমিট")])])])])])])])])])
 	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('thead', [_c('tr', [_c('th', [_vm._v("প্রাতিষ্ঠানিক আইডি নম্বর")]), _vm._v(" "), _c('th', [_vm._v("প্রতিষ্ঠানের নাম")]), _vm._v(" "), _c('th', [_vm._v("ইউনিট/কোম্পানীর ধরণ")]), _vm._v(" "), _c('th', [_vm._v("শুমারির বছর")]), _vm._v(" "), _c('th', [_vm._v("নিবন্ধিত কি?")]), _vm._v(" "), _c('th')])])
+	  return _c('thead', [_c('tr', [_c('th', [_vm._v("প্রতিষ্ঠানের আইডেন্টিফিকেশন নম্বর")]), _vm._v(" "), _c('th', [_vm._v("প্রতিষ্ঠানের নাম")]), _vm._v(" "), _c('th', [_vm._v("ইউনিট/কোম্পানীর ধরণ")]), _vm._v(" "), _c('th', [_vm._v("শুমারির বছর")]), _vm._v(" "), _c('th', [_vm._v("নিবন্ধিত কি?")]), _vm._v(" "), _c('th')])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('table', {
 	    staticClass: "main-form-structure table-full-width",

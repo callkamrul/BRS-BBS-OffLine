@@ -59,12 +59,16 @@ store.getCensus = function (catId, cb) {
 store.addCensus = (Census) => {
 	db.serialize(function () {
 		var stmt = db.prepare(`insert into census
-		('division_id', 'district_id', 'SERIAL_NO_UNIT', 'NAME_OF_UNIT', 'NAME_OF_MAHALLAH','NAME_OF_HOUSE', 'NO_NAME_OF_ROAD', 'FLOOR_LEVEL',
+		('DIVISION_ID', 'DISTRICT_ID', 'THANA_UPZ_ID', 'WARD_UNION_ID', 'MAHALLAH_ID', 'RMO_CODE', 'SERIAL_NO_UNIT', 'NAME_OF_UNIT', 'NAME_OF_MAHALLAH','NAME_OF_HOUSE', 'NO_NAME_OF_ROAD', 'FLOOR_LEVEL',
 	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE') 
-		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`);
+		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`);
 
-		stmt.run(Census.division_id,
-			Census.district_id,
+		stmt.run(Census.DIVISION_ID,
+			Census.DISTRICT_ID,
+			Census.THANA_UPZ_ID,
+			Census.WARD_UNION_ID,
+			Census.MAHALLAH_ID,
+			Census.RMO_CODE,
 			Census.SERIAL_NO_UNIT,
 			Census.NAME_OF_UNIT,
 			Census.NAME_OF_MAHALLAH,
@@ -85,8 +89,12 @@ store.addCensus = (Census) => {
 store.editCensus = (catId, Census) => {
 	db.serialize(function () {
 		db.run(`update census set 
-		division_id=?, 
-		district_id=?, 
+		DIVISION_ID=?, 
+		DISTRICT_ID=?, 
+		THANA_UPZ_ID=?, 
+		WARD_UNION_ID=?, 
+		MAHALLAH_ID=?, 
+		RMO_CODE=?, 
 		SERIAL_NO_UNIT=?, 
 		NAME_OF_UNIT=?, 
 		NAME_OF_MAHALLAH=?,
@@ -100,21 +108,25 @@ store.editCensus = (catId, Census) => {
 		WEBSITE=?  
 		where ID=?`,
 			{
-				1: Census.division_id,
-				2: Census.district_id,
-				3: Census.SERIAL_NO_UNIT,
-				4: Census.NAME_OF_UNIT,
-				5: Census.NAME_OF_MAHALLAH,
-				6: Census.NAME_OF_HOUSE,
-				7: Census.NO_NAME_OF_ROAD,
-				8: Census.FLOOR_LEVEL,
-				9: Census.HOLIDING_NO,
-				10: Census.PHONE,
-				11: Census.FAX,
-				12: Census.EMAIL,
-				13: Census.WEBSITE,
+				1: Census.DIVISION_ID,
+				2: Census.DISTRICT_ID,
+				3: Census.THANA_UPZ_ID,
+				4: Census.WARD_UNION_ID,
+				5: Census.MAHALLAH_ID,
+				6: Census.RMO_CODE,
+				7: Census.SERIAL_NO_UNIT,
+				8: Census.NAME_OF_UNIT,
+				9: Census.NAME_OF_MAHALLAH,
+				10: Census.NAME_OF_HOUSE,
+				11: Census.NO_NAME_OF_ROAD,
+				12: Census.FLOOR_LEVEL,
+				13: Census.HOLIDING_NO,
+				14: Census.PHONE,
+				15: Census.FAX,
+				16: Census.EMAIL,
+				17: Census.WEBSITE,
 				
-				14: Census.ID
+				18: Census.ID
 			});
 		store.emit('data-updated');
 	});

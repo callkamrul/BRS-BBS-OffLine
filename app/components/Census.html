@@ -13,7 +13,7 @@
 				<table class="table table-bordered ">
 					<thead>
 						<tr>
-							<th>প্রাতিষ্ঠানিক আইডি নম্বর</th>
+							<th>প্রতিষ্ঠানের আইডেন্টিফিকেশন নম্বর</th>
 							<th>প্রতিষ্ঠানের নাম</th>
 							<th>ইউনিট/কোম্পানীর ধরণ</th>
 							<th>শুমারির বছর</th>
@@ -107,10 +107,10 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="division-id" required="required" tabindex="-1" name="division_id" v-model="census.division_id" aria-required="true">
+																		<select class="select form-control" id="division-id" required="required" tabindex="-1" name="division_id" v-model="census.DIVISION_ID" aria-required="true">
 																			<option value=""></option>
 																		</select>
-																		<input name="division_id" v-model="census.division_id" type="hidden" value="0">
+																		<!-- <input name="division_id" v-model="census.DIVISION_ID" type="hidden" value="0"> -->
 																	</div>
 																</td>
 															</tr>
@@ -120,10 +120,10 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="district-id" required="required" tabindex="-1" name="district_id" v-model="census.district_id" aria-required="true">
+																		<select class="select form-control" id="district-id" required="required" tabindex="-1" name="district_id" v-model="census.DISTRICT_ID" aria-required="true">
 																			<option value=""></option>
 																		</select>
-																		<input name="district_id" v-model="census.district_id" type="hidden" value="0">
+																		<!-- <input name="district_id" v-model="census.DISTRICT_ID" type="hidden" value="0"> -->
 																	</div>
 																</td>
 															</tr>
@@ -133,10 +133,10 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="thana-upz-id" required="required" tabindex="-1" name="thana_upz_id" v-model="census.thana_upz_id" aria-required="true">
+																		<select class="select form-control" id="thana-upz-id" required="required" tabindex="-1" name="thana_upz_id" v-model="census.THANA_UPZ_ID" aria-required="true">
 																			<option value=""></option>
 																		</select>
-																		<input name="thana_upz_id" v-model="census.thana_upz_id" type="hidden" value="0">
+																		<!-- <input name="thana_upz_id" v-model="census.THANA_UPZ_ID" type="hidden" value="0"> -->
 																	</div>
 
 																</td>
@@ -148,7 +148,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-hidden-accessible" id="ward-union-id" name="ward_union_id" v-model="census.ward_union_id" tabindex="-1"
+																		<select class="select form-control select2-control select2-hidden-accessible" id="ward-union-id" name="ward_union_id" v-model="census.WARD_UNION_ID" tabindex="-1"
 																		 aria-hidden="true" aria-required="true">
 																			<option selected="selected" value=""></option>
 																		</select>
@@ -165,7 +165,7 @@
 																<td>
 																	<div class="form-group">
 
-																		<select class="select form-control select2-control select2-hidden-accessible" id="mahallah-id" required="required" name="mahallah_id" v-model="census.mahallah_id"
+																		<select class="select form-control select2-control select2-hidden-accessible" id="mahallah-id" required="required" name="mahallah_id" v-model="census.MAHALLAH_ID"
 																		 tabindex="-1" aria-hidden="true" aria-required="true">
 																			<option selected="selected" value=""></option>
 																		</select>
@@ -183,7 +183,7 @@
 																<td class="form-group ">
 																	<select id="rmo-code" class="select form-control" required="required" name="rmo_code" tabindex="-1" aria-hidden="true" aria-required="true" v-model="census.RMO_CODE">
 																		<option selected="selected" value=""></option>
-																		<option v-for="rmo in rmos" value="rmo.ID">{{rmo.NAME}}</option>
+																		<option v-for="rmo in rmos" :value="rmo.ID">{{rmo.NAME}}</option>
 																	</select>
 																</td>
 															</tr>
@@ -328,7 +328,7 @@
 													<select class="select form-control " id="legal-ownership-code" style="width: 500px"
 													 name="legal_ownership_code" tabindex="-1" aria-hidden="true">
 														<option selected="selected" value=""></option>
-														<option v-for="item in legal_ownerships" value="item.ID">{{item.NAME}}</option>
+														<option v-for="item in legal_ownerships" :value="item.ID">{{item.NAME}}</option>
 														
 													</select>
 													
@@ -337,7 +337,7 @@
 													<select class="select form-control " id="type-of-ownership" name="type_of_ownership" v-model="census.type_of_ownership"
 													 tabindex="-1" aria-hidden="true">
 														<option selected="selected" value=""></option>
-														<option v-for="item in type_of_ownerships" value="item.ID">{{item.NAME}}</option>
+														<option v-for="item in type_of_ownerships" :value="item.ID">{{item.NAME}}</option>
 													</select>
 													
 												</td>
@@ -354,7 +354,7 @@
 																	<select class="select form-control " id="head-gender-code" name="head_gender_code" v-model="census.head_gender_code"
 																	 tabindex="-1" aria-hidden="true">
 																		<option selected="selected" value=""></option>
-																		<option v-for="item in genders" value="item.ID">{{item.NAME}}</option>
+																		<option v-for="item in genders" :value="item.ID">{{item.NAME}}</option>
 																	</select>
 																	
 																</td>
@@ -366,7 +366,7 @@
 																	<select class="select form-control " id="head-education-code" name="head_education_code" v-model="census.head_education_code"
 																	 tabindex="-1" aria-hidden="true">
 																		<option selected="selected" value=""></option>
-																		<option v-for="item in educations" value="item.ID">{{item.NAME}}</option>
+																		<option v-for="item in educations" :value="item.ID">{{item.NAME}}</option>
 																		
 																	</select>
 																	
