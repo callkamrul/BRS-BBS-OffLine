@@ -29,7 +29,12 @@ export default {
         PHONE: "",
         FAX: "",
         EMAIL: "",
-        WEBSITE: ""
+        WEBSITE: "",
+        LEGAL_OWNERSHIP_CODE:0,
+        TYPE_OF_OWNERSHIP:0,
+        HEAD_GENDER_CODE:0,
+        HEAD_OF_UNIT_AGE:0,
+        HEAD_EDUCATION_CODE:0
 
       },
       rmos:[],

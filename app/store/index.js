@@ -60,8 +60,8 @@ store.addCensus = (Census) => {
 	db.serialize(function () {
 		var stmt = db.prepare(`insert into census
 		('DIVISION_ID', 'DISTRICT_ID', 'THANA_UPZ_ID', 'WARD_UNION_ID', 'MAHALLAH_ID', 'RMO_CODE', 'SERIAL_NO_UNIT', 'NAME_OF_UNIT', 'NAME_OF_MAHALLAH','NAME_OF_HOUSE', 'NO_NAME_OF_ROAD', 'FLOOR_LEVEL',
-	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE') 
-		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`);
+	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE) 
+		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`);
 
 		stmt.run(Census.DIVISION_ID,
 			Census.DISTRICT_ID,
@@ -79,7 +79,12 @@ store.addCensus = (Census) => {
 			Census.PHONE,
 			Census.FAX,
 			Census.EMAIL,
-			Census.WEBSITE
+			Census.WEBSITE,
+			Census.LEGAL_OWNERSHIP_CODE,
+			Census.TYPE_OF_OWNERSHIP,
+			Census.HEAD_GENDER_CODE,
+			Census.HEAD_OF_UNIT_AGE,
+			Census.HEAD_EDUCATION_CODE
 		);
 
 		store.emit('data-updated');
@@ -105,7 +110,12 @@ store.editCensus = (catId, Census) => {
 		PHONE=?,
 		FAX=?,
 		EMAIL=?,
-		WEBSITE=?  
+		WEBSITE=?,
+		LEGAL_OWNERSHIP_CODE=?,
+		TYPE_OF_OWNERSHIP=?,
+		HEAD_GENDER_CODE=?,
+		HEAD_OF_UNIT_AGE=?,
+		HEAD_EDUCATION_CODE=?,  
 		where ID=?`,
 			{
 				1: Census.DIVISION_ID,
@@ -125,8 +135,12 @@ store.editCensus = (catId, Census) => {
 				15: Census.FAX,
 				16: Census.EMAIL,
 				17: Census.WEBSITE,
-				
-				18: Census.ID
+				18: Census.LEGAL_OWNERSHIP_CODE,
+				19: Census.TYPE_OF_OWNERSHIP,
+				20: Census.HEAD_GENDER_CODE,
+				21: Census.HEAD_OF_UNIT_AGE,
+				22: Census.HEAD_EDUCATION_CODE,
+				23: Census.ID
 			});
 		store.emit('data-updated');
 	});

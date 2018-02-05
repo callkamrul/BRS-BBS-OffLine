@@ -11475,9 +11475,9 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\') \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
+			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
 
-			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE);
+			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE);
 
 			store.emit('data-updated');
 		});
@@ -11485,7 +11485,7 @@
 
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			db.run('update census set \n\t\tDIVISION_ID=?, \n\t\tDISTRICT_ID=?, \n\t\tTHANA_UPZ_ID=?, \n\t\tWARD_UNION_ID=?, \n\t\tMAHALLAH_ID=?, \n\t\tRMO_CODE=?, \n\t\tSERIAL_NO_UNIT=?, \n\t\tNAME_OF_UNIT=?, \n\t\tNAME_OF_MAHALLAH=?,\n\t\tNAME_OF_HOUSE=?,\n\t\tNO_NAME_OF_ROAD=?,\n\t\tFLOOR_LEVEL=?,\n\t\tHOLIDING_NO=?,\n\t\tPHONE=?,\n\t\tFAX=?,\n\t\tEMAIL=?,\n\t\tWEBSITE=?  \n\t\twhere ID=?', {
+			db.run('update census set \n\t\tDIVISION_ID=?, \n\t\tDISTRICT_ID=?, \n\t\tTHANA_UPZ_ID=?, \n\t\tWARD_UNION_ID=?, \n\t\tMAHALLAH_ID=?, \n\t\tRMO_CODE=?, \n\t\tSERIAL_NO_UNIT=?, \n\t\tNAME_OF_UNIT=?, \n\t\tNAME_OF_MAHALLAH=?,\n\t\tNAME_OF_HOUSE=?,\n\t\tNO_NAME_OF_ROAD=?,\n\t\tFLOOR_LEVEL=?,\n\t\tHOLIDING_NO=?,\n\t\tPHONE=?,\n\t\tFAX=?,\n\t\tEMAIL=?,\n\t\tWEBSITE=?,\n\t\tLEGAL_OWNERSHIP_CODE=?,\n\t\tTYPE_OF_OWNERSHIP=?,\n\t\tHEAD_GENDER_CODE=?,\n\t\tHEAD_OF_UNIT_AGE=?,\n\t\tHEAD_EDUCATION_CODE=?,  \n\t\twhere ID=?', {
 				1: Census.DIVISION_ID,
 				2: Census.DISTRICT_ID,
 				3: Census.THANA_UPZ_ID,
@@ -11503,8 +11503,12 @@
 				15: Census.FAX,
 				16: Census.EMAIL,
 				17: Census.WEBSITE,
-
-				18: Census.ID
+				18: Census.LEGAL_OWNERSHIP_CODE,
+				19: Census.TYPE_OF_OWNERSHIP,
+				20: Census.HEAD_GENDER_CODE,
+				21: Census.HEAD_OF_UNIT_AGE,
+				22: Census.HEAD_EDUCATION_CODE,
+				23: Census.ID
 			});
 			store.emit('data-updated');
 		});
@@ -11920,7 +11924,12 @@
 	        PHONE: "",
 	        FAX: "",
 	        EMAIL: "",
-	        WEBSITE: ""
+	        WEBSITE: "",
+	        LEGAL_OWNERSHIP_CODE: 0,
+	        TYPE_OF_OWNERSHIP: 0,
+	        HEAD_GENDER_CODE: 0,
+	        HEAD_OF_UNIT_AGE: 0,
+	        HEAD_EDUCATION_CODE: 0
 
 	      },
 	      rmos: [],
@@ -12712,6 +12721,12 @@
 	      "rowspan": "2"
 	    }
 	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LEGAL_OWNERSHIP_CODE),
+	      expression: "census.LEGAL_OWNERSHIP_CODE"
+	    }],
 	    staticClass: "select form-control ",
 	    staticStyle: {
 	      "width": "500px"
@@ -12721,6 +12736,17 @@
 	      "name": "legal_ownership_code",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "LEGAL_OWNERSHIP_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -12742,8 +12768,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.type_of_ownership),
-	      expression: "census.type_of_ownership"
+	      value: (_vm.census.TYPE_OF_OWNERSHIP),
+	      expression: "census.TYPE_OF_OWNERSHIP"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -12760,7 +12786,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "type_of_ownership", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "TYPE_OF_OWNERSHIP", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -12782,8 +12808,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_gender_code),
-	      expression: "census.head_gender_code"
+	      value: (_vm.census.HEAD_GENDER_CODE),
+	      expression: "census.HEAD_GENDER_CODE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -12800,7 +12826,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_gender_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HEAD_GENDER_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -12820,8 +12846,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_of_unit_age),
-	      expression: "census.head_of_unit_age"
+	      value: (_vm.census.HEAD_OF_UNIT_AGE),
+	      expression: "census.HEAD_OF_UNIT_AGE"
 	    }],
 	    staticClass: "form-control input-small",
 	    attrs: {
@@ -12834,12 +12860,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_of_unit_age)
+	      "value": (_vm.census.HEAD_OF_UNIT_AGE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_of_unit_age", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OF_UNIT_AGE", $event.target.value)
 	      }
 	    }
 	  })]), _vm._v(" "), _c('td', {
@@ -12848,8 +12874,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_education_code),
-	      expression: "census.head_education_code"
+	      value: (_vm.census.HEAD_EDUCATION_CODE),
+	      expression: "census.HEAD_EDUCATION_CODE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -12866,7 +12892,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_education_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HEAD_EDUCATION_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {

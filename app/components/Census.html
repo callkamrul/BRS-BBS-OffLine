@@ -325,8 +325,7 @@
 													</table>
 												</td>
 												<td rowspan="2" class="padding-10 valign-middle">
-													<select class="select form-control " id="legal-ownership-code" style="width: 500px"
-													 name="legal_ownership_code" tabindex="-1" aria-hidden="true">
+													<select class="select form-control " id="legal-ownership-code" style="width: 500px" name="legal_ownership_code" v-model="census.LEGAL_OWNERSHIP_CODE" tabindex="-1" aria-hidden="true">
 														<option selected="selected" value=""></option>
 														<option v-for="item in legal_ownerships" :value="item.ID">{{item.NAME}}</option>
 														
@@ -334,8 +333,7 @@
 													
 												</td>
 												<td rowspan="2" class="padding-10 valign-middle">
-													<select class="select form-control " id="type-of-ownership" name="type_of_ownership" v-model="census.type_of_ownership"
-													 tabindex="-1" aria-hidden="true">
+													<select class="select form-control " id="type-of-ownership" name="type_of_ownership" v-model="census.TYPE_OF_OWNERSHIP"  tabindex="-1" aria-hidden="true">
 														<option selected="selected" value=""></option>
 														<option v-for="item in type_of_ownerships" :value="item.ID">{{item.NAME}}</option>
 													</select>
@@ -351,8 +349,7 @@
 															</tr>
 															<tr>
 																<td class="padding-10">
-																	<select class="select form-control " id="head-gender-code" name="head_gender_code" v-model="census.head_gender_code"
-																	 tabindex="-1" aria-hidden="true">
+																	<select class="select form-control " id="head-gender-code" name="head_gender_code" v-model="census.HEAD_GENDER_CODE"  tabindex="-1" aria-hidden="true">
 																		<option selected="selected" value=""></option>
 																		<option v-for="item in genders" :value="item.ID">{{item.NAME}}</option>
 																	</select>
@@ -360,11 +357,10 @@
 																</td>
 																<td class="padding-10">
 																	<input class="form-control input-small" id="head-unit-age" min="0" placeholder="(পূর্ণ বছরে লিখুন)" pattern="[0-9]" maxlength="2"
-																	 name="head_of_unit_age" v-model="census.head_of_unit_age" type="text">
+																	 name="head_of_unit_age" v-model="census.HEAD_OF_UNIT_AGE" type="text">
 																</td>
 																<td class="padding-10">
-																	<select class="select form-control " id="head-education-code" name="head_education_code" v-model="census.head_education_code"
-																	 tabindex="-1" aria-hidden="true">
+																	<select class="select form-control " id="head-education-code" name="head_education_code" v-model="census.HEAD_EDUCATION_CODE"  tabindex="-1" aria-hidden="true">
 																		<option selected="selected" value=""></option>
 																		<option v-for="item in educations" :value="item.ID">{{item.NAME}}</option>
 																		
