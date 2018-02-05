@@ -11485,31 +11485,8 @@
 
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			db.run('update census set \n\t\tDIVISION_ID=?, \n\t\tDISTRICT_ID=?, \n\t\tTHANA_UPZ_ID=?, \n\t\tWARD_UNION_ID=?, \n\t\tMAHALLAH_ID=?, \n\t\tRMO_CODE=?, \n\t\tSERIAL_NO_UNIT=?, \n\t\tNAME_OF_UNIT=?, \n\t\tNAME_OF_MAHALLAH=?,\n\t\tNAME_OF_HOUSE=?,\n\t\tNO_NAME_OF_ROAD=?,\n\t\tFLOOR_LEVEL=?,\n\t\tHOLIDING_NO=?,\n\t\tPHONE=?,\n\t\tFAX=?,\n\t\tEMAIL=?,\n\t\tWEBSITE=?,\n\t\tLEGAL_OWNERSHIP_CODE=?,\n\t\tTYPE_OF_OWNERSHIP=?,\n\t\tHEAD_GENDER_CODE=?,\n\t\tHEAD_OF_UNIT_AGE=?,\n\t\tHEAD_EDUCATION_CODE=?,  \n\t\twhere ID=?', {
-				1: Census.DIVISION_ID,
-				2: Census.DISTRICT_ID,
-				3: Census.THANA_UPZ_ID,
-				4: Census.WARD_UNION_ID,
-				5: Census.MAHALLAH_ID,
-				6: Census.RMO_CODE,
-				7: Census.SERIAL_NO_UNIT,
-				8: Census.NAME_OF_UNIT,
-				9: Census.NAME_OF_MAHALLAH,
-				10: Census.NAME_OF_HOUSE,
-				11: Census.NO_NAME_OF_ROAD,
-				12: Census.FLOOR_LEVEL,
-				13: Census.HOLIDING_NO,
-				14: Census.PHONE,
-				15: Census.FAX,
-				16: Census.EMAIL,
-				17: Census.WEBSITE,
-				18: Census.LEGAL_OWNERSHIP_CODE,
-				19: Census.TYPE_OF_OWNERSHIP,
-				20: Census.HEAD_GENDER_CODE,
-				21: Census.HEAD_OF_UNIT_AGE,
-				22: Census.HEAD_EDUCATION_CODE,
-				23: Census.ID
-			});
+			var sql = 'update census set \n\t\tDIVISION_ID=' + Census.DIVISION_ID + ', \n\t\tDISTRICT_ID=' + Census.DISTRICT_ID + ', \n\t\tTHANA_UPZ_ID=' + Census.THANA_UPZ_ID + ', \n\t\tWARD_UNION_ID=' + Census.WARD_UNION_ID + ', \n\t\tMAHALLAH_ID=' + Census.MAHALLAH_ID + ', \n\t\tRMO_CODE=' + Census.RMO_CODE + ', \n\t\tSERIAL_NO_UNIT=\'' + Census.SERIAL_NO_UNIT + '\', \n\t\tNAME_OF_UNIT=\'' + Census.NAME_OF_UNIT + '\', \n\t\tNAME_OF_MAHALLAH=\'' + Census.NAME_OF_MAHALLAH + '\',\n\t\tNAME_OF_HOUSE=\'' + Census.NAME_OF_HOUSE + '\',\n\t\tNO_NAME_OF_ROAD=\'' + Census.NO_NAME_OF_ROAD + '\',\n\t\tFLOOR_LEVEL=\'' + Census.FLOOR_LEVEL + '\',\n\t\tHOLIDING_NO=\'' + Census.HOLIDING_NO + '\',\n\t\tPHONE=\'' + Census.PHONE + '\',\n\t\tFAX=\'' + Census.FAX + '\',\n\t\tEMAIL=\'' + Census.EMAIL + '\',\n\t\tWEBSITE=\'' + Census.WEBSITE + '\',\n\t\tLEGAL_OWNERSHIP_CODE=' + Census.LEGAL_OWNERSHIP_CODE + ',\n\t\tTYPE_OF_OWNERSHIP=' + Census.TYPE_OF_OWNERSHIP + ',\n\t\tHEAD_GENDER_CODE=' + Census.HEAD_GENDER_CODE + ',\n\t\tHEAD_OF_UNIT_AGE=' + Census.HEAD_OF_UNIT_AGE + ',\n\t\tHEAD_EDUCATION_CODE=' + Census.HEAD_EDUCATION_CODE + '\n\t\twhere ID=' + Census.ID;
+			db.run(sql);
 			store.emit('data-updated');
 		});
 	};
