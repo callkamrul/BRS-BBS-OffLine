@@ -12029,6 +12029,12 @@
 	    },
 	    syncDownSetup: function syncDownSetup() {
 	      alert('test');
+	      var vm = this;
+	      axios.get('http://192.168.50.14/api/divisions').then(function (response) {
+	        vm.divisions = response.data;
+	      });
+
+	      console.log(vm.divisions);
 	    },
 	    syncUpCensus: function syncUpCensus(CensusID) {
 	      if (confirm("Are you sure to Sync this Census?")) {

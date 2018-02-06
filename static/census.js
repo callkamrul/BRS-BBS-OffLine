@@ -541,161 +541,161 @@ jQuery(document).ready(function($) {
 	var census_form = $('#census-form, #census-edit-form');
 
 	// Validation for open 'year' field.
-	var year_rules_set = {
-		number: true,
-		minlength: 4,
-		maxlength: 4
-	};
-	var year_rules_message = 'It&rsquo;s not a valid year';
+	// var year_rules_set = {
+	// 	number: true,
+	// 	minlength: 4,
+	// 	maxlength: 4
+	// };
+	// var year_rules_message = 'It&rsquo;s not a valid year';
 
-	var number_rules_set = {
-		number: true
-	}
-		var number_rules_message = 'It&rsquo;s not a valid amount';
+	// var number_rules_set = {
+	// 	number: true
+	// }
+	// 	var number_rules_message = 'It&rsquo;s not a valid amount';
 
-	census_form.validate({
-        ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
-        errorClass: 'validation-error-label text-danger small',
-        successClass: 'validation-valid-label',
-        highlight: function(element, errorClass) {
-            $(element).removeClass(errorClass);
-            $(element).closest('.form-group').addClass('has-error');
-            $(element).closest('.inner-panel-for-accordion').addClass('has-error');
-        },
-        unhighlight: function(element, errorClass) {
-            $(element).removeClass(errorClass);
-            $(element).closest('.form-group').removeClass('has-error');
-            $(element).closest('.inner-panel-for-accordion').removeClass('has-error');
-        },
+	// census_form.validate({
+    //     ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
+    //     errorClass: 'validation-error-label text-danger small',
+    //     successClass: 'validation-valid-label',
+    //     highlight: function(element, errorClass) {
+    //         $(element).removeClass(errorClass);
+    //         $(element).closest('.form-group').addClass('has-error');
+    //         $(element).closest('.inner-panel-for-accordion').addClass('has-error');
+    //     },
+    //     unhighlight: function(element, errorClass) {
+    //         $(element).removeClass(errorClass);
+    //         $(element).closest('.form-group').removeClass('has-error');
+    //         $(element).closest('.inner-panel-for-accordion').removeClass('has-error');
+    //     },
 
-        onkeyup: function( element, event ) {
-            $(element).valid();
-        },
+    //     onkeyup: function( element, event ) {
+    //         $(element).valid();
+    //     },
 
-        // Different components require proper error label placement
-        errorPlacement: function(error, element) {
+    //     // Different components require proper error label placement
+    //     errorPlacement: function(error, element) {
 
-            // Styled checkboxes, radios, bootstrap switch
-            if (element.parents('div').hasClass("checker") || element.parents('div').hasClass("choice") || element.parent().hasClass('bootstrap-switch-container') ) {
-                if(element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
-                    error.appendTo( element.parent().parent().parent().parent() );
-                }
-                 else {
-                    error.appendTo( element.parent().parent().parent().parent().parent() );
-                }
-            }
+    //         // Styled checkboxes, radios, bootstrap switch
+    //         if (element.parents('div').hasClass("checker") || element.parents('div').hasClass("choice") || element.parent().hasClass('bootstrap-switch-container') ) {
+    //             if(element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
+    //                 error.appendTo( element.parent().parent().parent().parent() );
+    //             }
+    //              else {
+    //                 error.appendTo( element.parent().parent().parent().parent().parent() );
+    //             }
+    //         }
 
-            // Unstyled checkboxes, radios
-            else if (element.parents('div').hasClass('checkbox') || element.parents('div').hasClass('radio')) {
-                error.appendTo( element.parent().parent().parent() );
-            }
+    //         // Unstyled checkboxes, radios
+    //         else if (element.parents('div').hasClass('checkbox') || element.parents('div').hasClass('radio')) {
+    //             error.appendTo( element.parent().parent().parent() );
+    //         }
 
-            // Input with icons and Select2
-            else if (element.parents('div').hasClass('has-feedback') || element.hasClass('select2-hidden-accessible')) {
-                error.appendTo( element.parent() );
-            }
+    //         // Input with icons and Select2
+    //         else if (element.parents('div').hasClass('has-feedback') || element.hasClass('select2-hidden-accessible')) {
+    //             error.appendTo( element.parent() );
+    //         }
 
-            // Inline checkboxes, radios
-            else if (element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
-                error.appendTo( element.parent().parent() );
-            }
+    //         // Inline checkboxes, radios
+    //         else if (element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
+    //             error.appendTo( element.parent().parent() );
+    //         }
 
-            // Input group, styled file input
-            else if (element.parent().hasClass('uploader') || element.parents().hasClass('input-group')) {
-                error.appendTo( element.parent().parent() );
-            }
+    //         // Input group, styled file input
+    //         else if (element.parent().hasClass('uploader') || element.parents().hasClass('input-group')) {
+    //             error.appendTo( element.parent().parent() );
+    //         }
 
-            else {
-                error.insertAfter(element);
-            }
-        },
-        rules: {
-        	provider_nid: {
-        		exactlengths: [17, 23]
-        	},
-        	serial_no_unit: {
-        		minlength: 3,
-				number: true
-        	},
-        	head_of_unit_age: {
-        		accepted_age: [15, 99] // http://stackoverflow.com/a/40872784/1743124
-        	},
-        	year_of_establishment: year_rules_set,
-        	year_of_inception: year_rules_set,
-        	tmp_closed_reopen_year: year_rules_set,
-        	tmp_permanently_close_year: year_rules_set,
-			current_capital_amount: number_rules_set,
-			total_assets_amount:number_rules_set,
-			yearly_turnover:number_rules_set,
-			last_year_invested_capital:number_rules_set,
-			foreign_res_investment:number_rules_set,
-			last_year_prod_raw_materials:number_rules_set,
-			last_year_salary_amount:number_rules_set,
-			last_year_other_expenses_sum:number_rules_set,
-			loan_last_year:number_rules_set,
-			loan_received_2016_2017:number_rules_set,
-			male_owner:number_rules_set,
-			female_owner:number_rules_set,
-			male_unpaid_worker:number_rules_set,
-			female_unpaid_worker:number_rules_set,
-			male_fulltime_worker:number_rules_set,
-			female_fulltime_worker:number_rules_set,
-			male_pertime_worker:number_rules_set,
-			female_pertime_worker:number_rules_set,
-			male_casual_worker:number_rules_set,
-			female_casual_worker:number_rules_set,
-			male_seasonal_worker:number_rules_set,
-			female_seasonal_worker:number_rules_set,
-			male_foreign_worker:number_rules_set,
-			female_foreign_worker:number_rules_set,
-			trade_license_number:number_rules_set
-        },
-        messages: {
-        	serial_no_unit: {
-        		minlength: 'Minimum 3 digit is required',
-				number: '3 digit are numbers only'
-        	},
-        	year_of_establishment: year_rules_message,
-        	year_of_inception: year_rules_message,
-        	tmp_closed_reopen_year: year_rules_message,
-        	tmp_permanently_close_year: year_rules_message,
-			current_capital_amount:number_rules_message,
-			total_assets_amount:number_rules_message,
-			yearly_turnover:number_rules_message,
-			last_year_invested_capital:number_rules_message,
-			foreign_res_investment:number_rules_message,
-			last_year_prod_raw_materials:number_rules_message,
-			last_year_salary_amount:number_rules_message,
-			last_year_other_expenses_sum:number_rules_message,
-			loan_last_year:number_rules_message,
-			loan_received_2016_2017:number_rules_message,
-			male_owner:number_rules_message,
-			female_owner:number_rules_message,
-			male_unpaid_worker:number_rules_message,
-			female_unpaid_worker:number_rules_message,
-			male_fulltime_worker:number_rules_message,
-			female_fulltime_worker:number_rules_message,
-			male_pertime_worker:number_rules_message,
-			female_pertime_worker:number_rules_message,
-			male_casual_worker:number_rules_message,
-			female_casual_worker:number_rules_message,
-			male_seasonal_worker:number_rules_message,
-			female_seasonal_worker:number_rules_message,
-			male_foreign_worker:number_rules_message,
-			female_foreign_worker:number_rules_message,
-			trade_license_number:number_rules_message
-        }
-    });
+    //         else {
+    //             error.insertAfter(element);
+    //         }
+    //     },
+    //     rules: {
+    //     	provider_nid: {
+    //     		exactlengths: [17, 23]
+    //     	},
+    //     	serial_no_unit: {
+    //     		minlength: 3,
+	// 			number: true
+    //     	},
+    //     	head_of_unit_age: {
+    //     		accepted_age: [15, 99] // http://stackoverflow.com/a/40872784/1743124
+    //     	},
+    //     	year_of_establishment: year_rules_set,
+    //     	year_of_inception: year_rules_set,
+    //     	tmp_closed_reopen_year: year_rules_set,
+    //     	tmp_permanently_close_year: year_rules_set,
+	// 		current_capital_amount: number_rules_set,
+	// 		total_assets_amount:number_rules_set,
+	// 		yearly_turnover:number_rules_set,
+	// 		last_year_invested_capital:number_rules_set,
+	// 		foreign_res_investment:number_rules_set,
+	// 		last_year_prod_raw_materials:number_rules_set,
+	// 		last_year_salary_amount:number_rules_set,
+	// 		last_year_other_expenses_sum:number_rules_set,
+	// 		loan_last_year:number_rules_set,
+	// 		loan_received_2016_2017:number_rules_set,
+	// 		male_owner:number_rules_set,
+	// 		female_owner:number_rules_set,
+	// 		male_unpaid_worker:number_rules_set,
+	// 		female_unpaid_worker:number_rules_set,
+	// 		male_fulltime_worker:number_rules_set,
+	// 		female_fulltime_worker:number_rules_set,
+	// 		male_pertime_worker:number_rules_set,
+	// 		female_pertime_worker:number_rules_set,
+	// 		male_casual_worker:number_rules_set,
+	// 		female_casual_worker:number_rules_set,
+	// 		male_seasonal_worker:number_rules_set,
+	// 		female_seasonal_worker:number_rules_set,
+	// 		male_foreign_worker:number_rules_set,
+	// 		female_foreign_worker:number_rules_set,
+	// 		trade_license_number:number_rules_set
+    //     },
+    //     messages: {
+    //     	serial_no_unit: {
+    //     		minlength: 'Minimum 3 digit is required',
+	// 			number: '3 digit are numbers only'
+    //     	},
+    //     	year_of_establishment: year_rules_message,
+    //     	year_of_inception: year_rules_message,
+    //     	tmp_closed_reopen_year: year_rules_message,
+    //     	tmp_permanently_close_year: year_rules_message,
+	// 		current_capital_amount:number_rules_message,
+	// 		total_assets_amount:number_rules_message,
+	// 		yearly_turnover:number_rules_message,
+	// 		last_year_invested_capital:number_rules_message,
+	// 		foreign_res_investment:number_rules_message,
+	// 		last_year_prod_raw_materials:number_rules_message,
+	// 		last_year_salary_amount:number_rules_message,
+	// 		last_year_other_expenses_sum:number_rules_message,
+	// 		loan_last_year:number_rules_message,
+	// 		loan_received_2016_2017:number_rules_message,
+	// 		male_owner:number_rules_message,
+	// 		female_owner:number_rules_message,
+	// 		male_unpaid_worker:number_rules_message,
+	// 		female_unpaid_worker:number_rules_message,
+	// 		male_fulltime_worker:number_rules_message,
+	// 		female_fulltime_worker:number_rules_message,
+	// 		male_pertime_worker:number_rules_message,
+	// 		female_pertime_worker:number_rules_message,
+	// 		male_casual_worker:number_rules_message,
+	// 		female_casual_worker:number_rules_message,
+	// 		male_seasonal_worker:number_rules_message,
+	// 		female_seasonal_worker:number_rules_message,
+	// 		male_foreign_worker:number_rules_message,
+	// 		female_foreign_worker:number_rules_message,
+	// 		trade_license_number:number_rules_message
+    //     }
+    // });
 
-    // override jquery validate plugin defaults
-    $.validator.setDefaults({
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        }
-    });
+    // // override jquery validate plugin defaults
+    // $.validator.setDefaults({
+    //     highlight: function(element) {
+    //         $(element).closest('.form-group').addClass('has-error');
+    //     },
+    //     unhighlight: function(element) {
+    //         $(element).closest('.form-group').removeClass('has-error');
+    //     }
+    // });
 
 
     /**
@@ -704,17 +704,17 @@ jQuery(document).ready(function($) {
      *
      * http://stackoverflow.com/a/40872784/1743124
      */
-    jQuery.validator.addMethod("exactlengths", function(value, element, params) {
-        return this.optional(element) || (value.length == params[0] || value.length == params[1]);
-    }, jQuery.validator.format("Only {0} or {1} characters are accepted"));
+    // jQuery.validator.addMethod("exactlengths", function(value, element, params) {
+    //     return this.optional(element) || (value.length == params[0] || value.length == params[1]);
+    // }, jQuery.validator.format("Only {0} or {1} characters are accepted"));
 
     /**
      * Custom method for jQuery Validation.
      * To verify age between {1} and {2}.
      * http://stackoverflow.com/a/40872784/1743124
      */
-    jQuery.validator.addMethod( 'accepted_age', function(value, element, params) {
-        return this.optional(element) || (value >= params[0] && value <= params[1]);
-    }, jQuery.validator.format('Age between {0} and {1} is accepted') );
+    // jQuery.validator.addMethod( 'accepted_age', function(value, element, params) {
+    //     return this.optional(element) || (value >= params[0] && value <= params[1]);
+    // }, jQuery.validator.format('Age between {0} and {1} is accepted') );
 
 });
