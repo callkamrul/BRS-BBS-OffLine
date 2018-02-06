@@ -10924,8 +10924,12 @@
 	// On some exotic environments, it's not clear which object `setimmeidate` was
 	// able to install onto.  Search each possibility in the same order as the
 	// `setimmediate` library.
-	exports.setImmediate = self && self.setImmediate || global && global.setImmediate || this && this.setImmediate;
-	exports.clearImmediate = self && self.clearImmediate || global && global.clearImmediate || this && this.clearImmediate;
+	exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
+	                       (typeof global !== "undefined" && global.setImmediate) ||
+	                       (this && this.setImmediate);
+	exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
+	                         (typeof global !== "undefined" && global.clearImmediate) ||
+	                         (this && this.clearImmediate);
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -11335,7 +11339,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "D:\\source\\BRS-BBS-OffLine\\app\\App.vue"
+	__vue_options__.__file = "D:\\Nazmul\\Projects\\BRS-BBS-OffLine\\app\\App.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -11346,9 +11350,9 @@
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-73fb6de0", __vue_options__)
+	    hotAPI.createRecord("data-v-0cd6a44e", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-73fb6de0", __vue_options__)
+	    hotAPI.reload("data-v-0cd6a44e", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] App.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -11832,7 +11836,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "D:\\source\\BRS-BBS-OffLine\\app\\components\\Census.vue"
+	__vue_options__.__file = "D:\\Nazmul\\Projects\\BRS-BBS-OffLine\\app\\components\\Census.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -11843,9 +11847,9 @@
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-a55ec00c", __vue_options__)
+	    hotAPI.createRecord("data-v-330d76b8", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-a55ec00c", __vue_options__)
+	    hotAPI.reload("data-v-330d76b8", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Census.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -18480,7 +18484,7 @@
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-a55ec00c", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-330d76b8", module.exports)
 	  }
 	}
 
@@ -18502,7 +18506,7 @@
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-73fb6de0", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-0cd6a44e", module.exports)
 	  }
 	}
 
