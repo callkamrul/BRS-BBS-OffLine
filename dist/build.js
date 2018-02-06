@@ -12026,6 +12026,14 @@
 	      if (confirm("Are you sure to delete this Census?")) {
 	        _store2.default.deleteCensus(CensusId);
 	      }
+	    },
+	    syncDownSetup: function syncDownSetup() {
+	      alert('test');
+	    },
+	    syncUpCensus: function syncUpCensus(CensusID) {
+	      if (confirm("Are you sure to Sync this Census?")) {
+	        alert('ok');
+	      }
 	    }
 	  }
 	};
@@ -12094,7 +12102,24 @@
 	    }
 	  }, [_c('i', {
 	    staticClass: "icon-paperplane"
-	  }), _vm._v(" সাবমিট")])])]), _vm._v(" "), _c('div', {
+	  }), _vm._v(" সাবমিট")]), _vm._v(" "), _c('button', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.isEdit == false),
+	      expression: "isEdit==false"
+	    }],
+	    staticClass: "btn",
+	    attrs: {
+	      "type": "button",
+	      "value": "submit"
+	    },
+	    on: {
+	      "click": _vm.syncDownSetup
+	    }
+	  }, [_c('i', {
+	    staticClass: "fa fa-arrow-circle-down"
+	  }), _vm._v(" Sync Setup")])])]), _vm._v(" "), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12127,7 +12152,16 @@
 	      }
 	    }, [_c('i', {
 	      staticClass: "remove fa fa-trash"
-	    }), _vm._v(" Delete")])])])
+	    }), _vm._v(" Delete")]), _vm._v(" "), _c('button', {
+	      staticClass: "btn btn-success",
+	      on: {
+	        "click": function($event) {
+	          _vm.syncUpCensus(id)
+	        }
+	      }
+	    }, [_c('i', {
+	      staticClass: "fa fa-arrow-circle-up"
+	    }), _vm._v(" Sync Up")])])])
 	  }))])])])]), _vm._v(" "), _c('div', {
 	    directives: [{
 	      name: "show",

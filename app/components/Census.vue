@@ -149,6 +149,14 @@ export default {
       if (confirm("Are you sure to delete this Census?")) {
         store.deleteCensus(CensusId);
       }
+    },
+    syncDownSetup() {
+      alert('test');
+    },
+    syncUpCensus(CensusID) {
+      if (confirm("Are you sure to Sync this Census?")) {
+        alert('ok');
+      }
     }
   }
 };
