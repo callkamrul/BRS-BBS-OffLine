@@ -60,8 +60,10 @@ store.addCensus = (Census) => {
 	db.serialize(function () {
 		var stmt = db.prepare(`insert into census
 		('DIVISION_ID', 'DISTRICT_ID', 'THANA_UPZ_ID', 'WARD_UNION_ID', 'MAHALLAH_ID', 'RMO_CODE', 'SERIAL_NO_UNIT', 'NAME_OF_UNIT', 'NAME_OF_MAHALLAH','NAME_OF_HOUSE', 'NO_NAME_OF_ROAD', 'FLOOR_LEVEL',
-	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE) 
-		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`);
+	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE
+	    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,
+	    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE) 
+		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`);
 
 		stmt.run(Census.DIVISION_ID,
 			Census.DISTRICT_ID,
@@ -84,7 +86,17 @@ store.addCensus = (Census) => {
 			Census.TYPE_OF_OWNERSHIP,
 			Census.HEAD_GENDER_CODE,
 			Census.HEAD_OF_UNIT_AGE,
-			Census.HEAD_EDUCATION_CODE
+			Census.HEAD_EDUCATION_CODE,
+			Census.HEAD_OFFICE_NAME,
+			Census.HEAD_OFFICE_MAHALLAH,
+			Census.HEAD_OFFICE_HOUSE,
+			Census.HEAD_OFFICE_ROAD,
+			Census.HEAD_OFFICE_FLOOR_LEVEL,
+			Census.HEAD_OFFICE_HOLIDING_NO,
+			Census.HEAD_OFFICE_PHONE,
+			Census.HEAD_OFFICE_FAX,
+			Census.HEAD_OFFICE_EMAIL,
+			Census.HEAD_OFFICE_WEBSITE,
 		);
 
 		store.emit('data-updated');

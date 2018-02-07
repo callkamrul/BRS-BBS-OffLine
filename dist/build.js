@@ -11479,9 +11479,9 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
+			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE\n\t    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,\n\t    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
 
-			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE);
+			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE, Census.HEAD_OFFICE_NAME, Census.HEAD_OFFICE_MAHALLAH, Census.HEAD_OFFICE_HOUSE, Census.HEAD_OFFICE_ROAD, Census.HEAD_OFFICE_FLOOR_LEVEL, Census.HEAD_OFFICE_HOLIDING_NO, Census.HEAD_OFFICE_PHONE, Census.HEAD_OFFICE_FAX, Census.HEAD_OFFICE_EMAIL, Census.HEAD_OFFICE_WEBSITE);
 
 			store.emit('data-updated');
 		});
@@ -13195,8 +13195,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_name),
-	      expression: "census.head_office_name"
+	      value: (_vm.census.HEAD_OFFICE_NAME),
+	      expression: "census.HEAD_OFFICE_NAME"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -13205,12 +13205,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_name)
+	      "value": (_vm.census.HEAD_OFFICE_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_name", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_NAME", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(30), _vm._v(" "), _c('td', {
@@ -13223,8 +13223,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_mahallah),
-	      expression: "census.head_office_mahallah"
+	      value: (_vm.census.HEAD_OFFICE_MAHALLAH),
+	      expression: "census.HEAD_OFFICE_MAHALLAH"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -13233,12 +13233,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_mahallah)
+	      "value": (_vm.census.HEAD_OFFICE_MAHALLAH)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_mahallah", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_MAHALLAH", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(31), _vm._v(" "), _c('td', {
@@ -13251,8 +13251,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_house),
-	      expression: "census.head_office_house"
+	      value: (_vm.census.HEAD_OFFICE_HOUSE),
+	      expression: "census.HEAD_OFFICE_HOUSE"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -13261,12 +13261,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_house)
+	      "value": (_vm.census.HEAD_OFFICE_HOUSE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_house", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_HOUSE", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(32), _vm._v(" "), _c('td', {
@@ -13279,8 +13279,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_road),
-	      expression: "census.head_office_road"
+	      value: (_vm.census.HEAD_OFFICE_ROAD),
+	      expression: "census.HEAD_OFFICE_ROAD"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -13289,12 +13289,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_road)
+	      "value": (_vm.census.HEAD_OFFICE_ROAD)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_road", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_ROAD", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(33), _vm._v(" "), _c('td', [_c('div', {
@@ -13303,8 +13303,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_floor_level),
-	      expression: "census.head_office_floor_level"
+	      value: (_vm.census.HEAD_OFFICE_FLOOR_LEVEL),
+	      expression: "census.HEAD_OFFICE_FLOOR_LEVEL"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13313,12 +13313,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_floor_level)
+	      "value": (_vm.census.HEAD_OFFICE_FLOOR_LEVEL)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_floor_level", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_FLOOR_LEVEL", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _vm._m(34), _vm._v(" "), _c('td', [_c('div', {
@@ -13327,8 +13327,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_holiding_no),
-	      expression: "census.head_office_holiding_no"
+	      value: (_vm.census.HEAD_OFFICE_HOLIDING_NO),
+	      expression: "census.HEAD_OFFICE_HOLIDING_NO"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13337,12 +13337,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_holiding_no)
+	      "value": (_vm.census.HEAD_OFFICE_HOLIDING_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_holiding_no", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_HOLIDING_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(35), _vm._v(" "), _c('td', [_c('div', {
@@ -13351,8 +13351,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_phone),
-	      expression: "census.head_office_phone"
+	      value: (_vm.census.HEAD_OFFICE_PHONE),
+	      expression: "census.HEAD_OFFICE_PHONE"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13361,12 +13361,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_phone)
+	      "value": (_vm.census.HEAD_OFFICE_PHONE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_phone", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_PHONE", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _vm._m(36), _vm._v(" "), _c('td', [_c('div', {
@@ -13375,8 +13375,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_fax),
-	      expression: "census.head_office_fax"
+	      value: (_vm.census.HEAD_OFFICE_FAX),
+	      expression: "census.HEAD_OFFICE_FAX"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13385,12 +13385,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_fax)
+	      "value": (_vm.census.HEAD_OFFICE_FAX)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_fax", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_FAX", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(37), _vm._v(" "), _c('td', [_c('div', {
@@ -13399,8 +13399,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_email),
-	      expression: "census.head_office_email"
+	      value: (_vm.census.HEAD_OFFICE_EMAIL),
+	      expression: "census.HEAD_OFFICE_EMAIL"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13410,12 +13410,12 @@
 	      "type": "email"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_email)
+	      "value": (_vm.census.HEAD_OFFICE_EMAIL)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_email", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_EMAIL", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _vm._m(38), _vm._v(" "), _c('td', [_c('div', {
@@ -13424,8 +13424,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_website),
-	      expression: "census.head_office_website"
+	      value: (_vm.census.HEAD_OFFICE_WEBSITE),
+	      expression: "census.HEAD_OFFICE_WEBSITE"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13435,12 +13435,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_website)
+	      "value": (_vm.census.HEAD_OFFICE_WEBSITE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_website", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_WEBSITE", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', {
