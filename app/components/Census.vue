@@ -155,7 +155,6 @@ export default {
       //var vm = this
       axios.get('http://192.168.50.14/api/divisions')
         .then(function (response) {
-          //vm.divisions = response.data
           db.run("DELETE FROM DIVISIONS");
           var items = response.data;
           for (var prop in items) {
@@ -168,6 +167,23 @@ export default {
               sql_insert ="";
           }
         })
+
+        axios.get('http://192.168.50.14/api/districts')
+        .then(function (response) {
+          db.run("DELETE FROM DISTRICTS");
+          var items = response.data;
+          for (var prop in items) {
+              //console.log(items[prop]);
+              var item =items[prop];
+              var sql_insert;
+              sql_insert ="INSERT INTO DISTRICTS (ID, DIVISION_ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+              sql_insert += " ("+item.id+", "+item.division_id+", '"+item.geo_code+"', '"+item.name+"', '"+item.name_bn+"', "+item.created_by+", "+item.updated_by+");";
+              db.run(sql_insert);
+              sql_insert ="";
+          }
+        })
+
+        alert('Setup Sync Done');
 
         //console.log(vm.divisions);
     },
