@@ -160,10 +160,10 @@ export default {
           var items = response.data;
           for (var prop in items) {
               //console.log(items[prop]);
-              var division =items[prop];
+              var item =items[prop];
               var sql_insert;
               sql_insert ="INSERT INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
-              sql_insert += " ("+division.id+", '"+division.geo_code+"', '"+division.name+"', '"+division.name_bn+"', "+division.created_by+", "+division.updated_by+");";
+              sql_insert += " ("+item.id+", '"+item.geo_code+"', '"+item.name+"', '"+item.name_bn+"', "+item.created_by+", "+item.updated_by+");";
               db.run(sql_insert);
               sql_insert ="";
           }
