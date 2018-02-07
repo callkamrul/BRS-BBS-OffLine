@@ -114,8 +114,9 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<select class="select form-control" id="division-id" required="required" tabindex="-1" name="division_id" v-model="census.DIVISION_ID" aria-required="true">
+																		<select class="select form-control" @change = "loadDistricts" id="division-id" required="required" tabindex="-1" name="division_id" v-model="census.DIVISION_ID" aria-required="true">
 																			<option value=""></option>
+																			<option v-for="item in divisions" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																		<!-- <input name="division_id" v-model="census.DIVISION_ID" type="hidden" value="0"> -->
 																	</div>
@@ -129,6 +130,7 @@
 																	<div class="form-group">
 																		<select class="select form-control" id="district-id" required="required" tabindex="-1" name="district_id" v-model="census.DISTRICT_ID" aria-required="true">
 																			<option value=""></option>
+																			<option v-for="item in districts" value="item.ID">{{item.NAME}}</option>
 																		</select>
 																		<!-- <input name="district_id" v-model="census.DISTRICT_ID" type="hidden" value="0"> -->
 																	</div>

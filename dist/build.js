@@ -11449,6 +11449,15 @@
 		});
 	};
 
+	store.getDistrictList = function (cb, $district_id) {
+		var list = [];
+		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom DISTRICTS where DIVISION_ID=' + $district_id, function (err, row) {
+			list.push(row);
+		}, function (err, rowCount) {
+			cb(null, list);
+		});
+	};
+
 	store.getAllCommonConfigList = function (cb, $table_name) {
 		var $lang = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'en';
 
@@ -12070,6 +12079,14 @@
 	      if (confirm("Are you sure to Sync this Census?")) {
 	        alert('ok');
 	      }
+	    },
+	    loadDistricts: function loadDistricts(e) {
+	      var _this3 = this;
+
+	      var division_id = this.census.DIVISION_ID;
+	      _store2.default.getDistrictList(function (err, list) {
+	        _this3.districts = list;
+	      }, division_id);
 	    }
 	  }
 	};
@@ -12267,7 +12284,7 @@
 	      "aria-required": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -12275,13 +12292,19 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "DIVISION_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadDistricts]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(5), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.divisions), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(5), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -12313,7 +12336,13 @@
 	    attrs: {
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.districts), function(item) {
+	    return _c('option', {
+	      attrs: {
+	        "value": "item.ID"
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{

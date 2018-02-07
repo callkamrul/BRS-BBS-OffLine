@@ -191,7 +191,11 @@ export default {
       if (confirm("Are you sure to Sync this Census?")) {
         alert('ok');
       }
-    }
+    },
+    loadDistricts(e) {
+        var division_id = this.census.DIVISION_ID;
+        store.getDistrictList((err, list ) => { this.districts = list}, division_id);
+      }
   }
 };
 </script>

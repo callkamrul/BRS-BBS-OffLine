@@ -13,6 +13,17 @@ store.getDivisionList = function(cb)
 			});
 }
 
+store.getDistrictList = function(cb, $district_id)
+{
+    var list =[];
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From DISTRICTS where DIVISION_ID=${$district_id}`, function (err, row) {
+        list.push(row);
+    }, function (err, rowCount) {
+        cb(null, list);
+    });
+}
+
 store.getAllCommonConfigList = function (cb, $table_name, $lang = 'en') {
 	var list = [];
 
