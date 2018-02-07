@@ -12032,9 +12032,45 @@
 	      var vm = this;
 	      axios.get('http://192.168.50.14/api/divisions').then(function (response) {
 	        vm.divisions = response.data;
+	        db.run("DELETE FROM DIVISIONS");
+	        var items = response.data;
+
+	        for (var prop in items) {
+	          //console.log(items[prop]);
+
+	          var division = items[prop];
+	          var sql_insert;
+	          // if (items.length > 0) {
+	          //   for( var key in division){
+	          sql_insert = "INSERT INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+	          sql_insert += " (" + division.id + ", '" + division.geo_code + "', '" + division.name + "', '" + division.name_bn + "', " + division.created_by + ", " + division.updated_by + ");";
+	          db.run(sql_insert);
+	          sql_insert = "";
+	          //     //console.log(division.id);
+	          //   }
+	          //}
+	        }
+
+	        //  var sql_insert;
+	        //  if (items.length > 0) {
+	        //console.log(items);
+	        //for (var item in items) {
+	        //    var division = jQuery.parseJSON(item);
+	        //console.log(division);
+	        //    var val ="<BR/> 1 : " + division.id + "<br />"+division.name;
+	        //console.log(val);
+	        //sql_insert ="INSERT INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+	        //sql_insert += " ("+items[id]+", '"+items[geo_code]+"', '"+items[name]+"', '"+items[name_bn]+"', "+items[created_by]+", "+items[updated_by]+");";
+	        //db.run(sql_insert);
+	        //sql_insert ="";
+
+	        //  }
+
+
+	        //    }
 	      });
 
-	      console.log(vm.divisions);
+	      //console.log(vm.divisions);
 	    },
 	    syncUpCensus: function syncUpCensus(CensusID) {
 	      if (confirm("Are you sure to Sync this Census?")) {
