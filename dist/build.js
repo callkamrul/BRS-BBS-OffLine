@@ -11449,9 +11449,35 @@
 		});
 	};
 
-	store.getDistrictList = function (cb, $district_id) {
+	store.getDistrictList = function (cb, $division_id) {
 		var list = [];
-		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom DISTRICTS where DIVISION_ID=' + $district_id, function (err, row) {
+		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom DISTRICTS where DIVISION_ID=' + $division_id, function (err, row) {
+			list.push(row);
+		}, function (err, rowCount) {
+			cb(null, list);
+		});
+	};
+
+	store.getThanaUpazillaByDistrict = function (cb, $districtId) {
+		var thanaList = [];
+		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom THANA_UPAZILAS where DISTRICT_ID=' + $districtId, function (err, row) {
+			thanaList.push(row);
+		}, function (err, rowCount) {
+			cb(null, thanaList);
+		});
+	};
+	store.getUnionWardByThanaUpazilla = function (cb, $thanaId) {
+		var unionList = [];
+		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom UNION_WARDS where thana_upazila_id=' + $thanaId, function (err, row) {
+			unionList.push(row);
+		}, function (err, rowCount) {
+			cb(null, unionList);
+		});
+	};
+
+	store.getMauzaMahallahByUnionWard = function (cb, $unioWardId) {
+		var list = [];
+		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom mauza_mahallahs where union_ward_id=' + $unioWardId, function (err, row) {
 			list.push(row);
 		}, function (err, rowCount) {
 			cb(null, list);
@@ -12087,6 +12113,30 @@
 	      _store2.default.getDistrictList(function (err, list) {
 	        _this3.districts = list;
 	      }, division_id);
+	    },
+	    loadThanaUpazilla: function loadThanaUpazilla() {
+	      var _this4 = this;
+
+	      var district_id = this.census.DISTRICT_ID;
+	      _store2.default.getThanaUpazillaByDistrict(function (err, thanaList) {
+	        _this4.thanaUpazilla = thanaList;
+	      }, district_id);
+	    },
+	    loadUnionWard: function loadUnionWard() {
+	      var _this5 = this;
+
+	      var thanaId = this.census.THANA_UPZ_ID;
+	      _store2.default.getUnionWardByThanaUpazilla(function (err, unionList) {
+	        _this5.unionWards = unionList;
+	      }, thanaId);
+	    },
+	    loadMauzaMahalla: function loadMauzaMahalla() {
+	      var _this6 = this;
+
+	      var unionWardId = this.census.WARD_UNION_ID;
+	      _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
+	        _this6.mauzaMahalla = list;
+	      }, unionWardId);
 	    }
 	  }
 	};
@@ -12322,7 +12372,7 @@
 	      "aria-required": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -12330,7 +12380,7 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "DISTRICT_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadThanaUpazilla]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -12338,8 +12388,8 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.districts), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
 	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
@@ -12360,7 +12410,7 @@
 	      "aria-required": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -12368,13 +12418,19 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "THANA_UPZ_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadUnionWard]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(7), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.thanaUpazilla), function(value) {
+	    return _c('option', {
+	      domProps: {
+	        "value": value.ID
+	      }
+	    }, [_vm._v(_vm._s(value.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(7), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -12383,7 +12439,7 @@
 	      value: (_vm.census.WARD_UNION_ID),
 	      expression: "census.WARD_UNION_ID"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "ward-union-id",
 	      "name": "ward_union_id",
@@ -12392,7 +12448,7 @@
 	      "aria-required": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -12400,14 +12456,19 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "WARD_UNION_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadMauzaMahalla]
 	    }
 	  }, [_c('option', {
 	    attrs: {
-	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(8), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.unionWards), function(value) {
+	    return _c('option', {
+	      domProps: {
+	        "value": value.ID
+	      }
+	    }, [_vm._v(_vm._s(value.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(8), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -12416,7 +12477,7 @@
 	      value: (_vm.census.MAHALLAH_ID),
 	      expression: "census.MAHALLAH_ID"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "mahallah-id",
 	      "required": "required",
@@ -12438,10 +12499,15 @@
 	    }
 	  }, [_c('option', {
 	    attrs: {
-	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(9), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.mauzaMahalla), function(value) {
+	    return _c('option', {
+	      domProps: {
+	        "value": value.ID
+	      }
+	    }, [_vm._v(_vm._s(value.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(9), _vm._v(" "), _c('td', {
 	    staticClass: "form-group "
 	  }, [_c('select', {
 	    directives: [{

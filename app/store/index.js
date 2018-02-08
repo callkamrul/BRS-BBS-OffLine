@@ -13,11 +13,43 @@ store.getDivisionList = function(cb)
 			});
 }
 
-store.getDistrictList = function(cb, $district_id)
+store.getDistrictList = function(cb, $division_id)
 {
     var list =[];
     db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
-	From DISTRICTS where DIVISION_ID=${$district_id}`, function (err, row) {
+	From DISTRICTS where DIVISION_ID=${$division_id}`, function (err, row) {
+        list.push(row);
+    }, function (err, rowCount) {
+        cb(null, list);
+    });
+}
+
+store.getThanaUpazillaByDistrict = function(cb, $districtId)
+{
+    var thanaList =[];
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From THANA_UPAZILAS where DISTRICT_ID=${$districtId}`, function (err, row) {
+        thanaList.push(row);
+    }, function (err, rowCount) {
+        cb(null, thanaList);
+    });
+}
+store.getUnionWardByThanaUpazilla = function(cb, $thanaId)
+{
+    var unionList =[];
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From UNION_WARDS where thana_upazila_id=${$thanaId}`, function (err, row) {
+        unionList.push(row);
+    }, function (err, rowCount) {
+        cb(null, unionList);
+    });
+}
+
+store.getMauzaMahallahByUnionWard = function(cb, $unioWardId)
+{
+    var list =[];
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From mauza_mahallahs where union_ward_id=${$unioWardId}`, function (err, row) {
         list.push(row);
     }, function (err, rowCount) {
         cb(null, list);
