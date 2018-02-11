@@ -12114,7 +12114,7 @@
 	        _this3.districts = list;
 	      }, division_id);
 	    },
-	    loadThanaUpazilla: function loadThanaUpazilla() {
+	    loadThanaUpazilla: function loadThanaUpazilla(e) {
 	      var _this4 = this;
 
 	      var district_id = this.census.DISTRICT_ID;
@@ -12137,6 +12137,14 @@
 	      _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
 	        _this6.mauzaMahalla = list;
 	      }, unionWardId);
+	    },
+	    loadHeadOfficeDistricts: function loadHeadOfficeDistricts() {
+	      var _this7 = this;
+
+	      var division_id = this.census.HEAD_OFFICE_DIVISION;
+	      _store2.default.getDistrictList(function (err, list) {
+	        _this7.HeadOfficedistricts = list;
+	      }, division_id);
 	    }
 	  }
 	};
@@ -13579,15 +13587,14 @@
 	      value: (_vm.census.HEAD_OFFICE_DIVISION),
 	      expression: "census.HEAD_OFFICE_DIVISION"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "form-control",
 	    attrs: {
 	      "id": "head-office-division",
 	      "name": "head_office_division",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
+	      "tabindex": "-1"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -13595,7 +13602,7 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "HEAD_OFFICE_DIVISION", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadHeadOfficeDistricts]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -13604,8 +13611,8 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.divisions), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
 	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(40), _vm._v(" "), _c('td', [_c('div', {
@@ -13617,12 +13624,10 @@
 	      value: (_vm.census.head_office_district),
 	      expression: "census.head_office_district"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "form-control",
 	    attrs: {
 	      "id": "head-office-district",
-	      "name": "head_office_district",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
+	      "name": "head_office_district"
 	    },
 	    on: {
 	      "change": function($event) {
@@ -13640,7 +13645,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(41), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.HeadOfficedistricts), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(41), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{

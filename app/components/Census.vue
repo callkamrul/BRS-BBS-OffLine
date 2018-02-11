@@ -196,7 +196,7 @@ export default {
         var division_id = this.census.DIVISION_ID;
         store.getDistrictList((err, list ) => { this.districts = list}, division_id);
     },
-    loadThanaUpazilla() {
+    loadThanaUpazilla(e) {
       var district_id = this.census.DISTRICT_ID;
       store.getThanaUpazillaByDistrict((err, thanaList ) => { this.thanaUpazilla = thanaList}, district_id);
    },
@@ -207,7 +207,11 @@ export default {
      loadMauzaMahalla() {
         var unionWardId = this.census.WARD_UNION_ID;
         store.getMauzaMahallahByUnionWard((err, list ) => { this.mauzaMahalla = list}, unionWardId);
-    }
+    },
+      loadHeadOfficeDistricts() {
+          var division_id = this.census.HEAD_OFFICE_DIVISION;
+          store.getDistrictList((err, list ) => { this.HeadOfficedistricts = list}, division_id);
+      }
   }
 };
 </script>
