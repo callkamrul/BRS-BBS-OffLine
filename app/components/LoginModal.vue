@@ -8,12 +8,29 @@
 		<div class="content">
 
 			
-			 asdfadsfadsfadsfsadfdsf adsf
-       fasdf adsfasdf  
+			<form class="ui form">
+  <div class="field two ">
+    <label>User Name</label>
+	<div class="two fields">
+		<div class="field">
+    <input type="text" name="first-name" placeholder="Username">
+		</div>
+	</div>
+  </div>
+  <div class="field ">
+    <label>Password</label>
+	<div class="two fields">
+		<div class="field">
+    <input type="password" name="last-name" placeholder="Password">
+		</div>
+	</div>
+  </div>
+  
+  <button type="button" @click="authenticate" class="ui primary button">Login</button>
+  <button type="button" class="ui secondary button" @click="loginClose">Cancel</button>
+</form>
 
-				<div class="">
-					<button type="button" @click="authenticate" class="ui purple inverted button">Login</button>
-				</div>
+				
 		
 		</div>
 
@@ -38,6 +55,9 @@ export default {
 	methods:{
 		authenticate () {
         	
+			$('#login-modal').modal('hide');
+		},
+		loginClose (){
 			$('#login-modal').modal('hide');
 		},
 		loginForm:function(){

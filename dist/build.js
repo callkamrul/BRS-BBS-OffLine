@@ -12158,6 +12158,9 @@
 
 				$('#login-modal').modal('hide');
 			},
+			loginClose: function loginClose() {
+				$('#login-modal').modal('hide');
+			},
 
 			loginForm: function loginForm() {
 
@@ -12172,6 +12175,23 @@
 			_EventHub2.default.$off('login-form', this.loginForm);
 		}
 	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -12230,16 +12250,54 @@
 	    staticClass: "header"
 	  }, [_vm._v("\r\n\t\t\tLogin BRS_BBS\r\n\t\t")]), _vm._v(" "), _c('div', {
 	    staticClass: "content"
-	  }, [_vm._v("\r\n\r\n\t\t\t\r\n\t\t\t asdfadsfadsfadsfsadfdsf adsf\r\n       fasdf adsfasdf  \r\n\r\n\t\t\t\t"), _c('div', {}, [_c('button', {
-	    staticClass: "ui purple inverted button",
+	  }, [_c('form', {
+	    staticClass: "ui form"
+	  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('button', {
+	    staticClass: "ui primary button",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
 	      "click": _vm.authenticate
 	    }
-	  }, [_vm._v("Login")])])])])])
-	},staticRenderFns: []}
+	  }, [_vm._v("Login")]), _vm._v(" "), _c('button', {
+	    staticClass: "ui secondary button",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": _vm.loginClose
+	    }
+	  }, [_vm._v("Cancel")])])])])])
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "field two "
+	  }, [_c('label', [_vm._v("User Name")]), _vm._v(" "), _c('div', {
+	    staticClass: "two fields"
+	  }, [_c('div', {
+	    staticClass: "field"
+	  }, [_c('input', {
+	    attrs: {
+	      "type": "text",
+	      "name": "first-name",
+	      "placeholder": "Username"
+	    }
+	  })])])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "field "
+	  }, [_c('label', [_vm._v("Password")]), _vm._v(" "), _c('div', {
+	    staticClass: "two fields"
+	  }, [_c('div', {
+	    staticClass: "field"
+	  }, [_c('input', {
+	    attrs: {
+	      "type": "password",
+	      "name": "last-name",
+	      "placeholder": "Password"
+	    }
+	  })])])])
+	}]}
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
