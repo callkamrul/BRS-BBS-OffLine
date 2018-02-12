@@ -1,8 +1,10 @@
 <template src="./Census.html">
+
 </template>
 
 <script>
 import store from "../store";
+import LoginModal from './LoginModal.vue'
 import eventHub from "../shared/EventHub";
 
 export default {
@@ -79,6 +81,9 @@ export default {
     };
   },
   props: ["censuses"],
+  components:{
+		LoginModal
+	},
   filters: {
     //filterDistrictsByDivision: function (division_id) {
     //	var division_id = division_id || this.census.division_id;
@@ -93,6 +98,8 @@ export default {
     store.getAllCommonConfigList((err, list) => { this.genders = list}, 'CC_GENDER');
     store.getAllCommonConfigList((err, list) => { this.educations = list}, 'CC_EDUCATION');
     store.getAllCommonConfigList((err, list) => { this.unit_types = list}, 'CC_UNIT_TYPE');
+    
+   
     
     
 
@@ -150,6 +157,11 @@ export default {
         store.deleteCensus(CensusId);
       }
     },
+
+     loginApp() {
+      eventHub.$emit('login-form')
+    },
+   
     syncDownSetup() {
       
       //var vm = this
