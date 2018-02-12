@@ -13,7 +13,8 @@
     <label>User Name</label>
 	<div class="two fields">
 		<div class="field">
-    <input type="text" v-model="users.user_name" name="user_name" placeholder="Username">
+			<!-- v-model="users.user_name" -->
+    <input type="text"  name="user_name" placeholder="Username">
 		</div>
 	</div>
   </div>
@@ -21,7 +22,8 @@
     <label>Password</label>
 	<div class="two fields">
 		<div class="field">
-    <input type="password" v-model="users.password" name="password" placeholder="Password">
+			<!-- v-model="users.password" -->
+    <input type="password"  name="password" placeholder="Password">
 		</div>
 	</div>
   </div>

@@ -12215,6 +12215,8 @@
 	//
 	//
 	//
+	//
+	//
 
 /***/ }),
 /* 13 */
@@ -12279,7 +12281,7 @@
 	  }, [_c('input', {
 	    attrs: {
 	      "type": "text",
-	      "name": "first-name",
+	      "name": "user_name",
 	      "placeholder": "Username"
 	    }
 	  })])])])
@@ -12293,7 +12295,7 @@
 	  }, [_c('input', {
 	    attrs: {
 	      "type": "password",
-	      "name": "last-name",
+	      "name": "password",
 	      "placeholder": "Password"
 	    }
 	  })])])])
