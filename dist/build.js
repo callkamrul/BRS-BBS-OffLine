@@ -11514,9 +11514,9 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE\n\t    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,\n\t    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
+			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE\n\t    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,\n\t    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE, HEAD_OFFICE_DIVISION, HEAD_OFFICE_DISTRICT, HEAD_OFFICE_THANA_UPZ, HEAD_OFFICE_WARD_UNION,\n\t    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
 
-			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE, Census.HEAD_OFFICE_NAME, Census.HEAD_OFFICE_MAHALLAH, Census.HEAD_OFFICE_HOUSE, Census.HEAD_OFFICE_ROAD, Census.HEAD_OFFICE_FLOOR_LEVEL, Census.HEAD_OFFICE_HOLIDING_NO, Census.HEAD_OFFICE_PHONE, Census.HEAD_OFFICE_FAX, Census.HEAD_OFFICE_EMAIL, Census.HEAD_OFFICE_WEBSITE);
+			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE, Census.HEAD_OFFICE_NAME, Census.HEAD_OFFICE_MAHALLAH, Census.HEAD_OFFICE_HOUSE, Census.HEAD_OFFICE_ROAD, Census.HEAD_OFFICE_FLOOR_LEVEL, Census.HEAD_OFFICE_HOLIDING_NO, Census.HEAD_OFFICE_PHONE, Census.HEAD_OFFICE_FAX, Census.HEAD_OFFICE_EMAIL, Census.HEAD_OFFICE_WEBSITE, Census.HEAD_OFFICE_DIVISION, Census.HEAD_OFFICE_DISTRICT, Census.HEAD_OFFICE_THANA_UPZ, Census.HEAD_OFFICE_WARD_UNION, Census.HEAD_OFFICE_MAUZA, Census.HEAD_OFFICE_RMO_CODE);
 
 			store.emit('data-updated');
 		});
@@ -11524,7 +11524,7 @@
 
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			var sql = 'update census set \n\t\tDIVISION_ID=' + Census.DIVISION_ID + ', \n\t\tDISTRICT_ID=' + Census.DISTRICT_ID + ', \n\t\tTHANA_UPZ_ID=' + Census.THANA_UPZ_ID + ', \n\t\tWARD_UNION_ID=' + Census.WARD_UNION_ID + ', \n\t\tMAHALLAH_ID=' + Census.MAHALLAH_ID + ', \n\t\tRMO_CODE=' + Census.RMO_CODE + ', \n\t\tSERIAL_NO_UNIT="' + Census.SERIAL_NO_UNIT + '", \n\t\tNAME_OF_UNIT="' + Census.NAME_OF_UNIT + '", \n\t\tNAME_OF_MAHALLAH="' + Census.NAME_OF_MAHALLAH + '",\n\t\tNAME_OF_HOUSE="' + Census.NAME_OF_HOUSE + '",\n\t\tNO_NAME_OF_ROAD="' + Census.NO_NAME_OF_ROAD + '",\n\t\tFLOOR_LEVEL="' + Census.FLOOR_LEVEL + '",\n\t\tHOLIDING_NO="' + Census.HOLIDING_NO + '",\n\t\tPHONE="' + Census.PHONE + '",\n\t\tFAX="' + Census.FAX + '",\n\t\tEMAIL="' + Census.EMAIL + '",\n\t\tWEBSITE="' + Census.WEBSITE + '",\n\t\tLEGAL_OWNERSHIP_CODE=' + Census.LEGAL_OWNERSHIP_CODE + ',\n\t\tTYPE_OF_OWNERSHIP=' + Census.TYPE_OF_OWNERSHIP + ',\n\t\tHEAD_GENDER_CODE=' + Census.HEAD_GENDER_CODE + ',\n\t\tHEAD_OF_UNIT_AGE=' + Census.HEAD_OF_UNIT_AGE + ',\n\t\tHEAD_EDUCATION_CODE=' + Census.HEAD_EDUCATION_CODE + ',\n\t\tHEAD_OFFICE_NAME="' + Census.HEAD_OFFICE_NAME + '",\n\t\tHEAD_OFFICE_MAHALLAH="' + Census.HEAD_OFFICE_MAHALLAH + '",\n\t\tHEAD_OFFICE_HOUSE="' + Census.HEAD_OFFICE_HOUSE + '",\n\t\tHEAD_OFFICE_ROAD="' + Census.HEAD_OFFICE_ROAD + '",\n\t\tHEAD_OFFICE_FLOOR_LEVEL="' + Census.HEAD_OFFICE_FLOOR_LEVEL + '",\n\t\tHEAD_OFFICE_HOLIDING_NO="' + Census.HEAD_OFFICE_HOLIDING_NO + '",\n\t\tHEAD_OFFICE_PHONE="' + Census.HEAD_OFFICE_PHONE + '",\n\t\tHEAD_OFFICE_FAX="' + Census.HEAD_OFFICE_FAX + '",\n\t\tHEAD_OFFICE_EMAIL="' + Census.HEAD_OFFICE_EMAIL + '",\n\t\tHEAD_OFFICE_WEBSITE="' + Census.HEAD_OFFICE_WEBSITE + '"\n\t\twhere ID=' + Census.ID;
+			var sql = 'update census set \n\t\tDIVISION_ID=' + Census.DIVISION_ID + ', \n\t\tDISTRICT_ID=' + Census.DISTRICT_ID + ', \n\t\tTHANA_UPZ_ID=' + Census.THANA_UPZ_ID + ', \n\t\tWARD_UNION_ID=' + Census.WARD_UNION_ID + ', \n\t\tMAHALLAH_ID=' + Census.MAHALLAH_ID + ', \n\t\tRMO_CODE=' + Census.RMO_CODE + ', \n\t\tSERIAL_NO_UNIT="' + Census.SERIAL_NO_UNIT + '", \n\t\tNAME_OF_UNIT="' + Census.NAME_OF_UNIT + '", \n\t\tNAME_OF_MAHALLAH="' + Census.NAME_OF_MAHALLAH + '",\n\t\tNAME_OF_HOUSE="' + Census.NAME_OF_HOUSE + '",\n\t\tNO_NAME_OF_ROAD="' + Census.NO_NAME_OF_ROAD + '",\n\t\tFLOOR_LEVEL="' + Census.FLOOR_LEVEL + '",\n\t\tHOLIDING_NO="' + Census.HOLIDING_NO + '",\n\t\tPHONE="' + Census.PHONE + '",\n\t\tFAX="' + Census.FAX + '",\n\t\tEMAIL="' + Census.EMAIL + '",\n\t\tWEBSITE="' + Census.WEBSITE + '",\n\t\tLEGAL_OWNERSHIP_CODE=' + Census.LEGAL_OWNERSHIP_CODE + ',\n\t\tTYPE_OF_OWNERSHIP=' + Census.TYPE_OF_OWNERSHIP + ',\n\t\tHEAD_GENDER_CODE=' + Census.HEAD_GENDER_CODE + ',\n\t\tHEAD_OF_UNIT_AGE=' + Census.HEAD_OF_UNIT_AGE + ',\n\t\tHEAD_EDUCATION_CODE=' + Census.HEAD_EDUCATION_CODE + ',\n\t\tHEAD_OFFICE_NAME="' + Census.HEAD_OFFICE_NAME + '",\n\t\tHEAD_OFFICE_MAHALLAH="' + Census.HEAD_OFFICE_MAHALLAH + '",\n\t\tHEAD_OFFICE_HOUSE="' + Census.HEAD_OFFICE_HOUSE + '",\n\t\tHEAD_OFFICE_ROAD="' + Census.HEAD_OFFICE_ROAD + '",\n\t\tHEAD_OFFICE_FLOOR_LEVEL="' + Census.HEAD_OFFICE_FLOOR_LEVEL + '",\n\t\tHEAD_OFFICE_HOLIDING_NO="' + Census.HEAD_OFFICE_HOLIDING_NO + '",\n\t\tHEAD_OFFICE_PHONE="' + Census.HEAD_OFFICE_PHONE + '",\n\t\tHEAD_OFFICE_FAX="' + Census.HEAD_OFFICE_FAX + '",\n\t\tHEAD_OFFICE_EMAIL="' + Census.HEAD_OFFICE_EMAIL + '",\n\t\tHEAD_OFFICE_WEBSITE="' + Census.HEAD_OFFICE_WEBSITE + '",\n\t\tHEAD_OFFICE_DIVISION=' + Census.HEAD_OFFICE_DIVISION + ',\n\t\tHEAD_OFFICE_DISTRICT=' + Census.HEAD_OFFICE_DISTRICT + ',\n\t\tHEAD_OFFICE_THANA_UPZ=' + Census.HEAD_OFFICE_THANA_UPZ + ',\n\t\tHEAD_OFFICE_WARD_UNION=' + Census.HEAD_OFFICE_WARD_UNION + ',\n\t\tHEAD_OFFICE_MAUZA=' + Census.HEAD_OFFICE_MAUZA + ',\n\t\tHEAD_OFFICE_RMO_CODE=' + Census.HEAD_OFFICE_RMO_CODE + '\n\t\twhere ID=' + Census.ID;
 			db.run(sql);
 			store.emit('data-updated');
 		});
@@ -12106,7 +12106,7 @@
 	        alert('ok');
 	      }
 	    },
-	    loadDistricts: function loadDistricts(e) {
+	    loadDistricts: function loadDistricts() {
 	      var _this3 = this;
 
 	      var division_id = this.census.DIVISION_ID;
@@ -12114,6 +12114,7 @@
 	        _this3.districts = list;
 	      }, division_id);
 	    },
+
 	    loadThanaUpazilla: function loadThanaUpazilla(e) {
 	      var _this4 = this;
 
@@ -12145,6 +12146,31 @@
 	      _store2.default.getDistrictList(function (err, list) {
 	        _this7.HeadOfficedistricts = list;
 	      }, division_id);
+	    },
+
+	    loadHeadOfficeThana: function loadHeadOfficeThana(e) {
+	      var _this8 = this;
+
+	      var district_id = this.census.HEAD_OFFICE_DISTRICT;
+	      _store2.default.getThanaUpazillaByDistrict(function (err, thanaList) {
+	        _this8.headOfficeThanaUpazilla = thanaList;
+	      }, district_id);
+	    },
+	    loadHeadOfficeUnionWard: function loadHeadOfficeUnionWard() {
+	      var _this9 = this;
+
+	      var thanaId = this.census.HEAD_OFFICE_THANA_UPZ;
+	      _store2.default.getUnionWardByThanaUpazilla(function (err, unionList) {
+	        _this9.headOfficeUnionWards = unionList;
+	      }, thanaId);
+	    },
+	    loadHeadOfficeMauza: function loadHeadOfficeMauza() {
+	      var _this10 = this;
+
+	      var unionWardId = this.census.HEAD_OFFICE_WARD_UNION;
+	      _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
+	        _this10.headOfficeMauza = list;
+	      }, unionWardId);
 	    }
 	  }
 	};
@@ -13587,11 +13613,12 @@
 	      value: (_vm.census.HEAD_OFFICE_DIVISION),
 	      expression: "census.HEAD_OFFICE_DIVISION"
 	    }],
-	    staticClass: "form-control",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "head-office-division",
 	      "name": "head_office_division",
-	      "tabindex": "-1"
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
 	    },
 	    on: {
 	      "change": [function($event) {
@@ -13621,31 +13648,33 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_district),
-	      expression: "census.head_office_district"
+	      value: (_vm.census.HEAD_OFFICE_DISTRICT),
+	      expression: "census.HEAD_OFFICE_DISTRICT"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
 	      "id": "head-office-district",
-	      "name": "head_office_district"
+	      "name": "head_office_district",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_district", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "HEAD_OFFICE_DISTRICT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.loadHeadOfficeThana]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _vm._l((_vm.HeadOfficedistricts), function(item) {
+	  }, [_vm._v("Select")]), _vm._v(" "), _vm._l((_vm.HeadOfficedistricts), function(item) {
 	    return _c('option', {
 	      domProps: {
 	        "value": item.ID
@@ -13657,10 +13686,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_thana_upz),
-	      expression: "census.head_office_thana_upz"
+	      value: (_vm.census.HEAD_OFFICE_THANA_UPZ),
+	      expression: "census.HEAD_OFFICE_THANA_UPZ"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "head-office-thana-upz",
 	      "name": "head_office_thana_upz",
@@ -13668,31 +13697,37 @@
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_thana_upz", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "HEAD_OFFICE_THANA_UPZ", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.loadHeadOfficeUnionWard]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(42), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.headOfficeThanaUpazilla), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(42), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_ward_union),
-	      expression: "census.head_office_ward_union"
+	      value: (_vm.census.HEAD_OFFICE_WARD_UNION),
+	      expression: "census.HEAD_OFFICE_WARD_UNION"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "head-office-ward-union",
 	      "name": "head_office_ward_union",
@@ -13700,31 +13735,37 @@
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_ward_union", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "HEAD_OFFICE_WARD_UNION", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.loadHeadOfficeMauza]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(43), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.headOfficeUnionWards), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(43), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_mauza),
-	      expression: "census.head_office_mauza"
+	      value: (_vm.census.HEAD_OFFICE_MAUZA),
+	      expression: "census.HEAD_OFFICE_MAUZA"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "head-office-mauza",
 	      "name": "head_office_mauza",
@@ -13739,7 +13780,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_mauza", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HEAD_OFFICE_MAUZA", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -13747,16 +13788,22 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(44), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.headOfficeMauza), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(44), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_rmo_code),
-	      expression: "census.head_office_rmo_code"
+	      value: (_vm.census.HEAD_OFFICE_RMO_CODE),
+	      expression: "census.HEAD_OFFICE_RMO_CODE"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "head-office-rmo-code",
 	      "name": "head_office_rmo_code",
@@ -13771,7 +13818,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_rmo_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HEAD_OFFICE_RMO_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {

@@ -707,9 +707,9 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="form-control" id="head-office-district" name="head_office_district" v-model="census.head_office_district"
+																						<select class="form-control" @change = "loadHeadOfficeThana" id="head-office-district" name="head_office_district" v-model="census.HEAD_OFFICE_DISTRICT"
 																						 tabindex="-1" aria-hidden="true">
-																							<option selected="selected" value=""></option>
+																							<option selected="selected" value="">Select</option>
 																							<option v-for="item in HeadOfficedistricts" :value="item.ID">{{item.NAME}}</option>
 																						</select>
 																					</div>
@@ -722,9 +722,10 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-thana-upz" name="head_office_thana_upz" v-model="census.head_office_thana_upz"
+																						<select class="select form-control" @change = "loadHeadOfficeUnionWard" id="head-office-thana-upz" name="head_office_thana_upz" v-model="census.HEAD_OFFICE_THANA_UPZ"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
+																							<option v-for="item in headOfficeThanaUpazilla" :value="item.ID">{{item.NAME}}</option>
 																						</select>
 																					</div>
 																				</td>
@@ -735,9 +736,10 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-ward-union" name="head_office_ward_union" v-model="census.head_office_ward_union"
+																						<select class="select form-control" @change = "loadHeadOfficeMauza" id="head-office-ward-union" name="head_office_ward_union" v-model="census.HEAD_OFFICE_WARD_UNION"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
+																							<option v-for="item in headOfficeUnionWards" :value="item.ID">{{item.NAME}}</option>
 																						</select>
 																					</div>
 																				</td>
@@ -748,9 +750,10 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-mauza" name="head_office_mauza" v-model="census.head_office_mauza"
+																						<select class="select form-control " id="head-office-mauza" name="head_office_mauza" v-model="census.HEAD_OFFICE_MAUZA"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
+																							<option v-for="item in headOfficeMauza" :value="item.ID">{{item.NAME}}</option>
 																						</select>
 																					</div>
 																				</td>
@@ -761,7 +764,7 @@
 																				</td>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-md select2-hidden-accessible" id="head-office-rmo-code" name="head_office_rmo_code" v-model="census.head_office_rmo_code"
+																						<select class="select form-control" id="head-office-rmo-code" name="head_office_rmo_code" v-model="census.HEAD_OFFICE_RMO_CODE"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																							<option value="1">1 - Rural</option>

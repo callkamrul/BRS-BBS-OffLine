@@ -192,11 +192,11 @@ export default {
         alert('ok');
       }
     },
-    loadDistricts(e) {
+    loadDistricts() {
         var division_id = this.census.DIVISION_ID;
         store.getDistrictList((err, list ) => { this.districts = list}, division_id);
     },
-    loadThanaUpazilla(e) {
+    loadThanaUpazilla: function(e) {
       var district_id = this.census.DISTRICT_ID;
       store.getThanaUpazillaByDistrict((err, thanaList ) => { this.thanaUpazilla = thanaList}, district_id);
    },
@@ -208,9 +208,21 @@ export default {
         var unionWardId = this.census.WARD_UNION_ID;
         store.getMauzaMahallahByUnionWard((err, list ) => { this.mauzaMahalla = list}, unionWardId);
     },
-      loadHeadOfficeDistricts() {
-          var division_id = this.census.HEAD_OFFICE_DIVISION;
-          store.getDistrictList((err, list ) => { this.HeadOfficedistricts = list}, division_id);
+     loadHeadOfficeDistricts() {
+        var division_id = this.census.HEAD_OFFICE_DIVISION;
+        store.getDistrictList((err, list ) => { this.HeadOfficedistricts = list}, division_id);
+     },
+      loadHeadOfficeThana: function(e) {
+          var district_id = this.census.HEAD_OFFICE_DISTRICT;
+          store.getThanaUpazillaByDistrict((err, thanaList ) => { this.headOfficeThanaUpazilla = thanaList}, district_id);
+      },
+      loadHeadOfficeUnionWard() {
+          var thanaId = this.census.HEAD_OFFICE_THANA_UPZ;
+          store.getUnionWardByThanaUpazilla((err, unionList ) => { this.headOfficeUnionWards = unionList}, thanaId);
+      },
+      loadHeadOfficeMauza() {
+          var unionWardId = this.census.HEAD_OFFICE_WARD_UNION;
+          store.getMauzaMahallahByUnionWard((err, list ) => { this.headOfficeMauza = list}, unionWardId);
       }
   }
 };
