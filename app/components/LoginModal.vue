@@ -13,8 +13,7 @@
     <label>User Name</label>
 	<div class="two fields">
 		<div class="field">
-			<!-- v-model="users.user_name" -->
-    <input type="text"  name="user_name" placeholder="Username">
+    <input type="text"  name="user_name" v-model="user_name" placeholder="Username">
 		</div>
 	</div>
   </div>
@@ -22,8 +21,7 @@
     <label>Password</label>
 	<div class="two fields">
 		<div class="field">
-			<!-- v-model="users.password" -->
-    <input type="password"  name="password" placeholder="Password">
+    <input type="password"  name="password" v-model="password" placeholder="Password">
 		</div>
 	</div>
   </div>
@@ -50,13 +48,44 @@ import eventHub from '../shared/EventHub';
 export default {
 	data(){
 		return {
-			
+
+			user_name:"",
+			password:"",
+			users: []
 		}
 	},
 
 	methods:{
 		authenticate () {
-        	
+        	var user_name = this.user_name;
+			var password = this.password;
+			axios.post('http://192.168.50.14/api/signin', {
+				user_name: user_name,
+				password: password
+			})
+			.then(function (response) {
+				//this.users =response;
+				
+				// console.log(response.token);
+				// return 0;
+				 if(response.status == 200){
+				 	console.log(response.data.token);
+				 }else{
+					 alert(response.token);
+					 return 0;	
+				 }
+				
+
+
+				//return 0;
+			})
+			.catch(function (error) {
+				console.log(error);
+				alert('Error');
+				
+			});	
+
+			
 			$('#login-modal').modal('hide');
 		},
 		loginClose (){

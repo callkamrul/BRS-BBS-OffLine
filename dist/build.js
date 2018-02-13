@@ -12149,12 +12149,39 @@
 
 	exports.default = {
 		data: function data() {
-			return {};
+			return {
+
+				user_name: "",
+				password: "",
+				users: []
+			};
 		},
 
 
 		methods: {
 			authenticate: function authenticate() {
+				var user_name = this.user_name;
+				var password = this.password;
+				axios.post('http://192.168.50.14/api/signin', {
+					user_name: user_name,
+					password: password
+				}).then(function (response) {
+					//this.users =response;
+
+					// console.log(response.token);
+					// return 0;
+					if (response.status == 200) {
+						console.log(response.data.token);
+					} else {
+						alert(response.token);
+						return 0;
+					}
+
+					//return 0;
+				}).catch(function (error) {
+					console.log(error);
+					alert('Error');
+				});
 
 				$('#login-modal').modal('hide');
 			},
@@ -12175,8 +12202,6 @@
 			_EventHub2.default.$off('login-form', this.loginForm);
 		}
 	}; //
-	//
-	//
 	//
 	//
 	//
@@ -12254,7 +12279,61 @@
 	    staticClass: "content"
 	  }, [_c('form', {
 	    staticClass: "ui form"
-	  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('button', {
+	  }, [_c('div', {
+	    staticClass: "field two "
+	  }, [_c('label', [_vm._v("User Name")]), _vm._v(" "), _c('div', {
+	    staticClass: "two fields"
+	  }, [_c('div', {
+	    staticClass: "field"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.user_name),
+	      expression: "user_name"
+	    }],
+	    attrs: {
+	      "type": "text",
+	      "name": "user_name",
+	      "placeholder": "Username"
+	    },
+	    domProps: {
+	      "value": (_vm.user_name)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.user_name = $event.target.value
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('div', {
+	    staticClass: "field "
+	  }, [_c('label', [_vm._v("Password")]), _vm._v(" "), _c('div', {
+	    staticClass: "two fields"
+	  }, [_c('div', {
+	    staticClass: "field"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.password),
+	      expression: "password"
+	    }],
+	    attrs: {
+	      "type": "password",
+	      "name": "password",
+	      "placeholder": "Password"
+	    },
+	    domProps: {
+	      "value": (_vm.password)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.password = $event.target.value
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('button', {
 	    staticClass: "ui primary button",
 	    attrs: {
 	      "type": "button"
@@ -12271,35 +12350,7 @@
 	      "click": _vm.loginClose
 	    }
 	  }, [_vm._v("Cancel")])])])])])
-	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "field two "
-	  }, [_c('label', [_vm._v("User Name")]), _vm._v(" "), _c('div', {
-	    staticClass: "two fields"
-	  }, [_c('div', {
-	    staticClass: "field"
-	  }, [_c('input', {
-	    attrs: {
-	      "type": "text",
-	      "name": "user_name",
-	      "placeholder": "Username"
-	    }
-	  })])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "field "
-	  }, [_c('label', [_vm._v("Password")]), _vm._v(" "), _c('div', {
-	    staticClass: "two fields"
-	  }, [_c('div', {
-	    staticClass: "field"
-	  }, [_c('input', {
-	    attrs: {
-	      "type": "password",
-	      "name": "password",
-	      "placeholder": "Password"
-	    }
-	  })])])])
-	}]}
+	},staticRenderFns: []}
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
