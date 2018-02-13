@@ -34,48 +34,25 @@ export default {
         TYPE_OF_OWNERSHIP:0,
         HEAD_GENDER_CODE:0,
         HEAD_OF_UNIT_AGE:0,
-        HEAD_EDUCATION_CODE:0
-
+        HEAD_EDUCATION_CODE:0,
+        ENTERPRISE_GROUP_ID:""
       },
+      enableIsUnderEntGroup: true,
+      enableEntGroup: true,
+      enableIsUnderEnt: true,
+      enableIsUnderEnt2: true,
+      enableEntGroupId2: true,
+      enableEnterprise: true,
       rmos:[],
       divisions: [],
-      districts: [
-        {
-          id: 1,
-          division_id: 1,
-          name: "Faridfur"
-        },
-        {
-          id: 2,
-          division_id: 1,
-          name: "Gazipur"
-        },
-        {
-          id: 3,
-          division_id: 2,
-          name: "Naogaon"
-        },
-        {
-          id: 4,
-          division_id: 2,
-          name: "Chapai Nawabganj"
-        },
-        {
-          id: 5,
-          division_id: 3,
-          name: "Comilla"
-        },
-        {
-          id: 6,
-          division_id: 3,
-          name: "Cox's Bazar"
-        },
-        {
-          id: 7,
-          division_id: 3,
-          name: "Bandarban"
-        }
-      ]
+      districts: [],
+      thanaUpazilla: [],
+      unionWards: [],
+      mauzaMahalla: [],
+      HeadOfficedistricts: [],
+      headOfficeThanaUpazilla: [],
+      headOfficeUnionWards: [],
+      headOfficeMauza: []
     };
   },
   props: ["censuses"],
@@ -124,7 +101,8 @@ export default {
 
         HEAD_OFFICE_DIVISION: 0,
         head_office_district: 0,
-        CENSUS_YEAR: "2018"
+        CENSUS_YEAR: "2018",
+        ENTERPRISE_GROUP_ID:""
       };
       this.isEdit = true;
     },
@@ -223,6 +201,46 @@ export default {
       loadHeadOfficeMauza() {
           var unionWardId = this.census.HEAD_OFFICE_WARD_UNION;
           store.getMauzaMahallahByUnionWard((err, list ) => { this.headOfficeMauza = list}, unionWardId);
+      },
+      checkUnitType: function () {
+          this.enableIsUnderEntGroup= true;
+          this.enableIsUnderEnt= true;
+          this.enableIsUnderEnt2= true;
+          var unit_type = this.census.UNITE_TYPE_CODE;
+          if(unit_type == 1){
+              this.enableIsUnderEntGroup= false;
+          }
+          if(unit_type == 2){
+              this.enableIsUnderEnt= false;
+              this.enableIsUnderEnt2= false;
+          }
+      },
+      checkIsUnderEntGroup: function () {
+          var yesNo = this.census.IS_UNDER_ENT_GROUP;
+          if(yesNo == 1){
+              this.enableEntGroup= false;
+          }else {
+              this.census.ENTERPRISE_GROUP_ID= "";
+              this.enableEntGroup= true;
+          }
+      },
+      checkIsEntGroup: function () {
+          var yesNo = this.census.IS_UNDER_ENTERPRISE;
+          if(yesNo == 1){
+              this.enableEnterprise= false;
+          }else {
+              this.census.ENTERPRISE= "";
+              this.enableEnterprise= true;
+          }
+      },
+      checkIsEntGroupId2: function () {
+          var yesNo = this.census.IS_UNDER_ENT_GROUP2;
+          if(yesNo == 1){
+              this.enableEntGroupId2= false;
+          }else {
+              this.census.ENTERPRISE_GROUP_ID_2= "";
+              this.enableEntGroupId2= true;
+          }
       }
   }
 };

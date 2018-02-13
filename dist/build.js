@@ -11514,9 +11514,9 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE\n\t    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,\n\t    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE, HEAD_OFFICE_DIVISION, HEAD_OFFICE_DISTRICT, HEAD_OFFICE_THANA_UPZ, HEAD_OFFICE_WARD_UNION,\n\t    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
+			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE\n\t    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,\n\t    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE, HEAD_OFFICE_DIVISION, HEAD_OFFICE_DISTRICT, HEAD_OFFICE_THANA_UPZ, HEAD_OFFICE_WARD_UNION,\n\t    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID, IS_UNDER_ENTERPRISE, ENTERPRISE_ID, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID_2,\n\t    UNIT_TYPE_CODE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,\n\t\t ?, ?, ?, ?, ?, ?)');
 
-			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE, Census.HEAD_OFFICE_NAME, Census.HEAD_OFFICE_MAHALLAH, Census.HEAD_OFFICE_HOUSE, Census.HEAD_OFFICE_ROAD, Census.HEAD_OFFICE_FLOOR_LEVEL, Census.HEAD_OFFICE_HOLIDING_NO, Census.HEAD_OFFICE_PHONE, Census.HEAD_OFFICE_FAX, Census.HEAD_OFFICE_EMAIL, Census.HEAD_OFFICE_WEBSITE, Census.HEAD_OFFICE_DIVISION, Census.HEAD_OFFICE_DISTRICT, Census.HEAD_OFFICE_THANA_UPZ, Census.HEAD_OFFICE_WARD_UNION, Census.HEAD_OFFICE_MAUZA, Census.HEAD_OFFICE_RMO_CODE);
+			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE, Census.HEAD_OFFICE_NAME, Census.HEAD_OFFICE_MAHALLAH, Census.HEAD_OFFICE_HOUSE, Census.HEAD_OFFICE_ROAD, Census.HEAD_OFFICE_FLOOR_LEVEL, Census.HEAD_OFFICE_HOLIDING_NO, Census.HEAD_OFFICE_PHONE, Census.HEAD_OFFICE_FAX, Census.HEAD_OFFICE_EMAIL, Census.HEAD_OFFICE_WEBSITE, Census.HEAD_OFFICE_DIVISION, Census.HEAD_OFFICE_DISTRICT, Census.HEAD_OFFICE_THANA_UPZ, Census.HEAD_OFFICE_WARD_UNION, Census.HEAD_OFFICE_MAUZA, Census.HEAD_OFFICE_RMO_CODE, Census.IS_UNDER_ENT_GROUP, Census.ENTERPRISE_GROUP_ID, Census.IS_UNDER_ENTERPRISE, Census.ENTERPRISE, Census.IS_UNDER_ENT_GROUP2, Census.ENTERPRISE_GROUP_ID_2, Census.UNITE_TYPE_CODE);
 
 			store.emit('data-updated');
 		});
@@ -11524,7 +11524,7 @@
 
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			var sql = 'update census set \n\t\tDIVISION_ID=' + Census.DIVISION_ID + ', \n\t\tDISTRICT_ID=' + Census.DISTRICT_ID + ', \n\t\tTHANA_UPZ_ID=' + Census.THANA_UPZ_ID + ', \n\t\tWARD_UNION_ID=' + Census.WARD_UNION_ID + ', \n\t\tMAHALLAH_ID=' + Census.MAHALLAH_ID + ', \n\t\tRMO_CODE=' + Census.RMO_CODE + ', \n\t\tSERIAL_NO_UNIT="' + Census.SERIAL_NO_UNIT + '", \n\t\tNAME_OF_UNIT="' + Census.NAME_OF_UNIT + '", \n\t\tNAME_OF_MAHALLAH="' + Census.NAME_OF_MAHALLAH + '",\n\t\tNAME_OF_HOUSE="' + Census.NAME_OF_HOUSE + '",\n\t\tNO_NAME_OF_ROAD="' + Census.NO_NAME_OF_ROAD + '",\n\t\tFLOOR_LEVEL="' + Census.FLOOR_LEVEL + '",\n\t\tHOLIDING_NO="' + Census.HOLIDING_NO + '",\n\t\tPHONE="' + Census.PHONE + '",\n\t\tFAX="' + Census.FAX + '",\n\t\tEMAIL="' + Census.EMAIL + '",\n\t\tWEBSITE="' + Census.WEBSITE + '",\n\t\tLEGAL_OWNERSHIP_CODE=' + Census.LEGAL_OWNERSHIP_CODE + ',\n\t\tTYPE_OF_OWNERSHIP=' + Census.TYPE_OF_OWNERSHIP + ',\n\t\tHEAD_GENDER_CODE=' + Census.HEAD_GENDER_CODE + ',\n\t\tHEAD_OF_UNIT_AGE=' + Census.HEAD_OF_UNIT_AGE + ',\n\t\tHEAD_EDUCATION_CODE=' + Census.HEAD_EDUCATION_CODE + ',\n\t\tHEAD_OFFICE_NAME="' + Census.HEAD_OFFICE_NAME + '",\n\t\tHEAD_OFFICE_MAHALLAH="' + Census.HEAD_OFFICE_MAHALLAH + '",\n\t\tHEAD_OFFICE_HOUSE="' + Census.HEAD_OFFICE_HOUSE + '",\n\t\tHEAD_OFFICE_ROAD="' + Census.HEAD_OFFICE_ROAD + '",\n\t\tHEAD_OFFICE_FLOOR_LEVEL="' + Census.HEAD_OFFICE_FLOOR_LEVEL + '",\n\t\tHEAD_OFFICE_HOLIDING_NO="' + Census.HEAD_OFFICE_HOLIDING_NO + '",\n\t\tHEAD_OFFICE_PHONE="' + Census.HEAD_OFFICE_PHONE + '",\n\t\tHEAD_OFFICE_FAX="' + Census.HEAD_OFFICE_FAX + '",\n\t\tHEAD_OFFICE_EMAIL="' + Census.HEAD_OFFICE_EMAIL + '",\n\t\tHEAD_OFFICE_WEBSITE="' + Census.HEAD_OFFICE_WEBSITE + '",\n\t\tHEAD_OFFICE_DIVISION=' + Census.HEAD_OFFICE_DIVISION + ',\n\t\tHEAD_OFFICE_DISTRICT=' + Census.HEAD_OFFICE_DISTRICT + ',\n\t\tHEAD_OFFICE_THANA_UPZ=' + Census.HEAD_OFFICE_THANA_UPZ + ',\n\t\tHEAD_OFFICE_WARD_UNION=' + Census.HEAD_OFFICE_WARD_UNION + ',\n\t\tHEAD_OFFICE_MAUZA=' + Census.HEAD_OFFICE_MAUZA + ',\n\t\tHEAD_OFFICE_RMO_CODE=' + Census.HEAD_OFFICE_RMO_CODE + '\n\t\twhere ID=' + Census.ID;
+			var sql = 'update census set \n\t\tDIVISION_ID=' + Census.DIVISION_ID + ', \n\t\tDISTRICT_ID=' + Census.DISTRICT_ID + ', \n\t\tTHANA_UPZ_ID=' + Census.THANA_UPZ_ID + ', \n\t\tWARD_UNION_ID=' + Census.WARD_UNION_ID + ', \n\t\tMAHALLAH_ID=' + Census.MAHALLAH_ID + ', \n\t\tRMO_CODE=' + Census.RMO_CODE + ', \n\t\tSERIAL_NO_UNIT="' + Census.SERIAL_NO_UNIT + '", \n\t\tNAME_OF_UNIT="' + Census.NAME_OF_UNIT + '", \n\t\tNAME_OF_MAHALLAH="' + Census.NAME_OF_MAHALLAH + '",\n\t\tNAME_OF_HOUSE="' + Census.NAME_OF_HOUSE + '",\n\t\tNO_NAME_OF_ROAD="' + Census.NO_NAME_OF_ROAD + '",\n\t\tFLOOR_LEVEL="' + Census.FLOOR_LEVEL + '",\n\t\tHOLIDING_NO="' + Census.HOLIDING_NO + '",\n\t\tPHONE="' + Census.PHONE + '",\n\t\tFAX="' + Census.FAX + '",\n\t\tEMAIL="' + Census.EMAIL + '",\n\t\tWEBSITE="' + Census.WEBSITE + '",\n\t\tLEGAL_OWNERSHIP_CODE=' + Census.LEGAL_OWNERSHIP_CODE + ',\n\t\tTYPE_OF_OWNERSHIP=' + Census.TYPE_OF_OWNERSHIP + ',\n\t\tHEAD_GENDER_CODE=' + Census.HEAD_GENDER_CODE + ',\n\t\tHEAD_OF_UNIT_AGE=' + Census.HEAD_OF_UNIT_AGE + ',\n\t\tHEAD_EDUCATION_CODE=' + Census.HEAD_EDUCATION_CODE + ',\n\t\tHEAD_OFFICE_NAME="' + Census.HEAD_OFFICE_NAME + '",\n\t\tHEAD_OFFICE_MAHALLAH="' + Census.HEAD_OFFICE_MAHALLAH + '",\n\t\tHEAD_OFFICE_HOUSE="' + Census.HEAD_OFFICE_HOUSE + '",\n\t\tHEAD_OFFICE_ROAD="' + Census.HEAD_OFFICE_ROAD + '",\n\t\tHEAD_OFFICE_FLOOR_LEVEL="' + Census.HEAD_OFFICE_FLOOR_LEVEL + '",\n\t\tHEAD_OFFICE_HOLIDING_NO="' + Census.HEAD_OFFICE_HOLIDING_NO + '",\n\t\tHEAD_OFFICE_PHONE="' + Census.HEAD_OFFICE_PHONE + '",\n\t\tHEAD_OFFICE_FAX="' + Census.HEAD_OFFICE_FAX + '",\n\t\tHEAD_OFFICE_EMAIL="' + Census.HEAD_OFFICE_EMAIL + '",\n\t\tHEAD_OFFICE_WEBSITE="' + Census.HEAD_OFFICE_WEBSITE + '",\n\t\tHEAD_OFFICE_DIVISION=' + Census.HEAD_OFFICE_DIVISION + ',\n\t\tHEAD_OFFICE_DISTRICT=' + Census.HEAD_OFFICE_DISTRICT + ',\n\t\tHEAD_OFFICE_THANA_UPZ=' + Census.HEAD_OFFICE_THANA_UPZ + ',\n\t\tHEAD_OFFICE_WARD_UNION=' + Census.HEAD_OFFICE_WARD_UNION + ',\n\t\tHEAD_OFFICE_MAUZA=' + Census.HEAD_OFFICE_MAUZA + ',\n\t\tHEAD_OFFICE_RMO_CODE=' + Census.HEAD_OFFICE_RMO_CODE + ',\n\t\tIS_UNDER_ENT_GROUP=' + Census.IS_UNDER_ENT_GROUP + ',\n\t\tENTERPRISE_GROUP_ID="' + Census.ENTERPRISE_GROUP_ID + '",\n\t\tIS_UNDER_ENTERPRISE=' + Census.IS_UNDER_ENTERPRISE + ',\n\t\tENTERPRISE_ID="' + Census.ENTERPRISE + '",\n\t\tIS_UNDER_ENT_GROUP=' + Census.IS_UNDER_ENT_GROUP2 + ',\n\t\tENTERPRISE_GROUP_ID_2="' + Census.ENTERPRISE_GROUP_ID_2 + '",\n\t\tUNIT_TYPE_CODE=' + Census.UNITE_TYPE_CODE + '\n\t\twhere ID=' + Census.ID;
 			db.run(sql);
 			store.emit('data-updated');
 		});
@@ -11945,40 +11945,25 @@
 	        TYPE_OF_OWNERSHIP: 0,
 	        HEAD_GENDER_CODE: 0,
 	        HEAD_OF_UNIT_AGE: 0,
-	        HEAD_EDUCATION_CODE: 0
-
+	        HEAD_EDUCATION_CODE: 0,
+	        ENTERPRISE_GROUP_ID: ""
 	      },
+	      enableIsUnderEntGroup: true,
+	      enableEntGroup: true,
+	      enableIsUnderEnt: true,
+	      enableIsUnderEnt2: true,
+	      enableEntGroupId2: true,
+	      enableEnterprise: true,
 	      rmos: [],
 	      divisions: [],
-	      districts: [{
-	        id: 1,
-	        division_id: 1,
-	        name: "Faridfur"
-	      }, {
-	        id: 2,
-	        division_id: 1,
-	        name: "Gazipur"
-	      }, {
-	        id: 3,
-	        division_id: 2,
-	        name: "Naogaon"
-	      }, {
-	        id: 4,
-	        division_id: 2,
-	        name: "Chapai Nawabganj"
-	      }, {
-	        id: 5,
-	        division_id: 3,
-	        name: "Comilla"
-	      }, {
-	        id: 6,
-	        division_id: 3,
-	        name: "Cox's Bazar"
-	      }, {
-	        id: 7,
-	        division_id: 3,
-	        name: "Bandarban"
-	      }]
+	      districts: [],
+	      thanaUpazilla: [],
+	      unionWards: [],
+	      mauzaMahalla: [],
+	      HeadOfficedistricts: [],
+	      headOfficeThanaUpazilla: [],
+	      headOfficeUnionWards: [],
+	      headOfficeMauza: []
 	    };
 	  },
 
@@ -12039,7 +12024,8 @@
 
 	        HEAD_OFFICE_DIVISION: 0,
 	        head_office_district: 0,
-	        CENSUS_YEAR: "2018"
+	        CENSUS_YEAR: "2018",
+	        ENTERPRISE_GROUP_ID: ""
 	      };
 	      this.isEdit = true;
 	    },
@@ -12171,6 +12157,47 @@
 	      _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
 	        _this10.headOfficeMauza = list;
 	      }, unionWardId);
+	    },
+
+	    checkUnitType: function checkUnitType() {
+	      this.enableIsUnderEntGroup = true;
+	      this.enableIsUnderEnt = true;
+	      this.enableIsUnderEnt2 = true;
+	      var unit_type = this.census.UNITE_TYPE_CODE;
+	      if (unit_type == 1) {
+	        this.enableIsUnderEntGroup = false;
+	      }
+	      if (unit_type == 2) {
+	        this.enableIsUnderEnt = false;
+	        this.enableIsUnderEnt2 = false;
+	      }
+	    },
+	    checkIsUnderEntGroup: function checkIsUnderEntGroup() {
+	      var yesNo = this.census.IS_UNDER_ENT_GROUP;
+	      if (yesNo == 1) {
+	        this.enableEntGroup = false;
+	      } else {
+	        this.census.ENTERPRISE_GROUP_ID = "";
+	        this.enableEntGroup = true;
+	      }
+	    },
+	    checkIsEntGroup: function checkIsEntGroup() {
+	      var yesNo = this.census.IS_UNDER_ENTERPRISE;
+	      if (yesNo == 1) {
+	        this.enableEnterprise = false;
+	      } else {
+	        this.census.ENTERPRISE = "";
+	        this.enableEnterprise = true;
+	      }
+	    },
+	    checkIsEntGroupId2: function checkIsEntGroupId2() {
+	      var yesNo = this.census.IS_UNDER_ENT_GROUP2;
+	      if (yesNo == 1) {
+	        this.enableEntGroupId2 = false;
+	      } else {
+	        this.census.ENTERPRISE_GROUP_ID_2 = "";
+	        this.enableEntGroupId2 = true;
+	      }
 	    }
 	  }
 	};
@@ -13087,6 +13114,12 @@
 	  }, [_c('tbody', [_vm._m(22), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 "
 	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.UNITE_TYPE_CODE),
+	      expression: "census.UNITE_TYPE_CODE"
+	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "unit-type-code",
@@ -13095,6 +13128,17 @@
 	      "tabindex": "-1",
 	      "aria-hidden": "true",
 	      "aria-required": "true"
+	    },
+	    on: {
+	      "change": [function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "UNITE_TYPE_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.checkUnitType]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -13103,11 +13147,11 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.unit_types), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])])])])]), _vm._v(" "), _vm._m(23), _vm._v(" "), _vm._m(24), _vm._v(" "), _c('tr', [_c('td', {
+	  })], 2)])])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    attrs: {
 	      "colspan": "2"
 	    }
@@ -13116,7 +13160,89 @@
 	    attrs: {
 	      "width": "100%"
 	    }
-	  }, [_c('tbody', [_vm._m(25), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(23), _vm._v(" "), _c('tr', [_vm._m(24), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10",
+	    staticStyle: {
+	      "width": "300px"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group select2-width--auto"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.IS_UNDER_ENT_GROUP),
+	      expression: "census.IS_UNDER_ENT_GROUP"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "disabled": _vm.enableIsUnderEntGroup,
+	      "id": "is-under-ent-group",
+	      "name": "is_under_ent_group",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": [function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "IS_UNDER_ENT_GROUP", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.checkIsUnderEntGroup]
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])])]), _vm._v(" "), _c('tr', [_vm._m(25), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.ENTERPRISE_GROUP_ID),
+	      expression: "census.ENTERPRISE_GROUP_ID"
+	    }],
+	    staticClass: "form-control input-uppercase",
+	    attrs: {
+	      "disabled": _vm.enableEntGroup,
+	      "id": "enterprise-group-id",
+	      "name": "enterprise_group_id",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.ENTERPRISE_GROUP_ID)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "ENTERPRISE_GROUP_ID", $event.target.value)
+	      }
+	    }
+	  })])])])])])])]), _vm._v(" "), _vm._m(26), _vm._v(" "), _c('tr', [_c('td', {
+	    attrs: {
+	      "colspan": "2"
+	    }
+	  }, [_c('table', {
+	    staticClass: "table-full-width",
+	    attrs: {
+	      "width": "100%"
+	    }
+	  }, [_c('tbody', [_vm._m(27), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "text-center"
@@ -13126,27 +13252,27 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_under_enterprise),
-	      expression: "census.is_under_enterprise"
+	      value: (_vm.census.IS_UNDER_ENTERPRISE),
+	      expression: "census.IS_UNDER_ENTERPRISE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
-	      "disabled": "",
 	      "id": "is-under-ent",
+	      "disabled": _vm.enableIsUnderEnt,
 	      "name": "is_under_enterprise",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_under_enterprise", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "IS_UNDER_ENTERPRISE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.checkIsEntGroup]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -13169,31 +13295,65 @@
 	    }
 	  }, [_vm._v("এন্টারপ্রাইজ")]), _vm._v(" "), _c('div', {
 	    staticClass: "form-group "
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.ENTERPRISE),
+	      expression: "census.ENTERPRISE"
+	    }],
+	    staticClass: "form-control input-uppercase",
+	    attrs: {
+	      "id": "enterprise",
+	      "name": "enterprise",
+	      "disabled": _vm.enableEnterprise,
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.ENTERPRISE)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "ENTERPRISE", $event.target.value)
+	      }
+	    }
+	  })])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width",
+	    attrs: {
+	      "width": "100%"
+	    }
+	  }, [_c('tbody', [_vm._m(28), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "text-center"
+	  }, [_c('div', {
+	    staticClass: "form-group select2-width--auto"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.enterprise_id),
-	      expression: "census.enterprise_id"
+	      value: (_vm.census.IS_UNDER_ENT_GROUP2),
+	      expression: "census.IS_UNDER_ENT_GROUP2"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
-	      "disabled": "",
-	      "id": "enterprise",
-	      "name": "enterprise_id",
+	      "id": "is-under-ent-group-2",
+	      "disabled": _vm.enableIsUnderEnt2,
+	      "name": "is_under_ent_group2",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "enterprise_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "IS_UNDER_ENT_GROUP2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.checkIsEntGroupId2]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -13202,20 +13362,13 @@
 	    }
 	  }), _vm._v(" "), _c('option', {
 	    attrs: {
-	      "value": "262"
+	      "value": "1"
 	    }
-	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
 	    attrs: {
-	      "value": "261"
+	      "value": "2"
 	    }
-	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
-	    staticClass: "table-full-width",
-	    attrs: {
-	      "width": "100%"
-	    }
-	  }, [_c('tbody', [_vm._m(26), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_vm._m(27), _vm._v(" "), _c('div', {
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('div', {
 	    staticClass: "text-center"
 	  }, [_c('label', {
 	    attrs: {
@@ -13223,46 +13376,30 @@
 	    }
 	  }, [_vm._v("এন্টারপ্রাইজ গ্রুপ")]), _vm._v(" "), _c('div', {
 	    staticClass: "form-group "
-	  }, [_c('select', {
+	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.enterprise_group_id_2),
-	      expression: "census.enterprise_group_id_2"
+	      value: (_vm.census.ENTERPRISE_GROUP_ID_2),
+	      expression: "census.ENTERPRISE_GROUP_ID_2"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "form-control input-uppercase",
 	    attrs: {
-	      "disabled": "",
 	      "id": "enterprise-group-id-2",
 	      "name": "enterprise_group_id_2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
+	      "disabled": _vm.enableEntGroupId2,
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.ENTERPRISE_GROUP_ID_2)
 	    },
 	    on: {
-	      "change": function($event) {
-	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-	          return o.selected
-	        }).map(function(o) {
-	          var val = "_value" in o ? o._value : o.value;
-	          return val
-	        });
-	        _vm.$set(_vm.census, "enterprise_group_id_2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "ENTERPRISE_GROUP_ID_2", $event.target.value)
 	      }
 	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "262"
-	    }
-	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "261"
-	    }
-	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])]), _vm._v(" "), _c('td', {
+	  })])])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13331,7 +13468,7 @@
 	    attrs: {
 	      "width": "900"
 	    }
-	  }, [_c('tbody', [_vm._m(28), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(29), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10",
 	    attrs: {
 	      "width": "60%"
@@ -13340,7 +13477,7 @@
 	    attrs: {
 	      "border": "0"
 	    }
-	  }, [_c('tbody', [_c('tr', [_vm._m(29), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_c('tr', [_vm._m(30), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -13368,7 +13505,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_NAME", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(30), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(31), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -13396,7 +13533,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_MAHALLAH", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(31), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(32), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -13424,7 +13561,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_HOUSE", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(32), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(33), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -13452,7 +13589,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_ROAD", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(33), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(34), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -13476,7 +13613,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_FLOOR_LEVEL", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(34), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(35), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -13500,7 +13637,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_HOLIDING_NO", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(35), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(36), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -13524,7 +13661,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_PHONE", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(36), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(37), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -13548,7 +13685,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_FAX", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(37), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(38), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -13573,7 +13710,7 @@
 	        _vm.$set(_vm.census, "HEAD_OFFICE_EMAIL", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(38), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(39), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
@@ -13604,7 +13741,7 @@
 	    attrs: {
 	      "border": "0"
 	    }
-	  }, [_c('tbody', [_c('tr', [_vm._m(39), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_c('tbody', [_c('tr', [_vm._m(40), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -13642,7 +13779,7 @@
 	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(40), _vm._v(" "), _c('td', [_c('div', {
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(41), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -13680,7 +13817,7 @@
 	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(41), _vm._v(" "), _c('td', [_c('div', {
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(42), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -13718,7 +13855,7 @@
 	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(42), _vm._v(" "), _c('td', [_c('div', {
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(43), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -13756,7 +13893,7 @@
 	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(43), _vm._v(" "), _c('td', [_c('div', {
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(44), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -13794,7 +13931,7 @@
 	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(44), _vm._v(" "), _c('td', [_c('div', {
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(45), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -13852,7 +13989,7 @@
 	    }
 	  }, [_vm._v("9 - City Corporation")])])])])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(45), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(46), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group "
@@ -13896,7 +14033,7 @@
 	    }
 	  }, [_vm._v("2 - না")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(46), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(47), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13944,7 +14081,7 @@
 	    }
 	  }, [_vm._v("3 - প্রয়োজ্য নয়")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(47), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(48), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13992,7 +14129,7 @@
 	    }
 	  }, [_vm._v("03 - ইউনিয়ন পরিষদ")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(48), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(49), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -14021,7 +14158,7 @@
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(49), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(50), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -14069,7 +14206,7 @@
 	    }
 	  }, [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(50), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(51), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -14259,7 +14396,7 @@
 	    }
 	  })])])])])])])])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(51), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(52), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle text-center",
 	    staticStyle: {
 	      "width": "250px"
@@ -14304,7 +14441,7 @@
 	    attrs: {
 	      "value": "2"
 	    }
-	  }, [_vm._v("2 - না")])]), _vm._v(" "), _vm._m(52)])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("2 - না")])]), _vm._v(" "), _vm._m(53)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -15174,7 +15311,7 @@
 	    }
 	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(53), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(54), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t১৮. প্রতিষ্ঠানটির বাণিজ্যিক কার্যক্রম শুরুর সাল\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('div', {
 	    staticClass: "form-group"
@@ -15204,7 +15341,7 @@
 	    }
 	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])])])])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(54), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(55), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15340,7 +15477,7 @@
 	    attrs: {
 	      "value": "12"
 	    }
-	  }, [_vm._v("12 - ডিসেম্বর")])])])]), _vm._v(" "), _vm._m(55)]), _vm._v(" "), _vm._m(56), _vm._v(" "), _c('td', {
+	  }, [_vm._v("12 - ডিসেম্বর")])])])]), _vm._v(" "), _vm._m(56)]), _vm._v(" "), _vm._m(57), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', [_c('div', {
 	    staticClass: "form-group"
@@ -15426,9 +15563,9 @@
 	    attrs: {
 	      "value": "13"
 	    }
-	  }, [_vm._v("13 - অন্যান্য")])])])]), _vm._v(" "), _vm._m(57)]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("13 - অন্যান্য")])])])]), _vm._v(" "), _vm._m(58)]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._m(58), _vm._v(" "), _c('div', [_c('label', {
+	  }, [_vm._m(59), _vm._v(" "), _c('div', [_c('label', {
 	    staticClass: "text-center",
 	    staticStyle: {
 	      "display": "block"
@@ -15474,7 +15611,7 @@
 	    }
 	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(59), _vm._v(" "), _c('tr', [_vm._m(60), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(60), _vm._v(" "), _c('tr', [_vm._m(61), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15512,7 +15649,7 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(61), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(62), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15550,7 +15687,7 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(62), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(63), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15590,7 +15727,7 @@
 	    }
 	  }, [_vm._v("0111")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(63), _vm._v(" "), _c('tr', [_vm._m(64), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(64), _vm._v(" "), _c('tr', [_vm._m(65), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15628,7 +15765,7 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(65), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(66), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15671,14 +15808,14 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_vm._m(66), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', {
+	  }, [_vm._m(67), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width",
 	    attrs: {
 	      "width": "400"
 	    }
-	  }, [_c('tbody', [_vm._m(67), _vm._v(" "), _c('tr', [_vm._m(68), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_c('tbody', [_vm._m(68), _vm._v(" "), _c('tr', [_vm._m(69), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15714,7 +15851,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(69), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(70), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15750,7 +15887,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(70), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(71), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15786,7 +15923,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(71), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(72), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15822,7 +15959,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(72), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(73), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15858,7 +15995,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(73), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(74), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15901,9 +16038,9 @@
 	    attrs: {
 	      "width": "400"
 	    }
-	  }, [_c('tbody', [_vm._m(74), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(75), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("১.")]), _vm._v(" "), _vm._m(75), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("১.")]), _vm._v(" "), _vm._m(76), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15941,7 +16078,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("২.")]), _vm._v(" "), _vm._m(76), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("২.")]), _vm._v(" "), _vm._m(77), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15979,7 +16116,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৩.")]), _vm._v(" "), _vm._m(77), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৩.")]), _vm._v(" "), _vm._m(78), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16017,7 +16154,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৪.")]), _vm._v(" "), _vm._m(78), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৪.")]), _vm._v(" "), _vm._m(79), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16055,7 +16192,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৫.")]), _vm._v(" "), _vm._m(79), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৫.")]), _vm._v(" "), _vm._m(80), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16093,7 +16230,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৬.")]), _vm._v(" "), _vm._m(80), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৬.")]), _vm._v(" "), _vm._m(81), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16134,7 +16271,7 @@
 	    attrs: {
 	      "width": "1160"
 	    }
-	  }, [_c('tbody', [_vm._m(81), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(82), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16202,7 +16339,7 @@
 	        _vm.$set(_vm.census, "export_erc_code", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(82), _vm._v(" "), _vm._m(83), _vm._v(" "), _c('td', {
+	  })])]), _vm._v(" "), _vm._m(83), _vm._v(" "), _vm._m(84), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16312,7 +16449,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _vm._m(84), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _vm._m(85), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16380,7 +16517,7 @@
 	        _vm.$set(_vm.census, "import_irc_code", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(85), _vm._v(" "), _c('td', {
+	  })])]), _vm._v(" "), _vm._m(86), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 "
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16495,13 +16632,13 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(86), _vm._v(" "), _vm._m(87), _vm._v(" "), _vm._m(88), _vm._v(" "), _c('tr', [_vm._m(89), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(87), _vm._v(" "), _vm._m(88), _vm._v(" "), _vm._m(89), _vm._v(" "), _c('tr', [_vm._m(90), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
 	  }, [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(90), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(91), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16537,7 +16674,7 @@
 	        _vm.$set(_vm.census, "last_year_prod_raw_materials", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _vm._m(91), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _vm._m(92), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16620,7 +16757,7 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(92), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(93), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16658,7 +16795,7 @@
 	    attrs: {
 	      "value": "1"
 	    }
-	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _vm._m(93), _vm._v(" "), _c('td', {
+	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _vm._m(94), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16746,7 +16883,7 @@
 	    attrs: {
 	      "value": "3"
 	    }
-	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _vm._m(94)])])]), _vm._v(" "), _c('table', {
+	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _vm._m(95)])])]), _vm._v(" "), _c('table', {
 	    staticClass: "main-form-structure table-full-width table-item-bordered",
 	    staticStyle: {
 	      "width": "2125px"
@@ -16820,7 +16957,7 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩৮. তথ্যপ্রদানকারী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৯. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_vm._m(95), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৯. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_vm._m(96), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -17132,7 +17269,7 @@
 	    }
 	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-5"
-	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(96)])])])])])])]), _vm._v(" "), _c('nav', {
+	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(97)])])])])])])]), _vm._v(" "), _c('nav', {
 	    staticStyle: {
 	      "width": "2125px"
 	    },
@@ -17354,16 +17491,7 @@
 	    staticClass: "text-danger"
 	  }, [_vm._v("*")])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', {
-	    attrs: {
-	      "colspan": "2"
-	    }
-	  }, [_c('table', {
-	    staticClass: "table-full-width",
-	    attrs: {
-	      "width": "100%"
-	    }
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  return _c('tr', [_c('th', {
 	    staticClass: "text-center",
 	    staticStyle: {
 	      "border-bottom": "1px solid #ccc"
@@ -17371,82 +17499,30 @@
 	    attrs: {
 	      "colspan": "2"
 	    }
-	  }, [_vm._v("প্রশ্ন ৬.১ এর উত্তর কোড 2 (এন্টারপ্রাইজ) হলে ")])]), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("প্রশ্ন ৬.১ এর উত্তর কোড ১ (এন্টারপ্রাইজ) হলে ")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10 text-right"
 	  }, [_c('label', {
 	    attrs: {
 	      "for": "is-under-ent-group"
 	    }
-	  }, [_vm._v("৬.২ এটি কোন এন্টারপ্রাইজ গ্রুপের অন্তর্ভুক্ত কি?")])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10",
-	    staticStyle: {
-	      "width": "300px"
-	    }
-	  }, [_c('div', {
-	    staticClass: "form-group select2-width--auto"
-	  }, [_c('select', {
-	    staticClass: "select form-control ",
-	    attrs: {
-	      "disabled": "",
-	      "id": "is-under-ent-group",
-	      "name": "is_under_ent_group",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("৬.২ এটি কোন এন্টারপ্রাইজ গ্রুপের অন্তর্ভুক্ত কি?")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10 text-right"
 	  }, [_c('label', {
 	    attrs: {
 	      "for": "enterprise-group-id"
 	    }
-	  }, [_vm._v("উত্তর হ্যাঁ হলে নাম ইংরেজি বড় অক্ষরে লিখুন ")])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "disabled": "",
-	      "id": "enterprise-group-id",
-	      "data-placeholder": "এন্টারপ্রাইজ গ্রুপ",
-	      "name": "enterprise_group_id",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "262"
-	    }
-	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "261"
-	    }
-	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])])
+	  }, [_vm._v("উত্তর হ্যাঁ হলে নাম ইংরেজি বড় অক্ষরে লিখুন ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 text-center",
 	    attrs: {
 	      "colspan": "3"
 	    }
-	  }, [_vm._v("প্রশ্ন ৬.১ এর উত্তর কোড 3 (এস্টাবলিশমেন্ট) হলে ")]), _vm._v(" "), _c('th', {
+	  }, [_vm._v("প্রশ্ন ৬.১ এর উত্তর কোড ২ (এস্টাবলিশমেন্ট) হলে ")]), _vm._v(" "), _c('th', {
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("৭. প্রতিষ্ঠানের ধরন ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -17457,34 +17533,6 @@
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered"
 	  }, [_vm._v("৬.৪ এটি কোন এন্টারপ্রাইজ গ্রুপের অন্তর্ভুক্ত কি? ")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "text-center"
-	  }, [_c('div', {
-	    staticClass: "form-group select2-width--auto"
-	  }, [_c('select', {
-	    staticClass: "select form-control ",
-	    attrs: {
-	      "disabled": "",
-	      "id": "is-under-ent-group-2",
-	      "name": "is_under_ent_group",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10",

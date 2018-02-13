@@ -106,8 +106,10 @@ store.addCensus = (Census) => {
 	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE
 	    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,
 	    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE, HEAD_OFFICE_DIVISION, HEAD_OFFICE_DISTRICT, HEAD_OFFICE_THANA_UPZ, HEAD_OFFICE_WARD_UNION,
-	    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE) 
-		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`);
+	    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID, IS_UNDER_ENTERPRISE, ENTERPRISE_ID, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID_2,
+	    UNIT_TYPE_CODE) 
+		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+		 ?, ?, ?, ?, ?, ?)`);
 
 		stmt.run(Census.DIVISION_ID,
 			Census.DISTRICT_ID,
@@ -146,7 +148,14 @@ store.addCensus = (Census) => {
             Census.HEAD_OFFICE_THANA_UPZ,
             Census.HEAD_OFFICE_WARD_UNION,
             Census.HEAD_OFFICE_MAUZA,
-            Census.HEAD_OFFICE_RMO_CODE
+            Census.HEAD_OFFICE_RMO_CODE,
+            Census.IS_UNDER_ENT_GROUP,
+            Census.ENTERPRISE_GROUP_ID,
+            Census.IS_UNDER_ENTERPRISE,
+            Census.ENTERPRISE,
+            Census.IS_UNDER_ENT_GROUP2,
+            Census.ENTERPRISE_GROUP_ID_2,
+            Census.UNITE_TYPE_CODE
 		);
 
 		store.emit('data-updated');
@@ -193,7 +202,14 @@ store.editCensus = (catId, Census) => {
 		HEAD_OFFICE_THANA_UPZ=${Census.HEAD_OFFICE_THANA_UPZ},
 		HEAD_OFFICE_WARD_UNION=${Census.HEAD_OFFICE_WARD_UNION},
 		HEAD_OFFICE_MAUZA=${Census.HEAD_OFFICE_MAUZA},
-		HEAD_OFFICE_RMO_CODE=${Census.HEAD_OFFICE_RMO_CODE}
+		HEAD_OFFICE_RMO_CODE=${Census.HEAD_OFFICE_RMO_CODE},
+		IS_UNDER_ENT_GROUP=${Census.IS_UNDER_ENT_GROUP},
+		ENTERPRISE_GROUP_ID="${Census.ENTERPRISE_GROUP_ID}",
+		IS_UNDER_ENTERPRISE=${Census.IS_UNDER_ENTERPRISE},
+		ENTERPRISE_ID="${Census.ENTERPRISE}",
+		IS_UNDER_ENT_GROUP=${Census.IS_UNDER_ENT_GROUP2},
+		ENTERPRISE_GROUP_ID_2="${Census.ENTERPRISE_GROUP_ID_2}",
+		UNIT_TYPE_CODE=${Census.UNITE_TYPE_CODE}
 		where ID=${Census.ID}`;
 		db.run(sql);
 		store.emit('data-updated');

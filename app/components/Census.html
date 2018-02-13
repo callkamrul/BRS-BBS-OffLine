@@ -394,10 +394,10 @@
 															<tr>
 																<td class="padding-10 ">
 
-																	<select class="select form-control " id="unit-type-code" required="required"
-																	 name="unit_type_code" tabindex="-1" aria-hidden="true" aria-required="true">
+																	<select class="select form-control " @change = "checkUnitType" id="unit-type-code" required="required"
+																	 name="unit_type_code" tabindex="-1" aria-hidden="true" aria-required="true" v-model="census.UNITE_TYPE_CODE">
 																		<option selected="selected" value=""></option>
-																		<option v-for="item in unit_types" value="item.ID">{{item.NAME}}</option>
+																		<option v-for="item in unit_types" :value="item.ID">{{item.NAME}}</option>
 																	</select>
 																</td>
 															</tr>
@@ -411,7 +411,7 @@
 													<table class="table-full-width" width="100%">
 														<tbody>
 															<tr>
-																<th colspan="2" class="text-center" style="border-bottom: 1px solid #ccc">প্রশ্ন ৬.১ এর উত্তর কোড 2 (এন্টারপ্রাইজ) হলে </th>
+																<th colspan="2" class="text-center" style="border-bottom: 1px solid #ccc">প্রশ্ন ৬.১ এর উত্তর কোড ১ (এন্টারপ্রাইজ) হলে </th>
 															</tr>
 
 															<tr>
@@ -420,8 +420,8 @@
 																</td>
 																<td class="padding-10" style="width: 300px;">
 																	<div class="form-group select2-width--auto">
-																		<select class="select form-control " disabled="" id="is-under-ent-group"
-																		 name="is_under_ent_group" tabindex="-1" aria-hidden="true">
+																		<select class="select form-control " @change = "checkIsUnderEntGroup"  v-bind:disabled="enableIsUnderEntGroup" id="is-under-ent-group"
+																		 name="is_under_ent_group" tabindex="-1" aria-hidden="true" v-model="census.IS_UNDER_ENT_GROUP">
 																			<option selected="selected" value=""></option>
 																			<option value="1">1 - হ্যাঁ</option>
 																			<option value="2">2 - না</option>
@@ -435,12 +435,7 @@
 																</td>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-hidden-accessible" disabled="" id="enterprise-group-id" data-placeholder="এন্টারপ্রাইজ গ্রুপ"
-																		 name="enterprise_group_id" tabindex="-1" aria-hidden="true">
-																			<option selected="selected" value=""></option>
-																			<option value="262">ASHA </option>
-																			<option value="261">POLYCON LIMITED</option>
-																		</select>
+																		<input class="form-control input-uppercase" v-bind:disabled="enableEntGroup" id="enterprise-group-id" name="enterprise_group_id" v-model="census.ENTERPRISE_GROUP_ID" type="text">
 																	</div>
 																</td>
 															</tr>
@@ -449,7 +444,7 @@
 												</td>
 											</tr>
 											<tr>
-												<th colspan="3" class="padding-10 text-center">প্রশ্ন ৬.১ এর উত্তর কোড 3 (এস্টাবলিশমেন্ট) হলে </th>
+												<th colspan="3" class="padding-10 text-center">প্রশ্ন ৬.১ এর উত্তর কোড ২ (এস্টাবলিশমেন্ট) হলে </th>
 												<th class="padding-10 text-center">৭. প্রতিষ্ঠানের ধরন </th>
 											</tr>
 											<tr>
@@ -464,7 +459,7 @@
 
 																	<div class="text-center">
 																		<div class="form-group select2-width--auto ">
-																			<select class="select form-control " disabled="" id="is-under-ent" name="is_under_enterprise" v-model="census.is_under_enterprise"
+																			<select class="select form-control " @change = "checkIsEntGroup" id="is-under-ent" v-bind:disabled="enableIsUnderEnt" name="is_under_enterprise" v-model="census.IS_UNDER_ENTERPRISE"
 																			 tabindex="-1" aria-hidden="true">
 																				<option selected="selected" value=""></option>
 																				<option value="1">1 - হ্যাঁ</option>
@@ -475,12 +470,8 @@
 																	<div class="text-center">
 																		<label for="enterprise">এন্টারপ্রাইজ</label>
 																		<div class="form-group ">
-																			<select class="select form-control select2-control select2-hidden-accessible" disabled="" id="enterprise" name="enterprise_id" v-model="census.enterprise_id"
-																			 tabindex="-1" aria-hidden="true">
-																				<option selected="selected" value=""></option>
-																				<option value="262">ASHA </option>
-																				<option value="261">POLYCON LIMITED</option>
-																			</select>
+																			<input class="form-control input-uppercase" id="enterprise" name="enterprise" v-bind:disabled="enableEnterprise"
+																				   v-model="census.ENTERPRISE" type="text">
 																		</div>
 																	</div>
 																</td>
@@ -499,8 +490,8 @@
 																	<div class="text-center">
 
 																		<div class="form-group select2-width--auto">
-																			<select class="select form-control " disabled="" id="is-under-ent-group-2"
-																			 name="is_under_ent_group" tabindex="-1" aria-hidden="true">
+																			<select class="select form-control " @change = "checkIsEntGroupId2" id="is-under-ent-group-2" v-bind:disabled="enableIsUnderEnt2"
+																					v-model="census.IS_UNDER_ENT_GROUP2" name="is_under_ent_group2" tabindex="-1" aria-hidden="true">
 																				<option selected="selected" value=""></option>
 																				<option value="1">1 - হ্যাঁ</option>
 																				<option value="2">2 - না</option>
@@ -510,12 +501,8 @@
 																	<div class="text-center">
 																		<label for="enterprise-group-id-2">এন্টারপ্রাইজ গ্রুপ</label>
 																		<div class="form-group ">
-																			<select class="select form-control select2-control select2-hidden-accessible" disabled="" id="enterprise-group-id-2" name="enterprise_group_id_2" v-model="census.enterprise_group_id_2"
-																			 tabindex="-1" aria-hidden="true">
-																				<option selected="selected" value=""></option>
-																				<option value="262">ASHA </option>
-																				<option value="261">POLYCON LIMITED</option>
-																			</select>
+																			<input class="form-control input-uppercase" id="enterprise-group-id-2" name="enterprise_group_id_2"
+																				   v-bind:disabled="enableEntGroupId2" v-model="census.ENTERPRISE_GROUP_ID_2" type="text">
 																		</div>
 																	</div>
 																</td>
