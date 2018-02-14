@@ -11449,26 +11449,47 @@
 		});
 	};
 
-	store.getDistrictList = function (cb, $division_id) {
+	store.getDistrictList = function (cb) {
+		var $division_id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
 		var list = [];
-		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom DISTRICTS where DIVISION_ID=' + $division_id, function (err, row) {
-			list.push(row);
-		}, function (err, rowCount) {
-			cb(null, list);
-		});
+		if ($division_id) {
+			db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom DISTRICTS where DIVISION_ID=' + $division_id, function (err, row) {
+				list.push(row);
+			}, function (err, rowCount) {
+				cb(null, list);
+			});
+		} else {
+			db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\t\t\t\t From DISTRICTS', function (err, row) {
+				list.push(row);
+			}, function (err, rowCount) {
+				cb(null, list);
+			});
+		}
 	};
 
-	store.getThanaUpazillaByDistrict = function (cb, $districtId) {
+	store.getThanaUpazillaByDistrict = function (cb) {
+		var $districtId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+		var $condition = '';
+		if ($districtId) {
+			$condition = 'where DISTRICT_ID=' + $districtId;
+		}
+
 		var thanaList = [];
-		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom THANA_UPAZILAS where DISTRICT_ID=' + $districtId, function (err, row) {
+		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom THANA_UPAZILAS ' + $condition, function (err, row) {
 			thanaList.push(row);
 		}, function (err, rowCount) {
 			cb(null, thanaList);
 		});
 	};
 	store.getUnionWardByThanaUpazilla = function (cb, $thanaId) {
+		var $condition = '';
+		if ($thanaId) {
+			$condition = 'where thana_upazila_id=' + $thanaId;
+		}
 		var unionList = [];
-		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom UNION_WARDS where thana_upazila_id=' + $thanaId, function (err, row) {
+		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom UNION_WARDS ' + $condition, function (err, row) {
 			unionList.push(row);
 		}, function (err, rowCount) {
 			cb(null, unionList);
@@ -11514,17 +11535,48 @@
 
 	store.addCensus = function (Census) {
 		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE\n\t    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,\n\t    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE, HEAD_OFFICE_DIVISION, HEAD_OFFICE_DISTRICT, HEAD_OFFICE_THANA_UPZ, HEAD_OFFICE_WARD_UNION,\n\t    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID, IS_UNDER_ENTERPRISE, ENTERPRISE_ID, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID_2,\n\t    UNIT_TYPE_CODE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,\n\t\t ?, ?, ?, ?, ?, ?)');
 
-			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE, Census.HEAD_OFFICE_NAME, Census.HEAD_OFFICE_MAHALLAH, Census.HEAD_OFFICE_HOUSE, Census.HEAD_OFFICE_ROAD, Census.HEAD_OFFICE_FLOOR_LEVEL, Census.HEAD_OFFICE_HOLIDING_NO, Census.HEAD_OFFICE_PHONE, Census.HEAD_OFFICE_FAX, Census.HEAD_OFFICE_EMAIL, Census.HEAD_OFFICE_WEBSITE, Census.HEAD_OFFICE_DIVISION, Census.HEAD_OFFICE_DISTRICT, Census.HEAD_OFFICE_THANA_UPZ, Census.HEAD_OFFICE_WARD_UNION, Census.HEAD_OFFICE_MAUZA, Census.HEAD_OFFICE_RMO_CODE, Census.IS_UNDER_ENT_GROUP, Census.ENTERPRISE_GROUP_ID, Census.IS_UNDER_ENTERPRISE, Census.ENTERPRISE, Census.IS_UNDER_ENT_GROUP2, Census.ENTERPRISE_GROUP_ID_2, Census.UNITE_TYPE_CODE);
+			if (Census.UNIT_TYPE_CODE == 2) {
+				Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2;
+			}
+			delete Census.IS_UNDER_ENT_GROUP2;
+
+			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE\n\t    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,\n\t    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE, HEAD_OFFICE_DIVISION, HEAD_OFFICE_DISTRICT, HEAD_OFFICE_THANA_UPZ, HEAD_OFFICE_WARD_UNION,\n\t    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID, IS_UNDER_ENTERPRISE, ENTERPRISE_ID, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID_2,\n\t    UNIT_TYPE_CODE, IS_REPORTING_UNIT, UNIT_MODE_CODE, HAS_TRADE_LICENSE, TRADE_LICENSE_AUTHORITY, TRADE_LICENSE_NUMBER,\n\t    IS_REGISTERED, REG_ORG_CODE1, REG_ORG_CODE2, REG_ORG_CODE3, REGISTRATION_NO1, REGISTRATION_NO2, REGISTRATION_NO3) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,\n\t\t ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+
+			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE, Census.HEAD_OFFICE_NAME, Census.HEAD_OFFICE_MAHALLAH, Census.HEAD_OFFICE_HOUSE, Census.HEAD_OFFICE_ROAD, Census.HEAD_OFFICE_FLOOR_LEVEL, Census.HEAD_OFFICE_HOLIDING_NO, Census.HEAD_OFFICE_PHONE, Census.HEAD_OFFICE_FAX, Census.HEAD_OFFICE_EMAIL, Census.HEAD_OFFICE_WEBSITE, Census.HEAD_OFFICE_DIVISION, Census.HEAD_OFFICE_DISTRICT, Census.HEAD_OFFICE_THANA_UPZ, Census.HEAD_OFFICE_WARD_UNION, Census.HEAD_OFFICE_MAUZA, Census.HEAD_OFFICE_RMO_CODE, Census.IS_UNDER_ENT_GROUP, Census.ENTERPRISE_GROUP_ID, Census.IS_UNDER_ENTERPRISE, Census.ENTERPRISE_ID, Census.IS_UNDER_ENT_GROUP2, Census.ENTERPRISE_GROUP_ID_2, Census.UNIT_TYPE_CODE, Census.IS_REPORTING_UNIT, Census.UNIT_MODE_CODE, Census.HAS_TRADE_LICENSE, Census.TRADE_LICENSE_AUTHORITY, Census.TRADE_LICENSE_NUMBER, Census.IS_REGISTERED, Census.REG_ORG_CODE1, Census.REG_ORG_CODE2, Census.REG_ORG_CODE3, Census.REGISTRATION_NO1, Census.REGISTRATION_NO2, Census.REGISTRATION_NO3);
 
 			store.emit('data-updated');
 		});
 	};
 
+	/**
+	 * Update census form data
+	 * @param catId
+	 * @param Census	Census data object
+	 */
 	store.editCensus = function (catId, Census) {
 		db.serialize(function () {
-			var sql = 'update census set \n\t\tDIVISION_ID=' + Census.DIVISION_ID + ', \n\t\tDISTRICT_ID=' + Census.DISTRICT_ID + ', \n\t\tTHANA_UPZ_ID=' + Census.THANA_UPZ_ID + ', \n\t\tWARD_UNION_ID=' + Census.WARD_UNION_ID + ', \n\t\tMAHALLAH_ID=' + Census.MAHALLAH_ID + ', \n\t\tRMO_CODE=' + Census.RMO_CODE + ', \n\t\tSERIAL_NO_UNIT="' + Census.SERIAL_NO_UNIT + '", \n\t\tNAME_OF_UNIT="' + Census.NAME_OF_UNIT + '", \n\t\tNAME_OF_MAHALLAH="' + Census.NAME_OF_MAHALLAH + '",\n\t\tNAME_OF_HOUSE="' + Census.NAME_OF_HOUSE + '",\n\t\tNO_NAME_OF_ROAD="' + Census.NO_NAME_OF_ROAD + '",\n\t\tFLOOR_LEVEL="' + Census.FLOOR_LEVEL + '",\n\t\tHOLIDING_NO="' + Census.HOLIDING_NO + '",\n\t\tPHONE="' + Census.PHONE + '",\n\t\tFAX="' + Census.FAX + '",\n\t\tEMAIL="' + Census.EMAIL + '",\n\t\tWEBSITE="' + Census.WEBSITE + '",\n\t\tLEGAL_OWNERSHIP_CODE=' + Census.LEGAL_OWNERSHIP_CODE + ',\n\t\tTYPE_OF_OWNERSHIP=' + Census.TYPE_OF_OWNERSHIP + ',\n\t\tHEAD_GENDER_CODE=' + Census.HEAD_GENDER_CODE + ',\n\t\tHEAD_OF_UNIT_AGE=' + Census.HEAD_OF_UNIT_AGE + ',\n\t\tHEAD_EDUCATION_CODE=' + Census.HEAD_EDUCATION_CODE + ',\n\t\tHEAD_OFFICE_NAME="' + Census.HEAD_OFFICE_NAME + '",\n\t\tHEAD_OFFICE_MAHALLAH="' + Census.HEAD_OFFICE_MAHALLAH + '",\n\t\tHEAD_OFFICE_HOUSE="' + Census.HEAD_OFFICE_HOUSE + '",\n\t\tHEAD_OFFICE_ROAD="' + Census.HEAD_OFFICE_ROAD + '",\n\t\tHEAD_OFFICE_FLOOR_LEVEL="' + Census.HEAD_OFFICE_FLOOR_LEVEL + '",\n\t\tHEAD_OFFICE_HOLIDING_NO="' + Census.HEAD_OFFICE_HOLIDING_NO + '",\n\t\tHEAD_OFFICE_PHONE="' + Census.HEAD_OFFICE_PHONE + '",\n\t\tHEAD_OFFICE_FAX="' + Census.HEAD_OFFICE_FAX + '",\n\t\tHEAD_OFFICE_EMAIL="' + Census.HEAD_OFFICE_EMAIL + '",\n\t\tHEAD_OFFICE_WEBSITE="' + Census.HEAD_OFFICE_WEBSITE + '",\n\t\tHEAD_OFFICE_DIVISION=' + Census.HEAD_OFFICE_DIVISION + ',\n\t\tHEAD_OFFICE_DISTRICT=' + Census.HEAD_OFFICE_DISTRICT + ',\n\t\tHEAD_OFFICE_THANA_UPZ=' + Census.HEAD_OFFICE_THANA_UPZ + ',\n\t\tHEAD_OFFICE_WARD_UNION=' + Census.HEAD_OFFICE_WARD_UNION + ',\n\t\tHEAD_OFFICE_MAUZA=' + Census.HEAD_OFFICE_MAUZA + ',\n\t\tHEAD_OFFICE_RMO_CODE=' + Census.HEAD_OFFICE_RMO_CODE + ',\n\t\tIS_UNDER_ENT_GROUP=' + Census.IS_UNDER_ENT_GROUP + ',\n\t\tENTERPRISE_GROUP_ID="' + Census.ENTERPRISE_GROUP_ID + '",\n\t\tIS_UNDER_ENTERPRISE=' + Census.IS_UNDER_ENTERPRISE + ',\n\t\tENTERPRISE_ID="' + Census.ENTERPRISE + '",\n\t\tIS_UNDER_ENT_GROUP=' + Census.IS_UNDER_ENT_GROUP2 + ',\n\t\tENTERPRISE_GROUP_ID_2="' + Census.ENTERPRISE_GROUP_ID_2 + '",\n\t\tUNIT_TYPE_CODE=' + Census.UNITE_TYPE_CODE + '\n\t\twhere ID=' + Census.ID;
+			if (Census.UNIT_TYPE_CODE == 2) {
+				Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2;
+			}
+			delete Census.IS_UNDER_ENT_GROUP2;
+			// Generate automatically update query with all database field and value taken from census form
+			// by looping through the Census object
+			var rawSql = '';
+			var c = 0;
+			for (var key in Census) {
+				if (Census.hasOwnProperty(key) && key != 'ID') {
+					c++;
+					if (c > 1) {
+						rawSql += ',';
+					}
+					rawSql += key + '= "' + Census[key] + '"';
+				}
+			}
+
+			var sql = 'update census set ';
+			sql += rawSql;
+			sql += ' where ID=' + Census.ID;
 			db.run(sql);
 			store.emit('data-updated');
 		});
@@ -12036,6 +12088,31 @@
 	        if (err) {} else {
 	          _this2.census = Census;
 	          _this2.isEdit = true;
+	          // Load address (division, district, thana list) in edit mode
+	          _store2.default.getDistrictList(function (err, list) {
+	            _this2.districts = list;
+	          }, Census.DIVISION_ID);
+	          _store2.default.getThanaUpazillaByDistrict(function (err, thanaList) {
+	            _this2.thanaUpazilla = thanaList;
+	          }, Census.DISTRICT_ID);
+	          _store2.default.getUnionWardByThanaUpazilla(function (err, unionList) {
+	            _this2.unionWards = unionList;
+	          }, Census.THANA_UPZ_ID);
+	          _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
+	            _this2.mauzaMahalla = list;
+	          }, Census.WARD_UNION_ID);
+	          _store2.default.getDistrictList(function (err, list) {
+	            _this2.HeadOfficedistricts = list;
+	          }, Census.HEAD_OFFICE_DIVISION);
+	          _store2.default.getThanaUpazillaByDistrict(function (err, thanaList) {
+	            _this2.headOfficeThanaUpazilla = thanaList;
+	          }, Census.HEAD_OFFICE_DISTRICT);
+	          _store2.default.getUnionWardByThanaUpazilla(function (err, unionList) {
+	            _this2.headOfficeUnionWards = unionList;
+	          }, Census.HEAD_OFFICE_THANA_UPZ);
+	          _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
+	            _this2.headOfficeMauza = list;
+	          }, Census.HEAD_OFFICE_WARD_UNION);
 	        }
 	      });
 	    },
@@ -12163,7 +12240,7 @@
 	      this.enableIsUnderEntGroup = true;
 	      this.enableIsUnderEnt = true;
 	      this.enableIsUnderEnt2 = true;
-	      var unit_type = this.census.UNITE_TYPE_CODE;
+	      var unit_type = this.census.UNIT_TYPE_CODE;
 	      if (unit_type == 1) {
 	        this.enableIsUnderEntGroup = false;
 	      }
@@ -12186,7 +12263,7 @@
 	      if (yesNo == 1) {
 	        this.enableEnterprise = false;
 	      } else {
-	        this.census.ENTERPRISE = "";
+	        this.census.ENTERPRISE_ID = "";
 	        this.enableEnterprise = true;
 	      }
 	    },
@@ -13117,8 +13194,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.UNITE_TYPE_CODE),
-	      expression: "census.UNITE_TYPE_CODE"
+	      value: (_vm.census.UNIT_TYPE_CODE),
+	      expression: "census.UNIT_TYPE_CODE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -13137,7 +13214,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "UNITE_TYPE_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "UNIT_TYPE_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }, _vm.checkUnitType]
 	    }
 	  }, [_c('option', {
@@ -13299,8 +13376,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.ENTERPRISE),
-	      expression: "census.ENTERPRISE"
+	      value: (_vm.census.ENTERPRISE_ID),
+	      expression: "census.ENTERPRISE_ID"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -13310,12 +13387,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.ENTERPRISE)
+	      "value": (_vm.census.ENTERPRISE_ID)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "ENTERPRISE", $event.target.value)
+	        _vm.$set(_vm.census, "ENTERPRISE_ID", $event.target.value)
 	      }
 	    }
 	  })])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
@@ -13407,8 +13484,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.unit_mode_code),
-	      expression: "census.unit_mode_code"
+	      value: (_vm.census.UNIT_MODE_CODE),
+	      expression: "census.UNIT_MODE_CODE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -13425,7 +13502,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "unit_mode_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "UNIT_MODE_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -13997,10 +14074,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_reporting_unit),
-	      expression: "census.is_reporting_unit"
+	      value: (_vm.census.IS_REPORTING_UNIT),
+	      expression: "census.IS_REPORTING_UNIT"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "is-reporting-unit",
 	      "name": "is_reporting_unit",
@@ -14015,7 +14092,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_reporting_unit", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IS_REPORTING_UNIT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14041,8 +14118,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.has_trade_license),
-	      expression: "census.has_trade_license"
+	      value: (_vm.census.HAS_TRADE_LICENSE),
+	      expression: "census.HAS_TRADE_LICENSE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -14059,7 +14136,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "has_trade_license", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAS_TRADE_LICENSE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14089,10 +14166,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.trade_license_authority),
-	      expression: "census.trade_license_authority"
+	      value: (_vm.census.TRADE_LICENSE_AUTHORITY),
+	      expression: "census.TRADE_LICENSE_AUTHORITY"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "trade-license-authority",
 	      "name": "trade_license_authority",
@@ -14107,7 +14184,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "trade_license_authority", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "TRADE_LICENSE_AUTHORITY", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14137,8 +14214,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.trade_license_number),
-	      expression: "census.trade_license_number"
+	      value: (_vm.census.TRADE_LICENSE_NUMBER),
+	      expression: "census.TRADE_LICENSE_NUMBER"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -14148,12 +14225,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.trade_license_number)
+	      "value": (_vm.census.TRADE_LICENSE_NUMBER)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "trade_license_number", $event.target.value)
+	        _vm.$set(_vm.census, "TRADE_LICENSE_NUMBER", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', [_c('table', {
@@ -14166,8 +14243,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_registered),
-	      expression: "census.is_registered"
+	      value: (_vm.census.IS_REGISTERED),
+	      expression: "census.IS_REGISTERED"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -14184,7 +14261,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_registered", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IS_REGISTERED", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14216,10 +14293,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.reg_org_code1),
-	      expression: "census.reg_org_code1"
+	      value: (_vm.census.REG_ORG_CODE1),
+	      expression: "census.REG_ORG_CODE1"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "reg_org_code1",
@@ -14234,7 +14311,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "reg_org_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "REG_ORG_CODE1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14252,10 +14329,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.reg_org_code2),
-	      expression: "census.reg_org_code2"
+	      value: (_vm.census.REG_ORG_CODE2),
+	      expression: "census.REG_ORG_CODE2"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "reg_org_code2",
@@ -14270,7 +14347,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "reg_org_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "REG_ORG_CODE2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14288,10 +14365,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.reg_org_code3),
-	      expression: "census.reg_org_code3"
+	      value: (_vm.census.REG_ORG_CODE3),
+	      expression: "census.REG_ORG_CODE3"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "reg_org_code3",
@@ -14306,7 +14383,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "reg_org_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "REG_ORG_CODE3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14328,8 +14405,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.registration_no1),
-	      expression: "census.registration_no1"
+	      value: (_vm.census.REGISTRATION_NO1),
+	      expression: "census.REGISTRATION_NO1"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -14338,12 +14415,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.registration_no1)
+	      "value": (_vm.census.REGISTRATION_NO1)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "registration_no1", $event.target.value)
+	        _vm.$set(_vm.census, "REGISTRATION_NO1", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14352,8 +14429,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.registration_no2),
-	      expression: "census.registration_no2"
+	      value: (_vm.census.REGISTRATION_NO2),
+	      expression: "census.REGISTRATION_NO2"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -14362,12 +14439,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.registration_no2)
+	      "value": (_vm.census.REGISTRATION_NO2)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "registration_no2", $event.target.value)
+	        _vm.$set(_vm.census, "REGISTRATION_NO2", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14376,8 +14453,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.registration_no3),
-	      expression: "census.registration_no3"
+	      value: (_vm.census.REGISTRATION_NO3),
+	      expression: "census.REGISTRATION_NO3"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -14386,12 +14463,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.registration_no3)
+	      "value": (_vm.census.REGISTRATION_NO3)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "registration_no3", $event.target.value)
+	        _vm.$set(_vm.census, "REGISTRATION_NO3", $event.target.value)
 	      }
 	    }
 	  })])])])])])])])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {

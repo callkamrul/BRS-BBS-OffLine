@@ -13,22 +13,36 @@ store.getDivisionList = function(cb)
 			});
 }
 
-store.getDistrictList = function(cb, $division_id)
+store.getDistrictList = function(cb, $division_id = null)
 {
     var list =[];
-    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+    if($division_id){
+        db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
 	From DISTRICTS where DIVISION_ID=${$division_id}`, function (err, row) {
-        list.push(row);
-    }, function (err, rowCount) {
-        cb(null, list);
-    });
+            list.push(row);
+        }, function (err, rowCount) {
+            cb(null, list);
+        });
+    }else {
+        db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+				 From DISTRICTS`, function (err, row) {
+            list.push(row);
+        }, function (err, rowCount) {
+            cb(null, list);
+        });
+	}
 }
 
-store.getThanaUpazillaByDistrict = function(cb, $districtId)
+store.getThanaUpazillaByDistrict = function(cb, $districtId = null)
 {
+	var $condition = '';
+	if($districtId){
+        $condition = `where DISTRICT_ID=${$districtId}`;
+	}
+
     var thanaList =[];
     db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
-	From THANA_UPAZILAS where DISTRICT_ID=${$districtId}`, function (err, row) {
+	From THANA_UPAZILAS ${$condition}`, function (err, row) {
         thanaList.push(row);
     }, function (err, rowCount) {
         cb(null, thanaList);
@@ -36,9 +50,13 @@ store.getThanaUpazillaByDistrict = function(cb, $districtId)
 }
 store.getUnionWardByThanaUpazilla = function(cb, $thanaId)
 {
+    var $condition = '';
+    if($thanaId){
+        $condition = `where thana_upazila_id=${$thanaId}`;
+    }
     var unionList =[];
     db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
-	From UNION_WARDS where thana_upazila_id=${$thanaId}`, function (err, row) {
+	From UNION_WARDS ${$condition}`, function (err, row) {
         unionList.push(row);
     }, function (err, rowCount) {
         cb(null, unionList);
@@ -101,15 +119,22 @@ store.getCensus = function (catId, cb) {
 
 store.addCensus = (Census) => {
 	db.serialize(function () {
+
+        if(Census.UNIT_TYPE_CODE == 2){
+            Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2
+        }
+        delete Census.IS_UNDER_ENT_GROUP2;
+
 		var stmt = db.prepare(`insert into census
 		('DIVISION_ID', 'DISTRICT_ID', 'THANA_UPZ_ID', 'WARD_UNION_ID', 'MAHALLAH_ID', 'RMO_CODE', 'SERIAL_NO_UNIT', 'NAME_OF_UNIT', 'NAME_OF_MAHALLAH','NAME_OF_HOUSE', 'NO_NAME_OF_ROAD', 'FLOOR_LEVEL',
 	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE
 	    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,
 	    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE, HEAD_OFFICE_DIVISION, HEAD_OFFICE_DISTRICT, HEAD_OFFICE_THANA_UPZ, HEAD_OFFICE_WARD_UNION,
 	    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID, IS_UNDER_ENTERPRISE, ENTERPRISE_ID, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID_2,
-	    UNIT_TYPE_CODE) 
+	    UNIT_TYPE_CODE, IS_REPORTING_UNIT, UNIT_MODE_CODE, HAS_TRADE_LICENSE, TRADE_LICENSE_AUTHORITY, TRADE_LICENSE_NUMBER,
+	    IS_REGISTERED, REG_ORG_CODE1, REG_ORG_CODE2, REG_ORG_CODE3, REGISTRATION_NO1, REGISTRATION_NO2, REGISTRATION_NO3) 
 		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-		 ?, ?, ?, ?, ?, ?)`);
+		 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
 
 		stmt.run(Census.DIVISION_ID,
 			Census.DISTRICT_ID,
@@ -152,65 +177,56 @@ store.addCensus = (Census) => {
             Census.IS_UNDER_ENT_GROUP,
             Census.ENTERPRISE_GROUP_ID,
             Census.IS_UNDER_ENTERPRISE,
-            Census.ENTERPRISE,
+            Census.ENTERPRISE_ID,
             Census.IS_UNDER_ENT_GROUP2,
             Census.ENTERPRISE_GROUP_ID_2,
-            Census.UNITE_TYPE_CODE
+            Census.UNIT_TYPE_CODE,
+            Census.IS_REPORTING_UNIT,
+            Census.UNIT_MODE_CODE,
+            Census.HAS_TRADE_LICENSE,
+            Census.TRADE_LICENSE_AUTHORITY,
+            Census.TRADE_LICENSE_NUMBER,
+            Census.IS_REGISTERED,
+            Census.REG_ORG_CODE1,
+            Census.REG_ORG_CODE2,
+            Census.REG_ORG_CODE3,
+            Census.REGISTRATION_NO1,
+            Census.REGISTRATION_NO2,
+            Census.REGISTRATION_NO3,
 		);
 
 		store.emit('data-updated');
 	});
 }
 
+/**
+ * Update census form data
+ * @param catId
+ * @param Census	Census data object
+ */
 store.editCensus = (catId, Census) => {
 	db.serialize(function () {
-		var sql = `update census set 
-		DIVISION_ID=${Census.DIVISION_ID}, 
-		DISTRICT_ID=${Census.DISTRICT_ID}, 
-		THANA_UPZ_ID=${Census.THANA_UPZ_ID}, 
-		WARD_UNION_ID=${Census.WARD_UNION_ID}, 
-		MAHALLAH_ID=${Census.MAHALLAH_ID}, 
-		RMO_CODE=${Census.RMO_CODE}, 
-		SERIAL_NO_UNIT="${Census.SERIAL_NO_UNIT}", 
-		NAME_OF_UNIT="${Census.NAME_OF_UNIT}", 
-		NAME_OF_MAHALLAH="${Census.NAME_OF_MAHALLAH}",
-		NAME_OF_HOUSE="${Census.NAME_OF_HOUSE}",
-		NO_NAME_OF_ROAD="${Census.NO_NAME_OF_ROAD}",
-		FLOOR_LEVEL="${Census.FLOOR_LEVEL}",
-		HOLIDING_NO="${Census.HOLIDING_NO}",
-		PHONE="${Census.PHONE}",
-		FAX="${Census.FAX}",
-		EMAIL="${Census.EMAIL}",
-		WEBSITE="${Census.WEBSITE}",
-		LEGAL_OWNERSHIP_CODE=${Census.LEGAL_OWNERSHIP_CODE},
-		TYPE_OF_OWNERSHIP=${Census.TYPE_OF_OWNERSHIP},
-		HEAD_GENDER_CODE=${Census.HEAD_GENDER_CODE},
-		HEAD_OF_UNIT_AGE=${Census.HEAD_OF_UNIT_AGE},
-		HEAD_EDUCATION_CODE=${Census.HEAD_EDUCATION_CODE},
-		HEAD_OFFICE_NAME="${Census.HEAD_OFFICE_NAME}",
-		HEAD_OFFICE_MAHALLAH="${Census.HEAD_OFFICE_MAHALLAH}",
-		HEAD_OFFICE_HOUSE="${Census.HEAD_OFFICE_HOUSE}",
-		HEAD_OFFICE_ROAD="${Census.HEAD_OFFICE_ROAD}",
-		HEAD_OFFICE_FLOOR_LEVEL="${Census.HEAD_OFFICE_FLOOR_LEVEL}",
-		HEAD_OFFICE_HOLIDING_NO="${Census.HEAD_OFFICE_HOLIDING_NO}",
-		HEAD_OFFICE_PHONE="${Census.HEAD_OFFICE_PHONE}",
-		HEAD_OFFICE_FAX="${Census.HEAD_OFFICE_FAX}",
-		HEAD_OFFICE_EMAIL="${Census.HEAD_OFFICE_EMAIL}",
-		HEAD_OFFICE_WEBSITE="${Census.HEAD_OFFICE_WEBSITE}",
-		HEAD_OFFICE_DIVISION=${Census.HEAD_OFFICE_DIVISION},
-		HEAD_OFFICE_DISTRICT=${Census.HEAD_OFFICE_DISTRICT},
-		HEAD_OFFICE_THANA_UPZ=${Census.HEAD_OFFICE_THANA_UPZ},
-		HEAD_OFFICE_WARD_UNION=${Census.HEAD_OFFICE_WARD_UNION},
-		HEAD_OFFICE_MAUZA=${Census.HEAD_OFFICE_MAUZA},
-		HEAD_OFFICE_RMO_CODE=${Census.HEAD_OFFICE_RMO_CODE},
-		IS_UNDER_ENT_GROUP=${Census.IS_UNDER_ENT_GROUP},
-		ENTERPRISE_GROUP_ID="${Census.ENTERPRISE_GROUP_ID}",
-		IS_UNDER_ENTERPRISE=${Census.IS_UNDER_ENTERPRISE},
-		ENTERPRISE_ID="${Census.ENTERPRISE}",
-		IS_UNDER_ENT_GROUP=${Census.IS_UNDER_ENT_GROUP2},
-		ENTERPRISE_GROUP_ID_2="${Census.ENTERPRISE_GROUP_ID_2}",
-		UNIT_TYPE_CODE=${Census.UNITE_TYPE_CODE}
-		where ID=${Census.ID}`;
+		if(Census.UNIT_TYPE_CODE == 2){
+            Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2
+		}
+        delete Census.IS_UNDER_ENT_GROUP2;
+		// Generate automatically update query with all database field and value taken from census form
+		// by looping through the Census object
+        var rawSql = '';
+		var c = 0;
+        for (var key in Census) {
+            if (Census.hasOwnProperty(key) && key != 'ID') {
+                c++;
+				if(c > 1){
+                    rawSql += `,`;
+				}
+                rawSql+= key +`= "`+ Census[key] + `"`;
+            }
+        }
+
+		var sql = `update census set `;
+        sql += rawSql
+        sql+=` where ID=${Census.ID}`;
 		db.run(sql);
 		store.emit('data-updated');
 	});

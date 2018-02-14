@@ -112,6 +112,15 @@ export default {
         } else {
           this.census = Census;
           this.isEdit = true;
+          // Load address (division, district, thana list) in edit mode
+          store.getDistrictList((err, list ) => { this.districts = list}, Census.DIVISION_ID);
+          store.getThanaUpazillaByDistrict((err, thanaList ) => { this.thanaUpazilla = thanaList}, Census.DISTRICT_ID);
+          store.getUnionWardByThanaUpazilla((err, unionList ) => { this.unionWards = unionList}, Census.THANA_UPZ_ID);
+          store.getMauzaMahallahByUnionWard((err, list ) => { this.mauzaMahalla = list}, Census.WARD_UNION_ID);
+          store.getDistrictList((err, list ) => { this.HeadOfficedistricts = list}, Census.HEAD_OFFICE_DIVISION);
+          store.getThanaUpazillaByDistrict((err, thanaList ) => { this.headOfficeThanaUpazilla = thanaList}, Census.HEAD_OFFICE_DISTRICT);
+          store.getUnionWardByThanaUpazilla((err, unionList ) => { this.headOfficeUnionWards = unionList}, Census.HEAD_OFFICE_THANA_UPZ);
+          store.getMauzaMahallahByUnionWard((err, list ) => { this.headOfficeMauza = list}, Census.HEAD_OFFICE_WARD_UNION);
         }
       });
     },
@@ -206,7 +215,7 @@ export default {
           this.enableIsUnderEntGroup= true;
           this.enableIsUnderEnt= true;
           this.enableIsUnderEnt2= true;
-          var unit_type = this.census.UNITE_TYPE_CODE;
+          var unit_type = this.census.UNIT_TYPE_CODE;
           if(unit_type == 1){
               this.enableIsUnderEntGroup= false;
           }
@@ -229,7 +238,7 @@ export default {
           if(yesNo == 1){
               this.enableEnterprise= false;
           }else {
-              this.census.ENTERPRISE= "";
+              this.census.ENTERPRISE_ID= "";
               this.enableEnterprise= true;
           }
       },

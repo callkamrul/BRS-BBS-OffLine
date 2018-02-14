@@ -395,7 +395,7 @@
 																<td class="padding-10 ">
 
 																	<select class="select form-control " @change = "checkUnitType" id="unit-type-code" required="required"
-																	 name="unit_type_code" tabindex="-1" aria-hidden="true" aria-required="true" v-model="census.UNITE_TYPE_CODE">
+																	 name="unit_type_code" tabindex="-1" aria-hidden="true" aria-required="true" v-model="census.UNIT_TYPE_CODE">
 																		<option selected="selected" value=""></option>
 																		<option v-for="item in unit_types" :value="item.ID">{{item.NAME}}</option>
 																	</select>
@@ -471,7 +471,7 @@
 																		<label for="enterprise">এন্টারপ্রাইজ</label>
 																		<div class="form-group ">
 																			<input class="form-control input-uppercase" id="enterprise" name="enterprise" v-bind:disabled="enableEnterprise"
-																				   v-model="census.ENTERPRISE" type="text">
+																				   v-model="census.ENTERPRISE_ID" type="text">
 																		</div>
 																	</div>
 																</td>
@@ -512,7 +512,7 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control " id="unit-mode-code" name="unit_mode_code" v-model="census.unit_mode_code"
+														<select class="select form-control " id="unit-mode-code" name="unit_mode_code" v-model="census.UNIT_MODE_CODE"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
 															<option value="1">1 - প্রধান কার্যালয়</option>
@@ -781,7 +781,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group ">
-																		<select class="select form-control select2-control select2-hidden-accessible" id="is-reporting-unit" name="is_reporting_unit" v-model="census.is_reporting_unit"
+																		<select class="select form-control" id="is-reporting-unit" name="is_reporting_unit" v-model="census.IS_REPORTING_UNIT"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">1 - হ্যাঁ</option>
@@ -802,7 +802,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<select class="select form-control " id="has-trade-license" name="has_trade_license" v-model="census.has_trade_license"
+																		<select class="select form-control " id="has-trade-license" name="has_trade_license" v-model="census.HAS_TRADE_LICENSE"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">1 - হ্যাঁ</option>
@@ -824,7 +824,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<select class="select form-control select2-control select2-hidden-accessible" id="trade-license-authority" name="trade_license_authority" v-model="census.trade_license_authority"
+																		<select class="select form-control" id="trade-license-authority" name="trade_license_authority" v-model="census.TRADE_LICENSE_AUTHORITY"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">01 - সিটি কর্পোরেশন</option>
@@ -846,7 +846,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<input class="form-control" id="trade-license-number" maxlength="10" name="trade_license_number" v-model="census.trade_license_number"
+																		<input class="form-control" id="trade-license-number" maxlength="10" name="trade_license_number" v-model="census.TRADE_LICENSE_NUMBER"
 																		 type="text">
 																	</div>
 																</td>
@@ -863,7 +863,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<select class="select form-control " id="is-registered" name="is_registered" v-model="census.is_registered"
+																		<select class="select form-control " id="is-registered" name="is_registered" v-model="census.IS_REGISTERED"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
 																			<option value="1">1 - হ্যাঁ</option>
@@ -895,7 +895,7 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code1" v-model="census.reg_org_code1" tabindex="-1"
+																						<select class="select form-control" data-placeholder="" name="reg_org_code1" v-model="census.REG_ORG_CODE1" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
@@ -907,7 +907,7 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code2" v-model="census.reg_org_code2" tabindex="-1"
+																						<select class="select form-control" data-placeholder="" name="reg_org_code2" v-model="census.REG_ORG_CODE2" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
@@ -919,7 +919,7 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<select class="select form-control select2-control select2-hidden-accessible" data-placeholder="" name="reg_org_code3" v-model="census.reg_org_code3" tabindex="-1"
+																						<select class="select form-control" data-placeholder="" name="reg_org_code3" v-model="census.REG_ORG_CODE3" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
 																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
@@ -939,21 +939,21 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" maxlength="10" name="registration_no1" v-model="census.registration_no1" type="text">
+																						<input class="form-control" maxlength="10" name="registration_no1" v-model="census.REGISTRATION_NO1" type="text">
 																					</div>
 																				</td>
 																			</tr>
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" maxlength="10" name="registration_no2" v-model="census.registration_no2" type="text">
+																						<input class="form-control" maxlength="10" name="registration_no2" v-model="census.REGISTRATION_NO2" type="text">
 																					</div>
 																				</td>
 																			</tr>
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<input class="form-control" maxlength="10" name="registration_no3" v-model="census.registration_no3" type="text">
+																						<input class="form-control" maxlength="10" name="registration_no3" v-model="census.REGISTRATION_NO3" type="text">
 																					</div>
 																				</td>
 																			</tr>
