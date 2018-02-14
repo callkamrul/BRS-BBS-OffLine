@@ -217,7 +217,7 @@ store.editCensus = (catId, Census) => {
         for (var key in Census) {
             if (Census.hasOwnProperty(key) && key != 'ID') {
                 c++;
-				if(c > 1){
+				if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
                     rawSql += `,`;
 				}
                 rawSql+= key +`= "`+ Census[key] + `"`;

@@ -11568,6 +11568,7 @@
 				if (Census.hasOwnProperty(key) && key != 'ID') {
 					c++;
 					if (c > 1) {
+						// So that a comma(,) is placed after every key value but not before first key value
 						rawSql += ',';
 					}
 					rawSql += key + '= "' + Census[key] + '"';
@@ -14484,8 +14485,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_under_permission_auth),
-	      expression: "census.is_under_permission_auth"
+	      value: (_vm.census.IS_UNDER_PERMISSION_AUTH),
+	      expression: "census.IS_UNDER_PERMISSION_AUTH"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -14502,7 +14503,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_under_permission_auth", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IS_UNDER_PERMISSION_AUTH", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14518,7 +14519,7 @@
 	    attrs: {
 	      "value": "2"
 	    }
-	  }, [_vm._v("2 - না")])]), _vm._v(" "), _vm._m(53)])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -15388,7 +15389,7 @@
 	    }
 	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(54), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(53), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t১৮. প্রতিষ্ঠানটির বাণিজ্যিক কার্যক্রম শুরুর সাল\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('div', {
 	    staticClass: "form-group"
@@ -15418,7 +15419,7 @@
 	    }
 	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])])])])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(55), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(54), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15554,7 +15555,7 @@
 	    attrs: {
 	      "value": "12"
 	    }
-	  }, [_vm._v("12 - ডিসেম্বর")])])])]), _vm._v(" "), _vm._m(56)]), _vm._v(" "), _vm._m(57), _vm._v(" "), _c('td', {
+	  }, [_vm._v("12 - ডিসেম্বর")])])])]), _vm._v(" "), _vm._m(55)]), _vm._v(" "), _vm._m(56), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', [_c('div', {
 	    staticClass: "form-group"
@@ -15640,9 +15641,9 @@
 	    attrs: {
 	      "value": "13"
 	    }
-	  }, [_vm._v("13 - অন্যান্য")])])])]), _vm._v(" "), _vm._m(58)]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("13 - অন্যান্য")])])])]), _vm._v(" "), _vm._m(57)]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._m(59), _vm._v(" "), _c('div', [_c('label', {
+	  }, [_vm._m(58), _vm._v(" "), _c('div', [_c('label', {
 	    staticClass: "text-center",
 	    staticStyle: {
 	      "display": "block"
@@ -15688,7 +15689,7 @@
 	    }
 	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(60), _vm._v(" "), _c('tr', [_vm._m(61), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(59), _vm._v(" "), _c('tr', [_vm._m(60), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15726,7 +15727,7 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(62), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(61), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15764,7 +15765,7 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(63), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(62), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15804,7 +15805,7 @@
 	    }
 	  }, [_vm._v("0111")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(64), _vm._v(" "), _c('tr', [_vm._m(65), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(63), _vm._v(" "), _c('tr', [_vm._m(64), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15842,7 +15843,7 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(66), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(65), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15885,14 +15886,14 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_vm._m(67), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', {
+	  }, [_vm._m(66), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width",
 	    attrs: {
 	      "width": "400"
 	    }
-	  }, [_c('tbody', [_vm._m(68), _vm._v(" "), _c('tr', [_vm._m(69), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_c('tbody', [_vm._m(67), _vm._v(" "), _c('tr', [_vm._m(68), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15928,7 +15929,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(70), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(69), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -15964,7 +15965,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(71), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(70), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16000,7 +16001,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(72), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(71), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16036,7 +16037,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(73), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(72), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16072,7 +16073,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(74), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(73), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16115,9 +16116,9 @@
 	    attrs: {
 	      "width": "400"
 	    }
-	  }, [_c('tbody', [_vm._m(75), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(74), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("১.")]), _vm._v(" "), _vm._m(76), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("১.")]), _vm._v(" "), _vm._m(75), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16155,7 +16156,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("২.")]), _vm._v(" "), _vm._m(77), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("২.")]), _vm._v(" "), _vm._m(76), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16193,7 +16194,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৩.")]), _vm._v(" "), _vm._m(78), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৩.")]), _vm._v(" "), _vm._m(77), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16231,7 +16232,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৪.")]), _vm._v(" "), _vm._m(79), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৪.")]), _vm._v(" "), _vm._m(78), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16269,7 +16270,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৫.")]), _vm._v(" "), _vm._m(80), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৫.")]), _vm._v(" "), _vm._m(79), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16307,7 +16308,7 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৬.")]), _vm._v(" "), _vm._m(81), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৬.")]), _vm._v(" "), _vm._m(80), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
@@ -16348,7 +16349,7 @@
 	    attrs: {
 	      "width": "1160"
 	    }
-	  }, [_c('tbody', [_vm._m(82), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(81), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16416,7 +16417,7 @@
 	        _vm.$set(_vm.census, "export_erc_code", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(83), _vm._v(" "), _vm._m(84), _vm._v(" "), _c('td', {
+	  })])]), _vm._v(" "), _vm._m(82), _vm._v(" "), _vm._m(83), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16526,7 +16527,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _vm._m(85), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _vm._m(84), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16594,7 +16595,7 @@
 	        _vm.$set(_vm.census, "import_irc_code", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(86), _vm._v(" "), _c('td', {
+	  })])]), _vm._v(" "), _vm._m(85), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 "
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16709,13 +16710,13 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(87), _vm._v(" "), _vm._m(88), _vm._v(" "), _vm._m(89), _vm._v(" "), _c('tr', [_vm._m(90), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(86), _vm._v(" "), _vm._m(87), _vm._v(" "), _vm._m(88), _vm._v(" "), _c('tr', [_vm._m(89), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
 	  }, [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(91), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(90), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16751,7 +16752,7 @@
 	        _vm.$set(_vm.census, "last_year_prod_raw_materials", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _vm._m(92), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _vm._m(91), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16834,7 +16835,7 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(93), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(92), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16872,7 +16873,7 @@
 	    attrs: {
 	      "value": "1"
 	    }
-	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _vm._m(94), _vm._v(" "), _c('td', {
+	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _vm._m(93), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16960,7 +16961,7 @@
 	    attrs: {
 	      "value": "3"
 	    }
-	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _vm._m(95)])])]), _vm._v(" "), _c('table', {
+	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _vm._m(94)])])]), _vm._v(" "), _c('table', {
 	    staticClass: "main-form-structure table-full-width table-item-bordered",
 	    staticStyle: {
 	      "width": "2125px"
@@ -17034,7 +17035,7 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩৮. তথ্যপ্রদানকারী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৯. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_vm._m(96), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৯. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_vm._m(95), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -17346,7 +17347,7 @@
 	    }
 	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-5"
-	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(97)])])])])])])]), _vm._v(" "), _c('nav', {
+	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(96)])])])])])])]), _vm._v(" "), _c('nav', {
 	    staticStyle: {
 	      "width": "2125px"
 	    },
@@ -17782,47 +17783,6 @@
 	      "width": "175px"
 	    }
 	  }, [_vm._v("১৭. প্রতিষ্ঠানটি স্থাপনের সাল")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('span', {
-	    staticClass: "select2 select2-container select2-container--default",
-	    staticStyle: {
-	      "width": "100%"
-	    },
-	    attrs: {
-	      "dir": "ltr"
-	    }
-	  }, [_c('span', {
-	    staticClass: "selection"
-	  }, [_c('span', {
-	    staticClass: "select2-selection select2-selection--single select2-sm",
-	    attrs: {
-	      "role": "combobox",
-	      "aria-haspopup": "true",
-	      "aria-expanded": "false",
-	      "tabindex": "0",
-	      "aria-labelledby": "select2-is-under-permission-auth-container"
-	    }
-	  }, [_c('span', {
-	    staticClass: "select2-selection__rendered",
-	    attrs: {
-	      "id": "select2-is-under-permission-auth-container",
-	      "title": ""
-	    }
-	  }), _vm._v(" "), _c('span', {
-	    staticClass: "select2-selection__arrow",
-	    attrs: {
-	      "role": "presentation"
-	    }
-	  }, [_c('b', {
-	    attrs: {
-	      "role": "presentation"
-	    }
-	  })])])]), _vm._v(" "), _c('span', {
-	    staticClass: "dropdown-wrapper",
-	    attrs: {
-	      "aria-hidden": "true"
-	    }
-	  })])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', {
 	    staticClass: "bottom-bordered"
