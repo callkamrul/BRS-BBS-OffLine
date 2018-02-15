@@ -125,75 +125,45 @@ store.addCensus = (Census) => {
         }
         delete Census.IS_UNDER_ENT_GROUP2;
 
-		var stmt = db.prepare(`insert into census
-		('DIVISION_ID', 'DISTRICT_ID', 'THANA_UPZ_ID', 'WARD_UNION_ID', 'MAHALLAH_ID', 'RMO_CODE', 'SERIAL_NO_UNIT', 'NAME_OF_UNIT', 'NAME_OF_MAHALLAH','NAME_OF_HOUSE', 'NO_NAME_OF_ROAD', 'FLOOR_LEVEL',
-	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE
-	    , HEAD_OFFICE_NAME, HEAD_OFFICE_MAHALLAH, HEAD_OFFICE_HOUSE, HEAD_OFFICE_ROAD, HEAD_OFFICE_FLOOR_LEVEL, HEAD_OFFICE_HOLIDING_NO, HEAD_OFFICE_PHONE,
-	    HEAD_OFFICE_FAX, HEAD_OFFICE_EMAIL, HEAD_OFFICE_WEBSITE, HEAD_OFFICE_DIVISION, HEAD_OFFICE_DISTRICT, HEAD_OFFICE_THANA_UPZ, HEAD_OFFICE_WARD_UNION,
-	    HEAD_OFFICE_MAUZA, HEAD_OFFICE_RMO_CODE, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID, IS_UNDER_ENTERPRISE, ENTERPRISE_ID, IS_UNDER_ENT_GROUP, ENTERPRISE_GROUP_ID_2,
-	    UNIT_TYPE_CODE, IS_REPORTING_UNIT, UNIT_MODE_CODE, HAS_TRADE_LICENSE, TRADE_LICENSE_AUTHORITY, TRADE_LICENSE_NUMBER,
-	    IS_REGISTERED, REG_ORG_CODE1, REG_ORG_CODE2, REG_ORG_CODE3, REGISTRATION_NO1, REGISTRATION_NO2, REGISTRATION_NO3) 
-		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-		 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+        // Generate automatically insert query with all database field and value taken from census form
+        // by looping through the Census object
+        var sqlParam = `insert into census (`;
+        var values = ` values(`;
+        var bindValues = '';
+        var c = 0;
+        console.log(Census)
+        for (var key in Census) {
+            if (Census.hasOwnProperty(key) && key != 'ID') {
+                /**
+                 * Check if condition because every field comming from form with double
+                 * one for for v-model and other for input control name
+                 * but we need only v-model name value and v-model name value must be capital
+                 */
+                if(key.toUpperCase() == key){
+                    c++;
+                    if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
+                        sqlParam += `,`;
+                        values += `,`;
+                        bindValues += `,`;
+                    }
 
-		stmt.run(Census.DIVISION_ID,
-			Census.DISTRICT_ID,
-			Census.THANA_UPZ_ID,
-			Census.WARD_UNION_ID,
-			Census.MAHALLAH_ID,
-			Census.RMO_CODE,
-			Census.SERIAL_NO_UNIT,
-			Census.NAME_OF_UNIT,
-			Census.NAME_OF_MAHALLAH,
-			Census.NAME_OF_HOUSE,
-			Census.NO_NAME_OF_ROAD,
-			Census.FLOOR_LEVEL,
-			Census.HOLIDING_NO,
-			Census.PHONE,
-			Census.FAX,
-			Census.EMAIL,
-			Census.WEBSITE,
-			Census.LEGAL_OWNERSHIP_CODE,
-			Census.TYPE_OF_OWNERSHIP,
-			Census.HEAD_GENDER_CODE,
-			Census.HEAD_OF_UNIT_AGE,
-			Census.HEAD_EDUCATION_CODE,
-			Census.HEAD_OFFICE_NAME,
-			Census.HEAD_OFFICE_MAHALLAH,
-			Census.HEAD_OFFICE_HOUSE,
-			Census.HEAD_OFFICE_ROAD,
-			Census.HEAD_OFFICE_FLOOR_LEVEL,
-			Census.HEAD_OFFICE_HOLIDING_NO,
-			Census.HEAD_OFFICE_PHONE,
-			Census.HEAD_OFFICE_FAX,
-			Census.HEAD_OFFICE_EMAIL,
-			Census.HEAD_OFFICE_WEBSITE,
-			Census.HEAD_OFFICE_DIVISION,
-            Census.HEAD_OFFICE_DISTRICT,
-            Census.HEAD_OFFICE_THANA_UPZ,
-            Census.HEAD_OFFICE_WARD_UNION,
-            Census.HEAD_OFFICE_MAUZA,
-            Census.HEAD_OFFICE_RMO_CODE,
-            Census.IS_UNDER_ENT_GROUP,
-            Census.ENTERPRISE_GROUP_ID,
-            Census.IS_UNDER_ENTERPRISE,
-            Census.ENTERPRISE_ID,
-            Census.IS_UNDER_ENT_GROUP2,
-            Census.ENTERPRISE_GROUP_ID_2,
-            Census.UNIT_TYPE_CODE,
-            Census.IS_REPORTING_UNIT,
-            Census.UNIT_MODE_CODE,
-            Census.HAS_TRADE_LICENSE,
-            Census.TRADE_LICENSE_AUTHORITY,
-            Census.TRADE_LICENSE_NUMBER,
-            Census.IS_REGISTERED,
-            Census.REG_ORG_CODE1,
-            Census.REG_ORG_CODE2,
-            Census.REG_ORG_CODE3,
-            Census.REGISTRATION_NO1,
-            Census.REGISTRATION_NO2,
-            Census.REGISTRATION_NO3,
-		);
+                    sqlParam+= `'` + key.toUpperCase() + `'`;
+                    values+= `'` + Census[key] + `'`;
+                }
+                //bindValues+= `'` + Census[key] + `'`;
+                /*if(!Census[key]){
+                    bindValues+= null;
+				}else {
+                    bindValues+= `'` + Census[key] + `'`;
+				}*/
+            }
+        }
+        sqlParam += `)`
+        values += `)`
+		var sql = sqlParam + values ;
+
+		var stmt = db.prepare(sql);
+		stmt.run();
 
 		store.emit('data-updated');
 	});
