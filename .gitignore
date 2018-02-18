@@ -1,2 +1,7 @@
+/data/*
+/dist/*
 /node_modules/*
+
+## Editor settings
+.idea
 

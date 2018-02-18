@@ -11323,7 +11323,7 @@
 	__vue_exports__ = __webpack_require__(6)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(13)
+	var __vue_template__ = __webpack_require__(16)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -11374,7 +11374,7 @@
 
 	var _Census2 = _interopRequireDefault(_Census);
 
-	var _EventHub = __webpack_require__(11);
+	var _EventHub = __webpack_require__(13);
 
 	var _EventHub2 = _interopRequireDefault(_EventHub);
 
@@ -11820,7 +11820,7 @@
 	__vue_exports__ = __webpack_require__(10)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(12)
+	var __vue_template__ = __webpack_require__(15)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -11867,15 +11867,15 @@
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _EventHub = __webpack_require__(11);
+	var _LoginModal = __webpack_require__(11);
+
+	var _LoginModal2 = _interopRequireDefault(_LoginModal);
+
+	var _EventHub = __webpack_require__(13);
 
 	var _EventHub2 = _interopRequireDefault(_EventHub);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
 
 	exports.default = {
 	  data: function data() {
@@ -11944,6 +11944,9 @@
 	  },
 
 	  props: ["censuses"],
+	  components: {
+	    LoginModal: _LoginModal2.default
+	  },
 	  filters: {
 	    //filterDistrictsByDivision: function (division_id) {
 	    //	var division_id = division_id || this.census.division_id;
@@ -12027,14 +12030,43 @@
 	        _store2.default.deleteCensus(CensusId);
 	      }
 	    },
+	    loginApp: function loginApp() {
+	      _EventHub2.default.$emit('login-form');
+	    },
 	    syncDownSetup: function syncDownSetup() {
-	      alert('test');
-	      var vm = this;
+
+	      //var vm = this
 	      axios.get('http://192.168.50.14/api/divisions').then(function (response) {
-	        vm.divisions = response.data;
+	        db.run("DELETE FROM DIVISIONS");
+	        var items = response.data;
+	        for (var prop in items) {
+	          //console.log(items[prop]);
+	          var item = items[prop];
+	          var sql_insert;
+	          sql_insert = "INSERT INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+	          sql_insert += " (" + item.id + ", '" + item.geo_code + "', '" + item.name + "', '" + item.name_bn + "', " + item.created_by + ", " + item.updated_by + ");";
+	          db.run(sql_insert);
+	          sql_insert = "";
+	        }
 	      });
 
-	      console.log(vm.divisions);
+	      axios.get('http://192.168.50.14/api/districts').then(function (response) {
+	        db.run("DELETE FROM DISTRICTS");
+	        var items = response.data;
+	        for (var prop in items) {
+	          //console.log(items[prop]);
+	          var item = items[prop];
+	          var sql_insert;
+	          sql_insert = "INSERT INTO DISTRICTS (ID, DIVISION_ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+	          sql_insert += " (" + item.id + ", " + item.division_id + ", '" + item.geo_code + "', '" + item.name + "', '" + item.name_bn + "', " + item.created_by + ", " + item.updated_by + ");";
+	          db.run(sql_insert);
+	          sql_insert = "";
+	        }
+	      });
+
+	      alert('Setup Sync Done');
+
+	      //console.log(vm.divisions);
 	    },
 	    syncUpCensus: function syncUpCensus(CensusID) {
 	      if (confirm("Are you sure to Sync this Census?")) {
@@ -12042,10 +12074,177 @@
 	      }
 	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = {}
+
+	/* script */
+	__vue_exports__ = __webpack_require__(12)
+
+	/* template */
+	var __vue_template__ = __webpack_require__(14)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.__file = "D:\\source\\BRS-BBS-OffLine\\app\\components\\LoginModal.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-64f5fc39", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-64f5fc39", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] LoginModal.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+	module.exports = __vue_exports__
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _vue = __webpack_require__(1);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _store = __webpack_require__(7);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	var _EventHub = __webpack_require__(13);
+
+	var _EventHub2 = _interopRequireDefault(_EventHub);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+		data: function data() {
+			return {
+
+				user_name: "",
+				password: "",
+				users: []
+			};
+		},
+
+
+		methods: {
+			authenticate: function authenticate() {
+				var user_name = this.user_name;
+				var password = this.password;
+				axios.post('http://192.168.50.14/api/signin', {
+					user_name: user_name,
+					password: password
+				}).then(function (response) {
+					//this.users =response;
+
+					// console.log(response.token);
+					// return 0;
+					if (response.status == 200) {
+						console.log(response.data.token);
+					} else {
+						alert(response.token);
+						return 0;
+					}
+
+					//return 0;
+				}).catch(function (error) {
+					console.log(error);
+					alert('Error');
+				});
+
+				$('#login-modal').modal('hide');
+			},
+			loginClose: function loginClose() {
+				$('#login-modal').modal('hide');
+			},
+
+			loginForm: function loginForm() {
+
+				$('#login-modal').modal('show');
+			}
+		},
+
+		mounted: function mounted() {
+			_EventHub2.default.$on('login-form', this.loginForm);
+		},
+		beforeDestroy: function beforeDestroy() {
+			_EventHub2.default.$off('login-form', this.loginForm);
+		}
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12063,7 +12262,104 @@
 	exports.default = new _vue2.default(); // Understanding Components Communication in Vue 2.0 http://taha-sh.com/blog/understanding-components-communication-in-vue-20
 
 /***/ }),
-/* 12 */
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', [_c('div', {
+	    staticClass: "ui small modal",
+	    attrs: {
+	      "id": "login-modal"
+	    }
+	  }, [_c('i', {
+	    staticClass: "close icon"
+	  }), _vm._v(" "), _c('div', {
+	    staticClass: "header"
+	  }, [_vm._v("\r\n\t\t\tLogin BRS_BBS\r\n\t\t")]), _vm._v(" "), _c('div', {
+	    staticClass: "content"
+	  }, [_c('form', {
+	    staticClass: "ui form"
+	  }, [_c('div', {
+	    staticClass: "field two "
+	  }, [_c('label', [_vm._v("User Name")]), _vm._v(" "), _c('div', {
+	    staticClass: "two fields"
+	  }, [_c('div', {
+	    staticClass: "field"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.user_name),
+	      expression: "user_name"
+	    }],
+	    attrs: {
+	      "type": "text",
+	      "name": "user_name",
+	      "placeholder": "Username"
+	    },
+	    domProps: {
+	      "value": (_vm.user_name)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.user_name = $event.target.value
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('div', {
+	    staticClass: "field "
+	  }, [_c('label', [_vm._v("Password")]), _vm._v(" "), _c('div', {
+	    staticClass: "two fields"
+	  }, [_c('div', {
+	    staticClass: "field"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.password),
+	      expression: "password"
+	    }],
+	    attrs: {
+	      "type": "password",
+	      "name": "password",
+	      "placeholder": "Password"
+	    },
+	    domProps: {
+	      "value": (_vm.password)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.password = $event.target.value
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('button', {
+	    staticClass: "ui primary button",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": _vm.authenticate
+	    }
+	  }, [_vm._v("Login")]), _vm._v(" "), _c('button', {
+	    staticClass: "ui secondary button",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": _vm.loginClose
+	    }
+	  }, [_vm._v("Cancel")])])])])])
+	},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-64f5fc39", module.exports)
+	  }
+	}
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12095,20 +12391,19 @@
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (_vm.isEdit == true),
-	      expression: "isEdit==true"
+	      value: (_vm.isEdit == false),
+	      expression: "isEdit==false"
 	    }],
-	    staticClass: "btn btn-primary",
+	    staticClass: "btn",
 	    attrs: {
-	      "type": "button",
-	      "value": "submit"
+	      "type": "button"
 	    },
 	    on: {
-	      "click": _vm.saveCensus
+	      "click": _vm.loginApp
 	    }
 	  }, [_c('i', {
-	    staticClass: "icon-paperplane"
-	  }), _vm._v(" সাবমিট")]), _vm._v(" "), _c('button', {
+	    staticClass: "fa fa-login"
+	  }), _vm._v(" Login")]), _vm._v(" "), _c('button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12168,7 +12463,7 @@
 	    }, [_c('i', {
 	      staticClass: "fa fa-arrow-circle-up"
 	    }), _vm._v(" Sync Up")])])])
-	  }))])])])]), _vm._v(" "), _c('div', {
+	  }))])])]), _vm._v(" "), _c('login-modal')], 1), _vm._v(" "), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12179,7 +12474,7 @@
 	      "id": "census-modal"
 	    }
 	  }, [_c('div', {
-	    staticClass: "modal-body"
+	    staticClass: "census-modal-body"
 	  }, [_c('form', {
 	    staticClass: "ui form"
 	  }, [_c('div', {
@@ -18485,7 +18780,7 @@
 	}
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
