@@ -12056,6 +12056,7 @@
 	      enableIsUnderEnt2: true,
 	      enableEntGroupId2: true,
 	      enableEnterprise: true,
+	      enableClosingReasonOther: true,
 	      rmos: [],
 	      divisions: [],
 	      districts: [],
@@ -12363,6 +12364,15 @@
 	      } else {
 	        this.census.ENTERPRISE_GROUP_ID_2 = "";
 	        this.enableEntGroupId2 = true;
+	      }
+	    },
+	    checkClosingReasonsOthers: function checkClosingReasonsOthers() {
+	      var reasons = this.census.REASON_OF_CLOSE_CODE;
+	      if (reasons == 13) {
+	        this.enableClosingReasonOther = false;
+	      } else {
+	        this.census.REASON_OF_CLOSE_OTHER = "";
+	        this.enableClosingReasonOther = true;
 	      }
 	    }
 	  }
@@ -15863,7 +15873,7 @@
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -15871,7 +15881,7 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "REASON_OF_CLOSE_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.checkClosingReasonsOthers]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -15895,8 +15905,8 @@
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
-	      "disabled": "disabled",
 	      "placeholder": "অন্যান্য হলে নাম লিখুন ",
+	      "disabled": _vm.enableClosingReasonOther,
 	      "id": "closing-reason-other",
 	      "name": "reason_of_close_other",
 	      "type": "text"

@@ -45,6 +45,7 @@ export default {
       enableIsUnderEnt2: true,
       enableEntGroupId2: true,
       enableEnterprise: true,
+      enableClosingReasonOther: true,
       rmos:[],
       divisions: [],
       districts: [],
@@ -265,6 +266,15 @@ export default {
           }else {
               this.census.ENTERPRISE_GROUP_ID_2= "";
               this.enableEntGroupId2= true;
+          }
+      },
+      checkClosingReasonsOthers: function () {
+          var reasons = this.census.REASON_OF_CLOSE_CODE;
+          if(reasons == 13){
+              this.enableClosingReasonOther= false;
+          }else {
+              this.census.REASON_OF_CLOSE_OTHER= "";
+              this.enableClosingReasonOther= true;
           }
       }
   }
