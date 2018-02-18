@@ -11429,7 +11429,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
 
 	var _events = __webpack_require__(8);
@@ -11437,66 +11437,191 @@
 	var store = new _events.EventEmitter();
 
 	store.getDivisionList = function (cb) {
-		var list = [];
-		db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom DIVISIONS', function (err, row) {
-			list.push(row);
-		}, function (err, rowCount) {
-			cb(null, list);
-		});
+	    var list = [];
+	    db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom DIVISIONS', function (err, row) {
+	        list.push(row);
+	    }, function (err, rowCount) {
+	        cb(null, list);
+	    });
+	};
+
+	store.getDistrictList = function (cb) {
+	    var $division_id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+	    var list = [];
+	    if ($division_id) {
+	        db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom DISTRICTS where DIVISION_ID=' + $division_id, function (err, row) {
+	            list.push(row);
+	        }, function (err, rowCount) {
+	            cb(null, list);
+	        });
+	    } else {
+	        db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\t\t\t\t From DISTRICTS', function (err, row) {
+	            list.push(row);
+	        }, function (err, rowCount) {
+	            cb(null, list);
+	        });
+	    }
+	};
+
+	store.getThanaUpazillaByDistrict = function (cb) {
+	    var $districtId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+	    var $condition = '';
+	    if ($districtId) {
+	        $condition = 'where DISTRICT_ID=' + $districtId;
+	    }
+
+	    var thanaList = [];
+	    db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom THANA_UPAZILAS ' + $condition, function (err, row) {
+	        thanaList.push(row);
+	    }, function (err, rowCount) {
+	        cb(null, thanaList);
+	    });
+	};
+	store.getUnionWardByThanaUpazilla = function (cb, $thanaId) {
+	    var $condition = '';
+	    if ($thanaId) {
+	        $condition = 'where thana_upazila_id=' + $thanaId;
+	    }
+	    var unionList = [];
+	    db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom UNION_WARDS ' + $condition, function (err, row) {
+	        unionList.push(row);
+	    }, function (err, rowCount) {
+	        cb(null, unionList);
+	    });
+	};
+
+	store.getMauzaMahallahByUnionWard = function (cb, $unioWardId) {
+	    var list = [];
+	    db.each('SELECT ID, (GEO_CODE ||\' - \'|| NAME) AS NAME\n\tFrom mauza_mahallahs where union_ward_id=' + $unioWardId, function (err, row) {
+	        list.push(row);
+	    }, function (err, rowCount) {
+	        cb(null, list);
+	    });
 	};
 
 	store.getAllCommonConfigList = function (cb, $table_name) {
-		var $lang = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'en';
+	    var $lang = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'en';
 
-		var list = [];
+	    var list = [];
 
-		db.each('SELECT ID, (CODE ||\' - \'|| NAME_BN) AS NAME\nFrom ' + $table_name, function (err, row) {
-			list.push(row);
-		}, function (err, rowCount) {
-			cb(null, list);
-		});
+	    db.each('SELECT ID, (CODE ||\' - \'|| NAME_BN) AS NAME\nFrom ' + $table_name, function (err, row) {
+	        list.push(row);
+	    }, function (err, rowCount) {
+	        cb(null, list);
+	    });
 	};
 
 	store.getCensuses = function (cb) {
-		var censuses = {};
+	    var censuses = {};
 
-		db.each('SELECT census.id AS id,\n\tcensus.census_year AS census_year,\n\tcensus.SERIAL_NO_UNIT AS serial_no,\n\tcensus.NAME_OF_UNIT AS NAME_OF_UNIT,\n\tcensus.unit_type_code,\n\tcensus.unit_identification_code AS unit_identification_code,\n\tcensus.is_registered AS is_registred,\n   \n\tcc_unit_type.name AS unit_type_name,\n\tcc_unit_type.name_bn AS unit_type_name_bn,\n\tcensus.operator_user_id AS operator_user_id,\n\tcensus.present_status_id AS present_status_id,\n\tcensus.thana_upz_id AS thana_upz_id,\n\tcensus.district_id AS district_id,\n\tcensus.division_id AS division_id\nFrom census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code', function (err, row) {
-			censuses[row.id] = row;
-		}, function (err, rowCount) {
-			cb(null, censuses);
-		});
+	    db.each('SELECT census.id AS id,\n\tcensus.census_year AS census_year,\n\tcensus.SERIAL_NO_UNIT AS serial_no,\n\tcensus.NAME_OF_UNIT AS NAME_OF_UNIT,\n\tcensus.unit_type_code,\n\tcensus.unit_identification_code AS unit_identification_code,\n\tcensus.is_registered AS is_registred,\n   \n\tcc_unit_type.name AS unit_type_name,\n\tcc_unit_type.name_bn AS unit_type_name_bn,\n\tcensus.operator_user_id AS operator_user_id,\n\tcensus.present_status_id AS present_status_id,\n\tcensus.thana_upz_id AS thana_upz_id,\n\tcensus.district_id AS district_id,\n\tcensus.division_id AS division_id\nFrom census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code', function (err, row) {
+	        censuses[row.id] = row;
+	    }, function (err, rowCount) {
+	        cb(null, censuses);
+	    });
 	};
 
 	store.getCensus = function (catId, cb) {
-		db.get("select * from census where id=?", { 1: catId }, function (err, row) {
-			cb(null, row);
-		});
+	    db.get("select * from census where id=?", { 1: catId }, function (err, row) {
+	        cb(null, row);
+	    });
 	};
 
 	store.addCensus = function (Census) {
-		db.serialize(function () {
-			var stmt = db.prepare('insert into census\n\t\t(\'DIVISION_ID\', \'DISTRICT_ID\', \'THANA_UPZ_ID\', \'WARD_UNION_ID\', \'MAHALLAH_ID\', \'RMO_CODE\', \'SERIAL_NO_UNIT\', \'NAME_OF_UNIT\', \'NAME_OF_MAHALLAH\',\'NAME_OF_HOUSE\', \'NO_NAME_OF_ROAD\', \'FLOOR_LEVEL\',\n\t    \'HOLIDING_NO\', \'PHONE\', \'FAX\', \'EMAIL\', \'WEBSITE\', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE) \n\t\tvalues(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
+	    db.serialize(function () {
 
-			stmt.run(Census.DIVISION_ID, Census.DISTRICT_ID, Census.THANA_UPZ_ID, Census.WARD_UNION_ID, Census.MAHALLAH_ID, Census.RMO_CODE, Census.SERIAL_NO_UNIT, Census.NAME_OF_UNIT, Census.NAME_OF_MAHALLAH, Census.NAME_OF_HOUSE, Census.NO_NAME_OF_ROAD, Census.FLOOR_LEVEL, Census.HOLIDING_NO, Census.PHONE, Census.FAX, Census.EMAIL, Census.WEBSITE, Census.LEGAL_OWNERSHIP_CODE, Census.TYPE_OF_OWNERSHIP, Census.HEAD_GENDER_CODE, Census.HEAD_OF_UNIT_AGE, Census.HEAD_EDUCATION_CODE);
+	        if (Census.UNIT_TYPE_CODE == 2) {
+	            Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2;
+	        }
+	        delete Census.IS_UNDER_ENT_GROUP2;
 
-			store.emit('data-updated');
-		});
+	        // Generate automatically insert query with all database field and value taken from census form
+	        // by looping through the Census object
+	        var sqlParam = 'insert into census (';
+	        var values = ' values(';
+	        var bindValues = '';
+	        var c = 0;
+	        console.log(Census);
+	        for (var key in Census) {
+	            if (Census.hasOwnProperty(key) && key != 'ID') {
+	                /**
+	                 * Check if condition because every field comming from form with double
+	                 * one for for v-model and other for input control name
+	                 * but we need only v-model name value and v-model name value must be capital
+	                 */
+	                if (key.toUpperCase() == key) {
+	                    c++;
+	                    if (c > 1) {
+	                        // So that a comma(,) is placed after every key value but not before first key value
+	                        sqlParam += ',';
+	                        values += ',';
+	                        bindValues += ',';
+	                    }
+
+	                    sqlParam += '\'' + key.toUpperCase() + '\'';
+	                    values += '\'' + Census[key] + '\'';
+	                }
+	                //bindValues+= `'` + Census[key] + `'`;
+	                /*if(!Census[key]){
+	                    bindValues+= null;
+	                }else {
+	                    bindValues+= `'` + Census[key] + `'`;
+	                }*/
+	            }
+	        }
+	        sqlParam += ')';
+	        values += ')';
+	        var sql = sqlParam + values;
+
+	        var stmt = db.prepare(sql);
+	        stmt.run();
+
+	        store.emit('data-updated');
+	    });
 	};
 
+	/**
+	 * Update census form data
+	 * @param catId
+	 * @param Census	Census data object
+	 */
 	store.editCensus = function (catId, Census) {
-		db.serialize(function () {
-			var sql = 'update census set \n\t\tDIVISION_ID=' + Census.DIVISION_ID + ', \n\t\tDISTRICT_ID=' + Census.DISTRICT_ID + ', \n\t\tTHANA_UPZ_ID=' + Census.THANA_UPZ_ID + ', \n\t\tWARD_UNION_ID=' + Census.WARD_UNION_ID + ', \n\t\tMAHALLAH_ID=' + Census.MAHALLAH_ID + ', \n\t\tRMO_CODE=' + Census.RMO_CODE + ', \n\t\tSERIAL_NO_UNIT=\'' + Census.SERIAL_NO_UNIT + '\', \n\t\tNAME_OF_UNIT=\'' + Census.NAME_OF_UNIT + '\', \n\t\tNAME_OF_MAHALLAH=\'' + Census.NAME_OF_MAHALLAH + '\',\n\t\tNAME_OF_HOUSE=\'' + Census.NAME_OF_HOUSE + '\',\n\t\tNO_NAME_OF_ROAD=\'' + Census.NO_NAME_OF_ROAD + '\',\n\t\tFLOOR_LEVEL=\'' + Census.FLOOR_LEVEL + '\',\n\t\tHOLIDING_NO=\'' + Census.HOLIDING_NO + '\',\n\t\tPHONE=\'' + Census.PHONE + '\',\n\t\tFAX=\'' + Census.FAX + '\',\n\t\tEMAIL=\'' + Census.EMAIL + '\',\n\t\tWEBSITE=\'' + Census.WEBSITE + '\',\n\t\tLEGAL_OWNERSHIP_CODE=' + Census.LEGAL_OWNERSHIP_CODE + ',\n\t\tTYPE_OF_OWNERSHIP=' + Census.TYPE_OF_OWNERSHIP + ',\n\t\tHEAD_GENDER_CODE=' + Census.HEAD_GENDER_CODE + ',\n\t\tHEAD_OF_UNIT_AGE=' + Census.HEAD_OF_UNIT_AGE + ',\n\t\tHEAD_EDUCATION_CODE=' + Census.HEAD_EDUCATION_CODE + '\n\t\twhere ID=' + Census.ID;
-			db.run(sql);
-			store.emit('data-updated');
-		});
+	    db.serialize(function () {
+	        if (Census.UNIT_TYPE_CODE == 2) {
+	            Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2;
+	        }
+	        delete Census.IS_UNDER_ENT_GROUP2;
+	        // Generate automatically update query with all database field and value taken from census form
+	        // by looping through the Census object
+	        var rawSql = '';
+	        var c = 0;
+	        for (var key in Census) {
+	            if (Census.hasOwnProperty(key) && key != 'ID') {
+	                c++;
+	                if (c > 1) {
+	                    // So that a comma(,) is placed after every key value but not before first key value
+	                    rawSql += ',';
+	                }
+	                rawSql += key + '= "' + Census[key] + '"';
+	            }
+	        }
+
+	        var sql = 'update census set ';
+	        sql += rawSql;
+	        sql += ' where ID=' + Census.ID;
+	        db.run(sql);
+	        store.emit('data-updated');
+	    });
 	};
 
 	store.deleteCensus = function (catId) {
-		db.serialize(function () {
-			var stmt = db.prepare("delete from census where ID=?");
-			stmt.run(catId);
-			store.emit('data-updated');
-		});
+	    db.serialize(function () {
+	        var stmt = db.prepare("delete from census where ID=?");
+	        stmt.run(catId);
+	        store.emit('data-updated');
+	    });
 	};
 
 	exports.default = store;
@@ -11880,7 +12005,7 @@
 	exports.default = {
 	  data: function data() {
 	    return {
-	      fakeVar: "",
+	      onLine: false,
 	      isEdit: false,
 	      selectedCensus: "",
 	      census: {
@@ -11906,40 +12031,25 @@
 	        TYPE_OF_OWNERSHIP: 0,
 	        HEAD_GENDER_CODE: 0,
 	        HEAD_OF_UNIT_AGE: 0,
-	        HEAD_EDUCATION_CODE: 0
-
+	        HEAD_EDUCATION_CODE: 0,
+	        ENTERPRISE_GROUP_ID: ""
 	      },
+	      enableIsUnderEntGroup: true,
+	      enableEntGroup: true,
+	      enableIsUnderEnt: true,
+	      enableIsUnderEnt2: true,
+	      enableEntGroupId2: true,
+	      enableEnterprise: true,
 	      rmos: [],
 	      divisions: [],
-	      districts: [{
-	        id: 1,
-	        division_id: 1,
-	        name: "Faridfur"
-	      }, {
-	        id: 2,
-	        division_id: 1,
-	        name: "Gazipur"
-	      }, {
-	        id: 3,
-	        division_id: 2,
-	        name: "Naogaon"
-	      }, {
-	        id: 4,
-	        division_id: 2,
-	        name: "Chapai Nawabganj"
-	      }, {
-	        id: 5,
-	        division_id: 3,
-	        name: "Comilla"
-	      }, {
-	        id: 6,
-	        division_id: 3,
-	        name: "Cox's Bazar"
-	      }, {
-	        id: 7,
-	        division_id: 3,
-	        name: "Bandarban"
-	      }]
+	      districts: [],
+	      thanaUpazilla: [],
+	      unionWards: [],
+	      mauzaMahalla: [],
+	      HeadOfficedistricts: [],
+	      headOfficeThanaUpazilla: [],
+	      headOfficeUnionWards: [],
+	      headOfficeMauza: []
 	    };
 	  },
 
@@ -11956,27 +12066,46 @@
 	  mounted: function mounted() {
 	    var _this = this;
 
+	    this.updateOnlineStatus();
+	    window.addEventListener("online", this.updateOnlineStatus);
+	    window.addEventListener("offline", this.updateOnlineStatus);
+
 	    _store2.default.getDivisionList(function (err, list) {
 	      _this.divisions = list;
 	    });
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.rmos = list;
-	    }, 'cc_rmo');
+	    }, "cc_rmo");
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.legal_ownerships = list;
-	    }, 'CC_LEGAL_OWNERSHIPS');
+	    }, "CC_LEGAL_OWNERSHIPS");
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.type_of_ownerships = list;
-	    }, 'CC_OWNERSHIP_TYPES');
+	    }, "CC_OWNERSHIP_TYPES");
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.genders = list;
-	    }, 'CC_GENDER');
+	    }, "CC_GENDER");
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.educations = list;
-	    }, 'CC_EDUCATION');
+	    }, "CC_EDUCATION");
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.unit_types = list;
-	    }, 'CC_UNIT_TYPE');
+	    }, "CC_UNIT_TYPE");
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.permissionAuth = list;
+	    }, "CC_PERMISSION_AUTHORITIES");
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.pollutionControl = list;
+	    }, "cc_pollution_control");
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.specialtyCode = list;
+	    }, "cc_specialty_code");
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.unitCurrentStatus = list;
+	    }, "cc_unit_status");
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.closingReasons = list;
+	    }, "cc_closing_reasons");
 	  },
 
 	  computed: {
@@ -11988,6 +12117,9 @@
 	    }
 	  },
 	  methods: {
+	    updateOnlineStatus: function updateOnlineStatus() {
+	      this.onLine = navigator.onLine;
+	    },
 	    backToList: function backToList() {
 	      this.isEdit = false;
 	    },
@@ -12003,7 +12135,8 @@
 
 	        HEAD_OFFICE_DIVISION: 0,
 	        head_office_district: 0,
-	        CENSUS_YEAR: "2018"
+	        CENSUS_YEAR: "2018",
+	        ENTERPRISE_GROUP_ID: ""
 	      };
 	      this.isEdit = true;
 	    },
@@ -12014,6 +12147,31 @@
 	        if (err) {} else {
 	          _this2.census = Census;
 	          _this2.isEdit = true;
+	          // Load address (division, district, thana list) in edit mode
+	          _store2.default.getDistrictList(function (err, list) {
+	            _this2.districts = list;
+	          }, Census.DIVISION_ID);
+	          _store2.default.getThanaUpazillaByDistrict(function (err, thanaList) {
+	            _this2.thanaUpazilla = thanaList;
+	          }, Census.DISTRICT_ID);
+	          _store2.default.getUnionWardByThanaUpazilla(function (err, unionList) {
+	            _this2.unionWards = unionList;
+	          }, Census.THANA_UPZ_ID);
+	          _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
+	            _this2.mauzaMahalla = list;
+	          }, Census.WARD_UNION_ID);
+	          _store2.default.getDistrictList(function (err, list) {
+	            _this2.HeadOfficedistricts = list;
+	          }, Census.HEAD_OFFICE_DIVISION);
+	          _store2.default.getThanaUpazillaByDistrict(function (err, thanaList) {
+	            _this2.headOfficeThanaUpazilla = thanaList;
+	          }, Census.HEAD_OFFICE_DISTRICT);
+	          _store2.default.getUnionWardByThanaUpazilla(function (err, unionList) {
+	            _this2.headOfficeUnionWards = unionList;
+	          }, Census.HEAD_OFFICE_THANA_UPZ);
+	          _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
+	            _this2.headOfficeMauza = list;
+	          }, Census.HEAD_OFFICE_WARD_UNION);
 	        }
 	      });
 	    },
@@ -12031,12 +12189,11 @@
 	      }
 	    },
 	    loginApp: function loginApp() {
-	      _EventHub2.default.$emit('login-form');
+	      _EventHub2.default.$emit("login-form");
 	    },
 	    syncDownSetup: function syncDownSetup() {
-
 	      //var vm = this
-	      axios.get('http://192.168.50.14/api/divisions').then(function (response) {
+	      axios.get("http://192.168.50.14/api/divisions").then(function (response) {
 	        db.run("DELETE FROM DIVISIONS");
 	        var items = response.data;
 	        for (var prop in items) {
@@ -12050,7 +12207,7 @@
 	        }
 	      });
 
-	      axios.get('http://192.168.50.14/api/districts').then(function (response) {
+	      axios.get("http://192.168.50.14/api/districts").then(function (response) {
 	        db.run("DELETE FROM DISTRICTS");
 	        var items = response.data;
 	        for (var prop in items) {
@@ -12064,13 +12221,120 @@
 	        }
 	      });
 
-	      alert('Setup Sync Done');
+	      alert("Setup Sync Done");
 
 	      //console.log(vm.divisions);
 	    },
 	    syncUpCensus: function syncUpCensus(CensusID) {
 	      if (confirm("Are you sure to Sync this Census?")) {
-	        alert('ok');
+	        alert("ok");
+	      }
+	    },
+	    loadDistricts: function loadDistricts() {
+	      var _this3 = this;
+
+	      var division_id = this.census.DIVISION_ID;
+	      _store2.default.getDistrictList(function (err, list) {
+	        _this3.districts = list;
+	      }, division_id);
+	    },
+
+	    loadThanaUpazilla: function loadThanaUpazilla(e) {
+	      var _this4 = this;
+
+	      var district_id = this.census.DISTRICT_ID;
+	      _store2.default.getThanaUpazillaByDistrict(function (err, thanaList) {
+	        _this4.thanaUpazilla = thanaList;
+	      }, district_id);
+	    },
+	    loadUnionWard: function loadUnionWard() {
+	      var _this5 = this;
+
+	      var thanaId = this.census.THANA_UPZ_ID;
+	      _store2.default.getUnionWardByThanaUpazilla(function (err, unionList) {
+	        _this5.unionWards = unionList;
+	      }, thanaId);
+	    },
+	    loadMauzaMahalla: function loadMauzaMahalla() {
+	      var _this6 = this;
+
+	      var unionWardId = this.census.WARD_UNION_ID;
+	      _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
+	        _this6.mauzaMahalla = list;
+	      }, unionWardId);
+	    },
+	    loadHeadOfficeDistricts: function loadHeadOfficeDistricts() {
+	      var _this7 = this;
+
+	      var division_id = this.census.HEAD_OFFICE_DIVISION;
+	      _store2.default.getDistrictList(function (err, list) {
+	        _this7.HeadOfficedistricts = list;
+	      }, division_id);
+	    },
+
+	    loadHeadOfficeThana: function loadHeadOfficeThana(e) {
+	      var _this8 = this;
+
+	      var district_id = this.census.HEAD_OFFICE_DISTRICT;
+	      _store2.default.getThanaUpazillaByDistrict(function (err, thanaList) {
+	        _this8.headOfficeThanaUpazilla = thanaList;
+	      }, district_id);
+	    },
+	    loadHeadOfficeUnionWard: function loadHeadOfficeUnionWard() {
+	      var _this9 = this;
+
+	      var thanaId = this.census.HEAD_OFFICE_THANA_UPZ;
+	      _store2.default.getUnionWardByThanaUpazilla(function (err, unionList) {
+	        _this9.headOfficeUnionWards = unionList;
+	      }, thanaId);
+	    },
+	    loadHeadOfficeMauza: function loadHeadOfficeMauza() {
+	      var _this10 = this;
+
+	      var unionWardId = this.census.HEAD_OFFICE_WARD_UNION;
+	      _store2.default.getMauzaMahallahByUnionWard(function (err, list) {
+	        _this10.headOfficeMauza = list;
+	      }, unionWardId);
+	    },
+
+	    checkUnitType: function checkUnitType() {
+	      this.enableIsUnderEntGroup = true;
+	      this.enableIsUnderEnt = true;
+	      this.enableIsUnderEnt2 = true;
+	      var unit_type = this.census.UNIT_TYPE_CODE;
+	      if (unit_type == 1) {
+	        this.enableIsUnderEntGroup = false;
+	      }
+	      if (unit_type == 2) {
+	        this.enableIsUnderEnt = false;
+	        this.enableIsUnderEnt2 = false;
+	      }
+	    },
+	    checkIsUnderEntGroup: function checkIsUnderEntGroup() {
+	      var yesNo = this.census.IS_UNDER_ENT_GROUP;
+	      if (yesNo == 1) {
+	        this.enableEntGroup = false;
+	      } else {
+	        this.census.ENTERPRISE_GROUP_ID = "";
+	        this.enableEntGroup = true;
+	      }
+	    },
+	    checkIsEntGroup: function checkIsEntGroup() {
+	      var yesNo = this.census.IS_UNDER_ENTERPRISE;
+	      if (yesNo == 1) {
+	        this.enableEnterprise = false;
+	      } else {
+	        this.census.ENTERPRISE_ID = "";
+	        this.enableEnterprise = true;
+	      }
+	    },
+	    checkIsEntGroupId2: function checkIsEntGroupId2() {
+	      var yesNo = this.census.IS_UNDER_ENT_GROUP2;
+	      if (yesNo == 1) {
+	        this.enableEntGroupId2 = false;
+	      } else {
+	        this.census.ENTERPRISE_GROUP_ID_2 = "";
+	        this.enableEntGroupId2 = true;
 	      }
 	    }
 	  }
@@ -12407,8 +12671,8 @@
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (_vm.isEdit == false),
-	      expression: "isEdit==false"
+	      value: (_vm.isEdit == false && _vm.onLine == true),
+	      expression: "isEdit == false && onLine == true"
 	    }],
 	    staticClass: "btn",
 	    attrs: {
@@ -12420,7 +12684,27 @@
 	    }
 	  }, [_c('i', {
 	    staticClass: "fa fa-arrow-circle-down"
-	  }), _vm._v(" Sync Setup")])])]), _vm._v(" "), _c('div', {
+	  }), _vm._v(" Sync Setup")]), _vm._v(" "), _c('span', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.onLine == true),
+	      expression: "onLine == true"
+	    }],
+	    staticClass: "pull-right label label-success"
+	  }, [_c('i', {
+	    staticClass: "fa fa-circle"
+	  }), _vm._v(" Online")]), _vm._v(" "), _c('span', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.onLine == false),
+	      expression: "onLine == false"
+	    }],
+	    staticClass: "pull-right label label-danger"
+	  }, [_c('i', {
+	    staticClass: "fa fa-circle"
+	  }), _vm._v(" Offline")])])]), _vm._v(" "), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12454,6 +12738,12 @@
 	    }, [_c('i', {
 	      staticClass: "remove fa fa-trash"
 	    }), _vm._v(" Delete")]), _vm._v(" "), _c('button', {
+	      directives: [{
+	        name: "show",
+	        rawName: "v-show",
+	        value: (_vm.onLine == true),
+	        expression: "onLine == true"
+	      }],
 	      staticClass: "btn btn-success",
 	      on: {
 	        "click": function($event) {
@@ -12532,7 +12822,7 @@
 	      "aria-required": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -12540,13 +12830,19 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "DIVISION_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadDistricts]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(5), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.divisions), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(5), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -12564,7 +12860,7 @@
 	      "aria-required": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -12572,13 +12868,19 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "DISTRICT_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadThanaUpazilla]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.districts), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(6), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -12596,7 +12898,7 @@
 	      "aria-required": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -12604,13 +12906,19 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "THANA_UPZ_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadUnionWard]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(7), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.thanaUpazilla), function(value) {
+	    return _c('option', {
+	      domProps: {
+	        "value": value.ID
+	      }
+	    }, [_vm._v(_vm._s(value.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(7), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -12619,7 +12927,7 @@
 	      value: (_vm.census.WARD_UNION_ID),
 	      expression: "census.WARD_UNION_ID"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "ward-union-id",
 	      "name": "ward_union_id",
@@ -12628,7 +12936,7 @@
 	      "aria-required": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -12636,14 +12944,19 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "WARD_UNION_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadMauzaMahalla]
 	    }
 	  }, [_c('option', {
 	    attrs: {
-	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(8), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.unionWards), function(value) {
+	    return _c('option', {
+	      domProps: {
+	        "value": value.ID
+	      }
+	    }, [_vm._v(_vm._s(value.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(8), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -12652,7 +12965,7 @@
 	      value: (_vm.census.MAHALLAH_ID),
 	      expression: "census.MAHALLAH_ID"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "mahallah-id",
 	      "required": "required",
@@ -12674,10 +12987,15 @@
 	    }
 	  }, [_c('option', {
 	    attrs: {
-	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(9), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.mauzaMahalla), function(value) {
+	    return _c('option', {
+	      domProps: {
+	        "value": value.ID
+	      }
+	    }, [_vm._v(_vm._s(value.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(9), _vm._v(" "), _c('td', {
 	    staticClass: "form-group "
 	  }, [_c('select', {
 	    directives: [{
@@ -13223,6 +13541,12 @@
 	  }, [_c('tbody', [_vm._m(22), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 "
 	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.UNIT_TYPE_CODE),
+	      expression: "census.UNIT_TYPE_CODE"
+	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "unit-type-code",
@@ -13231,6 +13555,17 @@
 	      "tabindex": "-1",
 	      "aria-hidden": "true",
 	      "aria-required": "true"
+	    },
+	    on: {
+	      "change": [function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "UNIT_TYPE_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.checkUnitType]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -13239,11 +13574,11 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.unit_types), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])])])])]), _vm._v(" "), _vm._m(23), _vm._v(" "), _vm._m(24), _vm._v(" "), _c('tr', [_c('td', {
+	  })], 2)])])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    attrs: {
 	      "colspan": "2"
 	    }
@@ -13252,7 +13587,89 @@
 	    attrs: {
 	      "width": "100%"
 	    }
-	  }, [_c('tbody', [_vm._m(25), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(23), _vm._v(" "), _c('tr', [_vm._m(24), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10",
+	    staticStyle: {
+	      "width": "300px"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group select2-width--auto"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.IS_UNDER_ENT_GROUP),
+	      expression: "census.IS_UNDER_ENT_GROUP"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "disabled": _vm.enableIsUnderEntGroup,
+	      "id": "is-under-ent-group",
+	      "name": "is_under_ent_group",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": [function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "IS_UNDER_ENT_GROUP", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.checkIsUnderEntGroup]
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])])]), _vm._v(" "), _c('tr', [_vm._m(25), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.ENTERPRISE_GROUP_ID),
+	      expression: "census.ENTERPRISE_GROUP_ID"
+	    }],
+	    staticClass: "form-control input-uppercase",
+	    attrs: {
+	      "disabled": _vm.enableEntGroup,
+	      "id": "enterprise-group-id",
+	      "name": "enterprise_group_id",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.ENTERPRISE_GROUP_ID)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "ENTERPRISE_GROUP_ID", $event.target.value)
+	      }
+	    }
+	  })])])])])])])]), _vm._v(" "), _vm._m(26), _vm._v(" "), _c('tr', [_c('td', {
+	    attrs: {
+	      "colspan": "2"
+	    }
+	  }, [_c('table', {
+	    staticClass: "table-full-width",
+	    attrs: {
+	      "width": "100%"
+	    }
+	  }, [_c('tbody', [_vm._m(27), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "text-center"
@@ -13262,27 +13679,27 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_under_enterprise),
-	      expression: "census.is_under_enterprise"
+	      value: (_vm.census.IS_UNDER_ENTERPRISE),
+	      expression: "census.IS_UNDER_ENTERPRISE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
-	      "disabled": "",
 	      "id": "is-under-ent",
+	      "disabled": _vm.enableIsUnderEnt,
 	      "name": "is_under_enterprise",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_under_enterprise", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "IS_UNDER_ENTERPRISE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.checkIsEntGroup]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -13305,31 +13722,65 @@
 	    }
 	  }, [_vm._v("এন্টারপ্রাইজ")]), _vm._v(" "), _c('div', {
 	    staticClass: "form-group "
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.ENTERPRISE_ID),
+	      expression: "census.ENTERPRISE_ID"
+	    }],
+	    staticClass: "form-control input-uppercase",
+	    attrs: {
+	      "id": "enterprise",
+	      "name": "enterprise",
+	      "disabled": _vm.enableEnterprise,
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.ENTERPRISE_ID)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "ENTERPRISE_ID", $event.target.value)
+	      }
+	    }
+	  })])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width",
+	    attrs: {
+	      "width": "100%"
+	    }
+	  }, [_c('tbody', [_vm._m(28), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "text-center"
+	  }, [_c('div', {
+	    staticClass: "form-group select2-width--auto"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.enterprise_id),
-	      expression: "census.enterprise_id"
+	      value: (_vm.census.IS_UNDER_ENT_GROUP2),
+	      expression: "census.IS_UNDER_ENT_GROUP2"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
-	      "disabled": "",
-	      "id": "enterprise",
-	      "name": "enterprise_id",
+	      "id": "is-under-ent-group-2",
+	      "disabled": _vm.enableIsUnderEnt2,
+	      "name": "is_under_ent_group2",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "enterprise_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "IS_UNDER_ENT_GROUP2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.checkIsEntGroupId2]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -13338,20 +13789,13 @@
 	    }
 	  }), _vm._v(" "), _c('option', {
 	    attrs: {
-	      "value": "262"
+	      "value": "1"
 	    }
-	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
 	    attrs: {
-	      "value": "261"
+	      "value": "2"
 	    }
-	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
-	    staticClass: "table-full-width",
-	    attrs: {
-	      "width": "100%"
-	    }
-	  }, [_c('tbody', [_vm._m(26), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_vm._m(27), _vm._v(" "), _c('div', {
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('div', {
 	    staticClass: "text-center"
 	  }, [_c('label', {
 	    attrs: {
@@ -13359,46 +13803,30 @@
 	    }
 	  }, [_vm._v("এন্টারপ্রাইজ গ্রুপ")]), _vm._v(" "), _c('div', {
 	    staticClass: "form-group "
-	  }, [_c('select', {
+	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.enterprise_group_id_2),
-	      expression: "census.enterprise_group_id_2"
+	      value: (_vm.census.ENTERPRISE_GROUP_ID_2),
+	      expression: "census.ENTERPRISE_GROUP_ID_2"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "form-control input-uppercase",
 	    attrs: {
-	      "disabled": "",
 	      "id": "enterprise-group-id-2",
 	      "name": "enterprise_group_id_2",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
+	      "disabled": _vm.enableEntGroupId2,
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.ENTERPRISE_GROUP_ID_2)
 	    },
 	    on: {
-	      "change": function($event) {
-	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-	          return o.selected
-	        }).map(function(o) {
-	          var val = "_value" in o ? o._value : o.value;
-	          return val
-	        });
-	        _vm.$set(_vm.census, "enterprise_group_id_2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "ENTERPRISE_GROUP_ID_2", $event.target.value)
 	      }
 	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "262"
-	    }
-	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "261"
-	    }
-	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])]), _vm._v(" "), _c('td', {
+	  })])])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13406,8 +13834,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.unit_mode_code),
-	      expression: "census.unit_mode_code"
+	      value: (_vm.census.UNIT_MODE_CODE),
+	      expression: "census.UNIT_MODE_CODE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -13424,7 +13852,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "unit_mode_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "UNIT_MODE_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -13467,7 +13895,7 @@
 	    attrs: {
 	      "width": "900"
 	    }
-	  }, [_c('tbody', [_vm._m(28), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(29), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10",
 	    attrs: {
 	      "width": "60%"
@@ -13476,7 +13904,7 @@
 	    attrs: {
 	      "border": "0"
 	    }
-	  }, [_c('tbody', [_c('tr', [_vm._m(29), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_c('tr', [_vm._m(30), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
@@ -13486,8 +13914,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_name),
-	      expression: "census.head_office_name"
+	      value: (_vm.census.HEAD_OFFICE_NAME),
+	      expression: "census.HEAD_OFFICE_NAME"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -13496,40 +13924,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_name)
+	      "value": (_vm.census.HEAD_OFFICE_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_name", $event.target.value)
-	      }
-	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(30), _vm._v(" "), _c('td', {
-	    attrs: {
-	      "colspan": "3"
-	    }
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.census.head_office_mahallah),
-	      expression: "census.head_office_mahallah"
-	    }],
-	    staticClass: "form-control input-uppercase",
-	    attrs: {
-	      "id": "head-office-mahallah",
-	      "name": "head_office_mahallah",
-	      "type": "text"
-	    },
-	    domProps: {
-	      "value": (_vm.census.head_office_mahallah)
-	    },
-	    on: {
-	      "input": function($event) {
-	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_mahallah", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_NAME", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(31), _vm._v(" "), _c('td', {
@@ -13542,22 +13942,22 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_house),
-	      expression: "census.head_office_house"
+	      value: (_vm.census.HEAD_OFFICE_MAHALLAH),
+	      expression: "census.HEAD_OFFICE_MAHALLAH"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
-	      "id": "head-office-house",
-	      "name": "head_office_house",
+	      "id": "head-office-mahallah",
+	      "name": "head_office_mahallah",
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_house)
+	      "value": (_vm.census.HEAD_OFFICE_MAHALLAH)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_house", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_MAHALLAH", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_vm._m(32), _vm._v(" "), _c('td', {
@@ -13570,8 +13970,36 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_road),
-	      expression: "census.head_office_road"
+	      value: (_vm.census.HEAD_OFFICE_HOUSE),
+	      expression: "census.HEAD_OFFICE_HOUSE"
+	    }],
+	    staticClass: "form-control input-uppercase",
+	    attrs: {
+	      "id": "head-office-house",
+	      "name": "head_office_house",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.HEAD_OFFICE_HOUSE)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "HEAD_OFFICE_HOUSE", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(33), _vm._v(" "), _c('td', {
+	    attrs: {
+	      "colspan": "3"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.HEAD_OFFICE_ROAD),
+	      expression: "census.HEAD_OFFICE_ROAD"
 	    }],
 	    staticClass: "form-control input-uppercase",
 	    attrs: {
@@ -13580,22 +14008,22 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_road)
+	      "value": (_vm.census.HEAD_OFFICE_ROAD)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_road", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_ROAD", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(33), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(34), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_floor_level),
-	      expression: "census.head_office_floor_level"
+	      value: (_vm.census.HEAD_OFFICE_FLOOR_LEVEL),
+	      expression: "census.HEAD_OFFICE_FLOOR_LEVEL"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13604,22 +14032,22 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_floor_level)
+	      "value": (_vm.census.HEAD_OFFICE_FLOOR_LEVEL)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_floor_level", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_FLOOR_LEVEL", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(34), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(35), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_holiding_no),
-	      expression: "census.head_office_holiding_no"
+	      value: (_vm.census.HEAD_OFFICE_HOLIDING_NO),
+	      expression: "census.HEAD_OFFICE_HOLIDING_NO"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13628,22 +14056,22 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_holiding_no)
+	      "value": (_vm.census.HEAD_OFFICE_HOLIDING_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_holiding_no", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_HOLIDING_NO", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(35), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(36), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_phone),
-	      expression: "census.head_office_phone"
+	      value: (_vm.census.HEAD_OFFICE_PHONE),
+	      expression: "census.HEAD_OFFICE_PHONE"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13652,22 +14080,22 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_phone)
+	      "value": (_vm.census.HEAD_OFFICE_PHONE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_phone", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_PHONE", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(36), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(37), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_fax),
-	      expression: "census.head_office_fax"
+	      value: (_vm.census.HEAD_OFFICE_FAX),
+	      expression: "census.HEAD_OFFICE_FAX"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13676,22 +14104,22 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_fax)
+	      "value": (_vm.census.HEAD_OFFICE_FAX)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_fax", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_FAX", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _c('tr', [_vm._m(37), _vm._v(" "), _c('td', [_c('div', {
+	  })])])]), _vm._v(" "), _c('tr', [_vm._m(38), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_email),
-	      expression: "census.head_office_email"
+	      value: (_vm.census.HEAD_OFFICE_EMAIL),
+	      expression: "census.HEAD_OFFICE_EMAIL"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13701,22 +14129,22 @@
 	      "type": "email"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_email)
+	      "value": (_vm.census.HEAD_OFFICE_EMAIL)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_email", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_EMAIL", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(38), _vm._v(" "), _c('td', [_c('div', {
+	  })])]), _vm._v(" "), _vm._m(39), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_website),
-	      expression: "census.head_office_website"
+	      value: (_vm.census.HEAD_OFFICE_WEBSITE),
+	      expression: "census.HEAD_OFFICE_WEBSITE"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -13726,12 +14154,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.head_office_website)
+	      "value": (_vm.census.HEAD_OFFICE_WEBSITE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "head_office_website", $event.target.value)
+	        _vm.$set(_vm.census, "HEAD_OFFICE_WEBSITE", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', {
@@ -13740,7 +14168,7 @@
 	    attrs: {
 	      "border": "0"
 	    }
-	  }, [_c('tbody', [_c('tr', [_vm._m(39), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_c('tbody', [_c('tr', [_vm._m(40), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -13749,7 +14177,7 @@
 	      value: (_vm.census.HEAD_OFFICE_DIVISION),
 	      expression: "census.HEAD_OFFICE_DIVISION"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "head-office-division",
 	      "name": "head_office_division",
@@ -13757,7 +14185,7 @@
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
@@ -13765,7 +14193,7 @@
 	          return val
 	        });
 	        _vm.$set(_vm.census, "HEAD_OFFICE_DIVISION", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	      }, _vm.loadHeadOfficeDistricts]
 	    }
 	  }, [_c('option', {
 	    attrs: {
@@ -13774,20 +14202,20 @@
 	    }
 	  }), _vm._v(" "), _vm._l((_vm.divisions), function(item) {
 	    return _c('option', {
-	      attrs: {
-	        "value": "item.ID"
+	      domProps: {
+	        "value": item.ID
 	      }
 	    }, [_vm._v(_vm._s(item.NAME))])
-	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(40), _vm._v(" "), _c('td', [_c('div', {
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(41), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_district),
-	      expression: "census.head_office_district"
+	      value: (_vm.census.HEAD_OFFICE_DISTRICT),
+	      expression: "census.HEAD_OFFICE_DISTRICT"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "form-control",
 	    attrs: {
 	      "id": "head-office-district",
 	      "name": "head_office_district",
@@ -13795,31 +14223,37 @@
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_district", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "HEAD_OFFICE_DISTRICT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.loadHeadOfficeThana]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(41), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("Select")]), _vm._v(" "), _vm._l((_vm.HeadOfficedistricts), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(42), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_thana_upz),
-	      expression: "census.head_office_thana_upz"
+	      value: (_vm.census.HEAD_OFFICE_THANA_UPZ),
+	      expression: "census.HEAD_OFFICE_THANA_UPZ"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "head-office-thana-upz",
 	      "name": "head_office_thana_upz",
@@ -13827,31 +14261,37 @@
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_thana_upz", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "HEAD_OFFICE_THANA_UPZ", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.loadHeadOfficeUnionWard]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(42), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.headOfficeThanaUpazilla), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(43), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_ward_union),
-	      expression: "census.head_office_ward_union"
+	      value: (_vm.census.HEAD_OFFICE_WARD_UNION),
+	      expression: "census.HEAD_OFFICE_WARD_UNION"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "head-office-ward-union",
 	      "name": "head_office_ward_union",
@@ -13859,31 +14299,37 @@
 	      "aria-hidden": "true"
 	    },
 	    on: {
-	      "change": function($event) {
+	      "change": [function($event) {
 	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
 	          return o.selected
 	        }).map(function(o) {
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_ward_union", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
-	      }
+	        _vm.$set(_vm.census, "HEAD_OFFICE_WARD_UNION", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }, _vm.loadHeadOfficeMauza]
 	    }
 	  }, [_c('option', {
 	    attrs: {
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(43), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.headOfficeUnionWards), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(44), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_mauza),
-	      expression: "census.head_office_mauza"
+	      value: (_vm.census.HEAD_OFFICE_MAUZA),
+	      expression: "census.HEAD_OFFICE_MAUZA"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
 	      "id": "head-office-mauza",
 	      "name": "head_office_mauza",
@@ -13898,7 +14344,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_mauza", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HEAD_OFFICE_MAUZA", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -13906,16 +14352,22 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  })])])])]), _vm._v(" "), _c('tr', [_vm._m(44), _vm._v(" "), _c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.headOfficeMauza), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(45), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.head_office_rmo_code),
-	      expression: "census.head_office_rmo_code"
+	      value: (_vm.census.HEAD_OFFICE_RMO_CODE),
+	      expression: "census.HEAD_OFFICE_RMO_CODE"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "head-office-rmo-code",
 	      "name": "head_office_rmo_code",
@@ -13930,7 +14382,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "head_office_rmo_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HEAD_OFFICE_RMO_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -13964,7 +14416,7 @@
 	    }
 	  }, [_vm._v("9 - City Corporation")])])])])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(45), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(46), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group "
@@ -13972,10 +14424,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_reporting_unit),
-	      expression: "census.is_reporting_unit"
+	      value: (_vm.census.IS_REPORTING_UNIT),
+	      expression: "census.IS_REPORTING_UNIT"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "is-reporting-unit",
 	      "name": "is_reporting_unit",
@@ -13990,7 +14442,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_reporting_unit", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IS_REPORTING_UNIT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14008,7 +14460,7 @@
 	    }
 	  }, [_vm._v("2 - না")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(46), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(47), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -14016,8 +14468,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.has_trade_license),
-	      expression: "census.has_trade_license"
+	      value: (_vm.census.HAS_TRADE_LICENSE),
+	      expression: "census.HAS_TRADE_LICENSE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -14034,7 +14486,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "has_trade_license", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAS_TRADE_LICENSE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14056,7 +14508,7 @@
 	    }
 	  }, [_vm._v("3 - প্রয়োজ্য নয়")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(47), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(48), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -14064,10 +14516,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.trade_license_authority),
-	      expression: "census.trade_license_authority"
+	      value: (_vm.census.TRADE_LICENSE_AUTHORITY),
+	      expression: "census.TRADE_LICENSE_AUTHORITY"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "trade-license-authority",
 	      "name": "trade_license_authority",
@@ -14082,7 +14534,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "trade_license_authority", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "TRADE_LICENSE_AUTHORITY", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14104,7 +14556,7 @@
 	    }
 	  }, [_vm._v("03 - ইউনিয়ন পরিষদ")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(48), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(49), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -14112,8 +14564,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.trade_license_number),
-	      expression: "census.trade_license_number"
+	      value: (_vm.census.TRADE_LICENSE_NUMBER),
+	      expression: "census.TRADE_LICENSE_NUMBER"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -14123,17 +14575,17 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.trade_license_number)
+	      "value": (_vm.census.TRADE_LICENSE_NUMBER)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "trade_license_number", $event.target.value)
+	        _vm.$set(_vm.census, "TRADE_LICENSE_NUMBER", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(49), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(50), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -14141,8 +14593,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_registered),
-	      expression: "census.is_registered"
+	      value: (_vm.census.IS_REGISTERED),
+	      expression: "census.IS_REGISTERED"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -14159,7 +14611,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_registered", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IS_REGISTERED", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14181,7 +14633,7 @@
 	    }
 	  }, [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(50), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(51), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -14191,10 +14643,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.reg_org_code1),
-	      expression: "census.reg_org_code1"
+	      value: (_vm.census.REG_ORG_CODE1),
+	      expression: "census.REG_ORG_CODE1"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "reg_org_code1",
@@ -14209,7 +14661,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "reg_org_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "REG_ORG_CODE1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14227,10 +14679,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.reg_org_code2),
-	      expression: "census.reg_org_code2"
+	      value: (_vm.census.REG_ORG_CODE2),
+	      expression: "census.REG_ORG_CODE2"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "reg_org_code2",
@@ -14245,7 +14697,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "reg_org_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "REG_ORG_CODE2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14263,10 +14715,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.reg_org_code3),
-	      expression: "census.reg_org_code3"
+	      value: (_vm.census.REG_ORG_CODE3),
+	      expression: "census.REG_ORG_CODE3"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "reg_org_code3",
@@ -14281,7 +14733,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "reg_org_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "REG_ORG_CODE3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14303,8 +14755,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.registration_no1),
-	      expression: "census.registration_no1"
+	      value: (_vm.census.REGISTRATION_NO1),
+	      expression: "census.REGISTRATION_NO1"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -14313,12 +14765,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.registration_no1)
+	      "value": (_vm.census.REGISTRATION_NO1)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "registration_no1", $event.target.value)
+	        _vm.$set(_vm.census, "REGISTRATION_NO1", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14327,8 +14779,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.registration_no2),
-	      expression: "census.registration_no2"
+	      value: (_vm.census.REGISTRATION_NO2),
+	      expression: "census.REGISTRATION_NO2"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -14337,12 +14789,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.registration_no2)
+	      "value": (_vm.census.REGISTRATION_NO2)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "registration_no2", $event.target.value)
+	        _vm.$set(_vm.census, "REGISTRATION_NO2", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14351,8 +14803,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.registration_no3),
-	      expression: "census.registration_no3"
+	      value: (_vm.census.REGISTRATION_NO3),
+	      expression: "census.REGISTRATION_NO3"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -14361,17 +14813,17 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.registration_no3)
+	      "value": (_vm.census.REGISTRATION_NO3)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "registration_no3", $event.target.value)
+	        _vm.$set(_vm.census, "REGISTRATION_NO3", $event.target.value)
 	      }
 	    }
 	  })])])])])])])])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(51), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(52), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle text-center",
 	    staticStyle: {
 	      "width": "250px"
@@ -14382,10 +14834,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_under_permission_auth),
-	      expression: "census.is_under_permission_auth"
+	      value: (_vm.census.IS_UNDER_PERMISSION_AUTH),
+	      expression: "census.IS_UNDER_PERMISSION_AUTH"
 	    }],
-	    staticClass: "select form-control ",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "is-under-permission-auth",
 	      "name": "is_under_permission_auth",
@@ -14400,7 +14852,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_under_permission_auth", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IS_UNDER_PERMISSION_AUTH", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14416,7 +14868,7 @@
 	    attrs: {
 	      "value": "2"
 	    }
-	  }, [_vm._v("2 - না")])]), _vm._v(" "), _vm._m(52)])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -14426,10 +14878,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.permission_auth_id1),
-	      expression: "census.permission_auth_id1"
+	      value: (_vm.census.PERMISSION_AUTH_ID1),
+	      expression: "census.PERMISSION_AUTH_ID1"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "permission_auth_id1",
@@ -14444,7 +14896,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "permission_auth_id1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PERMISSION_AUTH_ID1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14452,36 +14904,22 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.permission_auth_id2),
-	      expression: "census.permission_auth_id2"
+	      value: (_vm.census.PERMISSION_AUTH_ID2),
+	      expression: "census.PERMISSION_AUTH_ID2"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "permission_auth_id2",
@@ -14496,7 +14934,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "permission_auth_id2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PERMISSION_AUTH_ID2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14504,36 +14942,22 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.permission_auth_id3),
-	      expression: "census.permission_auth_id3"
+	      value: (_vm.census.PERMISSION_AUTH_ID3),
+	      expression: "census.PERMISSION_AUTH_ID3"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "permission_auth_id3",
@@ -14548,7 +14972,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "permission_auth_id3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PERMISSION_AUTH_ID3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14556,36 +14980,22 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.permission_auth_id4),
-	      expression: "census.permission_auth_id4"
+	      value: (_vm.census.PERMISSION_AUTH_ID4),
+	      expression: "census.PERMISSION_AUTH_ID4"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "permission_auth_id4",
@@ -14600,7 +15010,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "permission_auth_id4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PERMISSION_AUTH_ID4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14608,36 +15018,22 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.permission_auth_id5),
-	      expression: "census.permission_auth_id5"
+	      value: (_vm.census.PERMISSION_AUTH_ID5),
+	      expression: "census.PERMISSION_AUTH_ID5"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "permission_auth_id5",
@@ -14652,7 +15048,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "permission_auth_id5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PERMISSION_AUTH_ID5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14660,36 +15056,22 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.permission_auth_id6),
-	      expression: "census.permission_auth_id6"
+	      value: (_vm.census.PERMISSION_AUTH_ID6),
+	      expression: "census.PERMISSION_AUTH_ID6"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "data-placeholder": "",
 	      "name": "permission_auth_id6",
@@ -14704,7 +15086,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "permission_auth_id6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PERMISSION_AUTH_ID6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14712,27 +15094,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -14742,8 +15110,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.approval_registration_no1),
-	      expression: "census.approval_registration_no1"
+	      value: (_vm.census.APPROVAL_REGISTRATION_NO1),
+	      expression: "census.APPROVAL_REGISTRATION_NO1"
 	    }],
 	    staticClass: "form-control input-medium",
 	    attrs: {
@@ -14752,12 +15120,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.approval_registration_no1)
+	      "value": (_vm.census.APPROVAL_REGISTRATION_NO1)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "approval_registration_no1", $event.target.value)
+	        _vm.$set(_vm.census, "APPROVAL_REGISTRATION_NO1", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14766,8 +15134,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.approval_registration_no2),
-	      expression: "census.approval_registration_no2"
+	      value: (_vm.census.APPROVAL_REGISTRATION_NO2),
+	      expression: "census.APPROVAL_REGISTRATION_NO2"
 	    }],
 	    staticClass: "form-control input-medium",
 	    attrs: {
@@ -14776,12 +15144,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.approval_registration_no2)
+	      "value": (_vm.census.APPROVAL_REGISTRATION_NO2)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "approval_registration_no2", $event.target.value)
+	        _vm.$set(_vm.census, "APPROVAL_REGISTRATION_NO2", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14790,8 +15158,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.approval_registration_no3),
-	      expression: "census.approval_registration_no3"
+	      value: (_vm.census.APPROVAL_REGISTRATION_NO3),
+	      expression: "census.APPROVAL_REGISTRATION_NO3"
 	    }],
 	    staticClass: "form-control input-medium",
 	    attrs: {
@@ -14800,12 +15168,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.approval_registration_no3)
+	      "value": (_vm.census.APPROVAL_REGISTRATION_NO3)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "approval_registration_no3", $event.target.value)
+	        _vm.$set(_vm.census, "APPROVAL_REGISTRATION_NO3", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14814,8 +15182,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.approval_registration_no4),
-	      expression: "census.approval_registration_no4"
+	      value: (_vm.census.APPROVAL_REGISTRATION_NO4),
+	      expression: "census.APPROVAL_REGISTRATION_NO4"
 	    }],
 	    staticClass: "form-control input-medium",
 	    attrs: {
@@ -14824,12 +15192,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.approval_registration_no4)
+	      "value": (_vm.census.APPROVAL_REGISTRATION_NO4)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "approval_registration_no4", $event.target.value)
+	        _vm.$set(_vm.census, "APPROVAL_REGISTRATION_NO4", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14838,8 +15206,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.approval_registration_no5),
-	      expression: "census.approval_registration_no5"
+	      value: (_vm.census.APPROVAL_REGISTRATION_NO5),
+	      expression: "census.APPROVAL_REGISTRATION_NO5"
 	    }],
 	    staticClass: "form-control input-medium",
 	    attrs: {
@@ -14848,12 +15216,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.approval_registration_no5)
+	      "value": (_vm.census.APPROVAL_REGISTRATION_NO5)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "approval_registration_no5", $event.target.value)
+	        _vm.$set(_vm.census, "APPROVAL_REGISTRATION_NO5", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
@@ -14862,8 +15230,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.approval_registration_no6),
-	      expression: "census.approval_registration_no6"
+	      value: (_vm.census.APPROVAL_REGISTRATION_NO6),
+	      expression: "census.APPROVAL_REGISTRATION_NO6"
 	    }],
 	    staticClass: "form-control input-medium",
 	    attrs: {
@@ -14872,12 +15240,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.approval_registration_no6)
+	      "value": (_vm.census.APPROVAL_REGISTRATION_NO6)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "approval_registration_no6", $event.target.value)
+	        _vm.$set(_vm.census, "APPROVAL_REGISTRATION_NO6", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', {
@@ -14888,8 +15256,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.has_environmental_control),
-	      expression: "census.has_environmental_control"
+	      value: (_vm.census.HAS_ENVIRONMENTAL_CONTROL),
+	      expression: "census.HAS_ENVIRONMENTAL_CONTROL"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -14906,7 +15274,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "has_environmental_control", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAS_ENVIRONMENTAL_CONTROL", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14930,12 +15298,12 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.pollution_control_measure_id),
-	      expression: "census.pollution_control_measure_id"
+	      value: (_vm.census.POLLUTION_CONTROL_MEASURE_ID),
+	      expression: "census.POLLUTION_CONTROL_MEASURE_ID"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
-	      "id": "membership-authority",
+	      "id": "pollution_control_measure_id",
 	      "name": "pollution_control_measure_id",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
@@ -14948,7 +15316,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "pollution_control_measure_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "POLLUTION_CONTROL_MEASURE_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -14956,19 +15324,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - তরল বর্জ্য ব্যবস্থাপনা প্ল্যান্ট (ETP)")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - বায়ু দূষণ নিয়ন্ত্রণ ব্যবস্থা (ATP)")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - কঠিন বর্জ্য ব্যবস্থাপনা ")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.pollutionControl), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -14976,8 +15338,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.has_specialized_zone),
-	      expression: "census.has_specialized_zone"
+	      value: (_vm.census.HAS_SPECIALIZED_ZONE),
+	      expression: "census.HAS_SPECIALIZED_ZONE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -14994,7 +15356,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "has_specialized_zone", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAS_SPECIALIZED_ZONE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15018,12 +15380,12 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.specialty_code_id),
-	      expression: "census.specialty_code_id"
+	      value: (_vm.census.SPECIALTY_CODE_ID),
+	      expression: "census.SPECIALTY_CODE_ID"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
-	      "id": "membership-authority",
+	      "id": "specialty-code-id",
 	      "name": "specialty_code_id",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
@@ -15036,7 +15398,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "specialty_code_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SPECIALTY_CODE_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15044,23 +15406,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - বাংলাদেশ বিনিয়োগ উন্নয়ন কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ রপ্তানি প্রক্রিয়াকরণ অঞ্চল কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - বাংলাদেশ অর্থনৈতিক অঞ্চল কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ক্ষুদ্র ও কুটির শিল্প কর্পোরেশন")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.specialtyCode), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15068,10 +15420,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.has_membership),
-	      expression: "census.has_membership"
+	      value: (_vm.census.HAS_MEMBERSHIP),
+	      expression: "census.HAS_MEMBERSHIP"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "has-membership",
 	      "name": "has_membership",
@@ -15086,7 +15438,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "has_membership", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAS_MEMBERSHIP", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15112,8 +15464,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.membership_authority),
-	      expression: "census.membership_authority"
+	      value: (_vm.census.MEMBERSHIP_AUTHORITY),
+	      expression: "census.MEMBERSHIP_AUTHORITY"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -15122,12 +15474,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.membership_authority)
+	      "value": (_vm.census.MEMBERSHIP_AUTHORITY)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "membership_authority", $event.target.value)
+	        _vm.$set(_vm.census, "MEMBERSHIP_AUTHORITY", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('div', [_c('label', {
@@ -15140,8 +15492,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.membership_number),
-	      expression: "census.membership_number"
+	      value: (_vm.census.MEMBERSHIP_NUMBER),
+	      expression: "census.MEMBERSHIP_NUMBER"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -15150,12 +15502,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.membership_number)
+	      "value": (_vm.census.MEMBERSHIP_NUMBER)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "membership_number", $event.target.value)
+	        _vm.$set(_vm.census, "MEMBERSHIP_NUMBER", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('td', {
@@ -15166,10 +15518,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.has_chamber_membership),
-	      expression: "census.has_chamber_membership"
+	      value: (_vm.census.HAS_CHAMBER_MEMBERSHIP),
+	      expression: "census.HAS_CHAMBER_MEMBERSHIP"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "has-chamber-membership",
 	      "name": "has_chamber_membership",
@@ -15184,7 +15536,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "has_chamber_membership", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAS_CHAMBER_MEMBERSHIP", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15210,8 +15562,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.chamber_name),
-	      expression: "census.chamber_name"
+	      value: (_vm.census.CHAMBER_NAME),
+	      expression: "census.CHAMBER_NAME"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -15220,12 +15572,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.chamber_name)
+	      "value": (_vm.census.CHAMBER_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "chamber_name", $event.target.value)
+	        _vm.$set(_vm.census, "CHAMBER_NAME", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('div', [_c('label', {
@@ -15238,8 +15590,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.chamber_membership_number),
-	      expression: "census.chamber_membership_number"
+	      value: (_vm.census.CHAMBER_MEMBERSHIP_NUMBER),
+	      expression: "census.CHAMBER_MEMBERSHIP_NUMBER"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -15248,12 +15600,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.chamber_membership_number)
+	      "value": (_vm.census.CHAMBER_MEMBERSHIP_NUMBER)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "chamber_membership_number", $event.target.value)
+	        _vm.$set(_vm.census, "CHAMBER_MEMBERSHIP_NUMBER", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('td', {
@@ -15264,8 +15616,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.year_of_establishment),
-	      expression: "census.year_of_establishment"
+	      value: (_vm.census.YEAR_OF_ESTABLISHMENT),
+	      expression: "census.YEAR_OF_ESTABLISHMENT"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -15276,12 +15628,12 @@
 	      "type": "number"
 	    },
 	    domProps: {
-	      "value": (_vm.census.year_of_establishment)
+	      "value": (_vm.census.YEAR_OF_ESTABLISHMENT)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "year_of_establishment", $event.target.value)
+	        _vm.$set(_vm.census, "YEAR_OF_ESTABLISHMENT", $event.target.value)
 	      }
 	    }
 	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('table', {
@@ -15294,8 +15646,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.year_of_inception),
-	      expression: "census.year_of_inception"
+	      value: (_vm.census.YEAR_OF_INCEPTION),
+	      expression: "census.YEAR_OF_INCEPTION"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -15306,12 +15658,12 @@
 	      "type": "number"
 	    },
 	    domProps: {
-	      "value": (_vm.census.year_of_inception)
+	      "value": (_vm.census.YEAR_OF_INCEPTION)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "year_of_inception", $event.target.value)
+	        _vm.$set(_vm.census, "YEAR_OF_INCEPTION", $event.target.value)
 	      }
 	    }
 	  }), _vm._v(" "), _c('div', [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(ইংরেজি সাল লিখুন)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t")])])])])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
@@ -15324,10 +15676,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.current_status_of_unit),
-	      expression: "census.current_status_of_unit"
+	      value: (_vm.census.CURRENT_STATUS_OF_UNIT),
+	      expression: "census.CURRENT_STATUS_OF_UNIT"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "unit-current-status",
 	      "name": "current_status_of_unit",
@@ -15342,7 +15694,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "current_status_of_unit", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "CURRENT_STATUS_OF_UNIT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15350,23 +15702,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - চলমান")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - সাময়িকভাবে বন্ধ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - স্থায়ীভাবে বন্ধ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "21"
-	    }
-	  }, [_vm._v("4 - লে-অফ")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.unitCurrentStatus), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', [_c('label', {
 	    attrs: {
@@ -15378,8 +15720,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.tmp_closed_reopen_month),
-	      expression: "census.tmp_closed_reopen_month"
+	      value: (_vm.census.TMP_CLOSED_REOPEN_MONTH),
+	      expression: "census.TMP_CLOSED_REOPEN_MONTH"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15396,7 +15738,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "tmp_closed_reopen_month", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "TMP_CLOSED_REOPEN_MONTH", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15452,7 +15794,67 @@
 	    attrs: {
 	      "value": "12"
 	    }
-	  }, [_vm._v("12 - ডিসেম্বর")])])])]), _vm._v(" "), _vm._m(55)]), _vm._v(" "), _vm._m(56), _vm._v(" "), _c('td', {
+	  }, [_vm._v("12 - ডিসেম্বর")])])])]), _vm._v(" "), _c('div', [_c('label', {
+	    attrs: {
+	      "for": "reopen-year"
+	    }
+	  }, [_vm._v("সাল")]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.TMP_CLOSED_REOPEN_YEAR),
+	      expression: "census.TMP_CLOSED_REOPEN_YEAR"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "reopen-year",
+	      "placeholder": "eg. 1970",
+	      "pattern": "[0-9]",
+	      "maxlength": "4",
+	      "name": "tmp_closed_reopen_year",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.TMP_CLOSED_REOPEN_YEAR)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "TMP_CLOSED_REOPEN_YEAR", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.TMP_PERMANENTLY_CLOSE_YEAR),
+	      expression: "census.TMP_PERMANENTLY_CLOSE_YEAR"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "perma-close-year",
+	      "placeholder": "eg. 1970",
+	      "pattern": "[0-9]",
+	      "maxlength": "4",
+	      "name": "tmp_permanently_close_year",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.TMP_PERMANENTLY_CLOSE_YEAR)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "TMP_PERMANENTLY_CLOSE_YEAR", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', [_c('div', {
 	    staticClass: "form-group"
@@ -15460,10 +15862,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.reason_of_close_code),
-	      expression: "census.reason_of_close_code"
+	      value: (_vm.census.REASON_OF_CLOSE_CODE),
+	      expression: "census.REASON_OF_CLOSE_CODE"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "closing-reason",
 	      "name": "reason_of_close_code",
@@ -15478,7 +15880,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "reason_of_close_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "REASON_OF_CLOSE_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15486,61 +15888,74 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
+	  }), _vm._v(" "), _vm._l((_vm.closingReasons), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.REASON_OF_CLOSE_OTHER),
+	      expression: "census.REASON_OF_CLOSE_OTHER"
+	    }],
+	    staticClass: "form-control",
 	    attrs: {
-	      "value": "1"
+	      "disabled": "disabled",
+	      "placeholder": "অন্যান্য হলে নাম লিখুন ",
+	      "id": "closing-reason-other",
+	      "name": "reason_of_close_other",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.REASON_OF_CLOSE_OTHER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "REASON_OF_CLOSE_OTHER", $event.target.value)
+	      }
 	    }
-	  }, [_vm._v("1 - মূলধনের অভাব")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - জনবলের অভাব")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - জলবায়ুগত সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("4 - মেশিনারি সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("5 - ইউটিলিটি সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "6"
-	    }
-	  }, [_vm._v("6 - কাঁচামালের সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "7"
-	    }
-	  }, [_vm._v("7 - মৌসুমী উৎপাদন")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "8"
-	    }
-	  }, [_vm._v("8 - আইনগত জটিলতা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "9"
-	    }
-	  }, [_vm._v("9 - ব্যবসার ধরন পরিবর্তন")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "10"
-	    }
-	  }, [_vm._v("10 - প্রাকৃতিক দুর্যোগ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "11"
-	    }
-	  }, [_vm._v("11 - অগ্নিকান্ড")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "12"
-	    }
-	  }, [_vm._v("12 - অন্যান্য দুর্ঘটনা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "13"
-	    }
-	  }, [_vm._v("13 - অন্যান্য")])])])]), _vm._v(" "), _vm._m(57)]), _vm._v(" "), _c('td', {
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._m(58), _vm._v(" "), _c('div', [_c('label', {
+	  }, [_c('div', [_c('label', {
+	    staticClass: "text-center",
+	    staticStyle: {
+	      "display": "block"
+	    },
+	    attrs: {
+	      "for": "main-economic-desc"
+	    }
+	  }, [_vm._v("বিবরণ")]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MAIN_ECONOMIC_ACT_DESC),
+	      expression: "census.MAIN_ECONOMIC_ACT_DESC"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "id": "main-economic-desc",
+	      "rows": "2",
+	      "name": "main_economic_act_desc",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MAIN_ECONOMIC_ACT_DESC)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MAIN_ECONOMIC_ACT_DESC", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', [_c('label', {
 	    staticClass: "text-center",
 	    staticStyle: {
 	      "display": "block"
@@ -15554,10 +15969,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.main_industrial_code),
-	      expression: "census.main_industrial_code"
+	      value: (_vm.census.MAIN_INDUSTRIAL_CODE),
+	      expression: "census.MAIN_INDUSTRIAL_CODE"
 	    }],
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
+	    staticClass: "select form-control select2-control",
 	    attrs: {
 	      "id": "main-industrial-code",
 	      "name": "main_industrial_code",
@@ -15572,7 +15987,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "main_industrial_code", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "MAIN_INDUSTRIAL_CODE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15586,7 +16001,33 @@
 	    }
 	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(59), _vm._v(" "), _c('tr', [_vm._m(60), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(55), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MINOR_ECONOMIC_ACT_DESC1),
+	      expression: "census.MINOR_ECONOMIC_ACT_DESC1"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "minor_economic_act_desc1",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MINOR_ECONOMIC_ACT_DESC1)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MINOR_ECONOMIC_ACT_DESC1", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15594,8 +16035,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.minor_industrial_code1),
-	      expression: "census.minor_industrial_code1"
+	      value: (_vm.census.MINOR_INDUSTRIAL_CODE1),
+	      expression: "census.MINOR_INDUSTRIAL_CODE1"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15612,7 +16053,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "minor_industrial_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "MINOR_INDUSTRIAL_CODE1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15624,7 +16065,33 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(61), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.minor_economic_act_desc2),
+	      expression: "census.minor_economic_act_desc2"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "minor_economic_act_desc2",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.minor_economic_act_desc2)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "minor_economic_act_desc2", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15632,8 +16099,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.minor_industrial_code2),
-	      expression: "census.minor_industrial_code2"
+	      value: (_vm.census.MINOR_INDUSTRIAL_CODE2),
+	      expression: "census.MINOR_INDUSTRIAL_CODE2"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15650,7 +16117,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "minor_industrial_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "MINOR_INDUSTRIAL_CODE2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15662,7 +16129,33 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(62), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MINOR_ECONOMIC_ACT_DESC3),
+	      expression: "census.MINOR_ECONOMIC_ACT_DESC3"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "minor_economic_act_desc3",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MINOR_ECONOMIC_ACT_DESC3)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MINOR_ECONOMIC_ACT_DESC3", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15670,8 +16163,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.minor_industrial_code3),
-	      expression: "census.minor_industrial_code3"
+	      value: (_vm.census.MINOR_INDUSTRIAL_CODE3),
+	      expression: "census.MINOR_INDUSTRIAL_CODE3"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15688,7 +16181,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "minor_industrial_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "MINOR_INDUSTRIAL_CODE3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15702,7 +16195,33 @@
 	    }
 	  }, [_vm._v("0111")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_vm._m(63), _vm._v(" "), _c('tr', [_vm._m(64), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(56), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SUPPORTING_ECONOMIC_ACT_DESC1),
+	      expression: "census.SUPPORTING_ECONOMIC_ACT_DESC1"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "supporting_economic_act_desc1",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SUPPORTING_ECONOMIC_ACT_DESC1)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SUPPORTING_ECONOMIC_ACT_DESC1", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15710,8 +16229,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.supporting_industrial_code1),
-	      expression: "census.supporting_industrial_code1"
+	      value: (_vm.census.SUPPORTING_INDUSTRIAL_CODE1),
+	      expression: "census.SUPPORTING_INDUSTRIAL_CODE1"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15728,7 +16247,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "supporting_industrial_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SUPPORTING_INDUSTRIAL_CODE1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15740,7 +16259,33 @@
 	    attrs: {
 	      "value": "1301"
 	    }
-	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_vm._m(65), _vm._v(" "), _c('td', {
+	  }, [_vm._v("0111")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SUPPORTING_ECONOMIC_ACT_DESC2),
+	      expression: "census.SUPPORTING_ECONOMIC_ACT_DESC2"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "supporting_economic_act_desc2",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SUPPORTING_ECONOMIC_ACT_DESC2)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SUPPORTING_ECONOMIC_ACT_DESC2", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-top"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15748,8 +16293,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.supporting_industrial_code2),
-	      expression: "census.supporting_industrial_code2"
+	      value: (_vm.census.SUPPORTING_INDUSTRIAL_CODE2),
+	      expression: "census.SUPPORTING_INDUSTRIAL_CODE2"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15766,7 +16311,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "supporting_industrial_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SUPPORTING_INDUSTRIAL_CODE2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15783,21 +16328,45 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_vm._m(66), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', {
+	  }, [_vm._m(57), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width",
 	    attrs: {
 	      "width": "400"
 	    }
-	  }, [_c('tbody', [_vm._m(67), _vm._v(" "), _c('tr', [_vm._m(68), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_c('tbody', [_vm._m(58), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.PRODUCT_DESCRIPTION1),
+	      expression: "census.PRODUCT_DESCRIPTION1"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "product_description1",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.PRODUCT_DESCRIPTION1)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "PRODUCT_DESCRIPTION1", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.product_bsic_code1),
-	      expression: "census.product_bsic_code1"
+	      value: (_vm.census.PRODUCT_BSIC_CODE1),
+	      expression: "census.PRODUCT_BSIC_CODE1"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15814,7 +16383,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "product_bsic_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PRODUCT_BSIC_CODE1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15826,14 +16395,38 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(69), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.PRODUCT_DESCRIPTION2),
+	      expression: "census.PRODUCT_DESCRIPTION2"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "product_description2",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.PRODUCT_DESCRIPTION2)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "PRODUCT_DESCRIPTION2", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.product_bsic_code2),
-	      expression: "census.product_bsic_code2"
+	      value: (_vm.census.PRODUCT_BSIC_CODE2),
+	      expression: "census.PRODUCT_BSIC_CODE2"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15850,7 +16443,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "product_bsic_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PRODUCT_BSIC_CODE2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15862,14 +16455,38 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(70), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.PRODUCT_DESCRIPTION3),
+	      expression: "census.PRODUCT_DESCRIPTION3"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "product_description3",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.PRODUCT_DESCRIPTION3)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "PRODUCT_DESCRIPTION3", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.product_bsic_code3),
-	      expression: "census.product_bsic_code3"
+	      value: (_vm.census.PRODUCT_BSIC_CODE3),
+	      expression: "census.PRODUCT_BSIC_CODE3"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15886,7 +16503,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "product_bsic_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PRODUCT_BSIC_CODE3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15898,14 +16515,38 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(71), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.PRODUCT_DESCRIPTION4),
+	      expression: "census.PRODUCT_DESCRIPTION4"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "product_description4",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.PRODUCT_DESCRIPTION4)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "PRODUCT_DESCRIPTION4", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.product_bsic_code4),
-	      expression: "census.product_bsic_code4"
+	      value: (_vm.census.PRODUCT_BSIC_CODE4),
+	      expression: "census.PRODUCT_BSIC_CODE4"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15922,7 +16563,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "product_bsic_code4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PRODUCT_BSIC_CODE4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15934,14 +16575,38 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(72), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.PRODUCT_DESCRIPTION5),
+	      expression: "census.PRODUCT_DESCRIPTION5"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "product_description5",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.PRODUCT_DESCRIPTION5)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "PRODUCT_DESCRIPTION5", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.product_bsic_code5),
-	      expression: "census.product_bsic_code5"
+	      value: (_vm.census.PRODUCT_BSIC_CODE5),
+	      expression: "census.PRODUCT_BSIC_CODE5"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15958,7 +16623,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "product_bsic_code5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PRODUCT_BSIC_CODE5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -15970,14 +16635,38 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_vm._m(73), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.PRODUCT_DESCRIPTION6),
+	      expression: "census.PRODUCT_DESCRIPTION6"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "product_description6",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.PRODUCT_DESCRIPTION6)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "PRODUCT_DESCRIPTION6", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.product_bsic_code6),
-	      expression: "census.product_bsic_code6"
+	      value: (_vm.census.PRODUCT_BSIC_CODE6),
+	      expression: "census.PRODUCT_BSIC_CODE6"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -15994,7 +16683,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "product_bsic_code6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "PRODUCT_BSIC_CODE6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16013,16 +16702,40 @@
 	    attrs: {
 	      "width": "400"
 	    }
-	  }, [_c('tbody', [_vm._m(74), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(59), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("১.")]), _vm._v(" "), _vm._m(75), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("১.")]), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SERVICE_DESCRIPTION1),
+	      expression: "census.SERVICE_DESCRIPTION1"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "service_description1",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SERVICE_DESCRIPTION1)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SERVICE_DESCRIPTION1", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.service_bsic_code1),
-	      expression: "census.service_bsic_code1"
+	      value: (_vm.census.SERVICE_BSIC_CODE1),
+	      expression: "census.SERVICE_BSIC_CODE1"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16039,7 +16752,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "service_bsic_code1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SERVICE_BSIC_CODE1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16053,14 +16766,38 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("২.")]), _vm._v(" "), _vm._m(76), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("২.")]), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SERVICE_DESCRIPTION2),
+	      expression: "census.SERVICE_DESCRIPTION2"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "service_description2",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SERVICE_DESCRIPTION2)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SERVICE_DESCRIPTION2", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.service_bsic_code2),
-	      expression: "census.service_bsic_code2"
+	      value: (_vm.census.SERVICE_BSIC_CODE2),
+	      expression: "census.SERVICE_BSIC_CODE2"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16077,7 +16814,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "service_bsic_code2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SERVICE_BSIC_CODE2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16091,14 +16828,38 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৩.")]), _vm._v(" "), _vm._m(77), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৩.")]), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SERVICE_DESCRIPTION3),
+	      expression: "census.SERVICE_DESCRIPTION3"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "service_description3",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SERVICE_DESCRIPTION3)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SERVICE_DESCRIPTION3", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.service_bsic_code3),
-	      expression: "census.service_bsic_code3"
+	      value: (_vm.census.SERVICE_BSIC_CODE3),
+	      expression: "census.SERVICE_BSIC_CODE3"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16115,7 +16876,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "service_bsic_code3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SERVICE_BSIC_CODE3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16129,14 +16890,38 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৪.")]), _vm._v(" "), _vm._m(78), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৪.")]), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SERVICE_DESCRIPTION4),
+	      expression: "census.SERVICE_DESCRIPTION4"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "service_description4",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SERVICE_DESCRIPTION4)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SERVICE_DESCRIPTION4", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.service_bsic_code4),
-	      expression: "census.service_bsic_code4"
+	      value: (_vm.census.SERVICE_BSIC_CODE4),
+	      expression: "census.SERVICE_BSIC_CODE4"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16153,7 +16938,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "service_bsic_code4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SERVICE_BSIC_CODE4", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16167,14 +16952,38 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৫.")]), _vm._v(" "), _vm._m(79), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৫.")]), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SERVICE_DESCRIPTION5),
+	      expression: "census.SERVICE_DESCRIPTION5"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "service_description5",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SERVICE_DESCRIPTION5)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SERVICE_DESCRIPTION5", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.service_bsic_code5),
-	      expression: "census.service_bsic_code5"
+	      value: (_vm.census.SERVICE_BSIC_CODE5),
+	      expression: "census.SERVICE_BSIC_CODE5"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16191,7 +17000,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "service_bsic_code5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SERVICE_BSIC_CODE5", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16205,14 +17014,38 @@
 	    }
 	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-3"
-	  }, [_vm._v("৬.")]), _vm._v(" "), _vm._m(80), _vm._v(" "), _c('td', [_c('div', {
+	  }, [_vm._v("৬.")]), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group padding-3"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SERVICE_DESCRIPTION6),
+	      expression: "census.SERVICE_DESCRIPTION6"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "service_description6",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SERVICE_DESCRIPTION6)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SERVICE_DESCRIPTION6", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', [_c('div', {
 	    staticClass: "form-group padding-3"
 	  }, [_c('select', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.service_bsic_code6),
-	      expression: "census.service_bsic_code6"
+	      value: (_vm.census.SERVICE_BSIC_CODE6),
+	      expression: "census.SERVICE_BSIC_CODE6"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16229,7 +17062,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "service_bsic_code6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "SERVICE_BSIC_CODE6", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16246,7 +17079,7 @@
 	    attrs: {
 	      "width": "1160"
 	    }
-	  }, [_c('tbody', [_vm._m(81), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(60), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16254,8 +17087,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_export),
-	      expression: "census.is_export"
+	      value: (_vm.census.IS_EXPORT),
+	      expression: "census.IS_EXPORT"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16272,7 +17105,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_export", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IS_EXPORT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16296,8 +17129,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.export_erc_code),
-	      expression: "census.export_erc_code"
+	      value: (_vm.census.EXPORT_ERC_CODE),
+	      expression: "census.EXPORT_ERC_CODE"
 	    }],
 	    staticClass: "form-control input-medium",
 	    attrs: {
@@ -16306,15 +17139,131 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.export_erc_code)
+	      "value": (_vm.census.EXPORT_ERC_CODE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "export_erc_code", $event.target.value)
+	        _vm.$set(_vm.census, "EXPORT_ERC_CODE", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(82), _vm._v(" "), _vm._m(83), _vm._v(" "), _c('td', {
+	  })])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.IS_EXPORT_PRODUCT_SERVICES),
+	      expression: "census.IS_EXPORT_PRODUCT_SERVICES"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "is-export-product-services",
+	      "name": "is_export_product_services",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "IS_EXPORT_PRODUCT_SERVICES", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.EXPORT_PRODUCT_SERVICES_DESC1),
+	      expression: "census.EXPORT_PRODUCT_SERVICES_DESC1"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "export_product_services_desc1",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.EXPORT_PRODUCT_SERVICES_DESC1)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "EXPORT_PRODUCT_SERVICES_DESC1", $event.target.value)
+	      }
+	    }
+	  })]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.EXPORT_PRODUCT_SERVICES_DESC2),
+	      expression: "census.EXPORT_PRODUCT_SERVICES_DESC2"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "export_product_services_desc2",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.EXPORT_PRODUCT_SERVICES_DESC2)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "EXPORT_PRODUCT_SERVICES_DESC2", $event.target.value)
+	      }
+	    }
+	  })]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.EXPORT_PRODUCT_SERVICES_DESC3),
+	      expression: "census.EXPORT_PRODUCT_SERVICES_DESC3"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "export_product_services_desc3",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.EXPORT_PRODUCT_SERVICES_DESC3)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "EXPORT_PRODUCT_SERVICES_DESC3", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16322,8 +17271,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.export_product_services1),
-	      expression: "census.export_product_services1"
+	      value: (_vm.census.EXPORT_PRODUCT_SERVICES1),
+	      expression: "census.EXPORT_PRODUCT_SERVICES1"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16340,7 +17289,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "export_product_services1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "EXPORT_PRODUCT_SERVICES1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16358,8 +17307,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.export_product_services2),
-	      expression: "census.export_product_services2"
+	      value: (_vm.census.EXPORT_PRODUCT_SERVICES2),
+	      expression: "census.EXPORT_PRODUCT_SERVICES2"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16376,7 +17325,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "export_product_services2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "EXPORT_PRODUCT_SERVICES2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16394,8 +17343,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.export_product_services3),
-	      expression: "census.export_product_services3"
+	      value: (_vm.census.EXPORT_PRODUCT_SERVICES3),
+	      expression: "census.EXPORT_PRODUCT_SERVICES3"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16412,7 +17361,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "export_product_services3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "EXPORT_PRODUCT_SERVICES3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16424,7 +17373,7 @@
 	    attrs: {
 	      "value": "2980"
 	    }
-	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _vm._m(84), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("00000")])])])])]), _vm._v(" "), _vm._m(61), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16432,8 +17381,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.is_import),
-	      expression: "census.is_import"
+	      value: (_vm.census.IS_IMPORT),
+	      expression: "census.IS_IMPORT"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16450,7 +17399,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "is_import", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IS_IMPORT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16474,8 +17423,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.import_irc_code),
-	      expression: "census.import_irc_code"
+	      value: (_vm.census.IMPORT_IRC_CODE),
+	      expression: "census.IMPORT_IRC_CODE"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -16484,15 +17433,92 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.import_irc_code)
+	      "value": (_vm.census.IMPORT_IRC_CODE)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "import_irc_code", $event.target.value)
+	        _vm.$set(_vm.census, "IMPORT_IRC_CODE", $event.target.value)
 	      }
 	    }
-	  })])]), _vm._v(" "), _vm._m(85), _vm._v(" "), _c('td', {
+	  })])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10",
+	    attrs: {
+	      "colspan": "2"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.IMPORT_PRODUCT_SERVICES_DESC1),
+	      expression: "census.IMPORT_PRODUCT_SERVICES_DESC1"
+	    }],
+	    staticClass: "form-control enable-bangla ",
+	    attrs: {
+	      "rows": "1",
+	      "name": "import_product_services_desc1",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.IMPORT_PRODUCT_SERVICES_DESC1)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "IMPORT_PRODUCT_SERVICES_DESC1", $event.target.value)
+	      }
+	    }
+	  })]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.IMPORT_PRODUCT_SERVICES_DESC2),
+	      expression: "census.IMPORT_PRODUCT_SERVICES_DESC2"
+	    }],
+	    staticClass: "form-control enable-bangla ",
+	    attrs: {
+	      "rows": "1",
+	      "name": "import_product_services_desc2",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.IMPORT_PRODUCT_SERVICES_DESC2)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "IMPORT_PRODUCT_SERVICES_DESC2", $event.target.value)
+	      }
+	    }
+	  })]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('textarea', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.IMPORT_PRODUCT_SERVICES_DESC3),
+	      expression: "census.IMPORT_PRODUCT_SERVICES_DESC3"
+	    }],
+	    staticClass: "form-control enable-bangla",
+	    attrs: {
+	      "rows": "1",
+	      "name": "import_product_services_desc3",
+	      "cols": "50"
+	    },
+	    domProps: {
+	      "value": (_vm.census.IMPORT_PRODUCT_SERVICES_DESC3)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "IMPORT_PRODUCT_SERVICES_DESC3", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 "
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16500,8 +17526,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.import_product_services1),
-	      expression: "census.import_product_services1"
+	      value: (_vm.census.IMPORT_PRODUCT_SERVICES1),
+	      expression: "census.IMPORT_PRODUCT_SERVICES1"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16518,7 +17544,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "import_product_services1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IMPORT_PRODUCT_SERVICES1", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16536,8 +17562,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.import_product_services2),
-	      expression: "census.import_product_services2"
+	      value: (_vm.census.IMPORT_PRODUCT_SERVICES2),
+	      expression: "census.IMPORT_PRODUCT_SERVICES2"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16554,7 +17580,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "import_product_services2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IMPORT_PRODUCT_SERVICES2", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16572,8 +17598,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.import_product_services3),
-	      expression: "census.import_product_services3"
+	      value: (_vm.census.IMPORT_PRODUCT_SERVICES3),
+	      expression: "census.IMPORT_PRODUCT_SERVICES3"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16590,7 +17616,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "import_product_services3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "IMPORT_PRODUCT_SERVICES3", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16607,13 +17633,259 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(86), _vm._v(" "), _vm._m(87), _vm._v(" "), _vm._m(88), _vm._v(" "), _c('tr', [_vm._m(89), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(62), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.TOTAL_ASSETS_AMOUNT),
+	      expression: "census.TOTAL_ASSETS_AMOUNT"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "total-assets-amount",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "total_assets_amount",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.TOTAL_ASSETS_AMOUNT)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "TOTAL_ASSETS_AMOUNT", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.CURRENT_CAPITAL_AMOUNT),
+	      expression: "census.CURRENT_CAPITAL_AMOUNT"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "current-capital-amount",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "current_capital_amount",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.CURRENT_CAPITAL_AMOUNT)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "CURRENT_CAPITAL_AMOUNT", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LAND_FACTORY_BUILDINGS_VALUE),
+	      expression: "census.LAND_FACTORY_BUILDINGS_VALUE"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "land_factory_buildings_value",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "land_factory_buildings_value",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LAND_FACTORY_BUILDINGS_VALUE)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LAND_FACTORY_BUILDINGS_VALUE", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.YEARLY_TURNOVER),
+	      expression: "census.YEARLY_TURNOVER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "yearly-turnover",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "yearly_turnover",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.YEARLY_TURNOVER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "YEARLY_TURNOVER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10",
+	    attrs: {
+	      "colspan": "2"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LAST_YEAR_INVESTED_CAPITAL),
+	      expression: "census.LAST_YEAR_INVESTED_CAPITAL"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "last-year-invested-capital",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "last_year_invested_capital",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LAST_YEAR_INVESTED_CAPITAL)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LAST_YEAR_INVESTED_CAPITAL", $event.target.value)
+	      }
+	    }
+	  })])])])]), _vm._v(" "), _vm._m(63), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.HAS_FOREIGN_RES_INVESTEMENT),
+	      expression: "census.HAS_FOREIGN_RES_INVESTEMENT"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "has-foreign-res-investment",
+	      "name": "has_foreign_res_investement",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "HAS_FOREIGN_RES_INVESTEMENT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group",
+	    staticStyle: {
+	      "width": "100%"
+	    }
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FOREIGN_RES_INVESTMENT),
+	      expression: "census.FOREIGN_RES_INVESTMENT"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "foreign-res-investment",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "foreign_res_investment",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FOREIGN_RES_INVESTMENT)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FOREIGN_RES_INVESTMENT", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
 	  }, [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(90), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(64), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16628,8 +17900,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.last_year_prod_raw_materials),
-	      expression: "census.last_year_prod_raw_materials"
+	      value: (_vm.census.LAST_YEAR_PROD_RAW_MATERIALS),
+	      expression: "census.LAST_YEAR_PROD_RAW_MATERIALS"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -16641,15 +17913,15 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.last_year_prod_raw_materials)
+	      "value": (_vm.census.LAST_YEAR_PROD_RAW_MATERIALS)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "last_year_prod_raw_materials", $event.target.value)
+	        _vm.$set(_vm.census, "LAST_YEAR_PROD_RAW_MATERIALS", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _vm._m(91), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16664,8 +17936,44 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.last_year_other_expenses_sum),
-	      expression: "census.last_year_other_expenses_sum"
+	      value: (_vm.census.LAST_YEAR_SALARY_AMOUNT),
+	      expression: "census.LAST_YEAR_SALARY_AMOUNT"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "last-year-salary-amount",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "last_year_salary_amount",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LAST_YEAR_SALARY_AMOUNT)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LAST_YEAR_SALARY_AMOUNT", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group",
+	    staticStyle: {
+	      "width": "100%"
+	    }
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LAST_YEAR_OTHER_EXPENSES_SUM),
+	      expression: "census.LAST_YEAR_OTHER_EXPENSES_SUM"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -16677,12 +17985,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.last_year_other_expenses_sum)
+	      "value": (_vm.census.LAST_YEAR_OTHER_EXPENSES_SUM)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "last_year_other_expenses_sum", $event.target.value)
+	        _vm.$set(_vm.census, "LAST_YEAR_OTHER_EXPENSES_SUM", $event.target.value)
 	      }
 	    }
 	  })])])])])])])]), _vm._v(" "), _c('td', {
@@ -16693,8 +18001,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.have_any_loan),
-	      expression: "census.have_any_loan"
+	      value: (_vm.census.HAVE_ANY_LOAN),
+	      expression: "census.HAVE_ANY_LOAN"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16711,7 +18019,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "have_any_loan", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAVE_ANY_LOAN", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16732,7 +18040,7 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(92), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(65), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16740,12 +18048,12 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.loan_fin_org_type),
-	      expression: "census.loan_fin_org_type"
+	      value: (_vm.census.LOAN_FIN_ORG_TYPE),
+	      expression: "census.LOAN_FIN_ORG_TYPE"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control ",
 	    attrs: {
-	      "id": "loan-org-type",
+	      "id": "loan-fin-org-type",
 	      "name": "loan_fin_org_type",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
@@ -16758,7 +18066,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "loan_fin_org_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "LOAN_FIN_ORG_TYPE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16770,7 +18078,73 @@
 	    attrs: {
 	      "value": "1"
 	    }
-	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _vm._m(93), _vm._v(" "), _c('td', {
+	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LOAN_LAST_YEAR),
+	      expression: "census.LOAN_LAST_YEAR"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "loan-last-year",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "loan_last_year",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LOAN_LAST_YEAR)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LOAN_LAST_YEAR", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_vm._m(66), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t৩৩.৩ শুধুমাত্র গত অর্থবছরে (২০১৬-১৭) গৃহীত ঋণ পরিমাণ\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")]), _vm._v(" "), _c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LOAN_RECEIVED_2016_2017),
+	      expression: "census.LOAN_RECEIVED_2016_2017"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "loan_received_2016_2017",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "loan_received_2016_2017",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LOAN_RECEIVED_2016_2017)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LOAN_RECEIVED_2016_2017", $event.target.value)
+	      }
+	    }
+	  })])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -16778,8 +18152,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.have_accounting_account),
-	      expression: "census.have_accounting_account"
+	      value: (_vm.census.HAVE_ACCOUNTING_ACCOUNT),
+	      expression: "census.HAVE_ACCOUNTING_ACCOUNT"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -16796,7 +18170,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "have_accounting_account", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAVE_ACCOUNTING_ACCOUNT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16820,10 +18194,10 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.accounting_account_type_id),
-	      expression: "census.accounting_account_type_id"
+	      value: (_vm.census.ACCOUNTING_ACCOUNT_TYPE_ID),
+	      expression: "census.ACCOUNTING_ACCOUNT_TYPE_ID"
 	    }],
-	    staticClass: "select form-control select2-control select2-md select2-hidden-accessible",
+	    staticClass: "select form-control",
 	    attrs: {
 	      "id": "loan-org-type",
 	      "name": "accounting_account_type_id",
@@ -16838,7 +18212,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "accounting_account_type_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "ACCOUNTING_ACCOUNT_TYPE_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -16858,14 +18232,376 @@
 	    attrs: {
 	      "value": "3"
 	    }
-	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _vm._m(94)])])]), _vm._v(" "), _c('table', {
+	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width table-item-bordered"
+	  }, [_c('tbody', [_vm._m(67), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(68), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_OWNER),
+	      expression: "census.MALE_OWNER"
+	    }],
+	    staticClass: "form-control input-small",
+	    attrs: {
+	      "id": "male-owner",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_owner",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_OWNER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_OWNER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(69), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_OWNER),
+	      expression: "census.FEMALE_OWNER"
+	    }],
+	    staticClass: "form-control input-small",
+	    attrs: {
+	      "id": "female-owner",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_owner",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_OWNER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_OWNER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(70), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_UNPAID_WORKER),
+	      expression: "census.MALE_UNPAID_WORKER"
+	    }],
+	    staticClass: "form-control input-small",
+	    attrs: {
+	      "id": "male-unpaid-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_unpaid_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_UNPAID_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_UNPAID_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(71), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_UNPAID_WORKER),
+	      expression: "census.FEMALE_UNPAID_WORKER"
+	    }],
+	    staticClass: "form-control input-small",
+	    attrs: {
+	      "id": "female-unpaid-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_unpaid_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_UNPAID_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_UNPAID_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(72), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_FULLTIME_WORKER),
+	      expression: "census.MALE_FULLTIME_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-fulltime-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "4",
+	      "name": "male_fulltime_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_FULLTIME_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_FULLTIME_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(73), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_FULLTIME_WORKER),
+	      expression: "census.FEMALE_FULLTIME_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-fulltime-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "4",
+	      "name": "female_fulltime_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_FULLTIME_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_FULLTIME_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(74), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_PERTIME_WORKER),
+	      expression: "census.MALE_PERTIME_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-parttime-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "3",
+	      "name": "male_pertime_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_PERTIME_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_PERTIME_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(75), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_PERTIME_WORKER),
+	      expression: "census.FEMALE_PERTIME_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-parttime-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "3",
+	      "name": "female_pertime_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_PERTIME_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_PERTIME_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(76), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_CASUAL_WORKER),
+	      expression: "census.MALE_CASUAL_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-casual-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_casual_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_CASUAL_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_CASUAL_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(77), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_CASUAL_WORKER),
+	      expression: "census.FEMALE_CASUAL_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-casual-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_casual_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_CASUAL_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_CASUAL_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(78), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_SEASONAL_WORKER),
+	      expression: "census.MALE_SEASONAL_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-seasonal-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_seasonal_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_SEASONAL_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_SEASONAL_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(79), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_SEASONAL_WORKER),
+	      expression: "census.FEMALE_SEASONAL_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-seasona-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_seasonal_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_SEASONAL_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_SEASONAL_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])])])])])])])])]), _vm._v(" "), _c('table', {
 	    staticClass: "main-form-structure table-full-width table-item-bordered",
 	    staticStyle: {
 	      "width": "2125px"
 	    }
 	  }, [_c('tbody', [_c('tr', [_c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৫. প্রতিষ্ঠানে নিয়োজিত সকল বিদেশি কর্মী")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৬. প্রতিষ্ঠানে নিয়োজিত সকল বিদেশি কর্মী")]), _vm._v(" "), _c('td', {
 	    staticClass: "valign-middle",
 	    attrs: {
 	      "rowspan": "2"
@@ -16876,14 +18612,14 @@
 	    staticClass: "bottom-bordered"
 	  }, [_c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t৩৬. প্রতিষ্ঠানটির ই-টিআইএন (e-TIN) নং (যদি থাকে)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('div', {
+	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t৩৭. প্রতিষ্ঠানটির ই-টিআইএন (e-TIN) নং (যদি থাকে)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.tin_no),
-	      expression: "census.tin_no"
+	      value: (_vm.census.TIN_NO),
+	      expression: "census.TIN_NO"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -16893,24 +18629,24 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.tin_no)
+	      "value": (_vm.census.TIN_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "tin_no", $event.target.value)
+	        _vm.$set(_vm.census, "TIN_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t৩৭. প্রতিষ্ঠানটির ভ্যাট (VAT) নং (যদি থাকে)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('div', {
+	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t৩৮. প্রতিষ্ঠানটির ভ্যাট (VAT) নং (যদি থাকে)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.vat_no),
-	      expression: "census.vat_no"
+	      value: (_vm.census.VAT_NO),
+	      expression: "census.VAT_NO"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -16920,19 +18656,82 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.vat_no)
+	      "value": (_vm.census.VAT_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "vat_no", $event.target.value)
+	        _vm.$set(_vm.census, "VAT_NO", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৮. তথ্যপ্রদানকারী")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৯. তথ্যপ্রদানকারী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৯. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_vm._m(95), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৪০. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10 valign-middle",
+	    staticStyle: {
+	      "width": "200px"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(80), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_FOREIGN_WORKER),
+	      expression: "census.MALE_FOREIGN_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-foreign-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_foreign_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_FOREIGN_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_FOREIGN_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(81), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_FOREIGN_WORKER),
+	      expression: "census.FEMALE_FOREIGN_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-foreign-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_foreign_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_FOREIGN_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_FOREIGN_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -16946,8 +18745,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_name),
-	      expression: "census.provider_name"
+	      value: (_vm.census.PROVIDER_NAME),
+	      expression: "census.PROVIDER_NAME"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -16957,12 +18756,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_name)
+	      "value": (_vm.census.PROVIDER_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_name", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_NAME", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("পদবি")]), _vm._v(" "), _c('td', [_c('div', {
@@ -16971,8 +18770,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_designation),
-	      expression: "census.provider_designation"
+	      value: (_vm.census.PROVIDER_DESIGNATION),
+	      expression: "census.PROVIDER_DESIGNATION"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -16982,12 +18781,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_designation)
+	      "value": (_vm.census.PROVIDER_DESIGNATION)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_designation", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_DESIGNATION", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("NID নম্বর")]), _vm._v(" "), _c('td', [_c('div', {
@@ -16996,8 +18795,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_nid),
-	      expression: "census.provider_nid"
+	      value: (_vm.census.PROVIDER_NID),
+	      expression: "census.PROVIDER_NID"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17007,12 +18806,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_nid)
+	      "value": (_vm.census.PROVIDER_NID)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_nid", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_NID", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("প্রাতিষ্ঠানিক আইডি নম্বর")]), _vm._v(" "), _c('td', [_c('div', {
@@ -17021,8 +18820,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_org_id_no),
-	      expression: "census.provider_org_id_no"
+	      value: (_vm.census.PROVIDER_ORG_ID_NO),
+	      expression: "census.PROVIDER_ORG_ID_NO"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17032,12 +18831,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_org_id_no)
+	      "value": (_vm.census.PROVIDER_ORG_ID_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_org_id_no", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_ORG_ID_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _c('td', [_c('div', {
@@ -17046,8 +18845,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_mobile_no),
-	      expression: "census.provider_mobile_no"
+	      value: (_vm.census.PROVIDER_MOBILE_NO),
+	      expression: "census.PROVIDER_MOBILE_NO"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17058,12 +18857,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_mobile_no)
+	      "value": (_vm.census.PROVIDER_MOBILE_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_mobile_no", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_MOBILE_NO", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', {
@@ -17078,8 +18877,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.collector_name),
-	      expression: "census.collector_name"
+	      value: (_vm.census.COLLECTOR_NAME),
+	      expression: "census.COLLECTOR_NAME"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17089,12 +18888,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.collector_name)
+	      "value": (_vm.census.COLLECTOR_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "collector_name", $event.target.value)
+	        _vm.$set(_vm.census, "COLLECTOR_NAME", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
@@ -17105,8 +18904,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.collector_nid),
-	      expression: "census.collector_nid"
+	      value: (_vm.census.COLLECTOR_NID),
+	      expression: "census.COLLECTOR_NID"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17116,12 +18915,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.collector_nid)
+	      "value": (_vm.census.COLLECTOR_NID)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "collector_nid", $event.target.value)
+	        _vm.$set(_vm.census, "COLLECTOR_NID", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
@@ -17132,8 +18931,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.collector_mobile_no),
-	      expression: "census.collector_mobile_no"
+	      value: (_vm.census.COLLECTOR_MOBILE_NO),
+	      expression: "census.COLLECTOR_MOBILE_NO"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17144,12 +18943,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.collector_mobile_no)
+	      "value": (_vm.census.COLLECTOR_MOBILE_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "collector_mobile_no", $event.target.value)
+	        _vm.$set(_vm.census, "COLLECTOR_MOBILE_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', {
@@ -17164,8 +18963,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.supervisor_name),
-	      expression: "census.supervisor_name"
+	      value: (_vm.census.SUPERVISOR_NAME),
+	      expression: "census.SUPERVISOR_NAME"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17175,12 +18974,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.supervisor_name)
+	      "value": (_vm.census.SUPERVISOR_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "supervisor_name", $event.target.value)
+	        _vm.$set(_vm.census, "SUPERVISOR_NAME", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
@@ -17191,8 +18990,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.supervisor_mobile_no),
-	      expression: "census.supervisor_mobile_no"
+	      value: (_vm.census.SUPERVISOR_MOBILE_NO),
+	      expression: "census.SUPERVISOR_MOBILE_NO"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17203,12 +19002,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.supervisor_mobile_no)
+	      "value": (_vm.census.SUPERVISOR_MOBILE_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "supervisor_mobile_no", $event.target.value)
+	        _vm.$set(_vm.census, "SUPERVISOR_MOBILE_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', {
@@ -17223,8 +19022,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.supervising_officer_name),
-	      expression: "census.supervising_officer_name"
+	      value: (_vm.census.SUPERVISING_OFFICER_NAME),
+	      expression: "census.SUPERVISING_OFFICER_NAME"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17234,17 +19033,17 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.supervising_officer_name)
+	      "value": (_vm.census.SUPERVISING_OFFICER_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "supervising_officer_name", $event.target.value)
+	        _vm.$set(_vm.census, "SUPERVISING_OFFICER_NAME", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-5"
-	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(96)])])])])])])]), _vm._v(" "), _c('nav', {
+	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(82)])])])])])])]), _vm._v(" "), _c('nav', {
 	    staticStyle: {
 	      "width": "2125px"
 	    },
@@ -17466,16 +19265,7 @@
 	    staticClass: "text-danger"
 	  }, [_vm._v("*")])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', {
-	    attrs: {
-	      "colspan": "2"
-	    }
-	  }, [_c('table', {
-	    staticClass: "table-full-width",
-	    attrs: {
-	      "width": "100%"
-	    }
-	  }, [_c('tbody', [_c('tr', [_c('th', {
+	  return _c('tr', [_c('th', {
 	    staticClass: "text-center",
 	    staticStyle: {
 	      "border-bottom": "1px solid #ccc"
@@ -17483,82 +19273,30 @@
 	    attrs: {
 	      "colspan": "2"
 	    }
-	  }, [_vm._v("প্রশ্ন ৬.১ এর উত্তর কোড 2 (এন্টারপ্রাইজ) হলে ")])]), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("প্রশ্ন ৬.১ এর উত্তর কোড ১ (এন্টারপ্রাইজ) হলে ")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10 text-right"
 	  }, [_c('label', {
 	    attrs: {
 	      "for": "is-under-ent-group"
 	    }
-	  }, [_vm._v("৬.২ এটি কোন এন্টারপ্রাইজ গ্রুপের অন্তর্ভুক্ত কি?")])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10",
-	    staticStyle: {
-	      "width": "300px"
-	    }
-	  }, [_c('div', {
-	    staticClass: "form-group select2-width--auto"
-	  }, [_c('select', {
-	    staticClass: "select form-control ",
-	    attrs: {
-	      "disabled": "",
-	      "id": "is-under-ent-group",
-	      "name": "is_under_ent_group",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_vm._v("৬.২ এটি কোন এন্টারপ্রাইজ গ্রুপের অন্তর্ভুক্ত কি?")])])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('td', {
 	    staticClass: "padding-10 text-right"
 	  }, [_c('label', {
 	    attrs: {
 	      "for": "enterprise-group-id"
 	    }
-	  }, [_vm._v("উত্তর হ্যাঁ হলে নাম ইংরেজি বড় অক্ষরে লিখুন ")])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control select2-control select2-hidden-accessible",
-	    attrs: {
-	      "disabled": "",
-	      "id": "enterprise-group-id",
-	      "data-placeholder": "এন্টারপ্রাইজ গ্রুপ",
-	      "name": "enterprise_group_id",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "262"
-	    }
-	  }, [_vm._v("ASHA ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "261"
-	    }
-	  }, [_vm._v("POLYCON LIMITED")])])])])])])])])])
+	  }, [_vm._v("উত্তর হ্যাঁ হলে নাম ইংরেজি বড় অক্ষরে লিখুন ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 text-center",
 	    attrs: {
 	      "colspan": "3"
 	    }
-	  }, [_vm._v("প্রশ্ন ৬.১ এর উত্তর কোড 3 (এস্টাবলিশমেন্ট) হলে ")]), _vm._v(" "), _c('th', {
+	  }, [_vm._v("প্রশ্ন ৬.১ এর উত্তর কোড ২ (এস্টাবলিশমেন্ট) হলে ")]), _vm._v(" "), _c('th', {
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("৭. প্রতিষ্ঠানের ধরন ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -17569,34 +19307,6 @@
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10 bottom-bordered"
 	  }, [_vm._v("৬.৪ এটি কোন এন্টারপ্রাইজ গ্রুপের অন্তর্ভুক্ত কি? ")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "text-center"
-	  }, [_c('div', {
-	    staticClass: "form-group select2-width--auto"
-	  }, [_c('select', {
-	    staticClass: "select form-control ",
-	    attrs: {
-	      "disabled": "",
-	      "id": "is-under-ent-group-2",
-	      "name": "is_under_ent_group",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('th', {
 	    staticClass: "padding-10",
@@ -17770,47 +19480,6 @@
 	    }
 	  }, [_vm._v("১৭. প্রতিষ্ঠানটি স্থাপনের সাল")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('span', {
-	    staticClass: "select2 select2-container select2-container--default",
-	    staticStyle: {
-	      "width": "100%"
-	    },
-	    attrs: {
-	      "dir": "ltr"
-	    }
-	  }, [_c('span', {
-	    staticClass: "selection"
-	  }, [_c('span', {
-	    staticClass: "select2-selection select2-selection--single select2-sm",
-	    attrs: {
-	      "role": "combobox",
-	      "aria-haspopup": "true",
-	      "aria-expanded": "false",
-	      "tabindex": "0",
-	      "aria-labelledby": "select2-is-under-permission-auth-container"
-	    }
-	  }, [_c('span', {
-	    staticClass: "select2-selection__rendered",
-	    attrs: {
-	      "id": "select2-is-under-permission-auth-container",
-	      "title": ""
-	    }
-	  }), _vm._v(" "), _c('span', {
-	    staticClass: "select2-selection__arrow",
-	    attrs: {
-	      "role": "presentation"
-	    }
-	  }, [_c('b', {
-	    attrs: {
-	      "role": "presentation"
-	    }
-	  })])])]), _vm._v(" "), _c('span', {
-	    staticClass: "dropdown-wrapper",
-	    attrs: {
-	      "aria-hidden": "true"
-	    }
-	  })])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', {
 	    staticClass: "bottom-bordered"
 	  }, [_c('td', [_vm._v(" ")])])
@@ -17831,149 +19500,17 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("২২. প্রতিষ্ঠানের সহায়ক অর্থনৈতিক কর্মকান্ডের বিবরণ ও শিল্প কোড (যদি থাকে)\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(একাধিক উত্তর প্রযোজ্য)")])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', [_c('label', {
-	    attrs: {
-	      "for": "reopen-year"
-	    }
-	  }, [_vm._v("সাল")]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "reopen-year",
-	      "placeholder": "eg. 1970",
-	      "pattern": "[0-9]",
-	      "maxlength": "4",
-	      "name": "tmp_closed_reopen_year",
-	      "type": "text"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "perma-close-year",
-	      "placeholder": "eg. 1970",
-	      "pattern": "[0-9]",
-	      "maxlength": "4",
-	      "name": "tmp_permanently_close_year",
-	      "type": "text"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "disabled": "disabled",
-	      "placeholder": "অন্যান্য হলে নাম লিখুন ",
-	      "id": "closing-reason-other",
-	      "name": "reason_of_close_other",
-	      "type": "text"
-	    }
-	  })])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', [_c('label', {
-	    staticClass: "text-center",
-	    staticStyle: {
-	      "display": "block"
-	    },
-	    attrs: {
-	      "for": "main-economic-desc"
-	    }
-	  }, [_vm._v("বিবরণ")]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "id": "main-economic-desc",
-	      "rows": "2",
-	      "name": "main_economic_act_desc",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: " text-center"
 	  }, [_vm._v("বিবরণ ")]), _vm._v(" "), _c('td', {
 	    staticClass: " text-center"
 	  }, [_vm._v("কোড")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "minor_economic_act_desc1",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "minor_economic_act_desc2",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "minor_economic_act_desc3",
-	      "cols": "50"
-	    }
-	  })])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: " text-center"
 	  }, [_vm._v("বিবরণ ")]), _vm._v(" "), _c('td', {
 	    staticClass: "text-center"
 	  }, [_vm._v("কোড")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "supporting_economic_act_desc1",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "supporting_economic_act_desc2",
-	      "cols": "50"
-	    }
-	  })])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('thead', [_c('tr', [_c('th', {
 	    staticClass: "padding-10"
@@ -17989,143 +19526,11 @@
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("কোড")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "product_description1",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "product_description2",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "product_description3",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "product_description4",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "product_description5",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "product_description6",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', [_vm._v(" ")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("বিবরণ ")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("কোড")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "service_description1",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "service_description2",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "service_description3",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "service_description4",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "service_description5",
-	      "cols": "50"
-	    }
-	  })])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group padding-3"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "service_description6",
-	      "cols": "50"
-	    }
-	  })])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -18138,64 +19543,6 @@
 	  }, [_vm._v("২৫.৪ রপ্তানিকৃত পণ্য/সেবার নাম লিখুন\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(একাধিক উত্তর প্রযোজ্য)")])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("কোড")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control ",
-	    attrs: {
-	      "id": "is-export-product-services",
-	      "name": "is_export_product_services",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "export_product_services_desc1",
-	      "cols": "50"
-	    }
-	  })]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "export_product_services_desc2",
-	      "cols": "50"
-	    }
-	  })]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "export_product_services_desc3",
-	      "cols": "50"
-	    }
-	  })])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -18210,564 +19557,165 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("কোড")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
+	  return _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_vm._v("২৬. বর্তমানে মোট সম্পদের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_vm._v("২৭.বর্তমান মোট স্থায়ী সম্পদের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_vm._v("২৮. জমি ও কারখানা ভবনের মোট মূল্য\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_vm._v("২৯. গত অর্থবছরে (২০১৬-১৭) মোট আয়")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10",
 	    attrs: {
 	      "colspan": "2"
 	    }
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla ",
-	    attrs: {
-	      "rows": "1",
-	      "name": "import_product_services_desc1",
-	      "cols": "50"
-	    }
-	  })]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla ",
-	    attrs: {
-	      "rows": "1",
-	      "name": "import_product_services_desc2",
-	      "cols": "50"
-	    }
-	  })]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('textarea', {
-	    staticClass: "form-control enable-bangla",
-	    attrs: {
-	      "rows": "1",
-	      "name": "import_product_services_desc3",
-	      "cols": "50"
-	    }
-	  })])])
+	  }, [_vm._v("৩০. গত অর্থবছরে (২০১৬-১৭) বিনিয়োগের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("২৬. স্থায়ী মূলধন\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩১. ইউনিটে প্রবাসী বাংলাদেশিদের বিনিয়োগ আছে কি?")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("২৭. বর্তমানে মোট সম্পদের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_vm._v("২৮. গত অর্থবছরে (২০১৬-১৭) টার্নওভার")]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_vm._v("২৯. গত অর্থবছরে (২০১৬-১৭) বিনিয়োগকৃত মূলধন\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_vm._v("৩০. ইউনিটে প্রবাসী বাংলাদেশিদের বিনিয়োগ আছে কি?")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "current-capital-amount",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "current_capital_amount",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "total-assets-amount",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "total_assets_amount",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "yearly-turnover",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "yearly_turnover",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "last-year-invested-capital",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "last_year_invested_capital",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control ",
-	    attrs: {
-	      "id": "has-foreign-res-investment",
-	      "name": "has_foreign_res_investement",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_vm._v("৩০.১ বিনিয়োগের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩১.১ বিনিয়োগের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 text-center",
 	    attrs: {
 	      "colspan": "3"
 	    }
-	  }, [_vm._v("৩১.গত অর্থবছরে (২০১৬-১৭) মোট ব্যয়ের পরিমাণ")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩২.গত অর্থবছরে (২০১৬-১৭) মোট ব্যয়ের পরিমাণ")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩২. প্রতিষ্ঠানটি কোন উৎস হতে ঋণ গ্রহণ করেছে কি?")])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group",
-	    staticStyle: {
-	      "width": "100%"
-	    }
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "foreign-res-investment",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "foreign_res_investment",
-	      "type": "text"
-	    }
-	  })])])])
+	  }, [_vm._v("৩৩. প্রতিষ্ঠানটি কোন উৎস হতে ঋণ গ্রহণ করেছে কি?")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩১.১ উৎপাদনে ব্যবহৃত কাঁচামাল বাবদ ব্যয়\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩২.১ পণ্য/সেবা উৎপাদনে ব্যবহৃত কাঁচামাল ও অন্যান্য সরবরাহ বাবদ ব্যয়\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩১.২ জনবলের বেতন ভাতা বাবদ ব্যয়\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩২.২ জনবলের বেতন ভাতা বাবদ ব্যয়\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩১.৩ মোট অন্যান্য ব্যয়ের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group",
-	    staticStyle: {
-	      "width": "100%"
-	    }
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "last-year-salary-amount",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "last_year_salary_amount",
-	      "type": "text"
-	    }
-	  })])])])
+	  }, [_vm._v("৩২.৩ মোট অন্যান্য ব্যয়ের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩২.১ ঋণের উৎসের ধরন")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৩.১ ঋণের উৎসের ধরন")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩২.২ মোট ঋণ গ্রহণের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৩.২ মোট ঋণ গ্রহণের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৩. হিসাব রাখার ব্যবস্থা আছে কি?")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৪. হিসাব রাখার ব্যবস্থা আছে কি?")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৩.১ হিসাব বছরের ধরন")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৪.১ হিসাব বছরের ধরন")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 text-center"
-	  }, [_vm._v("৩৪. প্রতিষ্ঠানে নিয়োজিত (দেশি-বিদেশিসহ) জনবলের ধরন ও সংখ্যা")])])
+	  }, [_vm._v("৩৫. প্রতিষ্ঠানে নিয়োজিত (দেশি-বিদেশিসহ) জনবলের ধরন ও সংখ্যা")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "loan-last-year",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "loan_last_year",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', {
+	  return _c('tr', {
 	    staticClass: "bottom-bordered"
-	  }, [_c('td', [_vm._v(" ")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t৩২.৩ শুধুমাত্র গত অর্থবছরে (২০১৬-১৭) গৃহীত ঋণ পরিমাণ\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")]), _vm._v(" "), _c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "loan-last-year",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "loan_received_2016_2017",
-	      "type": "text"
-	    }
-	  })])])])])])])
+	  }, [_c('td', [_vm._v(" ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('table', {
-	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_c('tr', [_c('td', {
+	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৪.১ মালিক/অংশীদার কর্মরত")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৫.১ মালিক/অংশীদার কর্মরত")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৪.২ অবৈতনিক পারিবারিক কর্মী")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৫.২ অবৈতনিক পারিবারিক কর্মী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৪.৩ স্থায়ী কর্মী")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৫.৩ স্থায়ী কর্মী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৪.৪ অস্থায়ী কর্মী")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৫.৪ অস্থায়ী কর্মী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৪.৫ সাময়িক/খন্ডকালীন কর্মী")]), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৩৫.৫ সাময়িক/খন্ডকালীন কর্মী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৪.৬ মৌসুমী কর্মী")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control input-small",
-	    attrs: {
-	      "id": "male-owner",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_owner",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control input-small",
-	    attrs: {
-	      "id": "female-owner",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_owner",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control input-small",
-	    attrs: {
-	      "id": "male-unpaid-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_unpaid_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control input-small",
-	    attrs: {
-	      "id": "female-unpaid-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_unpaid_worker",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-fulltime-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "4",
-	      "name": "male_fulltime_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-fulltime-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "4",
-	      "name": "female_fulltime_worker",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-parttime-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "3",
-	      "name": "male_pertime_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-parttime-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "3",
-	      "name": "female_pertime_worker",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-casual-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_casual_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-casual-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_casual_worker",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-casual-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_seasonal_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-casual-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_seasonal_worker",
-	      "type": "text"
-	    }
-	  })])])])])])])])
+	  }, [_vm._v("৩৫.৬ মৌসুমী কর্মী")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle",
-	    staticStyle: {
-	      "width": "200px"
-	    }
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
+	  return _c('div', {
 	    staticClass: "input-group-addon"
 	  }, [_c('i', {
 	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-foreign-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_foreign_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
 	    staticClass: "input-group-addon"
 	  }, [_c('i', {
 	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-foreign-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_foreign_worker",
-	      "type": "text"
-	    }
-	  })])])])
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
-	    staticClass: "form-control ",
+	    staticClass: "form-control",
 	    attrs: {
 	      "id": "supervising_officer-mobile_no",
 	      "maxlength": "11",
 	      "placeholder": "",
-	      "name": "supervising_officer_mobile_no",
+	      "name": "SUPERVISING_OFFICER_MOBILE_NO",
 	      "type": "text"
 	    }
 	  })])])

@@ -6,10 +6,11 @@
 			<button v-show="isEdit==false" class="btn" type="button" @click="loginApp" >
 				<i class="fa fa-login"></i> Login</button>
 			
-				<button v-show="isEdit==false" class="btn" type="button" @click="syncDownSetup" value="submit">
+				<button v-show="isEdit == false && onLine == true" class="btn" type="button" @click="syncDownSetup" value="submit">
 					<i class="fa fa-arrow-circle-down"></i> Sync Setup</button>
 					
-						
+					<span v-show="onLine == true" class="pull-right label label-success"><i class="fa fa-circle"></i> Online</span>
+					<span v-show="onLine == false" class="pull-right label label-danger"><i class="fa fa-circle"></i> Offline</span>
 		</span>
 	</h2>
 	<div v-show="isEdit == false" id="censuses">
@@ -38,7 +39,7 @@
 									<i class="edit fa fa-edit"></i> Edit</button>
 								<button @click="deleteCensus(id)" class="btn btn-danger">
 									<i class="remove fa fa-trash"></i> Delete</button>
-								<button @click="syncUpCensus(id)" class="btn btn-success">
+								<button v-show="onLine == true" @click="syncUpCensus(id)" class="btn btn-success">
 										<i class="fa fa-arrow-circle-up"></i> Sync Up</button>	
 							</td>
 						</tr>
