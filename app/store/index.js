@@ -13,6 +13,67 @@ store.getDivisionList = function(cb)
 			});
 }
 
+store.getDistrictList = function(cb, $division_id = null)
+{
+    var list =[];
+    if($division_id){
+        db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From DISTRICTS where DIVISION_ID=${$division_id}`, function (err, row) {
+            list.push(row);
+        }, function (err, rowCount) {
+            cb(null, list);
+        });
+    }else {
+        db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+				 From DISTRICTS`, function (err, row) {
+            list.push(row);
+        }, function (err, rowCount) {
+            cb(null, list);
+        });
+	}
+}
+
+store.getThanaUpazillaByDistrict = function(cb, $districtId = null)
+{
+	var $condition = '';
+	if($districtId){
+        $condition = `where DISTRICT_ID=${$districtId}`;
+	}
+
+    var thanaList =[];
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From THANA_UPAZILAS ${$condition}`, function (err, row) {
+        thanaList.push(row);
+    }, function (err, rowCount) {
+        cb(null, thanaList);
+    });
+}
+store.getUnionWardByThanaUpazilla = function(cb, $thanaId)
+{
+    var $condition = '';
+    if($thanaId){
+        $condition = `where thana_upazila_id=${$thanaId}`;
+    }
+    var unionList =[];
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From UNION_WARDS ${$condition}`, function (err, row) {
+        unionList.push(row);
+    }, function (err, rowCount) {
+        cb(null, unionList);
+    });
+}
+
+store.getMauzaMahallahByUnionWard = function(cb, $unioWardId)
+{
+    var list =[];
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+	From mauza_mahallahs where union_ward_id=${$unioWardId}`, function (err, row) {
+        list.push(row);
+    }, function (err, rowCount) {
+        cb(null, list);
+    });
+}
+
 store.getAllCommonConfigList = function (cb, $table_name, $lang = 'en') {
 	var list = [];
 
@@ -58,65 +119,84 @@ store.getCensus = function (catId, cb) {
 
 store.addCensus = (Census) => {
 	db.serialize(function () {
-		var stmt = db.prepare(`insert into census
-		('DIVISION_ID', 'DISTRICT_ID', 'THANA_UPZ_ID', 'WARD_UNION_ID', 'MAHALLAH_ID', 'RMO_CODE', 'SERIAL_NO_UNIT', 'NAME_OF_UNIT', 'NAME_OF_MAHALLAH','NAME_OF_HOUSE', 'NO_NAME_OF_ROAD', 'FLOOR_LEVEL',
-	    'HOLIDING_NO', 'PHONE', 'FAX', 'EMAIL', 'WEBSITE', LEGAL_OWNERSHIP_CODE, TYPE_OF_OWNERSHIP, HEAD_GENDER_CODE, HEAD_OF_UNIT_AGE, HEAD_EDUCATION_CODE) 
-		values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`);
 
-		stmt.run(Census.DIVISION_ID,
-			Census.DISTRICT_ID,
-			Census.THANA_UPZ_ID,
-			Census.WARD_UNION_ID,
-			Census.MAHALLAH_ID,
-			Census.RMO_CODE,
-			Census.SERIAL_NO_UNIT,
-			Census.NAME_OF_UNIT,
-			Census.NAME_OF_MAHALLAH,
-			Census.NAME_OF_HOUSE,
-			Census.NO_NAME_OF_ROAD,
-			Census.FLOOR_LEVEL,
-			Census.HOLIDING_NO,
-			Census.PHONE,
-			Census.FAX,
-			Census.EMAIL,
-			Census.WEBSITE,
-			Census.LEGAL_OWNERSHIP_CODE,
-			Census.TYPE_OF_OWNERSHIP,
-			Census.HEAD_GENDER_CODE,
-			Census.HEAD_OF_UNIT_AGE,
-			Census.HEAD_EDUCATION_CODE
-		);
+        if(Census.UNIT_TYPE_CODE == 2){
+            Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2
+        }
+        delete Census.IS_UNDER_ENT_GROUP2;
+
+        // Generate automatically insert query with all database field and value taken from census form
+        // by looping through the Census object
+        var sqlParam = `insert into census (`;
+        var values = ` values(`;
+        var bindValues = '';
+        var c = 0;
+        console.log(Census)
+        for (var key in Census) {
+            if (Census.hasOwnProperty(key) && key != 'ID') {
+                /**
+                 * Check if condition because every field comming from form with double
+                 * one for for v-model and other for input control name
+                 * but we need only v-model name value and v-model name value must be capital
+                 */
+                if(key.toUpperCase() == key){
+                    c++;
+                    if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
+                        sqlParam += `,`;
+                        values += `,`;
+                        bindValues += `,`;
+                    }
+
+                    sqlParam+= `'` + key.toUpperCase() + `'`;
+                    values+= `'` + Census[key] + `'`;
+                }
+                //bindValues+= `'` + Census[key] + `'`;
+                /*if(!Census[key]){
+                    bindValues+= null;
+				}else {
+                    bindValues+= `'` + Census[key] + `'`;
+				}*/
+            }
+        }
+        sqlParam += `)`
+        values += `)`
+		var sql = sqlParam + values ;
+
+		var stmt = db.prepare(sql);
+		stmt.run();
 
 		store.emit('data-updated');
 	});
 }
 
+/**
+ * Update census form data
+ * @param catId
+ * @param Census	Census data object
+ */
 store.editCensus = (catId, Census) => {
 	db.serialize(function () {
-		var sql = `update census set 
-		DIVISION_ID=${Census.DIVISION_ID}, 
-		DISTRICT_ID=${Census.DISTRICT_ID}, 
-		THANA_UPZ_ID=${Census.THANA_UPZ_ID}, 
-		WARD_UNION_ID=${Census.WARD_UNION_ID}, 
-		MAHALLAH_ID=${Census.MAHALLAH_ID}, 
-		RMO_CODE=${Census.RMO_CODE}, 
-		SERIAL_NO_UNIT='${Census.SERIAL_NO_UNIT}', 
-		NAME_OF_UNIT='${Census.NAME_OF_UNIT}', 
-		NAME_OF_MAHALLAH='${Census.NAME_OF_MAHALLAH}',
-		NAME_OF_HOUSE='${Census.NAME_OF_HOUSE}',
-		NO_NAME_OF_ROAD='${Census.NO_NAME_OF_ROAD}',
-		FLOOR_LEVEL='${Census.FLOOR_LEVEL}',
-		HOLIDING_NO='${Census.HOLIDING_NO}',
-		PHONE='${Census.PHONE}',
-		FAX='${Census.FAX}',
-		EMAIL='${Census.EMAIL}',
-		WEBSITE='${Census.WEBSITE}',
-		LEGAL_OWNERSHIP_CODE=${Census.LEGAL_OWNERSHIP_CODE},
-		TYPE_OF_OWNERSHIP=${Census.TYPE_OF_OWNERSHIP},
-		HEAD_GENDER_CODE=${Census.HEAD_GENDER_CODE},
-		HEAD_OF_UNIT_AGE=${Census.HEAD_OF_UNIT_AGE},
-		HEAD_EDUCATION_CODE=${Census.HEAD_EDUCATION_CODE}
-		where ID=${Census.ID}`;
+		if(Census.UNIT_TYPE_CODE == 2){
+            Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2
+		}
+        delete Census.IS_UNDER_ENT_GROUP2;
+		// Generate automatically update query with all database field and value taken from census form
+		// by looping through the Census object
+        var rawSql = '';
+		var c = 0;
+        for (var key in Census) {
+            if (Census.hasOwnProperty(key) && key != 'ID') {
+                c++;
+				if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
+                    rawSql += `,`;
+				}
+                rawSql+= key +`= "`+ Census[key] + `"`;
+            }
+        }
+
+		var sql = `update census set `;
+        sql += rawSql
+        sql+=` where ID=${Census.ID}`;
 		db.run(sql);
 		store.emit('data-updated');
 	});
