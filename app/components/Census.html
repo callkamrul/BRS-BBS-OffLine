@@ -3,8 +3,8 @@
 		<span class="clickable right-float">
 			<i v-show="isEdit==false" @click="addCensus" class="glyphicon glyphicon-plus"></i>
 			<i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
-			<button v-show="isEdit==true" class="btn btn-primary" type="button" @click="saveCensus" value="submit">
-				<i class="icon-paperplane"></i> সাবমিট</button>
+			<button v-show="isEdit==false" class="btn" type="button" @click="loginApp" >
+				<i class="fa fa-login"></i> Login</button>
 			
 				<button v-show="isEdit==false" class="btn" type="button" @click="syncDownSetup" value="submit">
 					<i class="fa fa-arrow-circle-down"></i> Sync Setup</button>
@@ -46,10 +46,11 @@
 				</table>
 			</div>
 		</div>
+		<login-modal></login-modal>
 	</div>
 	<div id="census-modal" v-show="isEdit == true">
 		<!-- <h4 class="modal-title">{{census.id > 0 ? 'Edit census' : 'Add a new census' }}</h4> -->
-		<div class="modal-body">
+		<div class="census-modal-body">
 			<form class="ui form">
 
 				<div id="census-form-container">
