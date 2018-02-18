@@ -1011,11 +1011,7 @@
 																		<select class="select form-control" data-placeholder="" name="permission_auth_id1" v-model="census.PERMISSION_AUTH_ID1"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
-																			<option value="2">02 - বাংলাদেশ পরিবেশ অধিদপ্তর</option>
-																			<option value="3">03 - জেলা প্রশাসক</option>
-																			<option value="4">04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর </option>
-																			<option value="5">05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ</option>
+																			<option v-for="item in permissionAuth" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																	</div>
 																</td>
@@ -1026,11 +1022,7 @@
 																		<select class="select form-control" data-placeholder="" name="permission_auth_id2" v-model="census.PERMISSION_AUTH_ID2"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
-																			<option value="2">02 - বাংলাদেশ পরিবেশ অধিদপ্তর</option>
-																			<option value="3">03 - জেলা প্রশাসক</option>
-																			<option value="4">04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর </option>
-																			<option value="5">05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ</option>
+																			<option v-for="item in permissionAuth" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																		
 																	</div>
@@ -1042,11 +1034,7 @@
 																		<select class="select form-control" data-placeholder="" name="permission_auth_id3" v-model="census.PERMISSION_AUTH_ID3"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
-																			<option value="2">02 - বাংলাদেশ পরিবেশ অধিদপ্তর</option>
-																			<option value="3">03 - জেলা প্রশাসক</option>
-																			<option value="4">04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর </option>
-																			<option value="5">05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ</option>
+																			<option v-for="item in permissionAuth" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																		
 																	</div>
@@ -1058,11 +1046,7 @@
 																		<select class="select form-control" data-placeholder="" name="permission_auth_id4" v-model="census.PERMISSION_AUTH_ID4"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
-																			<option value="2">02 - বাংলাদেশ পরিবেশ অধিদপ্তর</option>
-																			<option value="3">03 - জেলা প্রশাসক</option>
-																			<option value="4">04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর </option>
-																			<option value="5">05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ</option>
+																			<option v-for="item in permissionAuth" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																		
 																	</div>
@@ -1074,11 +1058,7 @@
 																		<select class="select form-control" data-placeholder="" name="permission_auth_id5" v-model="census.PERMISSION_AUTH_ID5"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
-																			<option value="2">02 - বাংলাদেশ পরিবেশ অধিদপ্তর</option>
-																			<option value="3">03 - জেলা প্রশাসক</option>
-																			<option value="4">04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর </option>
-																			<option value="5">05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ</option>
+																			<option v-for="item in permissionAuth" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																		
 																	</div>
@@ -1090,11 +1070,7 @@
 																		<select class="select form-control" data-placeholder="" name="permission_auth_id6" v-model="census.PERMISSION_AUTH_ID6"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর </option>
-																			<option value="2">02 - বাংলাদেশ পরিবেশ অধিদপ্তর</option>
-																			<option value="3">03 - জেলা প্রশাসক</option>
-																			<option value="4">04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর </option>
-																			<option value="5">05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ</option>
+																			<option v-for="item in permissionAuth" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																		
 																	</div>
@@ -1171,12 +1147,10 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control" id="membership-authority" name="pollution_control_measure_id" v-model="census.POLLUTION_CONTROL_MEASURE_ID"
+														<select class="select form-control" id="pollution_control_measure_id" name="pollution_control_measure_id" v-model="census.POLLUTION_CONTROL_MEASURE_ID"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - তরল বর্জ্য ব্যবস্থাপনা প্ল্যান্ট (ETP)</option>
-															<option value="2">2 - বায়ু দূষণ নিয়ন্ত্রণ ব্যবস্থা (ATP)</option>
-															<option value="3">3 - কঠিন বর্জ্য ব্যবস্থাপনা </option>
+															<option v-for="item in pollutionControl" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1194,13 +1168,10 @@
 												</td>
 												<td class="padding-10 valign-middle">
 													<div class="form-group">
-														<select class="select form-control" id="membership-authority" name="specialty_code_id" v-model="census.SPECIALTY_CODE_ID"
+														<select class="select form-control" id="specialty-code-id" name="specialty_code_id" v-model="census.SPECIALTY_CODE_ID"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">01 - বাংলাদেশ বিনিয়োগ উন্নয়ন কর্তৃপক্ষ</option>
-															<option value="2">02 - বাংলাদেশ রপ্তানি প্রক্রিয়াকরণ অঞ্চল কর্তৃপক্ষ</option>
-															<option value="3">03 - বাংলাদেশ অর্থনৈতিক অঞ্চল কর্তৃপক্ষ</option>
-															<option value="4">04 - বাংলাদেশ ক্ষুদ্র ও কুটির শিল্প কর্পোরেশন</option>
+															<option v-for="item in specialtyCode" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1321,10 +1292,7 @@
 														<select class="select form-control" id="unit-current-status" name="current_status_of_unit" v-model="census.CURRENT_STATUS_OF_UNIT"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - চলমান</option>
-															<option value="2">2 - সাময়িকভাবে বন্ধ</option>
-															<option value="3">3 - স্থায়ীভাবে বন্ধ</option>
-															<option value="21">4 - লে-অফ</option>
+															<option v-for="item in unitCurrentStatus" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1377,19 +1345,7 @@
 															<select class="select form-control" id="closing-reason" name="reason_of_close_code" v-model="census.REASON_OF_CLOSE_CODE"
 															 tabindex="-1" aria-hidden="true">
 																<option selected="selected" value=""></option>
-																<option value="1">1 - মূলধনের অভাব</option>
-																<option value="2">2 - জনবলের অভাব</option>
-																<option value="3">3 - জলবায়ুগত সমস্যা</option>
-																<option value="4">4 - মেশিনারি সমস্যা</option>
-																<option value="5">5 - ইউটিলিটি সমস্যা</option>
-																<option value="6">6 - কাঁচামালের সমস্যা</option>
-																<option value="7">7 - মৌসুমী উৎপাদন</option>
-																<option value="8">8 - আইনগত জটিলতা</option>
-																<option value="9">9 - ব্যবসার ধরন পরিবর্তন</option>
-																<option value="10">10 - প্রাকৃতিক দুর্যোগ</option>
-																<option value="11">11 - অগ্নিকান্ড</option>
-																<option value="12">12 - অন্যান্য দুর্ঘটনা</option>
-																<option value="13">13 - অন্যান্য</option>
+																<option v-for="item in closingReasons" :value="item.ID">{{item.NAME}}</option>
 															</select>
 															
 														</div>

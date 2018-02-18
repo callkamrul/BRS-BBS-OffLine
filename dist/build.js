@@ -12088,6 +12088,21 @@
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.unit_types = list;
 	    }, 'CC_UNIT_TYPE');
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.permissionAuth = list;
+	    }, 'CC_PERMISSION_AUTHORITIES');
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.pollutionControl = list;
+	    }, 'cc_pollution_control');
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.specialtyCode = list;
+	    }, 'cc_specialty_code');
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.unitCurrentStatus = list;
+	    }, 'cc_unit_status');
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.closingReasons = list;
+	    }, 'cc_closing_reasons');
 	  },
 
 	  computed: {
@@ -14592,27 +14607,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -14644,27 +14645,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -14696,27 +14683,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -14748,27 +14721,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -14800,27 +14759,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -14852,27 +14797,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - কলকারখানা ও প্রতিষ্ঠান পরিদর্শন অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ পরিবেশ অধিদপ্তর")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - জেলা প্রশাসক")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ফায়ার সার্ভিস ও সিভিল ডিফেন্স অধিদপ্তর ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("05 - বাংলাদেশ অভ্যন্তরীন নৌ-পরিবহন কর্তৃপক্ষ")])])])])])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.permissionAuth), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -15075,7 +15006,7 @@
 	    }],
 	    staticClass: "select form-control",
 	    attrs: {
-	      "id": "membership-authority",
+	      "id": "pollution_control_measure_id",
 	      "name": "pollution_control_measure_id",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
@@ -15096,19 +15027,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - তরল বর্জ্য ব্যবস্থাপনা প্ল্যান্ট (ETP)")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - বায়ু দূষণ নিয়ন্ত্রণ ব্যবস্থা (ATP)")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - কঠিন বর্জ্য ব্যবস্থাপনা ")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.pollutionControl), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15163,7 +15088,7 @@
 	    }],
 	    staticClass: "select form-control",
 	    attrs: {
-	      "id": "membership-authority",
+	      "id": "specialty-code-id",
 	      "name": "specialty_code_id",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
@@ -15184,23 +15109,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - বাংলাদেশ বিনিয়োগ উন্নয়ন কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("02 - বাংলাদেশ রপ্তানি প্রক্রিয়াকরণ অঞ্চল কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("03 - বাংলাদেশ অর্থনৈতিক অঞ্চল কর্তৃপক্ষ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("04 - বাংলাদেশ ক্ষুদ্র ও কুটির শিল্প কর্পোরেশন")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.specialtyCode), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15490,23 +15405,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - চলমান")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - সাময়িকভাবে বন্ধ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - স্থায়ীভাবে বন্ধ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "21"
-	    }
-	  }, [_vm._v("4 - লে-অফ")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.unitCurrentStatus), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', [_c('label', {
 	    attrs: {
@@ -15686,59 +15591,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - মূলধনের অভাব")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - জনবলের অভাব")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - জলবায়ুগত সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("4 - মেশিনারি সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("5 - ইউটিলিটি সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "6"
-	    }
-	  }, [_vm._v("6 - কাঁচামালের সমস্যা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "7"
-	    }
-	  }, [_vm._v("7 - মৌসুমী উৎপাদন")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "8"
-	    }
-	  }, [_vm._v("8 - আইনগত জটিলতা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "9"
-	    }
-	  }, [_vm._v("9 - ব্যবসার ধরন পরিবর্তন")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "10"
-	    }
-	  }, [_vm._v("10 - প্রাকৃতিক দুর্যোগ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "11"
-	    }
-	  }, [_vm._v("11 - অগ্নিকান্ড")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "12"
-	    }
-	  }, [_vm._v("12 - অন্যান্য দুর্ঘটনা")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "13"
-	    }
-	  }, [_vm._v("13 - অন্যান্য")])])])]), _vm._v(" "), _c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.closingReasons), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('div', {
 	    staticClass: "form-group"
 	  }, [_c('input', {
 	    directives: [{

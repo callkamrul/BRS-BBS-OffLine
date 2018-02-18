@@ -70,7 +70,12 @@ export default {
     store.getAllCommonConfigList((err, list) => { this.genders = list}, 'CC_GENDER');
     store.getAllCommonConfigList((err, list) => { this.educations = list}, 'CC_EDUCATION');
     store.getAllCommonConfigList((err, list) => { this.unit_types = list}, 'CC_UNIT_TYPE');
-    
+    store.getAllCommonConfigList((err, list) => { this.permissionAuth = list}, 'CC_PERMISSION_AUTHORITIES');
+    store.getAllCommonConfigList((err, list) => { this.pollutionControl = list}, 'cc_pollution_control');
+    store.getAllCommonConfigList((err, list) => { this.specialtyCode = list}, 'cc_specialty_code');
+    store.getAllCommonConfigList((err, list) => { this.unitCurrentStatus = list}, 'cc_unit_status');
+    store.getAllCommonConfigList((err, list) => { this.closingReasons = list}, 'cc_closing_reasons');
+
     
 
     
