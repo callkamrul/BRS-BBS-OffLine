@@ -12130,6 +12130,12 @@
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.accountingType = list;
 	    }, 'cc_accounting_type');
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.regOrgCode = list;
+	    }, 'cc_registration_organizations');
+	    _store2.default.getAllCommonConfigList(function (err, list) {
+	      _this.unitMode = list;
+	    }, 'cc_unit_mode');
 	  },
 
 	  computed: {
@@ -13856,31 +13862,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - প্রধান কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - বিভাগীয় কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - আঞ্চলিক কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("4 - জেলা কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("5 - শাখা কার্যালয়")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "6"
-	    }
-	  }, [_vm._v("6 - একক/স্বতন্ত্র প্রতিষ্ঠান")])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
+	  }), _vm._v(" "), _vm._l((_vm.unitMode), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
 	  }, [_c('tbody', [_c('tr', [_c('td', {
 	    attrs: {
@@ -14665,11 +14653,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.regOrgCode), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -14701,11 +14691,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.regOrgCode), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_c('td', [_c('div', {
 	    staticClass: "form-group"
 	  }, [_c('select', {
 	    directives: [{
@@ -14737,11 +14729,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("01 - জয়েন্ট স্টক কোম্পানী")])])])])])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.regOrgCode), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -16073,8 +16067,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.minor_economic_act_desc2),
-	      expression: "census.minor_economic_act_desc2"
+	      value: (_vm.census.MINOR_ECONOMIC_ACT_DESC2),
+	      expression: "census.MINOR_ECONOMIC_ACT_DESC2"
 	    }],
 	    staticClass: "form-control enable-bangla",
 	    attrs: {
@@ -16083,12 +16077,12 @@
 	      "cols": "50"
 	    },
 	    domProps: {
-	      "value": (_vm.census.minor_economic_act_desc2)
+	      "value": (_vm.census.MINOR_ECONOMIC_ACT_DESC2)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "minor_economic_act_desc2", $event.target.value)
+	        _vm.$set(_vm.census, "MINOR_ECONOMIC_ACT_DESC2", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
@@ -19083,7 +19077,33 @@
 	    }
 	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-5"
-	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(82)])])])])])])]), _vm._v(" "), _c('nav', {
+	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _c('td', [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.SUPERVISING_OFFICER_MOBILE_NO),
+	      expression: "census.SUPERVISING_OFFICER_MOBILE_NO"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "supervising_officer-mobile_no",
+	      "maxlength": "11",
+	      "placeholder": "",
+	      "name": "supervising_officer_mobile_no",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.SUPERVISING_OFFICER_MOBILE_NO)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "SUPERVISING_OFFICER_MOBILE_NO", $event.target.value)
+	      }
+	    }
+	  })])])])])])])])])]), _vm._v(" "), _c('nav', {
 	    staticStyle: {
 	      "width": "2125px"
 	    },
@@ -19746,19 +19766,6 @@
 	  }, [_c('i', {
 	    staticClass: "icon-woman"
 	  })])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "supervising_officer-mobile_no",
-	      "maxlength": "11",
-	      "placeholder": "",
-	      "name": "SUPERVISING_OFFICER_MOBILE_NO",
-	      "type": "text"
-	    }
-	  })])])
 	}]}
 	if (false) {
 	  module.hot.accept()

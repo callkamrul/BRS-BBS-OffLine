@@ -84,6 +84,8 @@ export default {
     store.getIndustrialCode((err, list) => { this.productSubClassCode = list}, 'product_sub_classes');
     store.getAllCommonConfigList((err, list) => { this.economicOrgs = list}, 'cc_economic_organizations');
     store.getAllCommonConfigList((err, list) => { this.accountingType = list}, 'cc_accounting_type');
+    store.getAllCommonConfigList((err, list) => { this.regOrgCode = list}, 'cc_registration_organizations');
+    store.getAllCommonConfigList((err, list) => { this.unitMode = list}, 'cc_unit_mode');
 
   },
   computed: {

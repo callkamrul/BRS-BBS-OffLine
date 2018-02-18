@@ -514,12 +514,7 @@
 														<select class="select form-control " id="unit-mode-code" name="unit_mode_code" v-model="census.UNIT_MODE_CODE"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - প্রধান কার্যালয়</option>
-															<option value="2">2 - বিভাগীয় কার্যালয়</option>
-															<option value="3">3 - আঞ্চলিক কার্যালয়</option>
-															<option value="4">4 - জেলা কার্যালয়</option>
-															<option value="5">5 - শাখা কার্যালয়</option>
-															<option value="6">6 - একক/স্বতন্ত্র প্রতিষ্ঠান</option>
+															<option v-for="item in unitMode" :value="item.ID">{{item.NAME}}</option>
 														</select>
 													</div>
 
@@ -897,7 +892,7 @@
 																						<select class="select form-control" data-placeholder="" name="reg_org_code1" v-model="census.REG_ORG_CODE1" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
-																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
+																							<option v-for="item in regOrgCode" :value="item.ID">{{item.NAME}}</option>
 																							
 																						</select>
 																					</div>
@@ -909,7 +904,7 @@
 																						<select class="select form-control" data-placeholder="" name="reg_org_code2" v-model="census.REG_ORG_CODE2" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
-																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
+																							<option v-for="item in regOrgCode" :value="item.ID">{{item.NAME}}</option>
 																							
 																						</select>
 																					</div>
@@ -921,7 +916,7 @@
 																						<select class="select form-control" data-placeholder="" name="reg_org_code3" v-model="census.REG_ORG_CODE3" tabindex="-1"
 																						 aria-hidden="true">
 																							<option selected="selected" value=""></option>
-																							<option value="1">01 - জয়েন্ট স্টক কোম্পানী</option>
+																							<option v-for="item in regOrgCode" :value="item.ID">{{item.NAME}}</option>
 																							
 																						</select>
 																						
@@ -1407,7 +1402,7 @@
 															<tr>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<textarea class="form-control enable-bangla" rows="1" name="minor_economic_act_desc2" cols="50" v-model="census.minor_economic_act_desc2"></textarea>
+																		<textarea class="form-control enable-bangla" rows="1" name="minor_economic_act_desc2" cols="50" v-model="census.MINOR_ECONOMIC_ACT_DESC2"></textarea>
 																	</div>
 																</td>
 																<td class="padding-10 valign-top">
@@ -2474,7 +2469,7 @@
 												<td class="padding-5">মোবাইল নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control" id="supervising_officer-mobile_no" maxlength="11" placeholder="" name="SUPERVISING_OFFICER_MOBILE_NO"
+														<input class="form-control" id="supervising_officer-mobile_no" maxlength="11" placeholder="" name="supervising_officer_mobile_no" v-model="census.SUPERVISING_OFFICER_MOBILE_NO"
 														 type="text">
 													</div>
 												</td>
