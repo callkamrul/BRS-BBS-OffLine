@@ -1366,12 +1366,12 @@
 													</div>
 
 													<div>
-														<label for="main-industrial-code" class="text-center" style="display: block">কোড</label>
+														<label for="main-industrial-code" class="text-center" style="display: block">শিল্প কোড</label>
 														<div class="form-group">
 															<select class="select form-control select2-control" id="main-industrial-code" name="main_industrial_code" v-model="census.MAIN_INDUSTRIAL_CODE"
 															 tabindex="-1" aria-hidden="true">
 																<option selected="selected" value=""></option>
-																<option value="1301">0111</option>
+																<option v-for="item in industrialCode" :value="item.ID">{{item.NAME}}</option>
 																
 															</select>
 															
@@ -1397,7 +1397,7 @@
 																		<select class="select form-control " data-placeholder="" name="minor_industrial_code1" v-model="census.MINOR_INDUSTRIAL_CODE1"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1301">0111</option>
+																			<option v-for="item in industrialCode" :value="item.ID">{{item.NAME}}</option>
 																			
 																		</select>
 																		
@@ -1415,7 +1415,7 @@
 																		<select class="select form-control " data-placeholder="" name="minor_industrial_code2" v-model="census.MINOR_INDUSTRIAL_CODE2"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1301">0111</option>
+																			<option v-for="item in industrialCode" :value="item.ID">{{item.NAME}}</option>
 																			
 																		</select>
 																		
@@ -1433,7 +1433,7 @@
 																		<select class="select form-control " data-placeholder="" name="minor_industrial_code3" v-model="census.MINOR_INDUSTRIAL_CODE3"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1301">0111</option>
+																			<option v-for="item in industrialCode" :value="item.ID">{{item.NAME}}</option>
 																			
 																		</select>
 																		
@@ -1461,7 +1461,7 @@
 																		<select class="select form-control " data-placeholder="" name="supporting_industrial_code1" v-model="census.SUPPORTING_INDUSTRIAL_CODE1"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1301">0111</option>
+																			<option v-for="item in industrialCode" :value="item.ID">{{item.NAME}}</option>
 																			
 																		</select>
 																		
@@ -1479,7 +1479,7 @@
 																		<select class="select form-control " data-placeholder="" name="supporting_industrial_code2" v-model="census.SUPPORTING_INDUSTRIAL_CODE2"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1301">0111</option>
+																			<option v-for="item in industrialCode" :value="item.ID">{{item.NAME}}</option>
 																			
 																		</select>
 																		
@@ -1530,7 +1530,7 @@
 														<select class="select form-control " data-placeholder="" name="product_bsic_code1" v-model="census.PRODUCT_BSIC_CODE1"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 														</select>
 													</div>
 												</td>
@@ -1546,7 +1546,7 @@
 														<select class="select form-control " data-placeholder="" name="product_bsic_code2" v-model="census.PRODUCT_BSIC_CODE2"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 														</select>
 													</div>
 												</td>
@@ -1562,7 +1562,7 @@
 														<select class="select form-control " data-placeholder="" name="product_bsic_code3" v-model="census.PRODUCT_BSIC_CODE3"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 														</select>
 													</div>
 												</td>
@@ -1578,7 +1578,7 @@
 														<select class="select form-control " data-placeholder="" name="product_bsic_code4" v-model="census.PRODUCT_BSIC_CODE4"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 														</select>
 													</div>
 												</td>
@@ -1594,7 +1594,7 @@
 														<select class="select form-control " data-placeholder="" name="product_bsic_code5" v-model="census.PRODUCT_BSIC_CODE5"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1612,7 +1612,7 @@
 														<select class="select form-control " data-placeholder="" name="product_bsic_code6" v-model="census.PRODUCT_BSIC_CODE6"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1644,7 +1644,7 @@
 														<select class="select form-control " data-placeholder="" name="service_bsic_code1" v-model="census.SERVICE_BSIC_CODE1"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1664,7 +1664,7 @@
 														<select class="select form-control " data-placeholder="" name="service_bsic_code2" v-model="census.SERVICE_BSIC_CODE2"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 													</div>
@@ -1683,7 +1683,7 @@
 														<select class="select form-control " data-placeholder="" name="service_bsic_code3" v-model="census.SERVICE_BSIC_CODE3"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1703,7 +1703,7 @@
 														<select class="select form-control " data-placeholder="" name="service_bsic_code4" v-model="census.SERVICE_BSIC_CODE4"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1723,7 +1723,7 @@
 														<select class="select form-control " data-placeholder="" name="service_bsic_code5" v-model="census.SERVICE_BSIC_CODE5"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1743,7 +1743,7 @@
 														<select class="select form-control " data-placeholder="" name="service_bsic_code6" v-model="census.SERVICE_BSIC_CODE6"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1810,7 +1810,7 @@
 														<select class="select form-control " data-placeholder="" name="export_product_services1" v-model="census.EXPORT_PRODUCT_SERVICES1"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1819,7 +1819,7 @@
 														<select class="select form-control " data-placeholder="" name="export_product_services2" v-model="census.EXPORT_PRODUCT_SERVICES2"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1828,7 +1828,7 @@
 														<select class="select form-control " data-placeholder="" name="export_product_services3" v-model="census.EXPORT_PRODUCT_SERVICES3"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1877,7 +1877,7 @@
 														<select class="select form-control " data-placeholder="" name="import_product_services1" v-model="census.IMPORT_PRODUCT_SERVICES1"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1886,7 +1886,7 @@
 														<select class="select form-control " data-placeholder="" name="import_product_services2" v-model="census.IMPORT_PRODUCT_SERVICES2"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -1895,7 +1895,7 @@
 														<select class="select form-control " data-placeholder="" name="import_product_services3" v-model="census.IMPORT_PRODUCT_SERVICES3"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="2980">00000</option>
+															<option v-for="item in productSubClassCode" :value="item.ID">{{item.NAME}}</option>
 															
 														</select>
 														
@@ -2099,7 +2099,7 @@
 										<select class="select form-control " id="loan-fin-org-type" name="loan_fin_org_type" v-model="census.LOAN_FIN_ORG_TYPE"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
-											<option value="1">1 - ব্যাংক</option>
+											<option v-for="item in economicOrgs" :value="item.ID">{{item.NAME}}</option>
 										</select>
 									</div>
 
@@ -2152,9 +2152,7 @@
 										<select class="select form-control" id="loan-org-type" name="accounting_account_type_id" v-model="census.ACCOUNTING_ACCOUNT_TYPE_ID"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
-											<option value="1">1 - অর্থবছর</option>
-											<option value="2">2 - খ্রিস্টাব্দ</option>
-											<option value="3">3 - বঙ্গাব্দ</option>
+											<option v-for="item in accountingType" :value="item.ID">{{item.NAME}}</option>
 										</select>
 									</div>
 

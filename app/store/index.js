@@ -84,6 +84,16 @@ From ${$table_name}`, function (err, row) {
 			cb(null, list);
 		});
 }
+store.getIndustrialCode = function (cb, $table_name = 'bsic_product_classes', $lang = 'en') {
+    var list = [];
+
+    db.each(`SELECT ID, CODE AS NAME
+From ${$table_name} ORDER BY CODE ASC`, function (err, row) {
+        list.push(row);
+    }, function (err, rowCount) {
+        cb(null, list);
+    });
+}
 
 store.getCensuses = function (cb) {
 	var censuses = {};

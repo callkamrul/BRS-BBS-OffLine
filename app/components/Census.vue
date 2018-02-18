@@ -80,6 +80,10 @@ export default {
     store.getAllCommonConfigList((err, list) => { this.specialtyCode = list}, 'cc_specialty_code');
     store.getAllCommonConfigList((err, list) => { this.unitCurrentStatus = list}, 'cc_unit_status');
     store.getAllCommonConfigList((err, list) => { this.closingReasons = list}, 'cc_closing_reasons');
+    store.getIndustrialCode((err, list) => { this.industrialCode = list});
+    store.getIndustrialCode((err, list) => { this.productSubClassCode = list}, 'product_sub_classes');
+    store.getAllCommonConfigList((err, list) => { this.economicOrgs = list}, 'cc_economic_organizations');
+    store.getAllCommonConfigList((err, list) => { this.accountingType = list}, 'cc_accounting_type');
 
   },
   computed: {
