@@ -2139,7 +2139,7 @@
 							<tr>
 								<td class="padding-10 valign-middle">
 									<div class="form-group">
-										<select class="select form-control " id="loan-org-type" name="loan_fin_org_type" v-model="census.loan_fin_org_type"
+										<select class="select form-control " id="loan-fin-org-type" name="loan_fin_org_type" v-model="census.LOAN_FIN_ORG_TYPE"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
 											<option value="1">1 - ব্যাংক</option>
@@ -2151,7 +2151,7 @@
 									<div class="form-group">
 										<div class="input-group">
 											<div class="input-group-addon">৳</div>
-											<input class="form-control" id="loan-last-year" placeholder="অংকে লিখুন" pattern="[0-9]" maxlength="11" name="loan_last_year"
+											<input class="form-control" id="loan-last-year" placeholder="অংকে লিখুন" pattern="[0-9]" maxlength="11" name="loan_last_year" v-model="census.LOAN_LAST_YEAR"
 											 type="text">
 										</div>
 									</div>
@@ -2167,7 +2167,7 @@
 													<small>(লক্ষ টাকায়)</small>
 													<div class="input-group">
 														<div class="input-group-addon">৳</div>
-														<input class="form-control" id="loan-last-year" placeholder="অংকে লিখুন" pattern="[0-9]" maxlength="11" name="loan_received_2016_2017"
+														<input class="form-control" id="loan_received_2016_2017" placeholder="অংকে লিখুন" pattern="[0-9]" maxlength="11" name="loan_received_2016_2017" v-model="census.LOAN_RECEIVED_2016_2017"
 														 type="text">
 													</div>
 
@@ -2180,7 +2180,7 @@
 								</td>
 								<td class="padding-10 valign-middle">
 									<div class="form-group">
-										<select class="select form-control " id="have-accounting-account" name="have_accounting_account" v-model="census.have_accounting_account"
+										<select class="select form-control " id="have-accounting-account" name="have_accounting_account" v-model="census.HAVE_ACCOUNTING_ACCOUNT"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
 											<option value="1">1 - হ্যাঁ</option>
@@ -2192,7 +2192,7 @@
 
 								<td class="padding-10 valign-middle">
 									<div class="form-group">
-										<select class="select form-control" id="loan-org-type" name="accounting_account_type_id" v-model="census.accounting_account_type_id"
+										<select class="select form-control" id="loan-org-type" name="accounting_account_type_id" v-model="census.ACCOUNTING_ACCOUNT_TYPE_ID"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
 											<option value="1">1 - অর্থবছর</option>
@@ -2223,7 +2223,7 @@
 																<i class="icon-man"></i>
 															</div>
 															<input class="form-control input-small" id="male-owner" placeholder="পুরুষ" pattern="[0-9]" maxlength="2" name="male_owner"
-															 type="text">
+																v-model="census.MALE_OWNER" type="text">
 														</div>
 													</div>
 													<div class=" form-group">
@@ -2232,7 +2232,7 @@
 																<i class="icon-woman"></i>
 															</div>
 															<input class="form-control input-small" id="female-owner" placeholder="মহিলা" pattern="[0-9]" maxlength="2" name="female_owner"
-															 type="text">
+																   v-model="census.FEMALE_OWNER" type="text">
 														</div>
 													</div>
 
@@ -2244,7 +2244,7 @@
 																<i class="icon-man"></i>
 															</div>
 															<input class="form-control input-small" id="male-unpaid-worker" placeholder="পুরুষ" pattern="[0-9]" maxlength="2" name="male_unpaid_worker"
-															 type="text">
+																   v-model="census.MALE_UNPAID_WORKER" type="text">
 														</div>
 													</div>
 													<div class=" form-group">
@@ -2253,7 +2253,7 @@
 																<i class="icon-woman"></i>
 															</div>
 															<input class="form-control input-small" id="female-unpaid-worker" placeholder="মহিলা" pattern="[0-9]" maxlength="2" name="female_unpaid_worker"
-															 type="text">
+																   v-model="census.FEMALE_UNPAID_WORKER" type="text">
 														</div>
 													</div>
 
@@ -2265,7 +2265,7 @@
 																<i class="icon-man"></i>
 															</div>
 															<input class="form-control" id="male-fulltime-worker" placeholder="পুরুষ" pattern="[0-9]" maxlength="4" name="male_fulltime_worker"
-															 type="text">
+																   v-model="census.MALE_FULLTIME_WORKER" type="text">
 														</div>
 													</div>
 													<div class=" form-group">
@@ -2274,7 +2274,7 @@
 																<i class="icon-woman"></i>
 															</div>
 															<input class="form-control" id="female-fulltime-worker" placeholder="মহিলা" pattern="[0-9]" maxlength="4" name="female_fulltime_worker"
-															 type="text">
+																   v-model="census.FEMALE_FULLTIME_WORKER" type="text">
 														</div>
 													</div>
 
@@ -2287,7 +2287,7 @@
 																<i class="icon-man"></i>
 															</div>
 															<input class="form-control" id="male-parttime-worker" placeholder="পুরুষ" pattern="[0-9]" maxlength="3" name="male_pertime_worker"
-															 type="text">
+																   v-model="census.MALE_PERTIME_WORKER" type="text">
 														</div>
 													</div>
 													<div class=" form-group">
@@ -2296,7 +2296,7 @@
 																<i class="icon-woman"></i>
 															</div>
 															<input class="form-control" id="female-parttime-worker" placeholder="মহিলা" pattern="[0-9]" maxlength="3" name="female_pertime_worker"
-															 type="text">
+																   v-model="census.FEMALE_PERTIME_WORKER" type="text">
 														</div>
 													</div>
 
@@ -2309,7 +2309,7 @@
 																<i class="icon-man"></i>
 															</div>
 															<input class="form-control" id="male-casual-worker" placeholder="পুরুষ" pattern="[0-9]" maxlength="2" name="male_casual_worker"
-															 type="text">
+																   v-model="census.MALE_CASUAL_WORKER" type="text">
 														</div>
 													</div>
 													<div class="form-group">
@@ -2318,7 +2318,7 @@
 																<i class="icon-woman"></i>
 															</div>
 															<input class="form-control" id="female-casual-worker" placeholder="মহিলা" pattern="[0-9]" maxlength="2" name="female_casual_worker"
-															 type="text">
+																   v-model="census.FEMALE_CASUAL_WORKER" type="text">
 														</div>
 													</div>
 
@@ -2330,8 +2330,8 @@
 															<div class="input-group-addon">
 																<i class="icon-man"></i>
 															</div>
-															<input class="form-control" id="male-casual-worker" placeholder="পুরুষ" pattern="[0-9]" maxlength="2" name="male_seasonal_worker"
-															 type="text">
+															<input class="form-control" id="male-seasonal-worker" placeholder="পুরুষ" pattern="[0-9]" maxlength="2" name="male_seasonal_worker"
+																   v-model="census.MALE_SEASONAL_WORKER" type="text">
 														</div>
 													</div>
 													<div class="form-group">
@@ -2339,8 +2339,8 @@
 															<div class="input-group-addon">
 																<i class="icon-woman"></i>
 															</div>
-															<input class="form-control" id="female-casual-worker" placeholder="মহিলা" pattern="[0-9]" maxlength="2" name="female_seasonal_worker"
-															 type="text">
+															<input class="form-control" id="female-seasona-worker" placeholder="মহিলা" pattern="[0-9]" maxlength="2" name="female_seasonal_worker"
+																   v-model="census.FEMALE_SEASONAL_WORKER" type="text">
 														</div>
 													</div>
 
@@ -2370,7 +2370,7 @@
 												<td class="padding-10">
 													৩৭. প্রতিষ্ঠানটির ই-টিআইএন (e-TIN) নং (যদি থাকে)
 													<div class="form-group">
-														<input class="form-control" maxlength="12" id="tin-number" name="tin_no" v-model="census.tin_no" type="text">
+														<input class="form-control" maxlength="12" id="tin-number" name="tin_no" v-model="census.TIN_NO" type="text">
 													</div>
 
 												</td>
@@ -2379,7 +2379,7 @@
 												<td class="padding-10">
 													৩৮. প্রতিষ্ঠানটির ভ্যাট (VAT) নং (যদি থাকে)
 													<div class="form-group">
-														<input class="form-control" maxlength="12" id="vat-number" name="vat_no" v-model="census.vat_no" type="text">
+														<input class="form-control" maxlength="12" id="vat-number" name="vat_no" v-model="census.VAT_NO" type="text">
 													</div>
 
 												</td>
@@ -2401,7 +2401,7 @@
 											<div class="input-group-addon">
 												<i class="icon-man"></i>
 											</div>
-											<input class="form-control" id="male-foreign-worker" placeholder="পুরুষ" pattern="[0-9]" maxlength="2" name="male_foreign_worker"
+											<input class="form-control" id="male-foreign-worker" placeholder="পুরুষ" pattern="[0-9]" maxlength="2" name="male_foreign_worker" v-model="census.MALE_FOREIGN_WORKER"
 											 type="text">
 										</div>
 									</div>
@@ -2411,7 +2411,7 @@
 												<i class="icon-woman"></i>
 											</div>
 											<input class="form-control" id="female-foreign-worker" placeholder="মহিলা" pattern="[0-9]" maxlength="2" name="female_foreign_worker"
-											 type="text">
+												   v-model="census.FEMALE_FOREIGN_WORKER" type="text">
 										</div>
 									</div>
 
@@ -2424,7 +2424,7 @@
 												<td width="100">নাম</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-name" placeholder="" name="provider_name" v-model="census.provider_name" type="text">
+														<input class="form-control " id="provider-name" placeholder="" name="provider_name" v-model="census.PROVIDER_NAME" type="text">
 													</div>
 												</td>
 											</tr>
@@ -2432,7 +2432,7 @@
 												<td>পদবি</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-designation" placeholder="" name="provider_designation" v-model="census.provider_designation"
+														<input class="form-control " id="provider-designation" placeholder="" name="provider_designation" v-model="census.PROVIDER_DESIGNATION"
 														 type="text">
 													</div>
 												</td>
@@ -2441,7 +2441,7 @@
 												<td>NID নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-nid" placeholder="" name="provider_nid" v-model="census.provider_nid" type="text">
+														<input class="form-control " id="provider-nid" placeholder="" name="provider_nid" v-model="census.PROVIDER_NID" type="text">
 													</div>
 												</td>
 											</tr>
@@ -2449,7 +2449,7 @@
 												<td>প্রাতিষ্ঠানিক আইডি নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-org_id_no" placeholder="" name="provider_org_id_no" v-model="census.provider_org_id_no"
+														<input class="form-control " id="provider-org_id_no" placeholder="" name="provider_org_id_no" v-model="census.PROVIDER_ORG_ID_NO"
 														 type="text">
 													</div>
 												</td>
@@ -2458,7 +2458,7 @@
 												<td>মোবাইল নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="provider-mobile_no" maxlength="11" placeholder="" name="provider_mobile_no" v-model="census.provider_mobile_no"
+														<input class="form-control " id="provider-mobile_no" maxlength="11" placeholder="" name="provider_mobile_no" v-model="census.PROVIDER_MOBILE_NO"
 														 type="text">
 													</div>
 												</td>
@@ -2475,19 +2475,19 @@
 												<td class="padding-5">তথ্যসংগ্রহকারীর নাম</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="collector-name" placeholder="" name="collector_name" v-model="census.collector_name" type="text">
+														<input class="form-control " id="collector-name" placeholder="" name="collector_name" v-model="census.COLLECTOR_NAME" type="text">
 													</div>
 												</td>
 												<td class="padding-5">NID নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="collector-nid" placeholder="" name="collector_nid" v-model="census.collector_nid" type="text">
+														<input class="form-control " id="collector-nid" placeholder="" name="collector_nid" v-model="census.COLLECTOR_NID" type="text">
 													</div>
 												</td>
 												<td class="padding-5">মোবাইল নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="collector-mobile_no" maxlength="11" placeholder="" name="collector_mobile_no" v-model="census.collector_mobile_no"
+														<input class="form-control " id="collector-mobile_no" maxlength="11" placeholder="" name="collector_mobile_no" v-model="census.COLLECTOR_MOBILE_NO"
 														 type="text">
 													</div>
 												</td>
@@ -2496,14 +2496,14 @@
 												<td class="padding-5">সুপারভাইজারের নাম</td>
 												<td colspan="3">
 													<div class="form-group">
-														<input class="form-control " id="supervisor-name" placeholder="" name="supervisor_name" v-model="census.supervisor_name"
+														<input class="form-control " id="supervisor-name" placeholder="" name="supervisor_name" v-model="census.SUPERVISOR_NAME"
 														 type="text">
 													</div>
 												</td>
 												<td class="padding-5">মোবাইল নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control " id="supervisor-mobile_no" maxlength="11" placeholder="" name="supervisor_mobile_no" v-model="census.supervisor_mobile_no"
+														<input class="form-control " id="supervisor-mobile_no" maxlength="11" placeholder="" name="supervisor_mobile_no" v-model="census.SUPERVISOR_MOBILE_NO"
 														 type="text">
 													</div>
 												</td>
@@ -2512,14 +2512,14 @@
 												<td class="padding-5">সুপারভাইজিং কর্মকর্তার নাম</td>
 												<td colspan="3">
 													<div class="form-group">
-														<input class="form-control " id="supervising_officer-name" placeholder="" name="supervising_officer_name" v-model="census.supervising_officer_name"
+														<input class="form-control " id="supervising_officer-name" placeholder="" name="supervising_officer_name" v-model="census.SUPERVISING_OFFICER_NAME"
 														 type="text">
 													</div>
 												</td>
 												<td class="padding-5">মোবাইল নম্বর</td>
 												<td>
 													<div class="form-group">
-														<input class="form-control" id="supervising_officer-mobile_no" maxlength="11" placeholder="" name="supervising_officer_mobile_no"
+														<input class="form-control" id="supervising_officer-mobile_no" maxlength="11" placeholder="" name="SUPERVISING_OFFICER_MOBILE_NO"
 														 type="text">
 													</div>
 												</td>

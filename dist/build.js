@@ -17477,13 +17477,259 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(62), _vm._v(" "), _vm._m(63), _vm._v(" "), _vm._m(64), _vm._v(" "), _c('tr', [_vm._m(65), _vm._v(" "), _vm._m(66), _vm._v(" "), _c('td', {
+	  }, [_c('tbody', [_vm._m(62), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.TOTAL_ASSETS_AMOUNT),
+	      expression: "census.TOTAL_ASSETS_AMOUNT"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "total-assets-amount",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "total_assets_amount",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.TOTAL_ASSETS_AMOUNT)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "TOTAL_ASSETS_AMOUNT", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.CURRENT_CAPITAL_AMOUNT),
+	      expression: "census.CURRENT_CAPITAL_AMOUNT"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "current-capital-amount",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "current_capital_amount",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.CURRENT_CAPITAL_AMOUNT)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "CURRENT_CAPITAL_AMOUNT", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LAND_FACTORY_BUILDINGS_VALUE),
+	      expression: "census.LAND_FACTORY_BUILDINGS_VALUE"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "land_factory_buildings_value",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "land_factory_buildings_value",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LAND_FACTORY_BUILDINGS_VALUE)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LAND_FACTORY_BUILDINGS_VALUE", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.YEARLY_TURNOVER),
+	      expression: "census.YEARLY_TURNOVER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "yearly-turnover",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "yearly_turnover",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.YEARLY_TURNOVER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "YEARLY_TURNOVER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10",
+	    attrs: {
+	      "colspan": "2"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LAST_YEAR_INVESTED_CAPITAL),
+	      expression: "census.LAST_YEAR_INVESTED_CAPITAL"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "last-year-invested-capital",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "last_year_invested_capital",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LAST_YEAR_INVESTED_CAPITAL)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LAST_YEAR_INVESTED_CAPITAL", $event.target.value)
+	      }
+	    }
+	  })])])])]), _vm._v(" "), _vm._m(63), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('select', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.HAS_FOREIGN_RES_INVESTEMENT),
+	      expression: "census.HAS_FOREIGN_RES_INVESTEMENT"
+	    }],
+	    staticClass: "select form-control ",
+	    attrs: {
+	      "id": "has-foreign-res-investment",
+	      "name": "has_foreign_res_investement",
+	      "tabindex": "-1",
+	      "aria-hidden": "true"
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          var val = "_value" in o ? o._value : o.value;
+	          return val
+	        });
+	        _vm.$set(_vm.census, "HAS_FOREIGN_RES_INVESTEMENT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	      }
+	    }
+	  }, [_c('option', {
+	    attrs: {
+	      "selected": "selected",
+	      "value": ""
+	    }
+	  }), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "1"
+	    }
+	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
+	    attrs: {
+	      "value": "2"
+	    }
+	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group",
+	    staticStyle: {
+	      "width": "100%"
+	    }
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FOREIGN_RES_INVESTMENT),
+	      expression: "census.FOREIGN_RES_INVESTMENT"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "foreign-res-investment",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "foreign_res_investment",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FOREIGN_RES_INVESTMENT)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FOREIGN_RES_INVESTMENT", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
 	    attrs: {
 	      "colspan": "3"
 	    }
 	  }, [_c('table', {
 	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_vm._m(67), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(64), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -17498,8 +17744,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.last_year_prod_raw_materials),
-	      expression: "census.last_year_prod_raw_materials"
+	      value: (_vm.census.LAST_YEAR_PROD_RAW_MATERIALS),
+	      expression: "census.LAST_YEAR_PROD_RAW_MATERIALS"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -17511,15 +17757,15 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.last_year_prod_raw_materials)
+	      "value": (_vm.census.LAST_YEAR_PROD_RAW_MATERIALS)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "last_year_prod_raw_materials", $event.target.value)
+	        _vm.$set(_vm.census, "LAST_YEAR_PROD_RAW_MATERIALS", $event.target.value)
 	      }
 	    }
-	  })])])]), _vm._v(" "), _vm._m(68), _vm._v(" "), _c('td', {
+	  })])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -17534,8 +17780,44 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.last_year_other_expenses_sum),
-	      expression: "census.last_year_other_expenses_sum"
+	      value: (_vm.census.LAST_YEAR_SALARY_AMOUNT),
+	      expression: "census.LAST_YEAR_SALARY_AMOUNT"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "last-year-salary-amount",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "last_year_salary_amount",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LAST_YEAR_SALARY_AMOUNT)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LAST_YEAR_SALARY_AMOUNT", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group",
+	    staticStyle: {
+	      "width": "100%"
+	    }
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LAST_YEAR_OTHER_EXPENSES_SUM),
+	      expression: "census.LAST_YEAR_OTHER_EXPENSES_SUM"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -17547,12 +17829,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.last_year_other_expenses_sum)
+	      "value": (_vm.census.LAST_YEAR_OTHER_EXPENSES_SUM)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "last_year_other_expenses_sum", $event.target.value)
+	        _vm.$set(_vm.census, "LAST_YEAR_OTHER_EXPENSES_SUM", $event.target.value)
 	      }
 	    }
 	  })])])])])])])]), _vm._v(" "), _c('td', {
@@ -17563,8 +17845,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.have_any_loan),
-	      expression: "census.have_any_loan"
+	      value: (_vm.census.HAVE_ANY_LOAN),
+	      expression: "census.HAVE_ANY_LOAN"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -17581,7 +17863,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "have_any_loan", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAVE_ANY_LOAN", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -17602,7 +17884,7 @@
 	    staticStyle: {
 	      "width": "2125px"
 	    }
-	  }, [_c('tbody', [_vm._m(69), _vm._v(" "), _c('tr', [_c('td', {
+	  }, [_c('tbody', [_vm._m(65), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -17610,12 +17892,12 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.loan_fin_org_type),
-	      expression: "census.loan_fin_org_type"
+	      value: (_vm.census.LOAN_FIN_ORG_TYPE),
+	      expression: "census.LOAN_FIN_ORG_TYPE"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
-	      "id": "loan-org-type",
+	      "id": "loan-fin-org-type",
 	      "name": "loan_fin_org_type",
 	      "tabindex": "-1",
 	      "aria-hidden": "true"
@@ -17628,7 +17910,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "loan_fin_org_type", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "LOAN_FIN_ORG_TYPE", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -17640,7 +17922,73 @@
 	    attrs: {
 	      "value": "1"
 	    }
-	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _vm._m(70), _vm._v(" "), _c('td', {
+	  }, [_vm._v("1 - ব্যাংক")])])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10 valign-middle"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LOAN_LAST_YEAR),
+	      expression: "census.LOAN_LAST_YEAR"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "loan-last-year",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "loan_last_year",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LOAN_LAST_YEAR)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LOAN_LAST_YEAR", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('table', {
+	    staticClass: "table-full-width"
+	  }, [_c('tbody', [_vm._m(66), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t৩৩.৩ শুধুমাত্র গত অর্থবছরে (২০১৬-১৭) গৃহীত ঋণ পরিমাণ\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")]), _vm._v(" "), _c('div', {
+	    staticClass: "input-group"
+	  }, [_c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.LOAN_RECEIVED_2016_2017),
+	      expression: "census.LOAN_RECEIVED_2016_2017"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "loan_received_2016_2017",
+	      "placeholder": "অংকে লিখুন",
+	      "pattern": "[0-9]",
+	      "maxlength": "11",
+	      "name": "loan_received_2016_2017",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.LOAN_RECEIVED_2016_2017)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "LOAN_RECEIVED_2016_2017", $event.target.value)
+	      }
+	    }
+	  })])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -17648,8 +17996,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.have_accounting_account),
-	      expression: "census.have_accounting_account"
+	      value: (_vm.census.HAVE_ACCOUNTING_ACCOUNT),
+	      expression: "census.HAVE_ACCOUNTING_ACCOUNT"
 	    }],
 	    staticClass: "select form-control ",
 	    attrs: {
@@ -17666,7 +18014,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "have_accounting_account", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "HAVE_ACCOUNTING_ACCOUNT", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -17690,8 +18038,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.accounting_account_type_id),
-	      expression: "census.accounting_account_type_id"
+	      value: (_vm.census.ACCOUNTING_ACCOUNT_TYPE_ID),
+	      expression: "census.ACCOUNTING_ACCOUNT_TYPE_ID"
 	    }],
 	    staticClass: "select form-control",
 	    attrs: {
@@ -17708,7 +18056,7 @@
 	          var val = "_value" in o ? o._value : o.value;
 	          return val
 	        });
-	        _vm.$set(_vm.census, "accounting_account_type_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+	        _vm.$set(_vm.census, "ACCOUNTING_ACCOUNT_TYPE_ID", $event.target.multiple ? $$selectedVal : $$selectedVal[0])
 	      }
 	    }
 	  }, [_c('option', {
@@ -17728,7 +18076,369 @@
 	    attrs: {
 	      "value": "3"
 	    }
-	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _vm._m(71)])])]), _vm._v(" "), _c('table', {
+	  }, [_vm._v("3 - বঙ্গাব্দ")])])])]), _vm._v(" "), _c('td', [_c('table', {
+	    staticClass: "table-full-width table-item-bordered"
+	  }, [_c('tbody', [_vm._m(67), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(68), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_OWNER),
+	      expression: "census.MALE_OWNER"
+	    }],
+	    staticClass: "form-control input-small",
+	    attrs: {
+	      "id": "male-owner",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_owner",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_OWNER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_OWNER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(69), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_OWNER),
+	      expression: "census.FEMALE_OWNER"
+	    }],
+	    staticClass: "form-control input-small",
+	    attrs: {
+	      "id": "female-owner",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_owner",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_OWNER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_OWNER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(70), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_UNPAID_WORKER),
+	      expression: "census.MALE_UNPAID_WORKER"
+	    }],
+	    staticClass: "form-control input-small",
+	    attrs: {
+	      "id": "male-unpaid-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_unpaid_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_UNPAID_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_UNPAID_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(71), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_UNPAID_WORKER),
+	      expression: "census.FEMALE_UNPAID_WORKER"
+	    }],
+	    staticClass: "form-control input-small",
+	    attrs: {
+	      "id": "female-unpaid-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_unpaid_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_UNPAID_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_UNPAID_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(72), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_FULLTIME_WORKER),
+	      expression: "census.MALE_FULLTIME_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-fulltime-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "4",
+	      "name": "male_fulltime_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_FULLTIME_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_FULLTIME_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(73), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_FULLTIME_WORKER),
+	      expression: "census.FEMALE_FULLTIME_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-fulltime-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "4",
+	      "name": "female_fulltime_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_FULLTIME_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_FULLTIME_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(74), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_PERTIME_WORKER),
+	      expression: "census.MALE_PERTIME_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-parttime-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "3",
+	      "name": "male_pertime_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_PERTIME_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_PERTIME_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: " form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(75), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_PERTIME_WORKER),
+	      expression: "census.FEMALE_PERTIME_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-parttime-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "3",
+	      "name": "female_pertime_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_PERTIME_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_PERTIME_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(76), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_CASUAL_WORKER),
+	      expression: "census.MALE_CASUAL_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-casual-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_casual_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_CASUAL_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_CASUAL_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(77), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_CASUAL_WORKER),
+	      expression: "census.FEMALE_CASUAL_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-casual-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_casual_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_CASUAL_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_CASUAL_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
+	    staticClass: "padding-10"
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(78), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_SEASONAL_WORKER),
+	      expression: "census.MALE_SEASONAL_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-seasonal-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_seasonal_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_SEASONAL_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_SEASONAL_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(79), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_SEASONAL_WORKER),
+	      expression: "census.FEMALE_SEASONAL_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-seasona-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_seasonal_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_SEASONAL_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_SEASONAL_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])])])])])])])])]), _vm._v(" "), _c('table', {
 	    staticClass: "main-form-structure table-full-width table-item-bordered",
 	    staticStyle: {
 	      "width": "2125px"
@@ -17752,8 +18462,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.tin_no),
-	      expression: "census.tin_no"
+	      value: (_vm.census.TIN_NO),
+	      expression: "census.TIN_NO"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -17763,12 +18473,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.tin_no)
+	      "value": (_vm.census.TIN_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "tin_no", $event.target.value)
+	        _vm.$set(_vm.census, "TIN_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', {
@@ -17779,8 +18489,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.vat_no),
-	      expression: "census.vat_no"
+	      value: (_vm.census.VAT_NO),
+	      expression: "census.VAT_NO"
 	    }],
 	    staticClass: "form-control",
 	    attrs: {
@@ -17790,19 +18500,82 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.vat_no)
+	      "value": (_vm.census.VAT_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "vat_no", $event.target.value)
+	        _vm.$set(_vm.census, "VAT_NO", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩৯. তথ্যপ্রদানকারী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৪০. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_vm._m(72), _vm._v(" "), _c('td', {
+	  }, [_vm._v("৪০. তথ্যসংগ্রহকারী")])]), _vm._v(" "), _c('tr', [_c('td', {
+	    staticClass: "padding-10 valign-middle",
+	    staticStyle: {
+	      "width": "200px"
+	    }
+	  }, [_c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(80), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.MALE_FOREIGN_WORKER),
+	      expression: "census.MALE_FOREIGN_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "male-foreign-worker",
+	      "placeholder": "পুরুষ",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "male_foreign_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.MALE_FOREIGN_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "MALE_FOREIGN_WORKER", $event.target.value)
+	      }
+	    }
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: "form-group"
+	  }, [_c('div', {
+	    staticClass: "input-group"
+	  }, [_vm._m(81), _vm._v(" "), _c('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.census.FEMALE_FOREIGN_WORKER),
+	      expression: "census.FEMALE_FOREIGN_WORKER"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "id": "female-foreign-worker",
+	      "placeholder": "মহিলা",
+	      "pattern": "[0-9]",
+	      "maxlength": "2",
+	      "name": "female_foreign_worker",
+	      "type": "text"
+	    },
+	    domProps: {
+	      "value": (_vm.census.FEMALE_FOREIGN_WORKER)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) { return; }
+	        _vm.$set(_vm.census, "FEMALE_FOREIGN_WORKER", $event.target.value)
+	      }
+	    }
+	  })])])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -17816,8 +18589,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_name),
-	      expression: "census.provider_name"
+	      value: (_vm.census.PROVIDER_NAME),
+	      expression: "census.PROVIDER_NAME"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17827,12 +18600,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_name)
+	      "value": (_vm.census.PROVIDER_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_name", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_NAME", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("পদবি")]), _vm._v(" "), _c('td', [_c('div', {
@@ -17841,8 +18614,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_designation),
-	      expression: "census.provider_designation"
+	      value: (_vm.census.PROVIDER_DESIGNATION),
+	      expression: "census.PROVIDER_DESIGNATION"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17852,12 +18625,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_designation)
+	      "value": (_vm.census.PROVIDER_DESIGNATION)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_designation", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_DESIGNATION", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("NID নম্বর")]), _vm._v(" "), _c('td', [_c('div', {
@@ -17866,8 +18639,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_nid),
-	      expression: "census.provider_nid"
+	      value: (_vm.census.PROVIDER_NID),
+	      expression: "census.PROVIDER_NID"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17877,12 +18650,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_nid)
+	      "value": (_vm.census.PROVIDER_NID)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_nid", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_NID", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("প্রাতিষ্ঠানিক আইডি নম্বর")]), _vm._v(" "), _c('td', [_c('div', {
@@ -17891,8 +18664,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_org_id_no),
-	      expression: "census.provider_org_id_no"
+	      value: (_vm.census.PROVIDER_ORG_ID_NO),
+	      expression: "census.PROVIDER_ORG_ID_NO"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17902,12 +18675,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_org_id_no)
+	      "value": (_vm.census.PROVIDER_ORG_ID_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_org_id_no", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_ORG_ID_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _c('td', [_c('div', {
@@ -17916,8 +18689,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.provider_mobile_no),
-	      expression: "census.provider_mobile_no"
+	      value: (_vm.census.PROVIDER_MOBILE_NO),
+	      expression: "census.PROVIDER_MOBILE_NO"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17928,12 +18701,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.provider_mobile_no)
+	      "value": (_vm.census.PROVIDER_MOBILE_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "provider_mobile_no", $event.target.value)
+	        _vm.$set(_vm.census, "PROVIDER_MOBILE_NO", $event.target.value)
 	      }
 	    }
 	  })])])])])])]), _vm._v(" "), _c('td', {
@@ -17948,8 +18721,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.collector_name),
-	      expression: "census.collector_name"
+	      value: (_vm.census.COLLECTOR_NAME),
+	      expression: "census.COLLECTOR_NAME"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17959,12 +18732,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.collector_name)
+	      "value": (_vm.census.COLLECTOR_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "collector_name", $event.target.value)
+	        _vm.$set(_vm.census, "COLLECTOR_NAME", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
@@ -17975,8 +18748,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.collector_nid),
-	      expression: "census.collector_nid"
+	      value: (_vm.census.COLLECTOR_NID),
+	      expression: "census.COLLECTOR_NID"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -17986,12 +18759,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.collector_nid)
+	      "value": (_vm.census.COLLECTOR_NID)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "collector_nid", $event.target.value)
+	        _vm.$set(_vm.census, "COLLECTOR_NID", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
@@ -18002,8 +18775,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.collector_mobile_no),
-	      expression: "census.collector_mobile_no"
+	      value: (_vm.census.COLLECTOR_MOBILE_NO),
+	      expression: "census.COLLECTOR_MOBILE_NO"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -18014,12 +18787,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.collector_mobile_no)
+	      "value": (_vm.census.COLLECTOR_MOBILE_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "collector_mobile_no", $event.target.value)
+	        _vm.$set(_vm.census, "COLLECTOR_MOBILE_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', {
@@ -18034,8 +18807,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.supervisor_name),
-	      expression: "census.supervisor_name"
+	      value: (_vm.census.SUPERVISOR_NAME),
+	      expression: "census.SUPERVISOR_NAME"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -18045,12 +18818,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.supervisor_name)
+	      "value": (_vm.census.SUPERVISOR_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "supervisor_name", $event.target.value)
+	        _vm.$set(_vm.census, "SUPERVISOR_NAME", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
@@ -18061,8 +18834,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.supervisor_mobile_no),
-	      expression: "census.supervisor_mobile_no"
+	      value: (_vm.census.SUPERVISOR_MOBILE_NO),
+	      expression: "census.SUPERVISOR_MOBILE_NO"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -18073,12 +18846,12 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.supervisor_mobile_no)
+	      "value": (_vm.census.SUPERVISOR_MOBILE_NO)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "supervisor_mobile_no", $event.target.value)
+	        _vm.$set(_vm.census, "SUPERVISOR_MOBILE_NO", $event.target.value)
 	      }
 	    }
 	  })])])]), _vm._v(" "), _c('tr', [_c('td', {
@@ -18093,8 +18866,8 @@
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.census.supervising_officer_name),
-	      expression: "census.supervising_officer_name"
+	      value: (_vm.census.SUPERVISING_OFFICER_NAME),
+	      expression: "census.SUPERVISING_OFFICER_NAME"
 	    }],
 	    staticClass: "form-control ",
 	    attrs: {
@@ -18104,17 +18877,17 @@
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": (_vm.census.supervising_officer_name)
+	      "value": (_vm.census.SUPERVISING_OFFICER_NAME)
 	    },
 	    on: {
 	      "input": function($event) {
 	        if ($event.target.composing) { return; }
-	        _vm.$set(_vm.census, "supervising_officer_name", $event.target.value)
+	        _vm.$set(_vm.census, "SUPERVISING_OFFICER_NAME", $event.target.value)
 	      }
 	    }
 	  })])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-5"
-	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(73)])])])])])])]), _vm._v(" "), _c('nav', {
+	  }, [_vm._v("মোবাইল নম্বর")]), _vm._v(" "), _vm._m(82)])])])])])])]), _vm._v(" "), _c('nav', {
 	    staticStyle: {
 	      "width": "2125px"
 	    },
@@ -18645,101 +19418,6 @@
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "total-assets-amount",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "total_assets_amount",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "current-capital-amount",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "current_capital_amount",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "land_factory_buildings_value",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "land_factory_buildings_value",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "yearly-turnover",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "yearly_turnover",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10",
-	    attrs: {
-	      "colspan": "2"
-	    }
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "last-year-invested-capital",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "last_year_invested_capital",
-	      "type": "text"
-	    }
-	  })])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('tr', [_c('td', {
-	    staticClass: "padding-10"
 	  }, [_vm._v("৩১. ইউনিটে প্রবাসী বাংলাদেশিদের বিনিয়োগ আছে কি?")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩১.১ বিনিয়োগের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
@@ -18751,56 +19429,6 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩৩. প্রতিষ্ঠানটি কোন উৎস হতে ঋণ গ্রহণ করেছে কি?")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('select', {
-	    staticClass: "select form-control ",
-	    attrs: {
-	      "id": "has-foreign-res-investment",
-	      "name": "has_foreign_res_investement",
-	      "tabindex": "-1",
-	      "aria-hidden": "true"
-	    }
-	  }, [_c('option', {
-	    attrs: {
-	      "selected": "selected",
-	      "value": ""
-	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group",
-	    staticStyle: {
-	      "width": "100%"
-	    }
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "foreign-res-investment",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "foreign_res_investment",
-	      "type": "text"
-	    }
-	  })])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩২.১ পণ্য/সেবা উৎপাদনে ব্যবহৃত কাঁচামাল ও অন্যান্য সরবরাহ বাবদ ব্যয়\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
@@ -18808,29 +19436,6 @@
 	  }, [_vm._v("৩২.২ জনবলের বেতন ভাতা বাবদ ব্যয়\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩২.৩ মোট অন্যান্য ব্যয়ের পরিমাণ\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")])])])
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group",
-	    staticStyle: {
-	      "width": "100%"
-	    }
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "last-year-salary-amount",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "last_year_salary_amount",
-	      "type": "text"
-	    }
-	  })])])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -18844,49 +19449,11 @@
 	    staticClass: "padding-10 text-center"
 	  }, [_vm._v("৩৫. প্রতিষ্ঠানে নিয়োজিত (দেশি-বিদেশিসহ) জনবলের ধরন ও সংখ্যা")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "loan-last-year",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "loan_last_year",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('table', {
-	    staticClass: "table-full-width"
-	  }, [_c('tbody', [_c('tr', {
+	  return _c('tr', {
 	    staticClass: "bottom-bordered"
-	  }, [_c('td', [_vm._v(" ")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t৩৩.৩ শুধুমাত্র গত অর্থবছরে (২০১৬-১৭) গৃহীত ঋণ পরিমাণ\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t"), _c('small', [_vm._v("(লক্ষ টাকায়)")]), _vm._v(" "), _c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_vm._v("৳")]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "loan-last-year",
-	      "placeholder": "অংকে লিখুন",
-	      "pattern": "[0-9]",
-	      "maxlength": "11",
-	      "name": "loan_received_2016_2017",
-	      "type": "text"
-	    }
-	  })])])])])])])
+	  }, [_c('td', [_vm._v(" ")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', [_c('table', {
-	    staticClass: "table-full-width table-item-bordered"
-	  }, [_c('tbody', [_c('tr', [_c('td', {
+	  return _c('tr', [_c('td', {
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩৫.১ মালিক/অংশীদার কর্মরত")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
@@ -18898,278 +19465,91 @@
 	    staticClass: "padding-10"
 	  }, [_vm._v("৩৫.৫ সাময়িক/খন্ডকালীন কর্মী")]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
-	  }, [_vm._v("৩৫.৬ মৌসুমী কর্মী")])]), _vm._v(" "), _c('tr', [_c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control input-small",
-	    attrs: {
-	      "id": "male-owner",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_owner",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control input-small",
-	    attrs: {
-	      "id": "female-owner",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_owner",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control input-small",
-	    attrs: {
-	      "id": "male-unpaid-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_unpaid_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control input-small",
-	    attrs: {
-	      "id": "female-unpaid-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_unpaid_worker",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-fulltime-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "4",
-	      "name": "male_fulltime_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-fulltime-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "4",
-	      "name": "female_fulltime_worker",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-parttime-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "3",
-	      "name": "male_pertime_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: " form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-parttime-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "3",
-	      "name": "female_pertime_worker",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-casual-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_casual_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-casual-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_casual_worker",
-	      "type": "text"
-	    }
-	  })])])]), _vm._v(" "), _c('td', {
-	    staticClass: "padding-10"
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-casual-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_seasonal_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
-	    staticClass: "input-group-addon"
-	  }, [_c('i', {
-	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-casual-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_seasonal_worker",
-	      "type": "text"
-	    }
-	  })])])])])])])])
+	  }, [_vm._v("৩৫.৬ মৌসুমী কর্মী")])])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('td', {
-	    staticClass: "padding-10 valign-middle",
-	    staticStyle: {
-	      "width": "200px"
-	    }
-	  }, [_c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
+	  return _c('div', {
 	    staticClass: "input-group-addon"
 	  }, [_c('i', {
 	    staticClass: "icon-man"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "male-foreign-worker",
-	      "placeholder": "পুরুষ",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "male_foreign_worker",
-	      "type": "text"
-	    }
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: "form-group"
-	  }, [_c('div', {
-	    staticClass: "input-group"
-	  }, [_c('div', {
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
 	    staticClass: "input-group-addon"
 	  }, [_c('i', {
 	    staticClass: "icon-woman"
-	  })]), _vm._v(" "), _c('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "id": "female-foreign-worker",
-	      "placeholder": "মহিলা",
-	      "pattern": "[0-9]",
-	      "maxlength": "2",
-	      "name": "female_foreign_worker",
-	      "type": "text"
-	    }
-	  })])])])
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-man"
+	  })])
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "input-group-addon"
+	  }, [_c('i', {
+	    staticClass: "icon-woman"
+	  })])
 	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('td', [_c('div', {
 	    staticClass: "form-group"
@@ -19179,7 +19559,7 @@
 	      "id": "supervising_officer-mobile_no",
 	      "maxlength": "11",
 	      "placeholder": "",
-	      "name": "supervising_officer_mobile_no",
+	      "name": "SUPERVISING_OFFICER_MOBILE_NO",
 	      "type": "text"
 	    }
 	  })])])
