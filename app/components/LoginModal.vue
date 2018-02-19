@@ -40,70 +40,65 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import Vue from "vue";
 
-import store from '../store'
-import eventHub from '../shared/EventHub';
+import store from "../store";
+import eventHub from "../shared/EventHub";
 
 export default {
-	data(){
-		return {
+  data() {
+    return {
+      user_name: "",
+      password: "",
+      users: []
+    };
+  },
 
-			user_name:"",
-			password:"",
-			users: []
-		}
-	},
+  methods: {
+    authenticate() {
+      var user_name = this.user_name;
+      var password = this.password;
 
-	methods:{
-		authenticate () {
-        	var user_name = this.user_name;
-			var password = this.password;
-			axios.post('http://192.168.50.14/api/signin', {
-				user_name: user_name,
-				password: password
-			})
-			.then(function (response) {
-				//this.users =response;
-				
-				// console.log(response.token);
-				// return 0;
-				 if(response.status == 200){
-				 	console.log(response.data.token);
-				 }else{
-					 alert(response.token);
-					 return 0;	
-				 }
-				
+      axios
+        .post("http://192.168.50.14/api/signin", {
+          user_name: user_name,
+          password: password
+        })
+        .then(function(response) {
+          //this.users =response;
 
+          // console.log(response.token);
+          // return 0;
+          if (response.status == 200) {
+            console.log(response.data.token);
+            eventHub.$emit("login-success");
+          } else {
+            alert(response.token);
+            return 0;
+          }
 
-				//return 0;
-			})
-			.catch(function (error) {
-				console.log(error);
-				alert('Error');
-				
-			});	
+          //return 0;
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert("Error");
+        });
 
-			
-			$('#login-modal').modal('hide');
-		},
-		loginClose (){
-			$('#login-modal').modal('hide');
-		},
-		loginForm:function(){
-			
-			$('#login-modal').modal('show');
-			
-		}
-	},
+      $("#login-modal").modal("hide");
+    },
+    loginClose() {
+      $("#login-modal").modal("hide");
+    },
+    loginForm: function() {
+      $("#login-modal").modal("show");
+    }
+  },
 
-	mounted:function(){
-		eventHub.$on('login-form', this.loginForm);
-		
-	},
-	beforeDestroy:function(){
-		eventHub.$off('login-form', this.loginForm);
-	}
-}
+  mounted: function() {
+    eventHub.$on("login-form", this.loginForm);
+  },
+  beforeDestroy: function() {
+    eventHub.$off("login-form", this.loginForm);
+  }
+};
 </script>

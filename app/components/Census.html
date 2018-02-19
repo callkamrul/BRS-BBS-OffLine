@@ -3,10 +3,9 @@
 		<span class="clickable right-float">
 			<i v-show="isEdit==false" @click="addCensus" class="glyphicon glyphicon-plus"></i>
 			<i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
-			<button v-show="isEdit==false" class="btn" type="button" @click="loginApp" >
-				<i class="fa fa-login"></i> Login</button>
 			
-				<button v-show="isEdit == false && onLine == true" class="btn" type="button" @click="syncDownSetup" value="submit">
+			
+				<button v-show="isEdit == false && onLine == true" class="btn" type="button" @click="loginApp" value="submit">
 					<i class="fa fa-arrow-circle-down"></i> Sync Setup</button>
 					
 					<span v-show="onLine == true" class="pull-right label label-success"><i class="fa fa-circle"></i> Online</span>
