@@ -45,6 +45,9 @@ export default {
       enableIsUnderEnt2: true,
       enableEntGroupId2: true,
       enableEnterprise: true,
+      enableClosingReasonOther: true,
+      rmos:[],
+
       rmos: [],
       divisions: [],
       districts: [],
@@ -68,6 +71,26 @@ export default {
     //}
   },
   mounted() {
+    store.getDivisionList((err, list) => { this.divisions = list});
+    store.getAllCommonConfigList((err, list) => { this.rmos = list}, 'cc_rmo');
+    store.getAllCommonConfigList((err, list) => { this.legal_ownerships = list}, 'CC_LEGAL_OWNERSHIPS');
+    store.getAllCommonConfigList((err, list) => { this.type_of_ownerships = list}, 'CC_OWNERSHIP_TYPES');
+    store.getAllCommonConfigList((err, list) => { this.genders = list}, 'CC_GENDER');
+    store.getAllCommonConfigList((err, list) => { this.educations = list}, 'CC_EDUCATION');
+    store.getAllCommonConfigList((err, list) => { this.unit_types = list}, 'CC_UNIT_TYPE');
+    store.getAllCommonConfigList((err, list) => { this.permissionAuth = list}, 'CC_PERMISSION_AUTHORITIES');
+    store.getAllCommonConfigList((err, list) => { this.pollutionControl = list}, 'cc_pollution_control');
+    store.getAllCommonConfigList((err, list) => { this.specialtyCode = list}, 'cc_specialty_code');
+    store.getAllCommonConfigList((err, list) => { this.unitCurrentStatus = list}, 'cc_unit_status');
+    store.getAllCommonConfigList((err, list) => { this.closingReasons = list}, 'cc_closing_reasons');
+    store.getIndustrialCode((err, list) => { this.industrialCode = list});
+    store.getIndustrialCode((err, list) => { this.productSubClassCode = list}, 'product_sub_classes');
+    store.getAllCommonConfigList((err, list) => { this.economicOrgs = list}, 'cc_economic_organizations');
+    store.getAllCommonConfigList((err, list) => { this.accountingType = list}, 'cc_accounting_type');
+    store.getAllCommonConfigList((err, list) => { this.regOrgCode = list}, 'cc_registration_organizations');
+    store.getAllCommonConfigList((err, list) => { this.unitMode = list}, 'cc_unit_mode');
+    store.getAnswerOption((err, list) => { this.yesNo = list}, 'cc_answer_options');
+    store.getAnswerOption((err, list) => { this.yesNoOthers = list}, 'cc_answer_options',1);
     this.updateOnlineStatus();
     window.addEventListener("online", this.updateOnlineStatus);
     window.addEventListener("offline", this.updateOnlineStatus);
@@ -280,6 +303,73 @@ export default {
         this.unionWards = unionList;
       }, thanaId);
     },
+
+     loadHeadOfficeDistricts() {
+        var division_id = this.census.HEAD_OFFICE_DIVISION;
+        store.getDistrictList((err, list ) => { this.HeadOfficedistricts = list}, division_id);
+     },
+      loadHeadOfficeThana: function(e) {
+          var district_id = this.census.HEAD_OFFICE_DISTRICT;
+          store.getThanaUpazillaByDistrict((err, thanaList ) => { this.headOfficeThanaUpazilla = thanaList}, district_id);
+      },
+      loadHeadOfficeUnionWard() {
+          var thanaId = this.census.HEAD_OFFICE_THANA_UPZ;
+          store.getUnionWardByThanaUpazilla((err, unionList ) => { this.headOfficeUnionWards = unionList}, thanaId);
+      },
+      loadHeadOfficeMauza() {
+          var unionWardId = this.census.HEAD_OFFICE_WARD_UNION;
+          store.getMauzaMahallahByUnionWard((err, list ) => { this.headOfficeMauza = list}, unionWardId);
+      },
+      checkUnitType: function () {
+          this.enableIsUnderEntGroup= true;
+          this.enableIsUnderEnt= true;
+          this.enableIsUnderEnt2= true;
+          var unit_type = this.census.UNIT_TYPE_CODE;
+          if(unit_type == 1){
+              this.enableIsUnderEntGroup= false;
+          }
+          if(unit_type == 2){
+              this.enableIsUnderEnt= false;
+              this.enableIsUnderEnt2= false;
+          }
+      },
+      checkIsUnderEntGroup: function () {
+          var yesNo = this.census.IS_UNDER_ENT_GROUP;
+          if(yesNo == 1){
+              this.enableEntGroup= false;
+          }else {
+              this.census.ENTERPRISE_GROUP_ID= "";
+              this.enableEntGroup= true;
+          }
+      },
+      checkIsEntGroup: function () {
+          var yesNo = this.census.IS_UNDER_ENTERPRISE;
+          if(yesNo == 1){
+              this.enableEnterprise= false;
+          }else {
+              this.census.ENTERPRISE_ID= "";
+              this.enableEnterprise= true;
+          }
+      },
+      checkIsEntGroupId2: function () {
+          var yesNo = this.census.IS_UNDER_ENT_GROUP2;
+          if(yesNo == 1){
+              this.enableEntGroupId2= false;
+          }else {
+              this.census.ENTERPRISE_GROUP_ID_2= "";
+              this.enableEntGroupId2= true;
+          }
+      },
+      checkClosingReasonsOthers: function () {
+          var reasons = this.census.REASON_OF_CLOSE_CODE;
+          if (reasons == 13) {
+              this.enableClosingReasonOther = false;
+          } else {
+              this.census.REASON_OF_CLOSE_OTHER = "";
+              this.enableClosingReasonOther = true;
+          }
+      },
+
     loadMauzaMahalla() {
       var unionWardId = this.census.WARD_UNION_ID;
       store.getMauzaMahallahByUnionWard((err, list) => {

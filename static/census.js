@@ -393,7 +393,7 @@ jQuery(document).ready(function($) {
 	//
 	// @link https://stackoverflow.com/a/20990013/1743124
 	// -------------------------------------------
-	var select2_control = $('.select2-control');
+	var select2_control = $('.select');
 
 	// Initiate Select2
 	// On 'Tab' select item @link https://stackoverflow.com/a/33958605/1743124
