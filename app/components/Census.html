@@ -422,8 +422,7 @@
 																		<select class="select form-control " @change = "checkIsUnderEntGroup"  v-bind:disabled="enableIsUnderEntGroup" id="is-under-ent-group"
 																		 name="is_under_ent_group" tabindex="-1" aria-hidden="true" v-model="census.IS_UNDER_ENT_GROUP">
 																			<option selected="selected" value=""></option>
-																			<option value="1">1 - হ্যাঁ</option>
-																			<option value="2">2 - না</option>
+																			<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																	</div>
 																</td>
@@ -461,8 +460,7 @@
 																			<select class="select form-control " @change = "checkIsEntGroup" id="is-under-ent" v-bind:disabled="enableIsUnderEnt" name="is_under_enterprise" v-model="census.IS_UNDER_ENTERPRISE"
 																			 tabindex="-1" aria-hidden="true">
 																				<option selected="selected" value=""></option>
-																				<option value="1">1 - হ্যাঁ</option>
-																				<option value="2">2 - না</option>
+																				<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 																			</select>
 																		</div>
 																	</div>
@@ -492,8 +490,7 @@
 																			<select class="select form-control " @change = "checkIsEntGroupId2" id="is-under-ent-group-2" v-bind:disabled="enableIsUnderEnt2"
 																					v-model="census.IS_UNDER_ENT_GROUP2" name="is_under_ent_group2" tabindex="-1" aria-hidden="true">
 																				<option selected="selected" value=""></option>
-																				<option value="1">1 - হ্যাঁ</option>
-																				<option value="2">2 - না</option>
+																				<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 																			</select>
 																		</div>
 																	</div>
@@ -748,12 +745,7 @@
 																						<select class="select form-control" id="head-office-rmo-code" name="head_office_rmo_code" v-model="census.HEAD_OFFICE_RMO_CODE"
 																						 tabindex="-1" aria-hidden="true">
 																							<option selected="selected" value=""></option>
-																							<option value="1">1 - Rural</option>
-																							<option value="2">2 - Municipality</option>
-																							<option value="3">3 - Upazila Head Quarter</option>
-																							<option value="4">5 - Cantonment</option>
-																							<option value="5">7 - Growth Center</option>
-																							<option value="6">9 - City Corporation</option>
+																							<option v-for="rmo in rmos" :value="rmo.ID">{{rmo.NAME}}</option>
 																						</select>
 																						
 																					</div>
@@ -778,8 +770,7 @@
 																		<select class="select form-control" id="is-reporting-unit" name="is_reporting_unit" v-model="census.IS_REPORTING_UNIT"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">1 - হ্যাঁ</option>
-																			<option value="2">2 - না</option>
+																			<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																	</div>
 																</td>
@@ -799,9 +790,7 @@
 																		<select class="select form-control " id="has-trade-license" name="has_trade_license" v-model="census.HAS_TRADE_LICENSE"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">1 - হ্যাঁ</option>
-																			<option value="2">2 - না</option>
-																			<option value="3">3 - প্রয়োজ্য নয়</option>
+																			<option v-for="item in yesNoOthers" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																	</div>
 																</td>
@@ -860,8 +849,7 @@
 																		<select class="select form-control " id="is-registered" name="is_registered" v-model="census.IS_REGISTERED"
 																		 tabindex="-1" aria-hidden="true">
 																			<option selected="selected" value=""></option>
-																			<option value="1">1 - হ্যাঁ</option>
-																			<option value="2">2 - না</option>
+																			<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 																		</select>
 																	</div>
 																</td>
@@ -993,8 +981,7 @@
 														<select class="select form-control" id="is-under-permission-auth" name="is_under_permission_auth" v-model="census.IS_UNDER_PERMISSION_AUTH"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - হ্যাঁ</option>
-															<option value="2">2 - না</option>
+															<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 														</select>
 													</div>
 												</td>
@@ -1135,8 +1122,7 @@
 														<select class="select form-control " id="has-environmental-control" name="has_environmental_control" v-model="census.HAS_ENVIRONMENTAL_CONTROL"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - হ্যাঁ</option>
-															<option value="2">2 - না</option>
+															<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1156,8 +1142,7 @@
 														<select class="select form-control " id="has-specialized-zone" name="has_specialized_zone" v-model="census.HAS_SPECIALIZED_ZONE"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - হ্যাঁ</option>
-															<option value="2">2 - না</option>
+															<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1177,8 +1162,7 @@
 														<select class="select form-control" id="has-membership" name="has_membership" v-model="census.HAS_MEMBERSHIP" tabindex="-1"
 														 aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - হ্যাঁ</option>
-															<option value="2">2 - না</option>
+															<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1203,8 +1187,7 @@
 														<select class="select form-control" id="has-chamber-membership" name="has_chamber_membership" v-model="census.HAS_CHAMBER_MEMBERSHIP"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - হ্যাঁ</option>
-															<option value="2">2 - না</option>
+															<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1766,8 +1749,7 @@
 														<select class="select form-control " id="is-export" name="is_export" v-model="census.IS_EXPORT"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - হ্যাঁ</option>
-															<option value="2">2 - না</option>
+															<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1783,8 +1765,7 @@
 														<select class="select form-control " id="is-export-product-services" v-model="census.IS_EXPORT_PRODUCT_SERVICES"
 														 name="is_export_product_services" tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - হ্যাঁ</option>
-															<option value="2">2 - না</option>
+															<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1845,8 +1826,7 @@
 														<select class="select form-control " id="is-import" name="is_import" v-model="census.IS_IMPORT"
 														 tabindex="-1" aria-hidden="true">
 															<option selected="selected" value=""></option>
-															<option value="1">1 - হ্যাঁ</option>
-															<option value="2">2 - না</option>
+															<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 														</select>
 														
 													</div>
@@ -1988,8 +1968,7 @@
 										<select class="select form-control " id="has-foreign-res-investment" v-model="census.HAS_FOREIGN_RES_INVESTEMENT"
 												name="has_foreign_res_investement" tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
-											<option value="1">1 - হ্যাঁ</option>
-											<option value="2">2 - না</option>
+											<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 										</select>
 									</div>
 								</td>
@@ -2062,8 +2041,7 @@
 										<select class="select form-control " id="have-any-loan" name="have_any_loan" v-model="census.HAVE_ANY_LOAN"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
-											<option value="1">1 - হ্যাঁ</option>
-											<option value="2">2 - না</option>
+											<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 										</select>
 									</div>
 
@@ -2135,8 +2113,7 @@
 										<select class="select form-control " id="have-accounting-account" name="have_accounting_account" v-model="census.HAVE_ACCOUNTING_ACCOUNT"
 										 tabindex="-1" aria-hidden="true">
 											<option selected="selected" value=""></option>
-											<option value="1">1 - হ্যাঁ</option>
-											<option value="2">2 - না</option>
+											<option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
 										</select>
 									</div>
 

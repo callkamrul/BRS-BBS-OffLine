@@ -87,6 +87,8 @@ export default {
     store.getAllCommonConfigList((err, list) => { this.accountingType = list}, 'cc_accounting_type');
     store.getAllCommonConfigList((err, list) => { this.regOrgCode = list}, 'cc_registration_organizations');
     store.getAllCommonConfigList((err, list) => { this.unitMode = list}, 'cc_unit_mode');
+    store.getAnswerOption((err, list) => { this.yesNo = list}, 'cc_answer_options');
+    store.getAnswerOption((err, list) => { this.yesNoOthers = list}, 'cc_answer_options',1);
 
   },
   computed: {

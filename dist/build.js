@@ -11529,6 +11529,23 @@
 	    });
 	};
 
+	store.getAnswerOption = function (cb) {
+	    var $table_name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'cc_answer_options';
+	    var $def = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+	    var $lang = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'en';
+
+	    var $condition = '';
+	    if ($def == 0) {
+	        $condition = 'where ID != 3';
+	    }
+	    var list = [];
+	    db.each('SELECT ID, (CODE ||\' - \'|| NAME_BN) AS NAME\nFrom ' + $table_name + ' ' + $condition, function (err, row) {
+	        list.push(row);
+	    }, function (err, rowCount) {
+	        cb(null, list);
+	    });
+	};
+
 	store.getCensuses = function (cb) {
 	    var censuses = {};
 
@@ -12137,6 +12154,12 @@
 	    _store2.default.getAllCommonConfigList(function (err, list) {
 	      _this.unitMode = list;
 	    }, 'cc_unit_mode');
+	    _store2.default.getAnswerOption(function (err, list) {
+	      _this.yesNo = list;
+	    }, 'cc_answer_options');
+	    _store2.default.getAnswerOption(function (err, list) {
+	      _this.yesNoOthers = list;
+	    }, 'cc_answer_options', 1);
 	  },
 
 	  computed: {
@@ -13637,15 +13660,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])]), _vm._v(" "), _c('tr', [_vm._m(25), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])]), _vm._v(" "), _c('tr', [_vm._m(25), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -13718,15 +13739,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('div', {
 	    staticClass: "text-center"
 	  }, [_c('label', {
 	    attrs: {
@@ -13799,15 +13818,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('div', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('div', {
 	    staticClass: "text-center"
 	  }, [_c('label', {
 	    attrs: {
@@ -14384,31 +14401,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - Rural")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - Municipality")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - Upazila Head Quarter")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "4"
-	    }
-	  }, [_vm._v("5 - Cantonment")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "5"
-	    }
-	  }, [_vm._v("7 - Growth Center")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "6"
-	    }
-	  }, [_vm._v("9 - City Corporation")])])])])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	  }), _vm._v(" "), _vm._l((_vm.rmos), function(rmo) {
+	    return _c('option', {
+	      domProps: {
+	        "value": rmo.ID
+	      }
+	    }, [_vm._v(_vm._s(rmo.NAME))])
+	  })], 2)])])])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
 	  }, [_c('tbody', [_vm._m(46), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -14444,15 +14443,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
 	  }, [_c('tbody', [_vm._m(47), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -14488,19 +14485,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "3"
-	    }
-	  }, [_vm._v("3 - প্রয়োজ্য নয়")])])])])])])])]), _vm._v(" "), _c('td', [_c('table', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNoOthers), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])])])])]), _vm._v(" "), _c('td', [_c('table', {
 	    staticClass: "table-full-width"
 	  }, [_c('tbody', [_vm._m(48), _vm._v(" "), _c('tr', [_c('td', {
 	    staticClass: "padding-10"
@@ -14613,15 +14604,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])])])])])]), _vm._v(" "), _c('tr', [_c('td', {
 	    attrs: {
 	      "colspan": "5"
 	    }
@@ -14860,15 +14849,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('table', {
 	    staticClass: "table-full-width"
@@ -15282,15 +15269,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15364,15 +15349,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -15446,15 +15429,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])]), _vm._v(" "), _c('div', [_c('label', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)]), _vm._v(" "), _c('div', [_c('label', {
 	    attrs: {
 	      "for": "membership-authority"
 	    }
@@ -15544,15 +15525,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])]), _vm._v(" "), _c('div', [_c('label', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)]), _vm._v(" "), _c('div', [_c('label', {
 	    attrs: {
 	      "for": "chamber-name"
 	    }
@@ -17149,15 +17128,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -17217,15 +17194,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -17449,15 +17424,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -17883,15 +17856,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
@@ -18075,15 +18046,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])])])])]), _vm._v(" "), _c('table', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])])])])]), _vm._v(" "), _c('table', {
 	    staticClass: "main-form-structure table-full-width table-item-bordered",
 	    staticStyle: {
 	      "width": "2125px"
@@ -18228,15 +18197,13 @@
 	      "selected": "selected",
 	      "value": ""
 	    }
-	  }), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "1"
-	    }
-	  }, [_vm._v("1 - হ্যাঁ")]), _vm._v(" "), _c('option', {
-	    attrs: {
-	      "value": "2"
-	    }
-	  }, [_vm._v("2 - না")])])])]), _vm._v(" "), _c('td', {
+	  }), _vm._v(" "), _vm._l((_vm.yesNo), function(item) {
+	    return _c('option', {
+	      domProps: {
+	        "value": item.ID
+	      }
+	    }, [_vm._v(_vm._s(item.NAME))])
+	  })], 2)])]), _vm._v(" "), _c('td', {
 	    staticClass: "padding-10 valign-middle"
 	  }, [_c('div', {
 	    staticClass: "form-group"
