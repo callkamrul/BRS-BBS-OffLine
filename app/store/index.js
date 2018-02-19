@@ -74,10 +74,14 @@ store.getMauzaMahallahByUnionWard = function(cb, $unioWardId)
     });
 }
 
-store.getAllCommonConfigList = function (cb, $table_name, $lang = 'en') {
+store.getAllCommonConfigList = function (cb, $table_name, $lang = 'bn') {
+    var $condition = 'NAME_BN';
+    if($lang == 'en'){
+        $condition = `NAME`;
+    }
 	var list = [];
 
-	db.each(`SELECT ID, (CODE ||' - '|| NAME_BN) AS NAME
+	db.each(`SELECT ID, (CODE ||' - '|| ${$condition}) AS NAME
 From ${$table_name}`, function (err, row) {
 			list.push(row);
 		}, function (err, rowCount) {
