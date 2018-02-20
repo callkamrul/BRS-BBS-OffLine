@@ -1,6 +1,6 @@
 <template>
 <div>
-	<div id="sync-census-modal" class="ui modal">
+	<div id="sync-census-modal" class="ui small modal">
 		<i class="close icon"></i>
 		<div class="header">
 			Login BRS_BBS
@@ -51,7 +51,7 @@ export default {
       user_name: "",
       password: "",
       users: [],
-      census:{}
+      census: {}
     };
   },
 
@@ -72,11 +72,33 @@ export default {
           // console.log(response.token);
           // return 0;
           if (response.status == 200) {
-            console.log(response.data.token);
+            //console.log(response.data.token);
 
             var syncCensus = function(token) {
+              var auth_obj = token;
+              console.log(auth_obj);
               console.log(census);
+              
+
               alert("sync CensusId");
+              return 0;
+
+              axios
+                .post("http://192.168.50.14/api/offline/census", census)
+                .then(function(response) {
+                  //console.log(response);
+
+                  if (response.status == 200) {
+                    console.log(response);
+                  } else {
+                    alert(response.token);
+                    return 0;
+                  }
+                })
+                .catch(function(error) {
+                  console.log(error);
+                  alert("Error census posting");
+                });
             };
 
             syncCensus(response.data.token);

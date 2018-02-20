@@ -1,6 +1,6 @@
 <template>
 <div>
-	<div id="login-modal" class="ui modal">
+	<div id="login-modal" class="ui small modal">
 		<i class="close icon"></i>
 		<div class="header">
 			Login BRS_BBS
@@ -71,6 +71,7 @@ export default {
           // return 0;
           if (response.status == 200) {
             console.log(response.data.token);
+            //sync Down Setup Start ...
             var syncDownSetup = function () {
               alert("syncDownSetup");
               //var vm = this
@@ -137,13 +138,18 @@ export default {
                       }
 
                       alert("District Setup Synced");
-                      location.reload(true);
+                      
                     });
+                })
+                .then(function() {
+                  alert("Thana/Upazila Setup Synced");
+                  location.reload(true);
                 });
 
               //console.log(vm.divisions);
             };
-            syncDownSetup();
+            syncDownSetup(); //call syncDownSetup function;
+
           } else {
             alert(response.token);
             return 0;
