@@ -5,7 +5,7 @@
 			<i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
 			
 			
-				<button v-show="isEdit == false && onLine == true" class="btn" type="button" @click="loginApp" value="submit">
+				<button v-show="isEdit == false && onLine == true" class="btn" type="button" @click="syncSetup" value="submit">
 					<i class="fa fa-arrow-circle-down"></i> Sync Setup</button>
 					
 					<span v-show="onLine == true" class="pull-right label label-success"><i class="fa fa-circle"></i> Online</span>
@@ -38,7 +38,7 @@
 									<i class="edit fa fa-edit"></i> Edit</button>
 								<button @click="deleteCensus(id)" class="btn btn-danger">
 									<i class="remove fa fa-trash"></i> Delete</button>
-								<button v-show="onLine == true" @click="syncUpCensus(id)" class="btn btn-success">
+								<button v-show="onLine == true" @click="syncCensus(Census)" class="btn btn-success">
 										<i class="fa fa-arrow-circle-up"></i> Sync Up</button>	
 							</td>
 						</tr>
@@ -46,7 +46,9 @@
 				</table>
 			</div>
 		</div>
-		<login-modal></login-modal>
+		<sync-setup-modal></sync-setup-modal>
+		<sync-census-modal></sync-census-modal>
+
 	</div>
 	<div id="census-modal" v-show="isEdit == true">
 		<!-- <h4 class="modal-title">{{census.id > 0 ? 'Edit census' : 'Add a new census' }}</h4> -->
