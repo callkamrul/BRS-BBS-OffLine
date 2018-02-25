@@ -230,7 +230,7 @@
 																</td>
 																<td colspan="3">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="unit-name" placeholder="" required="required" name="name_of_unit" v-model="census.NAME_OF_UNIT" type="text" aria-required="true">
+																		<input class="form-control text-uppercase" id="unit-name" placeholder="" required="required" name="name_of_unit" v-model="census.NAME_OF_UNIT" type="text" aria-required="true">
 																	</div>
 																</td>
 															</tr>
@@ -242,7 +242,7 @@
 																</td>
 																<td colspan="3" class="">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="mahallah-name" placeholder="" required="required" name="name_of_mahallah" v-model="census.NAME_OF_MAHALLAH"	type="text" >
+																		<input class="form-control text-uppercase" id="mahallah-name" placeholder="" required="required" name="name_of_mahallah" v-model="census.NAME_OF_MAHALLAH"	type="text" >
 																	</div>
 																</td>
 															</tr>
@@ -253,7 +253,7 @@
 																</td>
 																<td colspan="3">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="house-name" name="name_of_house" v-model="census.NAME_OF_HOUSE" type="text">
+																		<input class="form-control text-uppercase" id="house-name" name="name_of_house" v-model="census.NAME_OF_HOUSE" type="text">
 																	</div>
 
 																</td>
@@ -265,7 +265,7 @@
 																</td>
 																<td colspan="3">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="road" name="no_name_of_road" v-model="census.NO_NAME_OF_ROAD" type="text">
+																		<input class="form-control text-uppercase" id="road" name="no_name_of_road" v-model="census.NO_NAME_OF_ROAD" type="text">
 																	</div>
 
 																</td>
@@ -277,7 +277,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="floor-level" name="floor_level" v-model="census.FLOOR_LEVEL" type="text">
+																		<input class="form-control text-uppercase" id="floor-level" name="floor_level" v-model="census.FLOOR_LEVEL" type="text">
 																	</div>
 
 																</td>
@@ -286,7 +286,7 @@
 																</td>
 																<td>
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" id="holding-number" name="holiding_no" v-model="census.HOLIDING_NO" type="text">
+																		<input class="form-control text-uppercase" id="holding-number" name="holiding_no" v-model="census.HOLIDING_NO" type="text">
 																	</div>
 
 																</td>
@@ -435,7 +435,7 @@
 																</td>
 																<td class="padding-10">
 																	<div class="form-group">
-																		<input class="form-control input-uppercase" v-bind:disabled="enableEntGroup" id="enterprise-group-id" name="enterprise_group_id" v-model="census.ENTERPRISE_GROUP_ID" type="text">
+																		<input class="form-control text-uppercase" v-bind:disabled="enableEntGroup" id="enterprise-group-id" name="enterprise_group_id" v-model="census.ENTERPRISE_GROUP_ID" type="text">
 																	</div>
 																</td>
 															</tr>
@@ -469,7 +469,7 @@
 																	<div class="text-center">
 																		<label for="enterprise">এন্টারপ্রাইজ</label>
 																		<div class="form-group ">
-																			<input class="form-control input-uppercase" id="enterprise" name="enterprise" v-bind:disabled="enableEnterprise"
+																			<input class="form-control text-uppercase" id="enterprise" name="enterprise" v-bind:disabled="enableEnterprise"
 																				   v-model="census.ENTERPRISE_ID" type="text">
 																		</div>
 																	</div>
@@ -499,7 +499,7 @@
 																	<div class="text-center">
 																		<label for="enterprise-group-id-2">এন্টারপ্রাইজ গ্রুপ</label>
 																		<div class="form-group ">
-																			<input class="form-control input-uppercase" id="enterprise-group-id-2" name="enterprise_group_id_2"
+																			<input class="form-control text-uppercase" id="enterprise-group-id-2" name="enterprise_group_id_2"
 																				   v-bind:disabled="enableEntGroupId2" v-model="census.ENTERPRISE_GROUP_ID_2" type="text">
 																		</div>
 																	</div>
@@ -548,7 +548,7 @@
 																				</td>
 																				<td colspan="3">
 																					<div class="form-group">
-																						<input class="form-control input-uppercase" id="head-office-name" name="head_office_name" v-model="census.HEAD_OFFICE_NAME"
+																						<input class="form-control text-uppercase" id="head-office-name" name="head_office_name" v-model="census.HEAD_OFFICE_NAME"
 																						 type="text">
 																					</div>
 																				</td>
@@ -560,7 +560,7 @@
 																				</td>
 																				<td colspan="3">
 																					<div class="form-group">
-																						<input class="form-control input-uppercase" id="head-office-mahallah" name="head_office_mahallah" v-model="census.HEAD_OFFICE_MAHALLAH"
+																						<input class="form-control text-uppercase" id="head-office-mahallah" name="head_office_mahallah" v-model="census.HEAD_OFFICE_MAHALLAH"
 																						 type="text">
 																					</div>
 																				</td>
@@ -572,7 +572,7 @@
 																				</td>
 																				<td colspan="3">
 																					<div class="form-group">
-																						<input class="form-control input-uppercase" id="head-office-house" name="head_office_house" v-model="census.HEAD_OFFICE_HOUSE"
+																						<input class="form-control text-uppercase" id="head-office-house" name="head_office_house" v-model="census.HEAD_OFFICE_HOUSE"
 																						 type="text">
 																					</div>
 
@@ -585,7 +585,7 @@
 																				</td>
 																				<td colspan="3">
 																					<div class="form-group">
-																						<input class="form-control input-uppercase" id="head-office-road" name="head_office_road" v-model="census.HEAD_OFFICE_ROAD"
+																						<input class="form-control text-uppercase" id="head-office-road" name="head_office_road" v-model="census.HEAD_OFFICE_ROAD"
 																						 type="text">
 																					</div>
 
