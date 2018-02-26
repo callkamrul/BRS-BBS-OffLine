@@ -145,6 +145,22 @@ store.getCensus = function (catId, cb) {
 		});
 }
 
+var uppercaseField = [
+    "NAME_OF_UNIT",
+    "NAME_OF_MAHALLAH",
+    "NAME_OF_HOUSE",
+    "NO_NAME_OF_ROAD",
+    "FLOOR_LEVEL",
+    "HOLIDING_NO",
+    "ENTERPRISE_GROUP_ID",
+    "ENTERPRISE_ID",
+    "ENTERPRISE_GROUP_ID_2",
+    "HEAD_OFFICE_NAME",
+    "HEAD_OFFICE_MAHALLAH",
+    "HEAD_OFFICE_HOUSE",
+    "HEAD_OFFICE_ROAD",
+];
+
 store.addCensus = (Census) => {
 	db.serialize(function () {
 
@@ -152,14 +168,12 @@ store.addCensus = (Census) => {
             Census.IS_UNDER_ENT_GROUP = Census.IS_UNDER_ENT_GROUP2
         }
         delete Census.IS_UNDER_ENT_GROUP2;
-
         // Generate automatically insert query with all database field and value taken from census form
         // by looping through the Census object
         var sqlParam = `insert into census (`;
         var values = ` values(`;
         var bindValues = '';
         var c = 0;
-        console.log(Census)
         for (var key in Census) {
             if (Census.hasOwnProperty(key) && key != 'ID') {
                 /**
@@ -176,7 +190,12 @@ store.addCensus = (Census) => {
                     }
 
                     sqlParam+= `'` + key.toUpperCase() + `'`;
-                    values+= `'` + Census[key] + `'`;
+                    if(uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
+                        values+= `'` + Census[key].toUpperCase() + `'`;
+                    }else {
+
+                        values+= `'` + Census[key] + `'`;
+                    }
                 }
                 //bindValues+= `'` + Census[key] + `'`;
                 /*if(!Census[key]){
@@ -218,7 +237,11 @@ store.editCensus = (catId, Census) => {
 				if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
                     rawSql += `,`;
 				}
-                rawSql+= key +`= "`+ Census[key] + `"`;
+                if(uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
+                    rawSql+= key +`= "`+ Census[key].toUpperCase() + `"`;
+                }else {
+                    rawSql+= key +`= "`+ Census[key] + `"`;
+                }
             }
         }
 
