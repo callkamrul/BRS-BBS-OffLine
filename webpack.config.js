@@ -1,6 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
-const ElectronPackager = require("webpack-electron-packager");
+//const ElectronPackager = require("webpack-electron-packager");
 
 module.exports = {
 	entry:'./app/main.js',
@@ -29,11 +29,11 @@ module.exports = {
 		new webpack.ExternalsPlugin('commonjs', [
 			'electron'
 		]),
-		new ElectronPackager({
-			dir: "D:/source/BRS-BBS-OffLine",
-			arch: "x64",
-			platform: "win32",
-		  }) 
+		//new ElectronPackager({
+		//	dir: "D:/source/BRS-BBS-OffLine",
+		//	arch: "x64",
+		//	platform: "win32",
+		//  }) 
 	],
 	resolve:{
 		alias:{
