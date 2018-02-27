@@ -190,7 +190,7 @@ store.addCensus = (Census) => {
                     }
 
                     sqlParam+= `'` + key.toUpperCase() + `'`;
-                    if(uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
+                    if(Census[key] && uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
                         values+= `'` + Census[key].toUpperCase() + `'`;
                     }else {
 
@@ -237,7 +237,7 @@ store.editCensus = (catId, Census) => {
 				if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
                     rawSql += `,`;
 				}
-                if(uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
+                if(Census[key] && uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
                     rawSql+= key +`= "`+ Census[key].toUpperCase() + `"`;
                 }else {
                     rawSql+= key +`= "`+ Census[key] + `"`;
