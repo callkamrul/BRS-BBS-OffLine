@@ -135,6 +135,7 @@ export default {
                           ");";
                         db.run(sql_insert);
                         sql_insert = "";
+                        setTimeout(function(){ }, 1);
                       }
 
                       alert("District Setup Synced");
