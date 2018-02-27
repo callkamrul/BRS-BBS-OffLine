@@ -1,4 +1,12 @@
+@font-face {
+  font-family: 'Siyam Rupali';
+  src: url('fonts/SiyamRupali.eot?version=1.070');
+  src: local('Siyam Rupali'), url('fonts/SiyamRupali.woff?version=1.070') format('woff'),   url('fonts/SiyamRupali.ttf?version=1.070') format('truetype');
+  font-style: normal;
+}
+
 body{
+  font-family: 'Siyam Rupali', 'Solaimanlipi', Vrinda, sans-serif;
   padding: 15px;
 }
 
@@ -104,7 +112,7 @@ body{
 .unit-number-block-right {
   float: right;
   margin: 10px;
-  width: 300px; }
+  width: 200px; }
 
 .has-table-separator {
   border-bottom: 5px solid #5a5aa0; }

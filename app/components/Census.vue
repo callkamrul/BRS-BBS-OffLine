@@ -432,6 +432,11 @@ export default {
         this.census.ENTERPRISE_GROUP_ID_2 = "";
         this.enableEntGroupId2 = true;
       }
+    },
+    upperCase: function(inputVal,e) {
+        console.log(inputVal);
+        console.log(e);
+        this.value = store.upperCase(inputVal);
     }
   }
 };
