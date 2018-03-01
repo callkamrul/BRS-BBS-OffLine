@@ -116,10 +116,10 @@
                                     <tr>
                                         <td rowspan="4" class="padding-10">
 
-                                            <table width="350" border="0">
+                                            <table  width="400" border="0">
                                                 <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td width="35%">
                                                         <label for="division-id">১.১ বিভাগ</label>
                                                     </td>
                                                     <td>
@@ -144,7 +144,7 @@
                                                         <div class="form-group">
                                                             <select class="select form-control"
                                                                     @change="loadThanaUpazilla" id="district-id"
-                                                                    required="required" tabindex="-1" name="district_id"
+                                                                    required="required" tabindex="2" name="district_id"
                                                                     v-model="census.DISTRICT_ID" aria-required="true">
                                                                 <option value=""></option>
                                                                 <option v-for="item in districts" :value="item.ID">
@@ -397,7 +397,7 @@
                                             </table>
                                         </td>
                                         <td rowspan="2" class="padding-10 valign-middle">
-                                            <select class="select form-control " id="legal-ownership-code"
+                                            <select class="select form-control select2-sm" id="legal-ownership-code"
                                                     style="width: 500px" name="legal_ownership_code"
                                                     v-model="census.LEGAL_OWNERSHIP_CODE" tabindex="-1"
                                                     aria-hidden="true">
@@ -410,7 +410,7 @@
 
                                         </td>
                                         <td rowspan="2" class="padding-10 valign-middle">
-                                            <select class="select form-control " id="type-of-ownership"
+                                            <select class="select form-control select2-sm" id="type-of-ownership"
                                                     name="type_of_ownership" v-model="census.TYPE_OF_OWNERSHIP"
                                                     tabindex="-1" aria-hidden="true">
                                                 <option selected="selected" value=""></option>
@@ -430,7 +430,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="padding-10">
-                                                        <select class="select form-control " id="head-gender-code"
+                                                        <select class="select form-control select2-sm" id="head-gender-code"
                                                                 name="head_gender_code"
                                                                 v-model="census.HEAD_GENDER_CODE" tabindex="-1"
                                                                 aria-hidden="true">
@@ -449,7 +449,7 @@
                                                                type="text">
                                                     </td>
                                                     <td class="padding-10">
-                                                        <select class="select form-control " id="head-education-code"
+                                                        <select class="select form-control select2-sm" id="head-education-code"
                                                                 name="head_education_code"
                                                                 v-model="census.HEAD_EDUCATION_CODE" tabindex="-1"
                                                                 aria-hidden="true">
@@ -476,7 +476,7 @@
                                                 <tr>
                                                     <td class="padding-10 ">
 
-                                                        <select class="select form-control " @change="checkUnitType"
+                                                        <select class="select form-control select2-sm" @change="checkUnitType"
                                                                 id="unit-type-code" required="required"
                                                                 name="unit_type_code" tabindex="-1" aria-hidden="true"
                                                                 aria-required="true" v-model="census.UNIT_TYPE_CODE">
@@ -836,7 +836,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control"
+                                                                        <select class="select form-control select2-md"
                                                                                 @change="loadHeadOfficeDistricts"
                                                                                 id="head-office-division"
                                                                                 name="head_office_division"
@@ -858,7 +858,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="form-control"
+                                                                        <select class="select form-control select2-md"
                                                                                 @change="loadHeadOfficeThana"
                                                                                 id="head-office-district"
                                                                                 name="head_office_district"
@@ -881,7 +881,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control"
+                                                                        <select class="select form-control select2-md"
                                                                                 @change="loadHeadOfficeUnionWard"
                                                                                 id="head-office-thana-upz"
                                                                                 name="head_office_thana_upz"
@@ -902,7 +902,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control"
+                                                                        <select class="select form-control select2-md"
                                                                                 @change="loadHeadOfficeMauza"
                                                                                 id="head-office-ward-union"
                                                                                 name="head_office_ward_union"
@@ -923,7 +923,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control "
+                                                                        <select class="select form-control select2-md"
                                                                                 id="head-office-mauza"
                                                                                 name="head_office_mauza"
                                                                                 v-model="census.HEAD_OFFICE_MAUZA"
@@ -1740,7 +1740,7 @@
                                                     </td>
                                                     <td class="padding-10 valign-top">
                                                         <div class="form-group">
-                                                            <select class="select form-control " data-placeholder=""
+                                                            <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="minor_industrial_code1"
                                                                     v-model="census.MINOR_INDUSTRIAL_CODE1"
                                                                     tabindex="-1" aria-hidden="true">
@@ -1764,7 +1764,7 @@
                                                     </td>
                                                     <td class="padding-10 valign-top">
                                                         <div class="form-group">
-                                                            <select class="select form-control " data-placeholder=""
+                                                            <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="minor_industrial_code2"
                                                                     v-model="census.MINOR_INDUSTRIAL_CODE2"
                                                                     tabindex="-1" aria-hidden="true">
@@ -1788,7 +1788,7 @@
                                                     </td>
                                                     <td class="padding-10 valign-top">
                                                         <div class="form-group">
-                                                            <select class="select form-control " data-placeholder=""
+                                                            <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="minor_industrial_code3"
                                                                     v-model="census.MINOR_INDUSTRIAL_CODE3"
                                                                     tabindex="-1" aria-hidden="true">
@@ -1822,7 +1822,7 @@
                                                     </td>
                                                     <td class="padding-10 valign-top">
                                                         <div class="form-group">
-                                                            <select class="select form-control " data-placeholder=""
+                                                            <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="supporting_industrial_code1"
                                                                     v-model="census.SUPPORTING_INDUSTRIAL_CODE1"
                                                                     tabindex="-1" aria-hidden="true">
@@ -1846,7 +1846,7 @@
                                                     </td>
                                                     <td class="padding-10 valign-top">
                                                         <div class="form-group">
-                                                            <select class="select form-control " data-placeholder=""
+                                                            <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="supporting_industrial_code2"
                                                                     v-model="census.SUPPORTING_INDUSTRIAL_CODE2"
                                                                     tabindex="-1" aria-hidden="true">
@@ -1904,7 +1904,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code1" v-model="census.PRODUCT_BSIC_CODE1"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -1925,7 +1925,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code2" v-model="census.PRODUCT_BSIC_CODE2"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -1946,7 +1946,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code3" v-model="census.PRODUCT_BSIC_CODE3"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -1967,7 +1967,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code4" v-model="census.PRODUCT_BSIC_CODE4"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -1988,7 +1988,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code5" v-model="census.PRODUCT_BSIC_CODE5"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -2011,7 +2011,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code6" v-model="census.PRODUCT_BSIC_CODE6"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -2048,7 +2048,7 @@
 
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code1" v-model="census.SERVICE_BSIC_CODE1"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -2073,7 +2073,7 @@
 
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code2" v-model="census.SERVICE_BSIC_CODE2"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -2097,7 +2097,7 @@
 
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code3" v-model="census.SERVICE_BSIC_CODE3"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -2122,7 +2122,7 @@
 
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code4" v-model="census.SERVICE_BSIC_CODE4"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -2147,7 +2147,7 @@
 
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code5" v-model="census.SERVICE_BSIC_CODE5"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -2172,7 +2172,7 @@
 
                                         <td>
                                             <div class="form-group padding-3">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code6" v-model="census.SERVICE_BSIC_CODE6"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -2253,7 +2253,7 @@
                                         </td>
                                         <td class="padding-10">
                                             <div class="form-group">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="export_product_services1"
                                                         v-model="census.EXPORT_PRODUCT_SERVICES1"
                                                         tabindex="-1" aria-hidden="true">
@@ -2266,7 +2266,7 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="export_product_services2"
                                                         v-model="census.EXPORT_PRODUCT_SERVICES2"
                                                         tabindex="-1" aria-hidden="true">
@@ -2279,7 +2279,7 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="export_product_services3"
                                                         v-model="census.EXPORT_PRODUCT_SERVICES3"
                                                         tabindex="-1" aria-hidden="true">
@@ -2341,7 +2341,7 @@
                                         </td>
                                         <td class="padding-10 ">
                                             <div class="form-group">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="import_product_services1"
                                                         v-model="census.IMPORT_PRODUCT_SERVICES1"
                                                         tabindex="-1" aria-hidden="true">
@@ -2354,7 +2354,7 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="import_product_services2"
                                                         v-model="census.IMPORT_PRODUCT_SERVICES2"
                                                         tabindex="-1" aria-hidden="true">
@@ -2367,7 +2367,7 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <select class="select form-control " data-placeholder=""
+                                                <select class="select form-control select2-sm" data-placeholder=""
                                                         name="import_product_services3"
                                                         v-model="census.IMPORT_PRODUCT_SERVICES3"
                                                         tabindex="-1" aria-hidden="true">
@@ -2599,7 +2599,7 @@
                         <tr>
                             <td class="padding-10 valign-middle">
                                 <div class="form-group">
-                                    <select class="select form-control " id="loan-fin-org-type" name="loan_fin_org_type"
+                                    <select class="select form-control select2-md" id="loan-fin-org-type" name="loan_fin_org_type"
                                             v-model="census.LOAN_FIN_ORG_TYPE"
                                             tabindex="-1" aria-hidden="true">
                                         <option selected="selected" value=""></option>
@@ -2658,7 +2658,7 @@
 
                             <td class="padding-10 valign-middle">
                                 <div class="form-group">
-                                    <select class="select form-control" id="loan-org-type"
+                                    <select class="select form-control select2-md" id="loan-org-type"
                                             name="accounting_account_type_id"
                                             v-model="census.ACCOUNTING_ACCOUNT_TYPE_ID"
                                             tabindex="-1" aria-hidden="true">

@@ -74,6 +74,24 @@ export default {
     //}
   },
   mounted() {
+      $(this.$el).ready(() => {
+          //$('.select').select2({})
+         /* $('.select').on('change', (e) => {
+              this.$emit('input', e.target.value)
+          })*/
+      });
+      var self = this;
+      $('#division-id').on('change', function () {
+          var division_id = this.value;
+          store.getDistrictList((err, list) => {
+              $('#district-id').empty();
+              $('#district-id').append("<option value=''>" + "</option>");
+              list.forEach(function(entry) {
+                  $('#district-id').append("<option value=\"" + entry.ID + "\">" + entry.NAME + "</option>");
+              });
+          }, division_id);
+//          self.$emit("change", this.value)
+      });
     store.getDivisionList((err, list) => {
       this.divisions = list;
     });
@@ -270,8 +288,9 @@ export default {
     syncCensus(census) {
       eventHub.$emit("sync-census",census);
     },
-    loadDistricts() {
+    loadDistricts: function() {
       var division_id = this.census.DIVISION_ID;
+        console.log(division_id);
       store.getDistrictList((err, list) => {
         this.districts = list;
       }, division_id);
