@@ -3,7 +3,7 @@
  */
 jQuery(document).ready(function($) {
     // $("#division-id").select2("val", 7);
-    $("#division-id").val('1').trigger('change');
+   /* $("#division-id").val('1').trigger('change');
     var select2_control = $('.select');
     //select2_control.select2('destroy').select2();
     selectDropDown = select2_control.select2();
@@ -26,7 +26,7 @@ jQuery(document).ready(function($) {
 
     $('.select2-lg').select2({
         containerCssClass: 'select2-lg'
-    });
+    });*/
     // Open the fields onFocus
     // THE ORDER IS IMPORTANT.
     /*function select2Focus() {

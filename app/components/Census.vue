@@ -3,8 +3,12 @@
 </template>
 
 <script>
+
 import store from "../store";
 import select2 from "./select2.vue";
+
+
+
 import SyncSetupModal from "./SyncSetupModal.vue";
 import SyncCensusModal from "./SyncCensusModal.vue";
 import eventHub from "../shared/EventHub";
@@ -13,10 +17,11 @@ export default {
   components: {
     SyncSetupModal,
     SyncCensusModal,
-    select2
+      select2
   },
   data() {
     return {
+
       onLine: false,
       isEdit: false,
       selectedCensus: "",
@@ -70,10 +75,10 @@ export default {
   props: ["censuses"],
 
   filters: {
-    //filterDistrictsByDivision: function (division_id) {
-    //	var division_id = division_id || this.census.division_id;
-    //	return this.districts.filter(district => district.division_id == division_id);
-    //}
+    ByDivision: function (districts,division_id) {
+    	var division_id = division_id || this.census.division_id;
+    	return this.districts.filter(district => district.division_id == division_id);
+    }
   },
   mounted() {
       $(this.$el).ready(() => {
@@ -97,6 +102,9 @@ export default {
     store.getDivisionList((err, list) => {
       this.divisions = list;
     });
+      store.getDistrictList((err, list) => {
+          this.districts = list;
+      });
     store.getAllCommonConfigList(
       (err, list) => {
         this.rmos = list;
@@ -166,9 +174,6 @@ export default {
     window.addEventListener("online", this.updateOnlineStatus);
     window.addEventListener("offline", this.updateOnlineStatus);
 
-    store.getDivisionList((err, list) => {
-      this.divisions = list;
-    });
     store.getAllCommonConfigList((err, list) => {
       this.rmos = list;
     }, "cc_rmo");
@@ -243,7 +248,7 @@ export default {
           this.census = Census;
           this.isEdit = true;
           // Load address (division, district, thana list) in edit mode
-            $("#division-id").select2("val", Census.DIVISION_ID);
+            //$("#division-id").select2("val", Census.DIVISION_ID);
           store.getDistrictList((err, list) => {
             this.districts = list;
           }, Census.DIVISION_ID);

@@ -8,7 +8,7 @@
     import Vue from "vue";
 
     export default {
-        props: ['options', 'value'],
+        props: ['value', 'onchange2'],
         template: `
   <select>
     <slot></slot>
@@ -18,24 +18,27 @@
             var vm = this
             $(this.$el)
             // init select2
-                .select2({ data: this.options.map(x => { return { id: x.ID, text: x.NAME}}) })
+                .select2()
                 .val(this.value)
                 .trigger('change')
                 // emit event on change.
                 .on('change', function () {
-                    vm.$emit('input', this.value)
+                    if (this.value === '') {
+                        return;
+                    }
+                    vm.$emit('input', this.value);
+                    if (vm.onchange2){
+                        vm.onchange2();
+                    }
                 })
         },
         watch: {
             value: function (value) {
                 // update value
-                $(this.$el).val(value)
-            },
-            options: function (options) {
-                // update options
-                $(this.$el).empty().select2({ data: options.map(x => { return { id: x.ID, text: x.NAME}}) })
+                $(this.$el).val(value).trigger('change');
             }
         },
+
         destroyed: function () {
             $(this.$el).off().select2('destroy')
         }

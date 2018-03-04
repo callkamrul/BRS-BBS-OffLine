@@ -4,7 +4,10 @@
 			<i v-show="isEdit==false" @click="addCensus" class="glyphicon glyphicon-plus"></i>
 			<i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
 			
-			
+			<button class="btn btn-primary" type="button" @click="saveCensus" value="submit">
+                                    <i class="icon-paperplane"></i> সাবমিট
+                                </button>
+
 				<button v-show="isEdit == false && onLine == true" class="btn btn-primary" type="button"
                         @click="syncSetup" value="submit" data-toggle="modal" data-target="#login-modal">
 					<i class="fa fa-arrow-circle-down"></i> Sync Setup
@@ -124,15 +127,17 @@
                                                     </td>
                                                     <td>
                                                         <div class="form-group">
-                                                            <select class="select form-control" @change="loadDistricts"
-                                                                    id="division-id" required="required" tabindex="-1"
-                                                                    name="division_id" v-model="census.DIVISION_ID"
-                                                                    aria-required="true">
+                                                            {{census.DIVISION_ID}}
+                                                            <select2 class="select form-control"
+                                                                     id="division-id" required="required"
+                                                                     name="division_id"
+                                                                     :onchange2="loadDistricts"
+                                                                     v-model="census.DIVISION_ID">
                                                                 <option value=""></option>
                                                                 <option v-for="item in divisions" :value="item.ID">
                                                                     {{item.NAME}}
                                                                 </option>
-                                                            </select>
+                                                            </select2>
                                                         </div>
                                                     </td>
                                                 </tr>
