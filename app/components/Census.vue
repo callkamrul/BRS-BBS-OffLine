@@ -4,6 +4,7 @@
 
 <script>
 import store from "../store";
+import select2 from "./select2.vue";
 import SyncSetupModal from "./SyncSetupModal.vue";
 import SyncCensusModal from "./SyncCensusModal.vue";
 import eventHub from "../shared/EventHub";
@@ -11,7 +12,8 @@ import eventHub from "../shared/EventHub";
 export default {
   components: {
     SyncSetupModal,
-    SyncCensusModal
+    SyncCensusModal,
+    select2
   },
   data() {
     return {
@@ -80,7 +82,7 @@ export default {
               this.$emit('input', e.target.value)
           })*/
       });
-      var self = this;
+     /* var self = this;
       $('#division-id').on('change', function () {
           var division_id = this.value;
           store.getDistrictList((err, list) => {
@@ -91,7 +93,7 @@ export default {
               });
           }, division_id);
 //          self.$emit("change", this.value)
-      });
+      });*/
     store.getDivisionList((err, list) => {
       this.divisions = list;
     });
@@ -241,6 +243,7 @@ export default {
           this.census = Census;
           this.isEdit = true;
           // Load address (division, district, thana list) in edit mode
+            $("#division-id").select2("val", Census.DIVISION_ID);
           store.getDistrictList((err, list) => {
             this.districts = list;
           }, Census.DIVISION_ID);
@@ -289,6 +292,7 @@ export default {
       eventHub.$emit("sync-census",census);
     },
     loadDistricts: function() {
+        this.districts = [];
       var division_id = this.census.DIVISION_ID;
         console.log(division_id);
       store.getDistrictList((err, list) => {
@@ -296,12 +300,14 @@ export default {
       }, division_id);
     },
     loadThanaUpazilla: function(e) {
+        this.thanaUpazilla = [];
       var district_id = this.census.DISTRICT_ID;
       store.getThanaUpazillaByDistrict((err, thanaList) => {
         this.thanaUpazilla = thanaList;
       }, district_id);
     },
     loadUnionWard() {
+        this.unionWards = [];
       var thanaId = this.census.THANA_UPZ_ID;
       store.getUnionWardByThanaUpazilla((err, unionList) => {
         this.unionWards = unionList;
@@ -309,24 +315,29 @@ export default {
     },
 
     loadHeadOfficeDistricts() {
+        console.log("HeadOffice Districts")
+        this.HeadOfficedistricts = [];
       var division_id = this.census.HEAD_OFFICE_DIVISION;
       store.getDistrictList((err, list) => {
         this.HeadOfficedistricts = list;
       }, division_id);
     },
     loadHeadOfficeThana: function(e) {
+        this.headOfficeThanaUpazilla = [];
       var district_id = this.census.HEAD_OFFICE_DISTRICT;
       store.getThanaUpazillaByDistrict((err, thanaList) => {
         this.headOfficeThanaUpazilla = thanaList;
       }, district_id);
     },
     loadHeadOfficeUnionWard() {
+        this.headOfficeUnionWards = [];
       var thanaId = this.census.HEAD_OFFICE_THANA_UPZ;
       store.getUnionWardByThanaUpazilla((err, unionList) => {
         this.headOfficeUnionWards = unionList;
       }, thanaId);
     },
     loadHeadOfficeMauza() {
+        this.headOfficeMauza = [];
       var unionWardId = this.census.HEAD_OFFICE_WARD_UNION;
       store.getMauzaMahallahByUnionWard((err, list) => {
         this.headOfficeMauza = list;
@@ -383,33 +394,10 @@ export default {
     },
 
     loadMauzaMahalla() {
+        this.mauzaMahalla = [];
       var unionWardId = this.census.WARD_UNION_ID;
       store.getMauzaMahallahByUnionWard((err, list) => {
         this.mauzaMahalla = list;
-      }, unionWardId);
-    },
-    loadHeadOfficeDistricts() {
-      var division_id = this.census.HEAD_OFFICE_DIVISION;
-      store.getDistrictList((err, list) => {
-        this.HeadOfficedistricts = list;
-      }, division_id);
-    },
-    loadHeadOfficeThana: function(e) {
-      var district_id = this.census.HEAD_OFFICE_DISTRICT;
-      store.getThanaUpazillaByDistrict((err, thanaList) => {
-        this.headOfficeThanaUpazilla = thanaList;
-      }, district_id);
-    },
-    loadHeadOfficeUnionWard() {
-      var thanaId = this.census.HEAD_OFFICE_THANA_UPZ;
-      store.getUnionWardByThanaUpazilla((err, unionList) => {
-        this.headOfficeUnionWards = unionList;
-      }, thanaId);
-    },
-    loadHeadOfficeMauza() {
-      var unionWardId = this.census.HEAD_OFFICE_WARD_UNION;
-      store.getMauzaMahallahByUnionWard((err, list) => {
-        this.headOfficeMauza = list;
       }, unionWardId);
     },
     checkUnitType: function() {

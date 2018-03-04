@@ -837,7 +837,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         <select class="select form-control select2-md"
-                                                                                @change="loadHeadOfficeDistricts"
+                                                                                v-on:change="loadHeadOfficeDistricts"
                                                                                 id="head-office-division"
                                                                                 name="head_office_division"
                                                                                 tabindex="-1" aria-hidden="true"
@@ -859,7 +859,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         <select class="select form-control select2-md"
-                                                                                @change="loadHeadOfficeThana"
+                                                                                v-on:change="loadHeadOfficeThana"
                                                                                 id="head-office-district"
                                                                                 name="head_office_district"
                                                                                 v-model="census.HEAD_OFFICE_DISTRICT"
@@ -882,7 +882,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         <select class="select form-control select2-md"
-                                                                                @change="loadHeadOfficeUnionWard"
+                                                                                v-on:change="loadHeadOfficeUnionWard"
                                                                                 id="head-office-thana-upz"
                                                                                 name="head_office_thana_upz"
                                                                                 v-model="census.HEAD_OFFICE_THANA_UPZ"
