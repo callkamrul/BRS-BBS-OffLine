@@ -1,11 +1,10 @@
 /**
  * Created by Nazmul on 3/1/2018.
  */
+
 jQuery(document).ready(function($) {
-    // $("#division-id").select2("val", 7);
-   /* $("#division-id").val('1').trigger('change');
-    var select2_control = $('.select');
-    //select2_control.select2('destroy').select2();
+
+    /*var select2_control = $('.select');
     selectDropDown = select2_control.select2();
     selectDropDown.on('select2:select', function (e) {
         var event = new Event('change');

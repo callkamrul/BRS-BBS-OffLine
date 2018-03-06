@@ -17,14 +17,14 @@ store.getDistrictList = function(cb, $division_id = null)
 {
     var list =[];
     if($division_id){
-        db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+        db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, DIVISION_ID
 	From DISTRICTS where DIVISION_ID=${$division_id}`, function (err, row) {
             list.push(row);
         }, function (err, rowCount) {
             cb(null, list);
         });
     }else {
-        db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+        db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, DIVISION_ID
 				 From DISTRICTS`, function (err, row) {
             list.push(row);
         }, function (err, rowCount) {
@@ -41,7 +41,7 @@ store.getThanaUpazillaByDistrict = function(cb, $districtId = null)
 	}
 
     var thanaList =[];
-    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, DISTRICT_ID
 	From THANA_UPAZILAS ${$condition}`, function (err, row) {
         thanaList.push(row);
     }, function (err, rowCount) {
@@ -52,10 +52,10 @@ store.getUnionWardByThanaUpazilla = function(cb, $thanaId)
 {
     var $condition = '';
     if($thanaId){
-        $condition = `where thana_upazila_id=${$thanaId}`;
+        $condition = `where THANA_UPAZILA_ID=${$thanaId}`;
     }
     var unionList =[];
-    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, THANA_UPAZILA_ID
 	From UNION_WARDS ${$condition}`, function (err, row) {
         unionList.push(row);
     }, function (err, rowCount) {
@@ -65,9 +65,14 @@ store.getUnionWardByThanaUpazilla = function(cb, $thanaId)
 
 store.getMauzaMahallahByUnionWard = function(cb, $unioWardId)
 {
+    var $condition = '';
+    if($unioWardId){
+        $condition = `where union_ward_id=${$unioWardId}`;
+    }
+
     var list =[];
     db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
-	From mauza_mahallahs where union_ward_id=${$unioWardId}`, function (err, row) {
+	From mauza_mahallahs ${$condition}`, function (err, row) {
         list.push(row);
     }, function (err, rowCount) {
         cb(null, list);

@@ -119,25 +119,24 @@
                                     <tr>
                                         <td rowspan="4" class="padding-10">
 
-                                            <table  width="400" border="0">
+                                            <table  width="350" border="0">
                                                 <tbody>
                                                 <tr>
-                                                    <td width="35%">
+                                                    <td>
                                                         <label for="division-id">১.১ বিভাগ</label>
                                                     </td>
                                                     <td>
                                                         <div class="form-group">
-                                                            {{census.DIVISION_ID}}
-                                                            <select2 class="select form-control"
+                                                            <select class="select form-control"
                                                                      id="division-id" required="required"
                                                                      name="division_id"
-                                                                     :onchange2="loadDistricts"
+                                                                     @change="loadDistricts"
                                                                      v-model="census.DIVISION_ID">
                                                                 <option value=""></option>
                                                                 <option v-for="item in divisions" :value="item.ID">
                                                                     {{item.NAME}}
                                                                 </option>
-                                                            </select2>
+                                                            </select>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -166,16 +165,17 @@
                                                     <td>
                                                         <div class="form-group">
                                                             <select class="select form-control"
-                                                                    v-on:change="loadUnionWard" id="thana-upz-id"
-                                                                    required="required" tabindex="-1"
+                                                                    @change="loadUnionWard" id="thana-upz-id"
+                                                                    required="required" tabindex="2"
                                                                     name="thana_upz_id" v-model="census.THANA_UPZ_ID"
-                                                                    aria-required="true">
+                                                                     aria-required="true">
                                                                 <option value=""></option>
-                                                                <option v-for="value in thanaUpazilla"
-                                                                        v-bind:value="value.ID">{{value.NAME}}
+                                                                <option v-for="item in thanaUpazilla"
+                                                                        :value="item.ID"
+                                                                        :selected="item.ID==census.THANA_UPZ_ID ? true : false">
+                                                                    {{item.NAME}}
                                                                 </option>
                                                             </select>
-                                                            <!-- <input name="thana_upz_id" v-model="census.THANA_UPZ_ID" type="hidden" value="0"> -->
                                                         </div>
 
                                                     </td>
@@ -188,13 +188,11 @@
                                                     <td>
                                                         <div class="form-group">
                                                             <select class="select form-control"
-                                                                    v-on:change="loadMauzaMahalla" id="ward-union-id"
-                                                                    name="ward_union_id" v-model="census.WARD_UNION_ID"
-                                                                    tabindex="-1"
-                                                                    aria-hidden="true" aria-required="true">
+                                                                     @change="loadMauzaMahalla" id="ward-union-id"
+                                                                    name="ward_union_id" v-model="census.WARD_UNION_ID">
                                                                 <option value=""></option>
                                                                 <option v-for="value in unionWards"
-                                                                        v-bind:value="value.ID">{{value.NAME}}
+                                                                        :value="value.ID">{{value.NAME}}
                                                                 </option>
                                                             </select>
 
@@ -212,12 +210,10 @@
 
                                                             <select class="select form-control" id="mahallah-id"
                                                                     required="required" name="mahallah_id"
-                                                                    v-model="census.MAHALLAH_ID"
-                                                                    tabindex="-1" aria-hidden="true"
-                                                                    aria-required="true">
-                                                                <option value=""></option>
+                                                                    v-model="census.MAHALLAH_ID">
+                                                                <option selected="selected" value=""></option>
                                                                 <option v-for="value in mauzaMahalla"
-                                                                        v-bind:value="value.ID">{{value.NAME}}
+                                                                        :value="value.ID">{{value.NAME}}
                                                                 </option>
                                                             </select>
 
@@ -234,7 +230,6 @@
                                                     <td class="form-group ">
                                                         <select id="rmo-code" class="select form-control"
                                                                 required="required" name="rmo_code" tabindex="-1"
-                                                                aria-hidden="true" aria-required="true"
                                                                 v-model="census.RMO_CODE">
                                                             <option selected="selected" value=""></option>
                                                             <option v-for="rmo in rmos" :value="rmo.ID">{{rmo.NAME}}
@@ -842,7 +837,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         <select class="select form-control select2-md"
-                                                                                v-on:change="loadHeadOfficeDistricts"
+                                                                                @change="loadHeadOfficeDistricts"
                                                                                 id="head-office-division"
                                                                                 name="head_office_division"
                                                                                 tabindex="-1" aria-hidden="true"
@@ -864,13 +859,12 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         <select class="select form-control select2-md"
-                                                                                v-on:change="loadHeadOfficeThana"
+                                                                                @change="loadHeadOfficeThana"
                                                                                 id="head-office-district"
                                                                                 name="head_office_district"
                                                                                 v-model="census.HEAD_OFFICE_DISTRICT"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected" value="">
-                                                                                Select
                                                                             </option>
                                                                             <option v-for="item in HeadOfficedistricts"
                                                                                     :value="item.ID">{{item.NAME}}
@@ -887,7 +881,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         <select class="select form-control select2-md"
-                                                                                v-on:change="loadHeadOfficeUnionWard"
+                                                                                @change="loadHeadOfficeUnionWard"
                                                                                 id="head-office-thana-upz"
                                                                                 name="head_office_thana_upz"
                                                                                 v-model="census.HEAD_OFFICE_THANA_UPZ"
@@ -948,7 +942,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control"
+                                                                        <select class="select form-control select2-md"
                                                                                 id="head-office-rmo-code"
                                                                                 name="head_office_rmo_code"
                                                                                 v-model="census.HEAD_OFFICE_RMO_CODE"
