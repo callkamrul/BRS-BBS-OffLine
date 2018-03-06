@@ -4,7 +4,7 @@
 			<i v-show="isEdit==false" @click="addCensus" class="glyphicon glyphicon-plus"></i>
 			<i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
 			
-			<button class="btn btn-primary" type="button" @click="saveCensus" value="submit">
+			<button v-show="isEdit == true" class="btn btn-primary" type="button" @click="saveCensus" value="submit">
                                     <i class="icon-paperplane"></i> সাবমিট
                                 </button>
 
@@ -65,7 +65,7 @@
 
                 <div id="census-form-container">
                     <table class="main-form-structure table-full-width"
-                           style="width: 2125px; background-color: #f5f5f5;">
+                           style="width: 2475px; background-color: #f5f5f5;">
                         <tbody>
                         <tr>
                             <td style="text-align:left; font-size: large">
@@ -78,7 +78,7 @@
                         </tbody>
                     </table>
                     <table class="main-form-structure table-full-width table-item-bordered has-table-separator"
-                           style="width: 2125px">
+                           style="width: 2475px">
                         <thead class="static-table-head">
                         <tr>
                             <th class="text-center">
@@ -122,7 +122,7 @@
                                             <table  width="350" border="0">
                                                 <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td width="35%">
                                                         <label for="division-id">১.১ বিভাগ</label>
                                                     </td>
                                                     <td>
@@ -1872,7 +1872,7 @@
                     </table>
 
                     <table class="main-form-structure table-full-width table-item-bordered has-table-separator"
-                           style="width: 2125px">
+                           style="width: 2475px">
                         <thead>
                         <tr>
                             <th class="padding-10">২৩. উৎপাদনকারী প্রতিষ্ঠানের প্রধান প্রধান উৎপাদিত দ্রব্যাদির বিবরণ
@@ -2389,7 +2389,7 @@
                     </table>
 
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2125px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
                         <tbody>
                         <tr>
                             <td class="padding-10">২৬. বর্তমানে মোট সম্পদের পরিমাণ
@@ -2581,7 +2581,7 @@
                         </tbody>
                     </table>
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2125px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
                         <tbody>
 
                         <tr>
@@ -2847,7 +2847,7 @@
                         </tbody>
                     </table>
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2125px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
                         <tbody>
 
                         <tr>
@@ -3047,7 +3047,7 @@
                         </tbody>
                     </table>
 
-                    <nav id="form-nav" style="width: 2125px">
+                    <nav id="form-nav" style="width: 2475px">
                         <div class="row">
                             <div class="col-sm-8 mt-5 text-muted">
                             </div>

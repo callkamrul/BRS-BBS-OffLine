@@ -71,7 +71,7 @@ store.getMauzaMahallahByUnionWard = function(cb, $unioWardId)
     }
 
     var list =[];
-    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, UNION_WARD_ID
 	From mauza_mahallahs ${$condition}`, function (err, row) {
         list.push(row);
     }, function (err, rowCount) {

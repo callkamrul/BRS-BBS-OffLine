@@ -5,8 +5,8 @@
 <script>
 
 import store from "../store";
-import select2 from "./select2.vue";
-import vSelect from 'vue-select'
+//import select2 from "./select2.vue";
+//import vSelect from 'vue-select'
 
 
 import SyncSetupModal from "./SyncSetupModal.vue";
@@ -16,8 +16,7 @@ import eventHub from "../shared/EventHub";
 export default {
   components: {
     SyncSetupModal,
-    SyncCensusModal,
-      select2,vSelect
+    SyncCensusModal
 
   },
   data() {
@@ -91,62 +90,43 @@ export default {
     }
   },
   mounted() {
-      $(this.$el).ready(() => {
-          //$('.select').select2({})
-         /* $('.select').on('change', (e) => {
-              this.$emit('input', e.target.value)
-          })*/
+      store.getDivisionList((err, list) => {
+          this.divisions = list;
       });
-     /* var self = this;
-      $('#division-id').on('change', function () {
-          var division_id = this.value;
-          store.getDistrictList((err, list) => {
-              $('#district-id').empty();
-              $('#district-id').append("<option value=''>" + "</option>");
-              list.forEach(function(entry) {
-                  $('#district-id').append("<option value=\"" + entry.ID + "\">" + entry.NAME + "</option>");
-              });
-          }, division_id);
-//          self.$emit("change", this.value)
-      });*/
-    store.getDivisionList((err, list) => {
-      this.divisions = list;
-    });
       store.getDistrictList((err, list) => {
           this.all_districts = list;
           this.districts = list;
       });
 
+      store.getThanaUpazillaByDistrict((err, thanaList) => {
+        this.all_thanaUpazilla = thanaList;
+        this.thanaUpazilla = thanaList;
+      });
+      store.getUnionWardByThanaUpazilla((err, unionList) => {
+        this.all_unionWards = unionList;
+        this.unionWards = unionList;
 
-          store.getThanaUpazillaByDistrict((err, thanaList) => {
-            this.all_thanaUpazilla = thanaList;
-            this.thanaUpazilla = thanaList;
-          });
-          store.getUnionWardByThanaUpazilla((err, unionList) => {
-            this.all_unionWards = unionList;
-            this.unionWards = unionList;
-
-          });
-          store.getMauzaMahallahByUnionWard((err, list) => {
-            this.all_mauzaMahalla = list;
-            this.mauzaMahalla = list;
-          });
-          store.getDistrictList((err, list) => {
-            this.all_HeadOfficedistricts = list;
-            this.HeadOfficedistricts = list;
-          });
-          store.getThanaUpazillaByDistrict((err, thanaList) => {
-            this.all_headOfficeThanaUpazilla = thanaList;
-            this.headOfficeThanaUpazilla = thanaList;
-          });
-          store.getUnionWardByThanaUpazilla((err, unionList) => {
-            this.all_headOfficeUnionWards = unionList;
-            this.headOfficeUnionWards = unionList;
-          });
-          store.getMauzaMahallahByUnionWard((err, list) => {
-            this.all_headOfficeMauza = list;
-            this.headOfficeMauza = list;
-          });
+      });
+      store.getMauzaMahallahByUnionWard((err, list) => {
+        this.all_mauzaMahalla = list;
+        this.mauzaMahalla = list;
+      });
+      /*store.getDistrictList((err, list) => {
+        this.all_HeadOfficedistricts = list;
+        this.HeadOfficedistricts = list;
+      });
+      store.getThanaUpazillaByDistrict((err, thanaList) => {
+        this.all_headOfficeThanaUpazilla = thanaList;
+        this.headOfficeThanaUpazilla = thanaList;
+      });
+      store.getUnionWardByThanaUpazilla((err, unionList) => {
+        this.all_headOfficeUnionWards = unionList;
+        this.headOfficeUnionWards = unionList;
+      });
+      store.getMauzaMahallahByUnionWard((err, list) => {
+        this.all_headOfficeMauza = list;
+        this.headOfficeMauza = list;
+      });*/
 
     store.getAllCommonConfigList(
       (err, list) => {
@@ -216,40 +196,6 @@ export default {
     this.updateOnlineStatus();
     window.addEventListener("online", this.updateOnlineStatus);
     window.addEventListener("offline", this.updateOnlineStatus);
-
-    store.getAllCommonConfigList((err, list) => {
-      this.rmos = list;
-    }, "cc_rmo");
-    store.getAllCommonConfigList((err, list) => {
-      this.legal_ownerships = list;
-    }, "CC_LEGAL_OWNERSHIPS");
-    store.getAllCommonConfigList((err, list) => {
-      this.type_of_ownerships = list;
-    }, "CC_OWNERSHIP_TYPES");
-    store.getAllCommonConfigList((err, list) => {
-      this.genders = list;
-    }, "CC_GENDER");
-    store.getAllCommonConfigList((err, list) => {
-      this.educations = list;
-    }, "CC_EDUCATION");
-    store.getAllCommonConfigList((err, list) => {
-      this.unit_types = list;
-    }, "CC_UNIT_TYPE");
-    store.getAllCommonConfigList((err, list) => {
-      this.permissionAuth = list;
-    }, "CC_PERMISSION_AUTHORITIES");
-    store.getAllCommonConfigList((err, list) => {
-      this.pollutionControl = list;
-    }, "cc_pollution_control");
-    store.getAllCommonConfigList((err, list) => {
-      this.specialtyCode = list;
-    }, "cc_specialty_code");
-    store.getAllCommonConfigList((err, list) => {
-      this.unitCurrentStatus = list;
-    }, "cc_unit_status");
-    store.getAllCommonConfigList((err, list) => {
-      this.closingReasons = list;
-    }, "cc_closing_reasons");
   },
   computed: {
     districtsByDivision: function() {
@@ -292,8 +238,11 @@ export default {
           this.census = Census;
           this.isEdit = true;
           // Load address (division, district, thana list) in edit mode
-            //$("#division-id").select2("val", Census.DIVISION_ID);
-//
+            this.districts = this.all_districts.filter(f=>String(f.DIVISION_ID) == Census.DIVISION_ID);
+            this.thanaUpazilla = this.all_thanaUpazilla.filter(f=>String(f.DISTRICT_ID) == Census.DISTRICT_ID);
+            this.unionWards = this.all_unionWards.filter(f=>String(f.THANA_UPAZILA_ID) == Census.THANA_UPZ_ID);
+            this.mauzaMahalla = this.all_mauzaMahalla.filter(f=>String(f.UNION_WARD_ID) == Census.WARD_UNION_ID);
+
 //          store.getDistrictList((err, list) => {
 //            this.districts = list;
 //          }, Census.DIVISION_ID);
@@ -306,18 +255,18 @@ export default {
 //          store.getMauzaMahallahByUnionWard((err, list) => {
 //            this.mauzaMahalla = list;
 //          }, Census.WARD_UNION_ID);
-//          store.getDistrictList((err, list) => {
-//            this.HeadOfficedistricts = list;
-//          }, Census.HEAD_OFFICE_DIVISION);
-//          store.getThanaUpazillaByDistrict((err, thanaList) => {
-//            this.headOfficeThanaUpazilla = thanaList;
-//          }, Census.HEAD_OFFICE_DISTRICT);
-//          store.getUnionWardByThanaUpazilla((err, unionList) => {
-//            this.headOfficeUnionWards = unionList;
-//          }, Census.HEAD_OFFICE_THANA_UPZ);
-//          store.getMauzaMahallahByUnionWard((err, list) => {
-//            this.headOfficeMauza = list;
-//          }, Census.HEAD_OFFICE_WARD_UNION);
+          store.getDistrictList((err, list) => {
+            this.HeadOfficedistricts = list;
+          }, Census.HEAD_OFFICE_DIVISION);
+          store.getThanaUpazillaByDistrict((err, thanaList) => {
+            this.headOfficeThanaUpazilla = thanaList;
+          }, Census.HEAD_OFFICE_DISTRICT);
+          store.getUnionWardByThanaUpazilla((err, unionList) => {
+            this.headOfficeUnionWards = unionList;
+          }, Census.HEAD_OFFICE_THANA_UPZ);
+          store.getMauzaMahallahByUnionWard((err, list) => {
+            this.headOfficeMauza = list;
+          }, Census.HEAD_OFFICE_WARD_UNION);
         }
       });
     },
@@ -352,6 +301,15 @@ export default {
     loadUnionWard() {
         this.unionWards = this.all_unionWards.filter(f=>String(f.THANA_UPAZILA_ID) == this.census.THANA_UPZ_ID);
     },
+      loadMauzaMahalla() {
+          this.mauzaMahalla = this.all_mauzaMahalla.filter(f=>String(f.UNION_WARD_ID) == this.census.WARD_UNION_ID);
+
+          /*this.mauzaMahalla = [];
+          var unionWardId = this.census.WARD_UNION_ID;
+          store.getMauzaMahallahByUnionWard((err, list) => {
+              this.mauzaMahalla = list;
+          }, unionWardId);*/
+      },
 
     loadHeadOfficeDistricts() {
         this.HeadOfficedistricts = [];
@@ -431,13 +389,6 @@ export default {
       }
     },
 
-    loadMauzaMahalla() {
-        this.mauzaMahalla = [];
-      var unionWardId = this.census.WARD_UNION_ID;
-      store.getMauzaMahallahByUnionWard((err, list) => {
-        this.mauzaMahalla = list;
-      }, unionWardId);
-    },
     checkUnitType: function() {
       this.enableIsUnderEntGroup = true;
       this.enableIsUnderEnt = true;
@@ -479,8 +430,6 @@ export default {
       }
     },
     upperCase: function(inputVal,e) {
-        console.log(inputVal);
-        console.log(e);
         this.value = store.upperCase(inputVal);
     }
   }
