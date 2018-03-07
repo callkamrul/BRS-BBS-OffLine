@@ -312,7 +312,7 @@ export default {
       },
 
     loadHeadOfficeDistricts() {
-        this.HeadOfficedistricts = [];
+      this.HeadOfficedistricts = [];
       var division_id = this.census.HEAD_OFFICE_DIVISION;
       store.getDistrictList((err, list) => {
         this.HeadOfficedistricts = list;
