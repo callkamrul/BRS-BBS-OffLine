@@ -45,7 +45,7 @@
                             <button @click="deleteCensus(id)" class="btn btn-danger">
                                 <i class="remove fa fa-trash"></i> Delete
                             </button>
-                            <button v-show="onLine == true" @click="syncCensus(Census)" class="btn btn-success" data-toggle="modal" data-target="#login-modal-syncup">
+                            <button v-show="onLine == true" @click="syncCensus(id)" class="btn btn-success" data-toggle="modal" data-target="#login-modal-syncup">
                                 <i class="fa fa-arrow-circle-up"></i> Sync Up
                             </button>
                         </td>

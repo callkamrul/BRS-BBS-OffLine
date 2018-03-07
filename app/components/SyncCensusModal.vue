@@ -32,96 +32,107 @@
 </template>
 
 <script>
-    import Vue from "vue";
+import Vue from "vue";
 
-    import store from "../store";
-    import eventHub from "../shared/EventHub";
+import store from "../store";
+import eventHub from "../shared/EventHub";
 
-    export default {
-        data() {
-            return {
-                user_name: "",
-                password: "",
-                users: [],
-                census: {}
-            };
-        },
-
-        methods: {
-            authenticateThenSyncCensus() {
-                var user_name = this.user_name;
-                var password = this.password;
-                var census = this.census;
-
-                axios
-                    .post("http://192.168.50.14/api/signin", {
-                        user_name: user_name,
-                        password: password
-                    })
-                    .then(function (response) {
-                        //this.users =response;
-
-                        // console.log(response.token);
-                        // return 0;
-                        if (response.status == 200) {
-                            //console.log(response.data.token);
-
-                            var syncCensus = function (token) {
-                                var auth_obj = token;
-                                console.log(auth_obj);
-                                console.log(census);
-
-
-                                alert("sync CensusId");
-                                return 0;
-
-                                axios
-                                    .post("http://192.168.50.14/api/offline/census", census)
-                                    .then(function (response) {
-                                        //console.log(response);
-
-                                        if (response.status == 200) {
-                                            console.log(response);
-                                        } else {
-                                            alert(response.token);
-                                            return 0;
-                                        }
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                        alert("Error census posting");
-                                    });
-                            };
-
-                            syncCensus(response.data.token);
-                        } else {
-                            alert(response.token);
-                            return 0;
-                        }
-
-                        //return 0;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        alert("Error");
-                    });
-
-                $("#login-modal-syncup").modal("hide");
-            },
-            loginClose() {
-                $("#login-modal-syncup").modal("hide");
-            },
-            loginForm2(census) {
-                this.census = census;
-                $("#sync-census-modal").modal("show");
-            }
-        },
-
-        mounted: function () {
-            eventHub.$on("sync-census", this.loginForm2);
-        },
-        beforeDestroy: function () {
-            eventHub.$off("sync-census", this.loginForm2);
-        }
+export default {
+  data() {
+    return {
+      user_name: "operator",
+      password: "123456",
+      users: [],
+      census: {}
     };
+  },
+
+  methods: {
+    authenticateThenSyncCensus() {
+      var user_name = this.user_name;
+      var password = this.password;
+      var census = this.census;
+
+      axios
+        .post("http://192.168.50.14/api/signin", {
+          user_name: user_name,
+          password: password
+        })
+        .then(function(response) {
+          //this.users =response;
+
+          // console.log(response.token);
+          // return 0;
+          if (response.status == 200) {
+            //console.log(response.data.token);
+
+            var syncCensus = function(token) {
+              var auth_obj = token;
+              console.log(auth_obj);
+              console.log(census);
+
+              //Validate
+              if (census.DIVISION_ID != auth_obj.division_id) {
+                alert("Division not matched.");
+                return 0;
+              }
+
+              if (census.DISTRICT_ID != auth_obj.district_id) {
+                alert("District not matched.");
+                return 0;
+              }
+              census.api_mode = "api";
+              census.offline_user_id = parseInt(auth_obj.id);
+              census.offline_office_id = parseInt(auth_obj.office_id);
+              census.offline_user_desg_id = parseInt(auth_obj.designation_id);
+
+              axios
+                .post("http://192.168.50.14/api/offline/census", census)
+                .then(function(response) {
+                  //console.log(response);
+
+                  if (response.status == 200) {
+                    console.log(response);
+                  } else {
+                    alert(response.token);
+                    return 0;
+                  }
+                })
+                .catch(function(error) {
+                  console.log(error);
+                  alert("Error census posting");
+                });
+            };
+
+            syncCensus(response.data.token);
+          } else {
+            alert(response.token);
+            return 0;
+          }
+
+          //return 0;
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert("Error");
+        });
+
+      $("#login-modal-syncup").modal("hide");
+    },
+    loginClose() {
+      $("#login-modal-syncup").modal("hide");
+    },
+    loginForm2(census) {
+      this.census = census;
+      $("#sync-census-modal").modal("show");
+    }
+  },
+
+  mounted: function() {
+    eventHub.$on("sync-census", this.loginForm2);
+  },
+  beforeDestroy: function() {
+    eventHub.$off("sync-census", this.loginForm2);
+  }
+};
 </script>
