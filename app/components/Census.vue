@@ -25,6 +25,7 @@ export default {
       onLine: false,
       isEdit: false,
       selectedCensus: "",
+      msg_division: "",
       census: {
         id: 0,
         DIVISION_ID: 0,
@@ -270,7 +271,27 @@ export default {
         }
       });
     },
-    saveCensus() {
+    saveCensus(e) {
+        this.msg_division = '';
+       if(!this.census.DIVISION_ID || !this.census.DISTRICT_ID ||
+           !this.census.THANA_UPZ_ID || !this.census.WARD_UNION_ID ||
+           !this.census.MAHALLAH_ID || !this.census.RMO_CODE){
+
+           if(!this.census.DIVISION_ID)
+               this.msg_division = "This field is required.";
+           if(!this.census.DISTRICT_ID)
+               this.msg_districts = "This field is required.";
+           if(!this.census.THANA_UPZ_ID)
+               this.msg_thanaUpazilla = "This field is required.";
+           if(!this.census.WARD_UNION_ID)
+               this.msg_unionWards = "This field is required.";
+           if(!this.census.MAHALLAH_ID)
+               this.msg_mauzaMahalla = "This field is required.";
+           if(!this.census.RMO_CODE)
+               this.msg_rmos = "This field is required.";
+           e.preventDefault();return;
+       }
+
       if (this.census.ID > 0) {
         store.editCensus(this.census.ID, this.census);
       } else {
@@ -431,7 +452,14 @@ export default {
     },
     upperCase: function(inputVal,e) {
         this.value = store.upperCase(inputVal);
-    }
+    },
+      checkForm:function(e) {
+          if(this.census.DIVISION_ID) return true;
+          this.errors = [];
+          if(!this.census.DIVISION_ID) this.errors.push("Division required.");
+         // if(!this.age) this.errors.push("Age required.");
+          e.preventDefault();
+      }
   }
 };
 </script>

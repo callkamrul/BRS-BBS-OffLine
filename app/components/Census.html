@@ -61,7 +61,7 @@
     <div id="census-modal" v-show="isEdit == true">
         <!-- <h4 class="modal-title">{{census.id > 0 ? 'Edit census' : 'Add a new census' }}</h4> -->
         <div class="census-modal-body">
-            <form class="ui form">
+            <form @submit="checkForm" class="ui form">
 
                 <div id="census-form-container">
                     <table class="main-form-structure table-full-width"
@@ -122,8 +122,9 @@
                                             <table  width="350" border="0">
                                                 <tbody>
                                                 <tr>
-                                                    <td width="35%">
+                                                    <td width="36%">
                                                         <label for="division-id">১.১ বিভাগ</label>
+                                                        <small class="text-danger">*</small>
                                                     </td>
                                                     <td>
                                                         <div class="form-group">
@@ -137,12 +138,15 @@
                                                                     {{item.NAME}}
                                                                 </option>
                                                             </select>
+                                                            <label class="validation-error-label text-danger small">{{msg_division}}</label>
+
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <label for="district-id">১.২ জেলা</label>
+                                                        <small class="text-danger">*</small>
                                                     </td>
                                                     <td>
                                                         <div class="form-group">
@@ -155,12 +159,14 @@
                                                                     {{item.NAME}}
                                                                 </option>
                                                             </select>
+                                                            <label class="validation-error-label text-danger small">{{msg_districts}}</label>
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <label for="thana-upz-id">১.৩ থানা/উপজেলা</label>
+                                                        <small class="text-danger">*</small>
                                                     </td>
                                                     <td>
                                                         <div class="form-group">
@@ -176,6 +182,7 @@
                                                                     {{item.NAME}}
                                                                 </option>
                                                             </select>
+                                                            <label class="validation-error-label text-danger small">{{msg_thanaUpazilla}}</label>
                                                         </div>
 
                                                     </td>
@@ -195,6 +202,7 @@
                                                                         :value="value.ID">{{value.NAME}}
                                                                 </option>
                                                             </select>
+                                                            <label class="validation-error-label text-danger small">{{msg_unionWards}}</label>
 
                                                         </div>
 
@@ -216,7 +224,7 @@
                                                                         :value="value.ID">{{value.NAME}}
                                                                 </option>
                                                             </select>
-
+                                                            <label class="validation-error-label text-danger small">{{msg_mauzaMahalla}}</label>
                                                         </div>
 
 
@@ -235,6 +243,7 @@
                                                             <option v-for="rmo in rmos" :value="rmo.ID">{{rmo.NAME}}
                                                             </option>
                                                         </select>
+                                                        <label class="validation-error-label text-danger small">{{msg_rmos}}</label>
                                                     </td>
                                                 </tr>
                                                 </tbody>
