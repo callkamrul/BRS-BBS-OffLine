@@ -26,6 +26,15 @@ export default {
       isEdit: false,
       selectedCensus: "",
       msg_division: "",
+      msg_districts: "",
+      msg_unionWards: "",
+      msg_thanaUpazilla: '',
+      msg_mauzaMahalla: '',
+      msg_rmos: '',
+      msg_serial_no_unit: '',
+      msg_name_of_unit: '',
+      msg_name_of_mahallah: '',
+      msg_unit_type_code: '',
       census: {
         id: 0,
         DIVISION_ID: 0,
@@ -211,6 +220,7 @@ export default {
       this.onLine = navigator.onLine;
     },
     backToList() {
+      location.reload(true);
       this.isEdit = false;
     },
 
@@ -273,9 +283,21 @@ export default {
     },
     saveCensus(e) {
         this.msg_division = '';
-       if(!this.census.DIVISION_ID || !this.census.DISTRICT_ID ||
+        this.msg_districts = '';
+        this.msg_unionWards = '';
+        this.msg_thanaUpazilla = '';
+        this.msg_mauzaMahalla = '';
+        this.msg_rmos = '';
+        this.msg_serial_no_unit = '';
+        this.msg_name_of_unit = '';
+        this.msg_name_of_mahallah = '';
+        this.msg_unit_type_code = '';
+
+       if (!this.census.DIVISION_ID || !this.census.DISTRICT_ID ||
            !this.census.THANA_UPZ_ID || !this.census.WARD_UNION_ID ||
-           !this.census.MAHALLAH_ID || !this.census.RMO_CODE){
+           !this.census.MAHALLAH_ID || !this.census.RMO_CODE ||
+           !this.census.SERIAL_NO_UNIT || !this.census.NAME_OF_UNIT ||
+           !this.census.NAME_OF_MAHALLAH || !this.census.UNIT_TYPE_CODE) {
 
            if(!this.census.DIVISION_ID)
                this.msg_division = "This field is required.";
@@ -289,7 +311,16 @@ export default {
                this.msg_mauzaMahalla = "This field is required.";
            if(!this.census.RMO_CODE)
                this.msg_rmos = "This field is required.";
-           e.preventDefault();return;
+           if(!this.census.SERIAL_NO_UNIT)
+               this.msg_serial_no_unit = "This field is required.";
+           if(!this.census.NAME_OF_UNIT)
+               this.msg_name_of_unit = "This field is required.";
+           if(!this.census.NAME_OF_MAHALLAH)
+               this.msg_name_of_mahallah = "This field is required.";
+           if(!this.census.UNIT_TYPE_CODE)
+               this.msg_unit_type_code = "This field is required.";
+           e.preventDefault();
+           return false;
        }
 
       if (this.census.ID > 0) {
@@ -312,17 +343,21 @@ export default {
       eventHub.$emit("sync-census",census);
     },
     loadDistricts: function() {
+        this.census.DISTRICT_ID = 0;
         this.districts = this.all_districts.filter(f=>String(f.DIVISION_ID) == this.census.DIVISION_ID);
         //$('#division-id').val(this.census.DISTRICT_ID)
     },
     loadThanaUpazilla: function(e) {
+        this.census.THANA_UPZ_ID = 0;
         this.thanaUpazilla = this.all_thanaUpazilla.filter(f=>String(f.DISTRICT_ID) == this.census.DISTRICT_ID);
         //$('#thana_upz_id').val(this.census.THANA_UPZ_ID)
     },
     loadUnionWard() {
+        this.census.WARD_UNION_ID = 0;
         this.unionWards = this.all_unionWards.filter(f=>String(f.THANA_UPAZILA_ID) == this.census.THANA_UPZ_ID);
     },
       loadMauzaMahalla() {
+          this.census.MAHALLAH_ID = 0;
           this.mauzaMahalla = this.all_mauzaMahalla.filter(f=>String(f.UNION_WARD_ID) == this.census.WARD_UNION_ID);
 
           /*this.mauzaMahalla = [];

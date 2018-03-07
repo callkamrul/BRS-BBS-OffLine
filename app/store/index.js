@@ -135,8 +135,18 @@ store.getCensuses = function (cb) {
 	census.present_status_id AS present_status_id,
 	census.thana_upz_id AS thana_upz_id,
 	census.district_id AS district_id,
-	census.division_id AS division_id
-From census LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code`, function (err, row) {
+	census.division_id AS division_id,
+	(mauza_mahallahs.NAME ||', '|| union_wards.NAME
+	||', '|| thana_upazilas.NAME ||', '|| districts.NAME
+	||', '|| divisions.NAME) AS location
+    From census 
+    LEFT JOIN cc_unit_type ON cc_unit_type.id = census.unit_type_code
+    LEFT JOIN mauza_mahallahs ON mauza_mahallahs.id = census.mahallah_id
+    LEFT JOIN union_wards ON union_wards.id = census.ward_union_id
+    LEFT JOIN thana_upazilas ON thana_upazilas.id = census.thana_upz_id
+    LEFT JOIN districts ON districts.id = census.district_id
+    LEFT JOIN divisions ON divisions.id = census.division_id
+    `, function (err, row) {
 			censuses[row.id] = row;
 		}, function (err, rowCount) {
 			cb(null, censuses);
