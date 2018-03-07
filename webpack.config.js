@@ -30,7 +30,7 @@ module.exports = {
 			'electron'
 		]),
 		//new ElectronPackager({
-		//	dir: "D:/Faruque/Projects/BRS_BBS/CensusApp",
+		//	dir: "D:/source/BRS-BBS-OffLine",
 		//	arch: "x64",
 		//	platform: "win32",
 		//  }) 
