@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node_modules/.bin/webpack && electron main.js",
+    "build": "cross-env NODE_ENV=production node build/build.js",
+    "clean": "rm -rf dist",
+    "run": "node dist/build.js",
     "rebuild-sqlite3-win32": "cd node_modules/sqlite3 && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/node-v51-win32-x64 && node-gyp rebuild --target=1.7.10 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.7-win32-x64"
   },
   "author": "kamrul",

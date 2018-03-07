@@ -4,7 +4,10 @@
 			<i v-show="isEdit==false" @click="addCensus" class="glyphicon glyphicon-plus"></i>
 			<i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
 			
-			
+			<button v-show="isEdit == true" class="btn btn-primary" type="button" @click="saveCensus" value="submit">
+                                    <i class="icon-paperplane"></i> সাবমিট
+                                </button>
+
 				<button v-show="isEdit == false && onLine == true" class="btn btn-primary" type="button"
                         @click="syncSetup" value="submit" data-toggle="modal" data-target="#login-modal">
 					<i class="fa fa-arrow-circle-down"></i> Sync Setup
@@ -62,7 +65,7 @@
 
                 <div id="census-form-container">
                     <table class="main-form-structure table-full-width"
-                           style="width: 2125px; background-color: #f5f5f5;">
+                           style="width: 2475px; background-color: #f5f5f5;">
                         <tbody>
                         <tr>
                             <td style="text-align:left; font-size: large">
@@ -75,7 +78,7 @@
                         </tbody>
                     </table>
                     <table class="main-form-structure table-full-width table-item-bordered has-table-separator"
-                           style="width: 2125px">
+                           style="width: 2475px">
                         <thead class="static-table-head">
                         <tr>
                             <th class="text-center">
@@ -116,7 +119,7 @@
                                     <tr>
                                         <td rowspan="4" class="padding-10">
 
-                                            <table  width="400" border="0">
+                                            <table  width="350" border="0">
                                                 <tbody>
                                                 <tr>
                                                     <td width="35%">
@@ -124,10 +127,11 @@
                                                     </td>
                                                     <td>
                                                         <div class="form-group">
-                                                            <select class="select form-control" @change="loadDistricts"
-                                                                    id="division-id" required="required" tabindex="-1"
-                                                                    name="division_id" v-model="census.DIVISION_ID"
-                                                                    aria-required="true">
+                                                            <select class="select form-control"
+                                                                     id="division-id" required="required"
+                                                                     name="division_id"
+                                                                     @change="loadDistricts"
+                                                                     v-model="census.DIVISION_ID">
                                                                 <option value=""></option>
                                                                 <option v-for="item in divisions" :value="item.ID">
                                                                     {{item.NAME}}
@@ -161,16 +165,17 @@
                                                     <td>
                                                         <div class="form-group">
                                                             <select class="select form-control"
-                                                                    v-on:change="loadUnionWard" id="thana-upz-id"
-                                                                    required="required" tabindex="-1"
+                                                                    @change="loadUnionWard" id="thana-upz-id"
+                                                                    required="required" tabindex="2"
                                                                     name="thana_upz_id" v-model="census.THANA_UPZ_ID"
-                                                                    aria-required="true">
+                                                                     aria-required="true">
                                                                 <option value=""></option>
-                                                                <option v-for="value in thanaUpazilla"
-                                                                        v-bind:value="value.ID">{{value.NAME}}
+                                                                <option v-for="item in thanaUpazilla"
+                                                                        :value="item.ID"
+                                                                        :selected="item.ID==census.THANA_UPZ_ID ? true : false">
+                                                                    {{item.NAME}}
                                                                 </option>
                                                             </select>
-                                                            <!-- <input name="thana_upz_id" v-model="census.THANA_UPZ_ID" type="hidden" value="0"> -->
                                                         </div>
 
                                                     </td>
@@ -183,13 +188,11 @@
                                                     <td>
                                                         <div class="form-group">
                                                             <select class="select form-control"
-                                                                    v-on:change="loadMauzaMahalla" id="ward-union-id"
-                                                                    name="ward_union_id" v-model="census.WARD_UNION_ID"
-                                                                    tabindex="-1"
-                                                                    aria-hidden="true" aria-required="true">
+                                                                     @change="loadMauzaMahalla" id="ward-union-id"
+                                                                    name="ward_union_id" v-model="census.WARD_UNION_ID">
                                                                 <option value=""></option>
                                                                 <option v-for="value in unionWards"
-                                                                        v-bind:value="value.ID">{{value.NAME}}
+                                                                        :value="value.ID">{{value.NAME}}
                                                                 </option>
                                                             </select>
 
@@ -207,12 +210,10 @@
 
                                                             <select class="select form-control" id="mahallah-id"
                                                                     required="required" name="mahallah_id"
-                                                                    v-model="census.MAHALLAH_ID"
-                                                                    tabindex="-1" aria-hidden="true"
-                                                                    aria-required="true">
-                                                                <option value=""></option>
+                                                                    v-model="census.MAHALLAH_ID">
+                                                                <option selected="selected" value=""></option>
                                                                 <option v-for="value in mauzaMahalla"
-                                                                        v-bind:value="value.ID">{{value.NAME}}
+                                                                        :value="value.ID">{{value.NAME}}
                                                                 </option>
                                                             </select>
 
@@ -229,7 +230,6 @@
                                                     <td class="form-group ">
                                                         <select id="rmo-code" class="select form-control"
                                                                 required="required" name="rmo_code" tabindex="-1"
-                                                                aria-hidden="true" aria-required="true"
                                                                 v-model="census.RMO_CODE">
                                                             <option selected="selected" value=""></option>
                                                             <option v-for="rmo in rmos" :value="rmo.ID">{{rmo.NAME}}
@@ -865,7 +865,6 @@
                                                                                 v-model="census.HEAD_OFFICE_DISTRICT"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected" value="">
-                                                                                Select
                                                                             </option>
                                                                             <option v-for="item in HeadOfficedistricts"
                                                                                     :value="item.ID">{{item.NAME}}
@@ -943,7 +942,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control"
+                                                                        <select class="select form-control select2-md"
                                                                                 id="head-office-rmo-code"
                                                                                 name="head_office_rmo_code"
                                                                                 v-model="census.HEAD_OFFICE_RMO_CODE"
@@ -1873,7 +1872,7 @@
                     </table>
 
                     <table class="main-form-structure table-full-width table-item-bordered has-table-separator"
-                           style="width: 2125px">
+                           style="width: 2475px">
                         <thead>
                         <tr>
                             <th class="padding-10">২৩. উৎপাদনকারী প্রতিষ্ঠানের প্রধান প্রধান উৎপাদিত দ্রব্যাদির বিবরণ
@@ -2390,7 +2389,7 @@
                     </table>
 
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2125px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
                         <tbody>
                         <tr>
                             <td class="padding-10">২৬. বর্তমানে মোট সম্পদের পরিমাণ
@@ -2582,7 +2581,7 @@
                         </tbody>
                     </table>
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2125px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
                         <tbody>
 
                         <tr>
@@ -2848,7 +2847,7 @@
                         </tbody>
                     </table>
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2125px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
                         <tbody>
 
                         <tr>
@@ -3048,7 +3047,7 @@
                         </tbody>
                     </table>
 
-                    <nav id="form-nav" style="width: 2125px">
+                    <nav id="form-nav" style="width: 2475px">
                         <div class="row">
                             <div class="col-sm-8 mt-5 text-muted">
                             </div>
