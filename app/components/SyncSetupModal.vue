@@ -63,23 +63,82 @@
                         if (response.status == 200) {
                             console.log(response.data.token);
                             //sync Down Setup Start ...
-                            var syncDownSetup = function () {
-                                alert("syncDownSetup");
+                            var syncDivision = function () {
+                                //alert("syncDivision");
                                 //var vm = this
-                                axios
+                                return axios
                                     .get("http://192.168.50.14/api/divisions")
                                     .then(function (response) {
-                                        db.run("DELETE FROM DIVISIONS");
+                                        //db.run("DELETE FROM DIVISIONS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var sql_insert;
+                                            //var sql_update;
+                                          /*  var sql_select = "SELECT COUNT(*) FROM DIVISIONS WHERE ID =" + item.id;
+                                            var isExistDiv = db.run(sql_select);
+                                            console.log(isExistDiv);
+                                            if(isExistDiv){
+                                                sql_update =
+                                                    "UPDATE DIVISIONS SET";
+                                                sql_update +=
+                                                    " GEO_CODE='" +
+                                                    item.geo_code +
+                                                    "', NAME='" +
+                                                    item.name +
+                                                    "', NAME_BN='" +
+                                                    item.name_bn +
+                                                    "' WHERE ID =" +
+                                                    item.id +
+                                                    ";";
+                                                db.run(sql_update);
+                                                sql_update = "";
+                                            }else*/ //{
+                                                sql_insert =
+                                                    "REPLACE INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                                sql_insert +=
+                                                    " (" +
+                                                    item.id +
+                                                    ", '" +
+                                                    item.geo_code +
+                                                    "', '" +
+                                                    item.name +
+                                                    "', '" +
+                                                    item.name_bn +
+                                                    "', " +
+                                                    item.created_by +
+                                                    ", " +
+                                                    item.updated_by +
+                                                    ");";
+                                                db.run(sql_insert);
+                                                sql_insert = "";
+//                                            }
+
+                                        }
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+                            var syncDistrict = function () {
+                               // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/districts")
+                                    .then(function (response) {
+                                       // db.run("DELETE FROM DISTRICTS");
                                         var items = response.data;
                                         for (var prop in items) {
                                             //console.log(items[prop]);
                                             var item = items[prop];
                                             var sql_insert;
                                             sql_insert =
-                                                "INSERT INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                                "REPLACE INTO DISTRICTS (ID, DIVISION_ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
                                             sql_insert +=
                                                 " (" +
                                                 item.id +
+                                                ", " +
+                                                item.division_id +
                                                 ", '" +
                                                 item.geo_code +
                                                 "', '" +
@@ -94,53 +153,163 @@
                                             db.run(sql_insert);
                                             sql_insert = "";
                                         }
-                                        alert("Division Setup Synced");
-                                    })
-                                    .then(function () {
-                                        axios
-                                            .get("http://192.168.50.14/api/districts")
-                                            .then(function (response) {
-                                                db.run("DELETE FROM DISTRICTS");
-                                                var items = response.data;
-                                                for (var prop in items) {
-                                                    //console.log(items[prop]);
-                                                    var item = items[prop];
-                                                    var sql_insert;
-                                                    sql_insert =
-                                                        "INSERT INTO DISTRICTS (ID, DIVISION_ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
-                                                    sql_insert +=
-                                                        " (" +
-                                                        item.id +
-                                                        ", " +
-                                                        item.division_id +
-                                                        ", '" +
-                                                        item.geo_code +
-                                                        "', '" +
-                                                        item.name +
-                                                        "', '" +
-                                                        item.name_bn +
-                                                        "', " +
-                                                        item.created_by +
-                                                        ", " +
-                                                        item.updated_by +
-                                                        ");";
-                                                    db.run(sql_insert);
-                                                    sql_insert = "";
-                                                }
 
-                                                alert("District Setup Synced");
+                                       // alert("District Setup Synced");
 
-                                            });
-                                    })
-                                    .then(function () {
-                                        alert("Thana/Upazila Setup Synced");
-                                        location.reload(true);
                                     });
 
                                 //console.log(vm.divisions);
                             };
-                            syncDownSetup(); //call syncDownSetup function;
 
+                            var syncThanaUpazila = function () {
+                               // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/thana-upazilas")
+                                    .then(function (response) {
+                                        //db.run("DELETE FROM THANA_UPAZILAS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var sql_insert;
+                                            sql_insert =
+                                                "REPLACE INTO THANA_UPAZILAS (ID, DIVISION_ID, DISTRICT_ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert +=
+                                                " (" +
+                                                item.id +
+                                                ", " +
+                                                item.division_id +
+                                                ", " +
+                                                item.district_id +
+                                                ", '" +
+                                                item.geo_code +
+                                                "', '" +
+                                                item.name +
+                                                "', '" +
+                                                item.name_bn +
+                                                "', " +
+                                                item.created_by +
+                                                ", " +
+                                                item.updated_by +
+                                                ");";
+                                            db.run(sql_insert);
+                                            sql_insert = "";
+                                        }
+
+                                        //alert("Thanaupazila Setup Synced");
+
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+
+                            var syncMauzaMahallah = function () {
+                                // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/mauza-mahallahs")
+                                    .then(function (response) {
+                                        //db.run("DELETE FROM THANA_UPAZILAS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var sql_insert;
+                                            sql_insert =
+                                                "REPLACE INTO MAUZA_MAHALLAHS (ID, DIVISION_ID, DISTRICT_ID, THANA_UPAZILA_ID, UNION_WARD_ID, GEO_CODE, GEO_CODE_OLD, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert +=
+                                                " (" +
+                                                item.id +
+                                                ", " +
+                                                item.division_id +
+                                                ", " +
+                                                item.district_id +
+                                                ", " +
+                                                item.thana_upazila_id +
+                                                ", " +
+                                                item.union_ward_id +
+                                                ", '" +
+                                                item.geo_code +
+                                                "', '" +
+                                                item.geo_code_old +
+                                                "', '" +
+                                                item.name +
+                                                "', '" +
+                                                item.name_bn +
+                                                "', " +
+                                                item.created_by +
+                                                ", " +
+                                                item.updated_by +
+                                                ");";
+                                            db.run(sql_insert);
+                                            sql_insert = "";
+                                        }
+
+                                        //alert("Thanaupazila Setup Synced");
+
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+
+                            var syncUnionWards = function () {
+                                // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/union-wards")
+                                    .then(function (response) {
+                                        //db.run("DELETE FROM THANA_UPAZILAS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var sql_insert;
+                                            sql_insert =
+                                                "REPLACE INTO UNION_WARDS (ID, DIVISION_ID, DISTRICT_ID, THANA_UPAZILA_ID, GEO_CODE, GEO_CODE_OLD, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert +=
+                                                " (" +
+                                                item.id +
+                                                ", " +
+                                                item.division_id +
+                                                ", " +
+                                                item.district_id +
+                                                ", " +
+                                                item.thana_upazila_id +
+                                                ", '" +
+                                                item.geo_code +
+                                                "', '" +
+                                                item.geo_code_old +
+                                                "', '" +
+                                                item.name +
+                                                "', '" +
+                                                item.name_bn +
+                                                "', " +
+                                                item.created_by +
+                                                ", " +
+                                                item.updated_by +
+                                                ");";
+                                            db.run(sql_insert);
+                                            sql_insert = "";
+                                        }
+
+                                        //alert("Thanaupazila Setup Synced");
+
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+
+                            syncDivision(); //call syncDownSetup function;
+                            alert("Division Setup Synced");
+                            syncDistrict(); //call syncDownSetup function;
+                            alert("District Setup Synced");
+                            syncThanaUpazila(); //call syncDownSetup function;
+                            alert("ThanaUpazila Setup Synced");
+                            syncUnionWards(); //call syncDownSetup function;
+                            alert("Union Ward Setup Synced");
+                            syncMauzaMahallah(); //call syncDownSetup function;
+                            alert("Mauza Mahallah Setup Synced");
                         } else {
                             alert(response.token);
                             return 0;
