@@ -201,3 +201,8 @@ body{
   color: #F44336;
   position: relative;
 }
+#census-form-container {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  overflow-x: scroll; }

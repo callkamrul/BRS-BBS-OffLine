@@ -4,6 +4,8 @@
 
 jQuery(document).ready(function($) {
 
+    $('#census-form-container').floatingScroll();
+
     /*var select2_control = $('.select');
     selectDropDown = select2_control.select2();
     selectDropDown.on('select2:select', function (e) {
