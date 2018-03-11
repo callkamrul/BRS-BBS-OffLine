@@ -299,8 +299,163 @@
 
                                 //console.log(vm.divisions);
                             };
+                            var syncBsicSections = function () {
+                                // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/bsic-sections")
+                                    .then(function (response) {
+                                        //db.run("DELETE FROM THANA_UPAZILAS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var name = String(item.name);
+                                            var nameBn = String(item.name);
+                                            var description = item.description;
+                                            var description_bn = item.description_bn;
+                                            console.log(description)
+                                            name = name.replace(/'/g,"''");
+                                            nameBn = nameBn.replace(/'/g,"''");
+                                            var sql_insert;
+                                            sql_insert = "REPLACE INTO BSIC_SECTIONS (ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert += " (" + item.id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
+                                            console.log(sql_insert);
+                                            db.run(sql_insert);
+                                            sql_insert = "";
+                                        }
 
-                            syncDivision(); //call syncDownSetup function;
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+
+                            var syncBsicDivisions = function () {
+                                // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/bsic-divisions")
+                                    .then(function (response) {
+                                        //db.run("DELETE FROM THANA_UPAZILAS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var name = String(item.name);
+                                            var nameBn = String(item.name);
+                                            var description = item.description;
+                                            var description = description.replace(/\n/gm,"");
+                                            var description_bn = item.description_bn;
+                                            var description_bn = description_bn.replace(/\n/gm,"");
+                                            console.log(description)
+                                            name = name.replace(/'/g,"''");
+                                            nameBn = nameBn.replace(/'/g,"''");
+                                            var sql_insert;
+                                            sql_insert = "REPLACE INTO BSIC_PRODUCT_DIVISIONS (ID, SECTION_ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert += " (" + item.id + ", " + item.section_id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
+                                            //sql_insert = sql_insert.replace(/\n/gm,"");
+                                            console.log(sql_insert);
+                                            db.run(sql_insert);
+                                            sql_insert = "";
+                                        }
+
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+
+                            var syncBsicProductGroup = function () {
+                                // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/bsic-product-groups")
+                                    .then(function (response) {
+                                        //db.run("DELETE FROM THANA_UPAZILAS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var name = String(item.name);
+                                            var nameBn = String(item.name);
+                                            var description = item.description;
+                                           // var description = description.replace(/\n/gm,"");
+                                            var description_bn = item.description_bn;
+                                           // var description_bn = description_bn.replace(/\n/gm,"");
+                                            //console.log(description)
+                                            name = name.replace(/'/g,"''");
+                                            nameBn = nameBn.replace(/'/g,"''");
+                                            var sql_insert;
+                                            sql_insert = "REPLACE INTO BSIC_PRODUCT_DIVISIONS (ID, SECTION_ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert += " (" + item.id + ", " + item.section_id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
+                                            //sql_insert = sql_insert.replace(/\n/gm,"");
+                                            //console.log(sql_insert);
+                                            db.run(sql_insert);
+                                            sql_insert = "";
+                                        }
+
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+
+                            var syncBsicProductClass = function () {
+                                // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/bsic-product-classes")
+                                    .then(function (response) {
+                                        //db.run("DELETE FROM THANA_UPAZILAS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var name = String(item.name);
+                                            var nameBn = String(item.name);
+                                            var description = item.description;
+                                            // var description = description.replace(/\n/gm,"");
+                                            var description_bn = item.description_bn;
+                                            // var description_bn = description_bn.replace(/\n/gm,"");
+                                            //console.log(description)
+                                            name = name.replace(/'/g,"''");
+                                            nameBn = nameBn.replace(/'/g,"''");
+                                            var sql_insert;
+                                            sql_insert = "REPLACE INTO BSIC_PRODUCT_DIVISIONS (ID, SECTION_ID, PRODUCT_DIVISION_ID, PRODUCT_GROUP_ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert +=
+                                                " (" +
+                                                item.id +
+                                                ", " +
+                                                item.section_id +
+                                                ", " +
+                                                item.product_division_id +
+                                                ", " +
+                                                item.product_group_id +
+                                                ", '" +
+                                                item.code +
+                                                "', '" +
+                                                name +
+                                                "', '" +
+                                                nameBn +
+                                                "', '" +
+                                                description +
+                                                "', '" +
+                                                description_bn +
+                                                "', " +
+                                                item.created_by +
+                                                ", " +
+                                                item.updated_by
+                                                + ");";
+                                            //sql_insert = sql_insert.replace(/\n/gm,"");
+                                            //console.log(sql_insert);
+                                            db.run(sql_insert);
+                                            sql_insert = "";
+                                        }
+
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+
+                            /*syncDivision(); //call syncDownSetup function;
                             alert("Division Setup Synced");
                             syncDistrict(); //call syncDownSetup function;
                             alert("District Setup Synced");
@@ -309,7 +464,17 @@
                             syncUnionWards(); //call syncDownSetup function;
                             alert("Union Ward Setup Synced");
                             syncMauzaMahallah(); //call syncDownSetup function;
-                            alert("Mauza Mahallah Setup Synced");
+                            alert("Mauza Mahallah Setup Synced");*/
+
+                            //Basic Settings
+                          /*  syncBsicSections(); //call syncDownSetup function;
+                            alert("BSIC Section Setup Synced");
+                            syncBsicDivisions(); //call syncDownSetup function;
+                            alert("BSIC Division Setup Synced");
+                            syncBsicProductGroup(); //call syncDownSetup function;
+                            alert("BSIC Product Group Setup Synced");*/
+                            syncBsicProductClass(); //call syncDownSetup function;
+                            alert("BSIC Product Class Setup Synced");
                         } else {
                             alert(response.token);
                             return 0;
