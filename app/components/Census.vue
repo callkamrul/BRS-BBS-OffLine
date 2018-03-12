@@ -280,6 +280,9 @@ export default {
           }, Census.HEAD_OFFICE_WARD_UNION);
         }
       });
+        setTimeout(function() {
+            $('#census-form-container').floatingScroll();
+        }, 5000);
     },
     saveCensus(e) {
         this.msg_division = '';
