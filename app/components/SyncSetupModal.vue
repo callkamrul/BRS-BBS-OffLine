@@ -319,7 +319,7 @@
                                             nameBn = nameBn.replace(/'/g,"''");
                                             var sql_insert;
                                             sql_insert = "REPLACE INTO BSIC_SECTIONS (ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
-                                            sql_insert += " (" + item.id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
+                                            sql_insert += "(" + item.id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
                                             console.log(sql_insert);
                                             db.run(sql_insert);
                                             sql_insert = "";
@@ -465,6 +465,8 @@
                             alert("Union Ward Setup Synced");
                             syncMauzaMahallah(); //call syncDownSetup function;
                             alert("Mauza Mahallah Setup Synced");*/
+                            syncBsicSections(); //call syncDownSetup function;
+                            alert("BSIC Section Setup Synced");
 
                             //Basic Settings
                           /*  syncBsicSections(); //call syncDownSetup function;
@@ -473,8 +475,8 @@
                             alert("BSIC Division Setup Synced");
                             syncBsicProductGroup(); //call syncDownSetup function;
                             alert("BSIC Product Group Setup Synced");*/
-                            syncBsicProductClass(); //call syncDownSetup function;
-                            alert("BSIC Product Class Setup Synced");
+                            //syncBsicProductClass(); //call syncDownSetup function;
+                            //alert("BSIC Product Class Setup Synced");
                         } else {
                             alert(response.token);
                             return 0;
