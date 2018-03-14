@@ -299,6 +299,7 @@
 
                                 //console.log(vm.divisions);
                             };
+
                             var syncBsicSections = function () {
                                 // alert("syncDistrict");
                                 //var vm = this
@@ -311,15 +312,17 @@
                                             //console.log(items[prop]);
                                             var item = items[prop];
                                             var name = String(item.name);
-                                            var nameBn = String(item.name);
+                                            var nameBn = String(item.name_bn);
                                             var description = item.description;
                                             var description_bn = item.description_bn;
-                                            console.log(description)
+                                            //console.log(description)
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
                                             var sql_insert;
                                             sql_insert = "REPLACE INTO BSIC_SECTIONS (ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
-                                            sql_insert += "(" + item.id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
+                                            sql_insert += "(" + item.id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '%s1', '%s2', " + item.created_by + ", " + item.updated_by + ");";
+                                            sql_insert = sql_insert.replace('%s1',description);
+                                            sql_insert = sql_insert.replace('%s2',description_bn);
                                             console.log(sql_insert);
                                             db.run(sql_insert);
                                             sql_insert = "";
@@ -342,7 +345,7 @@
                                             //console.log(items[prop]);
                                             var item = items[prop];
                                             var name = String(item.name);
-                                            var nameBn = String(item.name);
+                                            var nameBn = String(item.name_bn);
                                             var description = item.description;
                                             var description = description.replace(/\n/gm,"");
                                             var description_bn = item.description_bn;
@@ -376,7 +379,7 @@
                                             //console.log(items[prop]);
                                             var item = items[prop];
                                             var name = String(item.name);
-                                            var nameBn = String(item.name);
+                                            var nameBn = String(item.name_bn);
                                             var description = item.description;
                                            // var description = description.replace(/\n/gm,"");
                                             var description_bn = item.description_bn;
@@ -410,7 +413,7 @@
                                             //console.log(items[prop]);
                                             var item = items[prop];
                                             var name = String(item.name);
-                                            var nameBn = String(item.name);
+                                            var nameBn = String(item.name_bn);
                                             var description = item.description;
                                             // var description = description.replace(/\n/gm,"");
                                             var description_bn = item.description_bn;
@@ -455,6 +458,29 @@
                                 //console.log(vm.divisions);
                             };
 
+                            var syncCommonConfig = function (table_name) {
+                                // alert("syncDistrict");
+                                //var vm = this
+                                return axios
+                                    .get("http://192.168.50.14/api/cc-list/" + table_name)
+                                    .then(function (response) {
+                                        //db.run("DELETE FROM THANA_UPAZILAS");
+                                        var items = response.data;
+                                        for (var prop in items) {
+                                            //console.log(items[prop]);
+                                            var item = items[prop];
+                                            var sql_insert;
+                                            sql_insert = "REPLACE INTO " + table_name + " (ID, CODE, NAME, NAME_BN, WEIGHT, IS_DEFAULT, IS_ACTIVE, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert += "(" + item.id + ", '" + item.code + "', '" + item.name + "', '" + item.name_bn + "', " + item.weight + ", " + item.is_default + ", " + item.is_active + ", " + item.created_by + ", " + item.updated_by + ");";
+                                            db.run(sql_insert);
+                                            sql_insert = "";
+                                        }
+
+                                    });
+
+                                //console.log(vm.divisions);
+                            };
+
                             /*syncDivision(); //call syncDownSetup function;
                             alert("Division Setup Synced");
                             syncDistrict(); //call syncDownSetup function;
@@ -465,8 +491,6 @@
                             alert("Union Ward Setup Synced");
                             syncMauzaMahallah(); //call syncDownSetup function;
                             alert("Mauza Mahallah Setup Synced");*/
-                            syncBsicSections(); //call syncDownSetup function;
-                            alert("BSIC Section Setup Synced");
 
                             //Basic Settings
                           /*  syncBsicSections(); //call syncDownSetup function;
@@ -474,9 +498,36 @@
                             syncBsicDivisions(); //call syncDownSetup function;
                             alert("BSIC Division Setup Synced");
                             syncBsicProductGroup(); //call syncDownSetup function;
-                            alert("BSIC Product Group Setup Synced");*/
-                            //syncBsicProductClass(); //call syncDownSetup function;
-                            //alert("BSIC Product Class Setup Synced");
+                            alert("BSIC Product Group Setup Synced");
+                            syncBsicProductClass(); //call syncDownSetup function;
+                            alert("BSIC Product Class Setup Synced");
+                           */
+                           // Common Configs. Only add common config table name in commonConfigs object then it automatically sync up.
+                            // No need to add extra code.
+                            var commonConfigs = {
+                                AnswerOptions:"CC_ANSWER_OPTIONS",
+                                PERMISSION_AUTHORITIES:"CC_PERMISSION_AUTHORITIES",
+                                CLOSING_REASONS:"CC_CLOSING_REASONS",
+                                EDUCATION:"CC_EDUCATION",
+                                ECONOMIC_ORGANIZATIONS:"CC_ECONOMIC_ORGANIZATIONS",
+                                GENDER:"CC_GENDER",
+                                LEGAL_OWNERSHIPS:"CC_LEGAL_OWNERSHIPS",
+                                POLLUTION_CONTROL:"CC_POLLUTION_CONTROL",
+                                RMO:"CC_RMO",
+                                REGISTRATION_ORGANIZATIONS:"CC_REGISTRATION_ORGANIZATIONS",
+                                SPECIALTY_CODE:"CC_SPECIALTY_CODE",
+                                TRADE_LICENSE_AUTHORITY:"CC_TRADE_LICENSE_AUTHORITY",
+                                OWNERSHIP_TYPES:"CC_OWNERSHIP_TYPES",
+                                UNIT_MODE:"CC_UNIT_MODE",
+                                UNIT_STATUS:"CC_UNIT_STATUS",
+                                UNIT_TYPE:"CC_UNIT_TYPE"
+                            };
+                            var cConfig;
+                            for (cConfig in commonConfigs){
+                                syncCommonConfig(commonConfigs[cConfig]); //call syncDownSetup function;
+                                alert(cConfig + " Setup Synced");
+                            }
+
                         } else {
                             alert(response.token);
                             return 0;
