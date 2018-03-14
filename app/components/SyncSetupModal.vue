@@ -313,16 +313,48 @@
                                             var item = items[prop];
                                             var name = String(item.name);
                                             var nameBn = String(item.name_bn);
+
+                                            /*
+                                             In the end of description or description_bn, a weired character like a checkbox or other false
+                                             character has been added automatically that causes an error in inserting data in sqlite database.
+                                             For removing false character, We remove last character from description or description_bn.
+                                             If anyone have time to analyse why these false character added, welcome to update this script
+                                             and apply better solution.
+                                             Here substr function takes string from 0 index to last index-1
+                                             In these moment, we have not any better solution other than this.
+                                             */
                                             var description = item.description;
+                                            if (description && description.length > 1)
+                                            {
+                                                description = description.substr(0, description.length-1).replace(/'/g,"''");
+                                            }
                                             var description_bn = item.description_bn;
+                                            if (description_bn && description_bn.length > 1)
+                                            {
+                                                description_bn = description_bn.substr(0, description_bn.length-1).replace(/'/g,"''");
+                                            }
                                             //console.log(description)
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
                                             var sql_insert;
                                             sql_insert = "REPLACE INTO BSIC_SECTIONS (ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
-                                            sql_insert += "(" + item.id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '%s1', '%s2', " + item.created_by + ", " + item.updated_by + ");";
-                                            sql_insert = sql_insert.replace('%s1',description);
-                                            sql_insert = sql_insert.replace('%s2',description_bn);
+                                            sql_insert += "(" +
+                                                        item.id +
+                                                        ", '" +
+                                                        item.code +
+                                                        "', '" +
+                                                        name +
+                                                        "', '" +
+                                                        nameBn +
+                                                        "', '" +
+                                                        description +
+                                                        "', '" +
+                                                        description_bn +
+                                                        "', " +
+                                                        item.created_by +
+                                                        ", " +
+                                                        item.updated_by +
+                                                        ");";
                                             console.log(sql_insert);
                                             db.run(sql_insert);
                                             sql_insert = "";
@@ -493,9 +525,9 @@
                             alert("Mauza Mahallah Setup Synced");*/
 
                             //Basic Settings
-                          /*  syncBsicSections(); //call syncDownSetup function;
+                            syncBsicSections(); //call syncDownSetup function;
                             alert("BSIC Section Setup Synced");
-                            syncBsicDivisions(); //call syncDownSetup function;
+                            /*syncBsicDivisions(); //call syncDownSetup function;
                             alert("BSIC Division Setup Synced");
                             syncBsicProductGroup(); //call syncDownSetup function;
                             alert("BSIC Product Group Setup Synced");
@@ -504,7 +536,7 @@
                            */
                            // Common Configs. Only add common config table name in commonConfigs object then it automatically sync up.
                             // No need to add extra code.
-                            var commonConfigs = {
+                           /* var commonConfigs = {
                                 AnswerOptions:"CC_ANSWER_OPTIONS",
                                 PERMISSION_AUTHORITIES:"CC_PERMISSION_AUTHORITIES",
                                 CLOSING_REASONS:"CC_CLOSING_REASONS",
@@ -524,9 +556,9 @@
                             };
                             var cConfig;
                             for (cConfig in commonConfigs){
-                                syncCommonConfig(commonConfigs[cConfig]); //call syncDownSetup function;
+                                syncCommonConfig(commonConfigs[cConfig]);
                                 alert(cConfig + " Setup Synced");
-                            }
+                            }*/
 
                         } else {
                             alert(response.token);
