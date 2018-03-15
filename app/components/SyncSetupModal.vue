@@ -378,18 +378,32 @@
                                             var item = items[prop];
                                             var name = String(item.name);
                                             var nameBn = String(item.name_bn);
-                                            var description = item.description;
-                                            var description = description.replace(/\n/gm,"");
-                                            var description_bn = item.description_bn;
-                                            var description_bn = description_bn.replace(/\n/gm,"");
-                                            console.log(description)
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
+                                            /*
+                                             In the end of description or description_bn, a weired character like a checkbox or other false
+                                             character has been added automatically that causes an error in inserting data in sqlite database.
+                                             For removing false character, We remove last character from description or description_bn.
+                                             If anyone have time to analyse why these false character added, welcome to update this script
+                                             and apply better solution.
+                                             Here substr function takes string from 0 index to last index-1
+                                             In these moment, we have not any better solution other than this.
+                                             */
+                                            var description = item.description;
+                                            if (description && description.length > 1)
+                                            {
+                                                description = description.substr(0, description.length-1).replace(/'/g,"''");
+                                            }
+                                            var description_bn = item.description_bn;
+                                            if (description_bn && description_bn.length > 1)
+                                            {
+                                                description_bn = description_bn.substr(0, description_bn.length-1).replace(/'/g,"''");
+                                            }
+
                                             var sql_insert;
                                             sql_insert = "REPLACE INTO BSIC_PRODUCT_DIVISIONS (ID, SECTION_ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
                                             sql_insert += " (" + item.id + ", " + item.section_id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
-                                            //sql_insert = sql_insert.replace(/\n/gm,"");
-                                            console.log(sql_insert);
+
                                             db.run(sql_insert);
                                             sql_insert = "";
                                         }
@@ -412,16 +426,30 @@
                                             var item = items[prop];
                                             var name = String(item.name);
                                             var nameBn = String(item.name_bn);
-                                            var description = item.description;
-                                           // var description = description.replace(/\n/gm,"");
-                                            var description_bn = item.description_bn;
-                                           // var description_bn = description_bn.replace(/\n/gm,"");
-                                            //console.log(description)
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
+                                            /*
+                                             In the end of description or description_bn, a weired character like a checkbox or other false
+                                             character has been added automatically that causes an error in inserting data in sqlite database.
+                                             For removing false character, We remove last character from description or description_bn.
+                                             If anyone have time to analyse why these false character added, welcome to update this script
+                                             and apply better solution.
+                                             Here substr function takes string from 0 index to last index-1
+                                             In these moment, we have not any better solution other than this.
+                                             */
+                                            var description = item.description;
+                                            if (description && description.length > 1)
+                                            {
+                                                description = description.substr(0, description.length-1).replace(/'/g,"''");
+                                            }
+                                            var description_bn = item.description_bn;
+                                            if (description_bn && description_bn.length > 1)
+                                            {
+                                                description_bn = description_bn.substr(0, description_bn.length-1).replace(/'/g,"''");
+                                            }
                                             var sql_insert;
-                                            sql_insert = "REPLACE INTO BSIC_PRODUCT_DIVISIONS (ID, SECTION_ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
-                                            sql_insert += " (" + item.id + ", " + item.section_id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
+                                            sql_insert = "REPLACE INTO BSIC_PRODUCT_GROUPS (ID, SECTION_ID, PRODUCT_DIVISION_ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert += " (" + item.id + ", " + item.section_id + ", " + item.product_division_id + ", '" + item.code + "', '" + name + "', '" + nameBn + "', '" + description + "', '" + description_bn + "', " + item.created_by + ", " + item.updated_by + ");";
                                             //sql_insert = sql_insert.replace(/\n/gm,"");
                                             //console.log(sql_insert);
                                             db.run(sql_insert);
@@ -446,15 +474,29 @@
                                             var item = items[prop];
                                             var name = String(item.name);
                                             var nameBn = String(item.name_bn);
-                                            var description = item.description;
-                                            // var description = description.replace(/\n/gm,"");
-                                            var description_bn = item.description_bn;
-                                            // var description_bn = description_bn.replace(/\n/gm,"");
-                                            //console.log(description)
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
+                                            /*
+                                             In the end of description or description_bn, a weired character like a checkbox or other false
+                                             character has been added automatically that causes an error in inserting data in sqlite database.
+                                             For removing false character, We remove last character from description or description_bn.
+                                             If anyone have time to analyse why these false character added, welcome to update this script
+                                             and apply better solution.
+                                             Here substr function takes string from 0 index to last index-1
+                                             In these moment, we have not any better solution other than this.
+                                             */
+                                            var description = item.description;
+                                            if (description && description.length > 1)
+                                            {
+                                                description = description.substr(0, description.length-1).replace(/'/g,"''");
+                                            }
+                                            var description_bn = item.description_bn;
+                                            if (description_bn && description_bn.length > 1)
+                                            {
+                                                description_bn = description_bn.substr(0, description_bn.length-1).replace(/'/g,"''");
+                                            }
                                             var sql_insert;
-                                            sql_insert = "REPLACE INTO BSIC_PRODUCT_DIVISIONS (ID, SECTION_ID, PRODUCT_DIVISION_ID, PRODUCT_GROUP_ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert = "REPLACE INTO BSIC_PRODUCT_CLASSES (ID, SECTION_ID, PRODUCT_DIVISION_ID, PRODUCT_GROUP_ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
                                             sql_insert +=
                                                 " (" +
                                                 item.id +
@@ -479,7 +521,6 @@
                                                 ", " +
                                                 item.updated_by
                                                 + ");";
-                                            //sql_insert = sql_insert.replace(/\n/gm,"");
                                             //console.log(sql_insert);
                                             db.run(sql_insert);
                                             sql_insert = "";
@@ -527,13 +568,13 @@
                             //Basic Settings
                             syncBsicSections(); //call syncDownSetup function;
                             alert("BSIC Section Setup Synced");
-                            /*syncBsicDivisions(); //call syncDownSetup function;
+                            syncBsicDivisions(); //call syncDownSetup function;
                             alert("BSIC Division Setup Synced");
                             syncBsicProductGroup(); //call syncDownSetup function;
                             alert("BSIC Product Group Setup Synced");
                             syncBsicProductClass(); //call syncDownSetup function;
                             alert("BSIC Product Class Setup Synced");
-                           */
+
                            // Common Configs. Only add common config table name in commonConfigs object then it automatically sync up.
                             // No need to add extra code.
                            /* var commonConfigs = {
