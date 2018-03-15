@@ -261,34 +261,11 @@
                 }
             },
 
-    syncSetup() {
-      eventHub.$emit("sync-setup");
-    },
-    syncCensus(CensusId) {
-      eventHub.$emit("sync-census",CensusId);
-    },
-    loadDistricts: function() {
-        this.census.DISTRICT_ID = 0;
-        this.districts = this.all_districts.filter(f=>String(f.DIVISION_ID) == this.census.DIVISION_ID);
-        //$('#division-id').val(this.census.DISTRICT_ID)
-    },
-    loadThanaUpazilla: function(e) {
-        this.census.THANA_UPZ_ID = 0;
-        this.thanaUpazilla = this.all_thanaUpazilla.filter(f=>String(f.DISTRICT_ID) == this.census.DISTRICT_ID);
-        //$('#thana_upz_id').val(this.census.THANA_UPZ_ID)
-    },
-    loadUnionWard() {
-        this.census.WARD_UNION_ID = 0;
-        this.unionWards = this.all_unionWards.filter(f=>String(f.THANA_UPAZILA_ID) == this.census.THANA_UPZ_ID);
-    },
-      loadMauzaMahalla() {
-          this.census.MAHALLAH_ID = 0;
-          this.mauzaMahalla = this.all_mauzaMahalla.filter(f=>String(f.UNION_WARD_ID) == this.census.WARD_UNION_ID);
             syncSetup() {
                 eventHub.$emit("sync-setup");
             },
-            syncCensus(census) {
-                eventHub.$emit("sync-census", census);
+            syncCensus(CensusId) {
+                eventHub.$emit("sync-census", CensusId);
             },
             loadDistricts: function () {
                 this.census.DISTRICT_ID = 0;
