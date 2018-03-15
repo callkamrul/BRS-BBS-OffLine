@@ -56,7 +56,7 @@ store.getUnionWardByThanaUpazilla = function(cb, $thanaId)
     }
     var unionList =[];
     db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, THANA_UPAZILA_ID
-	From UNION_WARDS ${$condition}`, function (err, row) {
+	From UNION_WARDS ${$condition} ORDER BY NAME ASC`, function (err, row) {
         unionList.push(row);
     }, function (err, rowCount) {
         cb(null, unionList);
@@ -87,7 +87,7 @@ store.getAllCommonConfigList = function (cb, $table_name, $lang = 'bn') {
 	var list = [];
 
 	db.each(`SELECT ID, (CODE ||' - '|| ${$condition}) AS NAME
-From ${$table_name}`, function (err, row) {
+From ${$table_name} ORDER BY WEIGHT ASC, CODE ASC, NAME ASC, NAME_BN ASC`, function (err, row) {
 			list.push(row);
 		}, function (err, rowCount) {
 			cb(null, list);
@@ -205,11 +205,15 @@ store.addCensus = (Census) => {
                     }
 
                     sqlParam+= `'` + key.toUpperCase() + `'`;
-                    if(Census[key] && uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
-                        values+= `'` + Census[key].toUpperCase() + `'`;
-                    }else {
+                    if(Census[key]){
+                        if(Census[key] && uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
+                            values+= `'` + Census[key].toUpperCase() + `'`;
+                        }else {
 
-                        values+= `'` + Census[key] + `'`;
+                            values+= `'` + Census[key] + `'`;
+                        }
+                    }else {
+                        values+= `''`;
                     }
                 }
                 //bindValues+= `'` + Census[key] + `'`;
@@ -252,10 +256,14 @@ store.editCensus = (catId, Census) => {
 				if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
                     rawSql += `,`;
 				}
-                if(Census[key] && uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
-                    rawSql+= key +`= "`+ Census[key].toUpperCase() + `"`;
+                if(Census[key]){
+                    if(Census[key] && uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
+                        rawSql+= key +`= "`+ Census[key].toUpperCase() + `"`;
+                    }else {
+                        rawSql+= key +`= "`+ Census[key] + `"`;
+                    }
                 }else {
-                    rawSql+= key +`= "`+ Census[key] + `"`;
+                    rawSql+= key +`= ""`;
                 }
             }
         }

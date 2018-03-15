@@ -4,6 +4,12 @@
 
 jQuery(document).ready(function($) {
 
+    $('.trigger-form').on('click', function() {
+        setTimeout(function() {
+            $('#census-form-container').floatingScroll();
+        }, 5000);
+    });
+
     /*var select2_control = $('.select');
     selectDropDown = select2_control.select2();
     selectDropDown.on('select2:select', function (e) {

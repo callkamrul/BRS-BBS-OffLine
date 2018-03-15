@@ -1,14 +1,11 @@
 <div>
     <h2> স্ট্যাটিস্টিক্যাল বিজনেস রেজিস্টার
         <span class="clickable right-float">
-                <button v-show="isEdit == false" @click="addCensus" class="btn btn-primary" type="button">
+                <button v-show="isEdit == false" @click="addCensus" class="btn btn-primary trigger-form" type="button">
 					<i class="fa fa-plus"></i> Add Census
 				</button>
 			    <i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
-			
-			    <button v-show="isEdit == true" class="btn btn-primary" type="button" @click="saveCensus" value="submit">
-                                    <i class="icon-paperplane"></i> সাবমিট
-                </button>
+
 
 				<button v-show="isEdit == false && onLine == true" class="btn btn-primary" type="button"
                         @click="syncSetup" value="submit" data-toggle="modal" data-target="#login-modal">
@@ -2954,8 +2951,9 @@
                                         <td>NID নম্বর</td>
                                         <td>
                                             <div class="form-group">
-                                                <input class="form-control " id="provider-nid" placeholder=""
+                                                <input class="form-control " id="provider-nid" placeholder="" @keyup = "checkNIDLength"
                                                        name="provider_nid" v-model="census.PROVIDER_NID" type="text">
+                                                <label class="validation-error-label text-danger small">{{msg_provider_nid}}</label>
                                             </div>
                                         </td>
                                     </tr>
@@ -3000,8 +2998,9 @@
                                         <td class="padding-5">NID নম্বর</td>
                                         <td>
                                             <div class="form-group">
-                                                <input class="form-control " id="collector-nid" placeholder=""
+                                                <input class="form-control " id="collector-nid" placeholder="" @keyup = "checkCollectorNIDLength"
                                                        name="collector_nid" v-model="census.COLLECTOR_NID" type="text">
+                                                <label class="validation-error-label text-danger small">{{msg_collector_nid}}</label>
                                             </div>
                                         </td>
                                         <td class="padding-5">মোবাইল নম্বর</td>
