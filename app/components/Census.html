@@ -2951,8 +2951,9 @@
                                         <td>NID নম্বর</td>
                                         <td>
                                             <div class="form-group">
-                                                <input class="form-control " id="provider-nid" placeholder=""
+                                                <input class="form-control " id="provider-nid" placeholder="" @keyup = "checkNIDLength"
                                                        name="provider_nid" v-model="census.PROVIDER_NID" type="text">
+                                                <label class="validation-error-label text-danger small">{{msg_provider_nid}}</label>
                                             </div>
                                         </td>
                                     </tr>
@@ -2997,8 +2998,9 @@
                                         <td class="padding-5">NID নম্বর</td>
                                         <td>
                                             <div class="form-group">
-                                                <input class="form-control " id="collector-nid" placeholder=""
+                                                <input class="form-control " id="collector-nid" placeholder="" @keyup = "checkCollectorNIDLength"
                                                        name="collector_nid" v-model="census.COLLECTOR_NID" type="text">
+                                                <label class="validation-error-label text-danger small">{{msg_collector_nid}}</label>
                                             </div>
                                         </td>
                                         <td class="padding-5">মোবাইল নম্বর</td>
