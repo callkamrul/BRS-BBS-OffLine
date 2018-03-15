@@ -1,70 +1,63 @@
 <template>
-<div>
-	<div id="login-modal" class="ui small modal">
-		<i class="close icon"></i>
-		<div class="header">
-			Login BRS_BBS
-		</div>
-		<div class="content">
+	<div>
+		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modal-title">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="login-modal-title">Login BRS_BBS</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label class="control-label">User Name</label>
+								<input type="text" class="form-control" name="user_name" v-model="user_name" placeholder="Username">
+							</div>
+							<div class="form-group">
+								<label class="control-label">Password</label>
+								<input type="password" class="form-control" name="password" v-model="password" placeholder="Password">
+							</div>
 
-			
-			<form class="ui form">
-  <div class="field two ">
-    <label>User Name</label>
-	<div class="two fields">
-		<div class="field">
-    <input type="text"  name="user_name" v-model="user_name" placeholder="Username">
+							<button type="button" @click="authenticate" class="btn btn-primary">Login</button>
+							<button type="button" class="btn btn-link" @click="loginClose">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-  </div>
-  <div class="field ">
-    <label>Password</label>
-	<div class="two fields">
-		<div class="field">
-    <input type="password"  name="password" v-model="password" placeholder="Password">
-		</div>
-	</div>
-  </div>
-  
-  <button type="button" @click="authenticate" class="ui primary button">Login</button>
-  <button type="button" class="ui secondary button" @click="loginClose">Cancel</button>
-</form>
-
-				
-		
-		</div>
+		<!-- /.modal -->
 
 	</div>
-		
-</div>	
 </template>
 
 <script>
-import Vue from "vue";
-import store from "../store";
-import eventHub from "../shared/EventHub";
+    import Vue from "vue";
 
-export default {
-  data() {
-    return {
-      user_name: "",
-      password: "",
-      users: []
-    };
-  },
+    import store from "../store";
+    import eventHub from "../shared/EventHub";
 
-  methods: {
-    authenticate() {
-      var user_name = this.user_name;
-      var password = this.password;
+    export default {
+        data() {
+            return {
+                user_name: "",
+                password: "",
+                users: []
+            };
+        },
 
-      axios
-        .post("http://192.168.50.14/api/signin", {
-          user_name: user_name,
-          password: password
-        })
-        .then(function(response) {
-          //this.users =response;
+        methods: {
+            authenticate() {
+                var user_name = this.user_name;
+                var password = this.password;
+
+                axios
+                    .post("http://192.168.50.14/api/signin", {
+                        user_name: user_name,
+                        password: password
+                    })
+                    .then(function (response) {
+                        //this.users =response;
+
                         // console.log(response.token);
                         // return 0;
                         if (response.status == 200) {
@@ -83,43 +76,43 @@ export default {
                                             var item = items[prop];
                                             var sql_insert;
                                             //var sql_update;
-                                          /*  var sql_select = "SELECT COUNT(*) FROM DIVISIONS WHERE ID =" + item.id;
-                                            var isExistDiv = db.run(sql_select);
-                                            console.log(isExistDiv);
-                                            if(isExistDiv){
-                                                sql_update =
-                                                    "UPDATE DIVISIONS SET";
-                                                sql_update +=
-                                                    " GEO_CODE='" +
-                                                    item.geo_code +
-                                                    "', NAME='" +
-                                                    item.name +
-                                                    "', NAME_BN='" +
-                                                    item.name_bn +
-                                                    "' WHERE ID =" +
-                                                    item.id +
-                                                    ";";
-                                                db.run(sql_update);
-                                                sql_update = "";
-                                            }else*/ //{
-                                                sql_insert =
-                                                    "REPLACE INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
-                                                sql_insert +=
-                                                    " (" +
-                                                    item.id +
-                                                    ", '" +
-                                                    item.geo_code +
-                                                    "', '" +
-                                                    item.name +
-                                                    "', '" +
-                                                    item.name_bn +
-                                                    "', " +
-                                                    item.created_by +
-                                                    ", " +
-                                                    item.updated_by +
-                                                    ");";
-                                                db.run(sql_insert);
-                                                sql_insert = "";
+											/*  var sql_select = "SELECT COUNT(*) FROM DIVISIONS WHERE ID =" + item.id;
+											 var isExistDiv = db.run(sql_select);
+											 console.log(isExistDiv);
+											 if(isExistDiv){
+											 sql_update =
+											 "UPDATE DIVISIONS SET";
+											 sql_update +=
+											 " GEO_CODE='" +
+											 item.geo_code +
+											 "', NAME='" +
+											 item.name +
+											 "', NAME_BN='" +
+											 item.name_bn +
+											 "' WHERE ID =" +
+											 item.id +
+											 ";";
+											 db.run(sql_update);
+											 sql_update = "";
+											 }else*/ //{
+                                            sql_insert =
+                                                "REPLACE INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
+                                            sql_insert +=
+                                                " (" +
+                                                item.id +
+                                                ", '" +
+                                                item.geo_code +
+                                                "', '" +
+                                                item.name +
+                                                "', '" +
+                                                item.name_bn +
+                                                "', " +
+                                                item.created_by +
+                                                ", " +
+                                                item.updated_by +
+                                                ");";
+                                            db.run(sql_insert);
+                                            sql_insert = "";
 //                                            }
 
                                         }
@@ -128,12 +121,12 @@ export default {
                                 //console.log(vm.divisions);
                             };
                             var syncDistrict = function () {
-                               // alert("syncDistrict");
+                                // alert("syncDistrict");
                                 //var vm = this
                                 return axios
                                     .get("http://192.168.50.14/api/districts")
                                     .then(function (response) {
-                                       // db.run("DELETE FROM DISTRICTS");
+                                        // db.run("DELETE FROM DISTRICTS");
                                         var items = response.data;
                                         for (var prop in items) {
                                             //console.log(items[prop]);
@@ -161,7 +154,7 @@ export default {
                                             sql_insert = "";
                                         }
 
-                                       // alert("District Setup Synced");
+                                        // alert("District Setup Synced");
 
                                     });
 
@@ -169,7 +162,7 @@ export default {
                             };
 
                             var syncThanaUpazila = function () {
-                               // alert("syncDistrict");
+                                // alert("syncDistrict");
                                 //var vm = this
                                 return axios
                                     .get("http://192.168.50.14/api/thana-upazilas")
@@ -322,15 +315,15 @@ export default {
                                             var name = String(item.name);
                                             var nameBn = String(item.name_bn);
 
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -347,22 +340,22 @@ export default {
                                             var sql_insert;
                                             sql_insert = "REPLACE INTO BSIC_SECTIONS (ID, CODE, NAME, NAME_BN, DESCRIPTION, DESCRIPTION_BN, CREATED_BY, UPDATED_BY) VALUES ";
                                             sql_insert += "(" +
-                                                        item.id +
-                                                        ", '" +
-                                                        item.code +
-                                                        "', '" +
-                                                        name +
-                                                        "', '" +
-                                                        nameBn +
-                                                        "', '" +
-                                                        description +
-                                                        "', '" +
-                                                        description_bn +
-                                                        "', " +
-                                                        item.created_by +
-                                                        ", " +
-                                                        item.updated_by +
-                                                        ");";
+                                                item.id +
+                                                ", '" +
+                                                item.code +
+                                                "', '" +
+                                                name +
+                                                "', '" +
+                                                nameBn +
+                                                "', '" +
+                                                description +
+                                                "', '" +
+                                                description_bn +
+                                                "', " +
+                                                item.created_by +
+                                                ", " +
+                                                item.updated_by +
+                                                ");";
                                             console.log(sql_insert);
                                             db.run(sql_insert);
                                             sql_insert = "";
@@ -388,15 +381,15 @@ export default {
                                             var nameBn = String(item.name_bn);
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -436,15 +429,15 @@ export default {
                                             var nameBn = String(item.name_bn);
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -484,15 +477,15 @@ export default {
                                             var nameBn = String(item.name_bn);
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -553,15 +546,15 @@ export default {
                                             var name = String(item.name);
                                             var nameBn = String(item.name_bn);
 
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -619,15 +612,15 @@ export default {
                                             var nameBn = String(item.name_bn);
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -666,15 +659,15 @@ export default {
                                             var nameBn = String(item.name_bn);
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -713,15 +706,15 @@ export default {
                                             var nameBn = String(item.name_bn);
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -782,15 +775,15 @@ export default {
                                             var nameBn = String(item.name_bn);
                                             name = name.replace(/'/g,"''");
                                             nameBn = nameBn.replace(/'/g,"''");
-                                            /*
-                                             In the end of description or description_bn, a weired character like a checkbox or other false
-                                             character has been added automatically that causes an error in inserting data in sqlite database.
-                                             For removing false character, We remove last character from description or description_bn.
-                                             If anyone have time to analyse why these false character added, welcome to update this script
-                                             and apply better solution.
-                                             Here substr function takes string from 0 index to last index-1
-                                             In these moment, we have not any better solution other than this.
-                                             */
+											/*
+											 In the end of description or description_bn, a weired character like a checkbox or other false
+											 character has been added automatically that causes an error in inserting data in sqlite database.
+											 For removing false character, We remove last character from description or description_bn.
+											 If anyone have time to analyse why these false character added, welcome to update this script
+											 and apply better solution.
+											 Here substr function takes string from 0 index to last index-1
+											 In these moment, we have not any better solution other than this.
+											 */
                                             var description = item.description;
                                             if (description && description.length > 1)
                                             {
@@ -924,117 +917,30 @@ export default {
                                 alert(cConfig + " Setup Synced");
                             }
 
-          // console.log(response.token);
-          // return 0;
-          if (response.status == 200) {
-            console.log(response.data.token);
-            //sync Down Setup Start ...
-            var syncDownSetup = function() {
-              alert("syncDownSetup");
-              //var vm = this
-              axios
-                .get("http://192.168.50.14/api/divisions")
-                .then(function(response) {
-                  db.run("DELETE FROM DIVISIONS");
-                  var items = response.data;
-                  for (var prop in items) {
-                    //console.log(items[prop]);
-                    var item = items[prop];
-                    var sql_insert;
-                    sql_insert =
-                      "INSERT INTO DIVISIONS (ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
-                    sql_insert +=
-                      " (" +
-                      item.id +
-                      ", '" +
-                      item.geo_code +
-                      "', '" +
-                      item.name +
-                      "', '" +
-                      item.name_bn +
-                      "', " +
-                      item.created_by +
-                      ", " +
-                      item.updated_by +
-                      ");";
-                    db.run(sql_insert);
-                    sql_insert = "";
-                  }
-                  alert("Division Setup Synced");
-                })
-                .then(function() {
-                  axios
-                    .get("http://192.168.50.14/api/districts")
-                    .then(function(response) {
-                      db.run("DELETE FROM DISTRICTS");
-                      var items = response.data;
-                      setTimeout(function() {
-                        for (var prop in items) {
-                          //console.log(items[prop]);
-                          var item = items[prop];
-                          var sql_insert;
-                          sql_insert =
-                            "INSERT INTO DISTRICTS (ID, DIVISION_ID, GEO_CODE, NAME, NAME_BN, CREATED_BY, UPDATED_BY) VALUES ";
-                          sql_insert +=
-                            " (" +
-                            item.id +
-                            ", " +
-                            item.division_id +
-                            ", '" +
-                            item.geo_code +
-                            "', '" +
-                            item.name +
-                            "', '" +
-                            item.name_bn +
-                            "', " +
-                            item.created_by +
-                            ", " +
-                            item.updated_by +
-                            ");";
-                          db.run(sql_insert);
-                          sql_insert = "";
+                        } else {
+                            alert(response.token);
+                            return 0;
                         }
-                        
-                        alert("District Setup Synced");
-                      }, 1);
-                      
+
+                        //return 0;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        alert("Error");
                     });
-                })
-                .then(function() {
-                  alert("Thana/Upazila Setup Synced");
-                  location.reload(true);
-                });
 
-              //console.log(vm.divisions);
-            };
-            syncDownSetup(); //call syncDownSetup function;
-          } else {
-            alert(response.token);
-            return 0;
-          }
+                $("#login-modal").modal("hide");
+            },
+            loginClose() {
+                $("#login-modal").modal("hide");
+            },
+        },
 
-          //return 0;
-        })
-        .catch(function(error) {
-          console.log(error);
-          alert("Error");
-        });
-
-      $("#login-modal").modal("hide");
-    },
-    loginClose() {
-      $("#login-modal").modal("hide");
-    },
-    loginForm: function() {
-      $("#login-modal").modal("show");
-    }
-  },
-
-  mounted: function() {
-    eventHub.$on("sync-setup", this.loginForm);
-  },
-  beforeDestroy: function() {
-    eventHub.$off("sync-setup", this.loginForm);
-  }
-};
+        mounted: function () {
+            eventHub.$on("sync-setup", this.loginForm);
+        },
+        beforeDestroy: function () {
+            eventHub.$off("sync-setup", this.loginForm);
+        }
+    };
 </script>
