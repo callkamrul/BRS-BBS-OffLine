@@ -339,8 +339,8 @@ export default {
     syncSetup() {
       eventHub.$emit("sync-setup");
     },
-    syncCensus(census) {
-      eventHub.$emit("sync-census",census);
+    syncCensus(CensusId) {
+      eventHub.$emit("sync-census",CensusId);
     },
     loadDistricts: function() {
         this.census.DISTRICT_ID = 0;

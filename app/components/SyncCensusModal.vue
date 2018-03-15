@@ -82,9 +82,9 @@ export default {
                 return 0;
               }
               census.api_mode = "api";
-              census.offline_user_id = parseInt(auth_obj.id);
-              census.offline_office_id = parseInt(auth_obj.office_id);
-              census.offline_user_desg_id = parseInt(auth_obj.designation_id);
+              census.offline_user_id = auth_obj.id;
+              census.offline_office_id = auth_obj.office_id;
+              census.offline_user_desg_id = auth_obj.designation_id;
 
               axios
                 .post("http://192.168.50.14/api/offline/census", census)
