@@ -52,6 +52,7 @@ export default {
       var user_name = this.user_name;
       var password = this.password;
       var census = this.census;
+        //console.log(census);
 
       axios
         .post("http://192.168.50.14/api/signin", {
@@ -68,8 +69,8 @@ export default {
 
             var syncCensus = function(token) {
               var auth_obj = token;
-              console.log(auth_obj);
-              console.log(census);
+                //console.log(census);
+                console.log(auth_obj);
 
               //Validate
               if (census.DIVISION_ID != auth_obj.division_id) {
@@ -122,8 +123,16 @@ export default {
     loginClose() {
       $("#login-modal-syncup").modal("hide");
     },
-    loginForm2(census) {
-      this.census = census;
+    loginForm2(CensusId) {
+        this.census = {};
+        store.getCensus(CensusId, (err, Census) => {
+            if (err) {
+            } else {
+                this.census = Census;
+            }
+        });
+      //this.census = census;
+      //console.log(census);
       $("#sync-census-modal").modal("show");
     }
   },

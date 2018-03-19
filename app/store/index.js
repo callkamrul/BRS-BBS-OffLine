@@ -213,7 +213,7 @@ store.addCensus = (Census) => {
                             values+= `'` + Census[key] + `'`;
                         }
                     }else {
-                        values+= `''`;
+                        values+= `(NULL)`;
                     }
                 }
                 //bindValues+= `'` + Census[key] + `'`;
@@ -263,7 +263,7 @@ store.editCensus = (catId, Census) => {
                         rawSql+= key +`= "`+ Census[key] + `"`;
                     }
                 }else {
-                    rawSql+= key +`= ""`;
+                    rawSql+= key +`= (NULL)`;
                 }
             }
         }
