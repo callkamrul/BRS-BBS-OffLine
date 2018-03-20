@@ -94,6 +94,9 @@ export default {
 
                   if (response.status == 200) {
                     console.log(response);
+                    console.log(response.data.id);
+                    var sql = `UPDATE CENSUS SET SERVER_ID = ${response.data.id }, UNIT_IDENTIFICATION_CODE = "${response.data.unit_identification_code}" WHERE ID=${census.ID}`;
+                      db.run(sql);
                   } else {
                     alert(response.token);
                     return 0;
