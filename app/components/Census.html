@@ -7,10 +7,10 @@
 			    <i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
 
 
-				<button v-show="isEdit == false && onLine == true" class="btn btn-primary" type="button"
+				<!--<button v-show="isEdit == false && onLine == true" class="btn btn-primary" type="button"
                         @click="syncSetup" value="submit" data-toggle="modal" data-target="#login-modal">
 					<i class="fa fa-arrow-circle-down"></i> Sync Setup
-				</button>
+				</button>-->
 					
                 <span v-show="onLine == true" class="pull-right label label-success"><i class="fa fa-circle"></i> Online</span>
                 <span v-show="onLine == false" class="pull-right label label-danger"><i class="fa fa-circle"></i> Offline</span>
