@@ -10,6 +10,33 @@ jQuery(document).ready(function($) {
         }, 5000);
     });
 
+    var amount_fields = $('#total-assets-amount, #current-capital-amount, #land_factory_buildings_value,' +
+        '#yearly-turnover, #last-year-invested-capital, #foreign-res-investment, #last-year-production-raw-materials,' +
+        '#last-year-salary-amount, #loan-last-year, #last-year-other-expenses-amount');
+
+    amount_fields.closest('.form-group').append('<div class="in-words text-bold"></div>');
+
+    amount_fields.on('keyup',function () {
+        var this_item = $(this),
+            this_val = this_item.val(),
+            converted_amount = Math.round(this_val * 100000);
+        console.log(Math.round(this_val * 100000));
+
+        this_item.closest('.form-group').find('.in-words').text( inWords(converted_amount) );
+    });
+
+    $('#loan_received_2016_2017').closest('.input-group').append('<div class="in-words text-bold"></div>');
+
+    $('#loan_received_2016_2017').on('keyup',function () {
+        var this_item = $(this),
+            this_val = this_item.val(),
+            converted_amount = Math.round(this_val * 100000);
+        console.log(Math.round(this_val * 100000));
+
+        this_item.closest('.input-group').find('.in-words').text( inWords(converted_amount) );
+    });
+
+
     /*var select2_control = $('.select');
     selectDropDown = select2_control.select2();
     selectDropDown.on('select2:select', function (e) {
