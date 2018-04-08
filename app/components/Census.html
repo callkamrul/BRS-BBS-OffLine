@@ -39,7 +39,8 @@
                         <td>{{Census.unit_type_name}}</td>
                         <td>{{Census.census_year}}</td>
                         <td>{{Census.is_registred}}</td>
-                        <td>
+                        <td v-if="!Census.unit_identification_code">
+
                             <button @click="editCensus(id)" class="btn btn-success">
                                 <i class="edit fa fa-edit"></i> Edit
                             </button>
@@ -49,6 +50,7 @@
                             <button v-show="onLine == true" @click="syncCensus(id)" class="btn btn-success" data-toggle="modal" data-target="#login-modal-syncup">
                                 <i class="fa fa-arrow-circle-up"></i> Sync Up
                             </button>
+
                         </td>
                     </tr>
                     </tbody>
