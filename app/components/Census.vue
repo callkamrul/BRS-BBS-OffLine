@@ -24,6 +24,10 @@
 
                 onLine: false,
                 isEdit: false,
+                isCity: false,
+                isHeadOfficePouro: false,
+                isHeadOfficeCity: false,
+                isPouro: false,
                 selectedCensus: "",
                 msg_division: "",
                 msg_districts: "",
@@ -89,8 +93,12 @@
                 mauzaMahalla: [],
                 HeadOfficedistricts: [],
                 headOfficeThanaUpazilla: [],
+                city_corporation: [],
+                headOfficeCityCorporation: [],
+                pourosabha: [],
                 headOfficeUnionWards: [],
-                headOfficeMauza: []
+                headOfficeMauza: [],
+                headOfficePourosabha: []
             };
         },
         props: ["censuses"],
@@ -273,13 +281,33 @@
                 //$('#division-id').val(this.census.DISTRICT_ID)
             },
             loadThanaUpazilla: function (e) {
+                var district_id = this.census.DISTRICT_ID;
                 this.census.THANA_UPZ_ID = 0;
+                this.city_corporation = [];
                 this.thanaUpazilla = this.all_thanaUpazilla.filter(f => String(f.DISTRICT_ID) == this.census.DISTRICT_ID);
                 //$('#thana_upz_id').val(this.census.THANA_UPZ_ID)
+                store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
+                    this.city_corporation = cityCorpList;
+                }, district_id,1);
             },
             loadUnionWard() {
                 this.census.WARD_UNION_ID = 0;
+                var thana_id = this.census.THANA_UPZ_ID;
+                this.pourosabha = [];
                 this.unionWards = this.all_unionWards.filter(f => String(f.THANA_UPAZILA_ID) == this.census.THANA_UPZ_ID);
+                store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
+                    this.pourosabha = cityCorpList;
+                }, thana_id,2);
+
+            },
+            loadUnionWardByPourasabha() {
+                this.census.WARD_UNION_ID = 0;
+                var pourasabhaId = this.census.PAURASHAVA_ID;
+                var thana_id = this.census.THANA_UPZ_ID;
+                store.getUnionWardByThanaUpazilla((err, unionList) => {
+                    this.unionWards = unionList;
+                }, thana_id, pourasabhaId);
+
             },
             loadMauzaMahalla() {
                 this.census.MAHALLAH_ID = 0;
@@ -301,17 +329,36 @@
             },
             loadHeadOfficeThana: function (e) {
                 this.headOfficeThanaUpazilla = [];
+                this.headOfficeCityCorporation = [];
                 var district_id = this.census.HEAD_OFFICE_DISTRICT;
                 store.getThanaUpazillaByDistrict((err, thanaList) => {
                     this.headOfficeThanaUpazilla = thanaList;
                 }, district_id);
+
+                store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
+                    this.headOfficeCityCorporation = cityCorpList;
+                }, district_id,1);
             },
             loadHeadOfficeUnionWard() {
                 this.headOfficeUnionWards = [];
+                this.headOfficePourosabha = [];
                 var thanaId = this.census.HEAD_OFFICE_THANA_UPZ;
                 store.getUnionWardByThanaUpazilla((err, unionList) => {
                     this.headOfficeUnionWards = unionList;
                 }, thanaId);
+
+                store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
+                    this.headOfficePourosabha = cityCorpList;
+                }, thanaId,2);
+            },
+            loadHeadOfficeUnionWardByPourasabha() {
+                this.headOfficeUnionWards = [];
+                var pourasabhaId = this.census.HEAD_OFFICE_PAURASHAVA_ID;
+                var thana_id = this.census.HEAD_OFFICE_THANA_UPZ;
+                store.getUnionWardByThanaUpazilla((err, unionList) => {
+                    this.headOfficeUnionWards = unionList;
+                }, thana_id, pourasabhaId);
+
             },
             loadHeadOfficeMauza() {
                 this.headOfficeMauza = [];
@@ -502,7 +549,33 @@
                     "cc_answer_options",
                     1
                 );
-            }
+            },
+            showHide: function () {
+                var locationTypeId = this.census.LOCATION_TYPE_ID;
+                if(locationTypeId == 1){
+                    this.isCity = true;
+                    this.isPouro = false;
+                } else if (locationTypeId == 2) {
+                    this.isCity = false;
+                    this.isPouro = true;
+                } else {
+                    this.isCity = false;
+                    this.isPouro = false;
+                }
+            },
+            showHideHeadOffice: function () {
+                var locationTypeId = this.census.HEAD_OFFICE_LOCATION_TYPE_ID;
+                if(locationTypeId == 1){
+                    this.isHeadOfficeCity = true;
+                    this.isHeadOfficePouro = false;
+                } else if (locationTypeId == 2) {
+                    this.isHeadOfficeCity = false;
+                    this.isHeadOfficePouro = true;
+                } else {
+                    this.isHeadOfficeCity = false;
+                    this.isHeadOfficePouro = false;
+                }
+            },
         }
     };
 </script>

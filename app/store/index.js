@@ -48,11 +48,33 @@ store.getThanaUpazillaByDistrict = function(cb, $districtId = null)
         cb(null, thanaList);
     });
 }
-store.getUnionWardByThanaUpazilla = function(cb, $thanaId)
+store.getCityCorporationPourosabhaByDistrict = function(cb, $districtThanaId = null,$locationTypeId = null)
+{
+    var $condition = '';
+    if($locationTypeId == 1){
+        $condition = `where DISTRICT_ID=${$districtThanaId} AND LOCATION_TYPE_ID = ${$locationTypeId}`; // 1 For city corporation
+    } else if($locationTypeId == 2) {
+        $condition = `where THANA_UPAZILA_ID=${$districtThanaId} AND LOCATION_TYPE_ID = ${$locationTypeId}`;
+    } else {
+        $condition = `where ID = 0`;
+    }
+
+    var cityCorpList =[];
+    db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, DISTRICT_ID
+	From CITY_CORP_PAURASAVAS ${$condition}`, function (err, row) {
+        cityCorpList.push(row);
+    }, function (err, rowCount) {
+        cb(null, cityCorpList);
+    });
+}
+store.getUnionWardByThanaUpazilla = function(cb, $thanaId, $pourasabhaId = null)
 {
     var $condition = '';
     if($thanaId){
         $condition = `where THANA_UPAZILA_ID=${$thanaId}`;
+    }
+    if($pourasabhaId){
+        $condition = `where CITY_CORP_PAURASAVA_ID=${$pourasabhaId}`;
     }
     var unionList =[];
     db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, THANA_UPAZILA_ID

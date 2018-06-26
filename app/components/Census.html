@@ -2,8 +2,9 @@
     <h2> স্ট্যাটিস্টিক্যাল বিজনেস রেজিস্টার
         <span class="clickable right-float">
                 <button v-show="isEdit == false" @click="addCensus" class="btn btn-primary trigger-form" type="button">
-					<i class="fa fa-plus"></i> Add Census
+					<i class="fa fa-plus"></i> Add Business Register Information
 				</button>
+                <a v-show="isEdit == false" class="btn btn-primary" href="javascript:location.reload(true)">Reload</a>
 			    <i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
 
 
@@ -122,7 +123,7 @@
                                     <tr>
                                         <td rowspan="4" class="padding-10">
 
-                                            <table  width="350" border="0">
+                                            <table  width="400" border="0">
                                                 <tbody>
                                                 <tr>
                                                     <td width="36%">
@@ -168,7 +169,51 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label for="thana-upz-id">১.৩ থানা/উপজেলা</label>
+                                                        <label for="location-id">১.৩ PSA/Non-PSA</label>
+                                                        <small class="text-danger">*</small>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group text-normal">
+                                                            <label class="radio-inline less-padding">
+                                                                <div class="">
+                                                                    <input class="location" id="location_type_id_1" v-on:change="showHide" v-model="census.LOCATION_TYPE_ID" type="radio" value="1">
+                                                                </div>
+                                                                সিটি কর্পো.
+                                                            </label>
+                                                            <label class="radio-inline less-padding">
+                                                                <div class="">
+                                                                    <input class="location" id="location_type_id_2" v-on:change="showHide"  v-model="census.LOCATION_TYPE_ID" type="radio" value="2">
+                                                                </div>
+                                                                পৌরসভা
+                                                            </label>
+                                                            <label class="radio-inline less-padding">
+                                                                <div class="">
+                                                                    <input class="location" id="location_type_id_3" v-on:change="showHide"  v-model="census.LOCATION_TYPE_ID" type="radio" value="3">
+                                                                </div>
+                                                                ইউনিয়ন
+                                                            </label>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr id="city-corp-id" class="" v-if="isCity">
+                                                    <td> <label for="city_corp_id">  সিটি কর্পোরেশন</label></td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <select class="select form-control" id="city_corp_id" v-model="census.CITY_CORP_ID">
+                                                                <option value=""></option>
+                                                                <option v-for="item in city_corporation" :value="item.ID">
+                                                                    {{item.NAME}}
+                                                                </option>
+
+                                                            </select>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label for="thana-upz-id">১.৪ থানা/উপজেলা</label>
                                                         <small class="text-danger">*</small>
                                                     </td>
                                                     <td>
@@ -190,9 +235,23 @@
 
                                                     </td>
                                                 </tr>
+                                                <tr id="paurashava-id" class="" v-if="isPouro">
+                                                    <td><label for="paurashava_id">  পৌরসভা</label></td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <select class="select form-control" @change="loadUnionWardByPourasabha" id="paurashava_id" v-model="census.PAURASHAVA_ID" name="paurashava_id">
+                                                                <option value=""></option>
+                                                                <option v-for="item in pourosabha" :value="item.ID">
+                                                                    {{item.NAME}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>
-                                                        <label for="ward-union-id">১.৪ ওয়ার্ড/ইউনিয়ন</label>
+                                                        <label for="ward-union-id">১.৫ ওয়ার্ড/ইউনিয়ন</label>
                                                         <small class="text-danger">*</small>
                                                     </td>
                                                     <td>
@@ -213,7 +272,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label for="mahallah-id">১.৫ মৌজা</label>
+                                                        <label for="mahallah-id">১.৬ মৌজা</label>
                                                         <small class="text-danger">*</small>
                                                     </td>
                                                     <td>
@@ -235,7 +294,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label for="rmo-code">১.৬ RMO</label>
+                                                        <label for="rmo-code">১.৭ RMO</label>
                                                         <small class="text-danger">*</small>
                                                     </td>
                                                     <td class="form-group ">
@@ -890,6 +949,51 @@
 
                                                                 </td>
                                                             </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <label for="head-location-id">PSA/Non-PSA</label>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group text-normal">
+                                                                        <label class="radio-inline">
+                                                                            <div class="">
+                                                                                <input class="location" id="head_office_location_type_id_1" v-on:change="showHideHeadOffice" v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="1">
+                                                                            </div>
+                                                                            সিটি কর্পো.
+                                                                        </label>
+                                                                        <label class="radio-inline">
+                                                                            <div class="">
+                                                                                <input class="location" id="head_office_location_type_id_2" v-on:change="showHideHeadOffice"  v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="2">
+                                                                            </div>
+                                                                            পৌরসভা
+                                                                        </label>
+                                                                        <label class="radio-inline">
+                                                                            <div class="">
+                                                                                <input class="location" id="head_office_location_type_id_3" v-on:change="showHideHeadOffice"  v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="3">
+                                                                            </div>
+                                                                            ইউনিয়ন
+                                                                        </label>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr id="head-office-city-corp-id" class="" v-if="isHeadOfficeCity">
+                                                                <td> <label for="city_corp_id">  সিটি কর্পোরেশন</label></td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <select class="select form-control select2-md" v-model="census.HEAD_OFFICE_CITY_CORP_ID">
+                                                                            <option value=""></option>
+                                                                            <option v-for="item in headOfficeCityCorporation" :value="item.ID">
+                                                                                {{item.NAME}}
+                                                                            </option>
+
+                                                                        </select>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
                                                             <tr>
                                                                 <td>
                                                                     <label for="head-office-thana-upz">থানা/উপজেলা</label>
@@ -909,6 +1013,20 @@
                                                                             </option>
                                                                         </select>
                                                                     </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="" v-if="isHeadOfficePouro">
+                                                                <td><label for="paurashava_id">  পৌরসভা</label></td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <select class="select form-control select2-md" @change="loadHeadOfficeUnionWardByPourasabha" v-model="census.HEAD_OFFICE_PAURASHAVA_ID">
+                                                                            <option value=""></option>
+                                                                            <option v-for="item in headOfficePourosabha" :value="item.ID">
+                                                                                {{item.NAME}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+
                                                                 </td>
                                                             </tr>
                                                             <tr>
