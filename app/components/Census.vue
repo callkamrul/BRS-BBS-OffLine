@@ -178,6 +178,34 @@
                     } else {
                         this.census = Census;
                         this.isEdit = true;
+                        if(Census.LOCATION_TYPE_ID == 1){
+                            this.isCity = true;
+                            Census.CITY_CORP_ID = Census.CITY_CORP_PAURASAVA_ID;
+                            store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
+                                this.city_corporation = cityCorpList;
+                            }, Census.DISTRICT_ID,1);
+
+                        } else if(Census.LOCATION_TYPE_ID == 2) {
+                            this.isPouro = true;
+                            Census.PAURASHAVA_ID = Census.CITY_CORP_PAURASAVA_ID;
+                            store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
+                                this.pourosabha = cityCorpList;
+                            }, Census.THANA_UPZ_ID, 2);
+                        }
+                        if(Census.HEAD_OFFICE_LOCATION_TYPE_ID == 1){
+                            this.isHeadOfficeCity = true;
+                            Census.HEAD_OFFICE_CITY_CORP_ID = Census.HEAD_OFFICE_CITY_CORP_PAURASAV;
+                            store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
+                                this.headOfficeCityCorporation = cityCorpList;
+                            }, Census.HEAD_OFFICE_DISTRICT,1);
+
+                        } else if(Census.HEAD_OFFICE_LOCATION_TYPE_ID == 2) {
+                            this.isHeadOfficePouro = true;
+                            Census.HEAD_OFFICE_PAURASHAVA_ID = Census.HEAD_OFFICE_CITY_CORP_PAURASAV;
+                            store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
+                                this.headOfficePourosabha = cityCorpList;
+                            }, Census.HEAD_OFFICE_THANA_UPZ, 2);
+                        }
                         // Load address (division, district, thana list) in edit mode
                         this.districts = this.all_districts.filter(f => String(f.DIVISION_ID) == Census.DIVISION_ID);
                         this.thanaUpazilla = this.all_thanaUpazilla.filter(f => String(f.DISTRICT_ID) == Census.DISTRICT_ID);
