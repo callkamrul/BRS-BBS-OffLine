@@ -984,7 +984,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         <select class="select form-control select2-md" v-model="census.HEAD_OFFICE_CITY_CORP_ID">
-                                                                            <option value=""></option>
+                                                                            <option value="0"></option>
                                                                             <option v-for="item in headOfficeCityCorporation" :value="item.ID">
                                                                                 {{item.NAME}}
                                                                             </option>
@@ -1007,7 +1007,7 @@
                                                                                 v-model="census.HEAD_OFFICE_THANA_UPZ"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected"
-                                                                                    value=""></option>
+                                                                                    value="0"></option>
                                                                             <option v-for="item in headOfficeThanaUpazilla"
                                                                                     :value="item.ID">{{item.NAME}}
                                                                             </option>
@@ -1020,7 +1020,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         <select class="select form-control select2-md" @change="loadHeadOfficeUnionWardByPourasabha" v-model="census.HEAD_OFFICE_PAURASHAVA_ID">
-                                                                            <option value=""></option>
+                                                                            <option value="0"></option>
                                                                             <option v-for="item in headOfficePourosabha" :value="item.ID">
                                                                                 {{item.NAME}}
                                                                             </option>
@@ -1042,7 +1042,7 @@
                                                                                 v-model="census.HEAD_OFFICE_WARD_UNION"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected"
-                                                                                    value=""></option>
+                                                                                    value="0"></option>
                                                                             <option v-for="item in headOfficeUnionWards"
                                                                                     :value="item.ID">{{item.NAME}}
                                                                             </option>
@@ -1062,7 +1062,7 @@
                                                                                 v-model="census.HEAD_OFFICE_MAUZA"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected"
-                                                                                    value=""></option>
+                                                                                    value="0"></option>
                                                                             <option v-for="item in headOfficeMauza"
                                                                                     :value="item.ID">{{item.NAME}}
                                                                             </option>

@@ -48,6 +48,7 @@
                     THANA_UPZ_ID: 0,
                     WARD_UNION_ID: 0,
                     MAHALLAH_ID: 0,
+                    HEAD_OFFICE_PAURASHAVA_ID: 0,
                     RMO_CODE: 0,
                     SERIAL_NO_UNIT: 0,
                     NAME_OF_UNIT: "",
@@ -579,6 +580,11 @@
                 );
             },
             showHide: function () {
+                this.census.THANA_UPZ_ID = 0;
+                this.census.CITY_CORP_ID = 0;
+                this.census.PAURASHAVA_ID = 0;
+                this.census.WARD_UNION_ID = 0;
+                this.census.MAHALLAH_ID = 0;
                 var locationTypeId = this.census.LOCATION_TYPE_ID;
                 if(locationTypeId == 1){
                     this.isCity = true;
@@ -592,6 +598,11 @@
                 }
             },
             showHideHeadOffice: function () {
+                this.census.HEAD_OFFICE_THANA_UPZ = 0;
+                this.census.HEAD_OFFICE_PAURASHAVA_ID = 0;
+                this.census.HEAD_OFFICE_CITY_CORP_ID = 0;
+                this.census.HEAD_OFFICE_WARD_UNION = 0;
+                this.census.HEAD_OFFICE_MAUZA = 0;
                 var locationTypeId = this.census.HEAD_OFFICE_LOCATION_TYPE_ID;
                 if(locationTypeId == 1){
                     this.isHeadOfficeCity = true;

@@ -211,7 +211,6 @@ store.addCensus = (Census) => {
         var values = ` values(`;
         var bindValues = '';
         var c = 0;
-        console.log(Census);
         for (var key in Census) {
             if (Census.hasOwnProperty(key) && key != 'ID') {
                 /**
@@ -346,7 +345,22 @@ store.editCensus = (catId, Census) => {
 
                     }
                 }else {
-                    rawSql+= key +`= (NULL)`;
+                    if(key == 'CITY_CORP_ID' || key == 'PAURASHAVA_ID'){
+                        if(!Census.CITY_CORP_ID && !Census.PAURASHAVA_ID){
+                            rawSql+= 'CITY_CORP_PAURASAVA_ID' +`= (NULL)`;
+                            delete Census.CITY_CORP_ID;
+                            delete Census.PAURASHAVA_ID;
+                        }
+
+                    } else if(key == 'HEAD_OFFICE_CITY_CORP_ID' || key == 'HEAD_OFFICE_PAURASHAVA_ID'){
+                        if(!Census.HEAD_OFFICE_CITY_CORP_ID && !Census.HEAD_OFFICE_PAURASHAVA_ID){
+                            rawSql+= 'HEAD_OFFICE_CITY_CORP_PAURASAV' +`= (NULL)`;
+                            delete Census.HEAD_OFFICE_CITY_CORP_ID;
+                            delete Census.HEAD_OFFICE_PAURASHAVA_ID;
+                        }
+                    } else {
+                        rawSql+= key +`= (NULL)`;
+                    }
                 }
             }
         }
