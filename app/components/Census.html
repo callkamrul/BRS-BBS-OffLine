@@ -711,7 +711,7 @@
                                         </td>
                                         <td class="padding-10 valign-middle">
                                             <div class="form-group">
-                                                <select class="select form-control " id="unit-mode-code"
+                                                <select class="select form-control " id="unit-mode-code" @change="typeOfInstitution"
                                                         name="unit_mode_code" v-model="census.UNIT_MODE_CODE"
                                                         tabindex="-1" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
@@ -756,6 +756,7 @@
                                                                         <input class="form-control text-uppercase"
                                                                                id="head-office-name"
                                                                                name="head_office_name"
+                                                                               v-bind:disabled="enableDisableHOName"
                                                                                v-model="census.HEAD_OFFICE_NAME"
                                                                                type="text">
                                                                     </div>
@@ -771,6 +772,7 @@
                                                                         <input class="form-control text-uppercase"
                                                                                id="head-office-mahallah"
                                                                                name="head_office_mahallah"
+                                                                               v-bind:disabled="enableDisableHOMahallah"
                                                                                v-model="census.HEAD_OFFICE_MAHALLAH"
                                                                                type="text">
                                                                     </div>
@@ -787,6 +789,7 @@
                                                                         <input class="form-control text-uppercase"
                                                                                id="head-office-house"
                                                                                name="head_office_house"
+                                                                               v-bind:disabled="enableDisableHOHouse"
                                                                                v-model="census.HEAD_OFFICE_HOUSE"
                                                                                type="text">
                                                                     </div>
@@ -803,6 +806,7 @@
                                                                         <input class="form-control text-uppercase"
                                                                                id="head-office-road"
                                                                                name="head_office_road"
+                                                                               v-bind:disabled="enableDisableHORoad"
                                                                                v-model="census.HEAD_OFFICE_ROAD"
                                                                                type="text">
                                                                     </div>
@@ -819,6 +823,7 @@
                                                                         <input class="form-control"
                                                                                id="head-office-floor-level"
                                                                                name="head_office_floor_level"
+                                                                               v-bind:disabled="enableDisableHOFloor"
                                                                                v-model="census.HEAD_OFFICE_FLOOR_LEVEL"
                                                                                type="text">
                                                                     </div>
@@ -833,6 +838,7 @@
                                                                         <input class="form-control"
                                                                                id="head-office-holding-number"
                                                                                name="head_office_holiding_no"
+                                                                               v-bind:disabled="enableDisableHOHolding"
                                                                                v-model="census.HEAD_OFFICE_HOLIDING_NO"
                                                                                type="text">
                                                                     </div>
@@ -848,6 +854,7 @@
                                                                         <input class="form-control"
                                                                                id="head-office-phone"
                                                                                name="head_office_phone"
+                                                                               v-bind:disabled="enableDisableHOPhone"
                                                                                v-model="census.HEAD_OFFICE_PHONE"
                                                                                type="text">
                                                                     </div>
@@ -860,6 +867,7 @@
                                                                     <div class="form-group">
                                                                         <input class="form-control" id="head-office-fax"
                                                                                name="head_office_fax"
+                                                                               v-bind:disabled="enableDisableHOFax"
                                                                                v-model="census.HEAD_OFFICE_FAX"
                                                                                type="text">
                                                                     </div>
@@ -877,6 +885,7 @@
                                                                                id="head-office-email"
                                                                                placeholder="someone@example.com"
                                                                                name="head_office_email"
+                                                                               v-bind:disabled="enableDisableHOEmail"
                                                                                v-model="census.HEAD_OFFICE_EMAIL"
                                                                                type="email">
                                                                     </div>
@@ -891,6 +900,7 @@
                                                                                id="head-office-website"
                                                                                placeholder="http://www.example.com"
                                                                                name="head_office_website"
+                                                                               v-bind:disabled="enableDisableHOWebsite"
                                                                                v-model="census.HEAD_OFFICE_WEBSITE"
                                                                                type="text">
                                                                     </div>
@@ -916,6 +926,7 @@
                                                                                 id="head-office-division"
                                                                                 name="head_office_division"
                                                                                 tabindex="-1" aria-hidden="true"
+                                                                                v-bind:disabled="enableDisableHODivision"
                                                                                 v-model="census.HEAD_OFFICE_DIVISION">
                                                                             <option selected="selected"
                                                                                     value=""></option>
@@ -937,6 +948,7 @@
                                                                                 @change="loadHeadOfficeThana"
                                                                                 id="head-office-district"
                                                                                 name="head_office_district"
+                                                                                v-bind:disabled="enableDisableHODistrict"
                                                                                 v-model="census.HEAD_OFFICE_DISTRICT"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected" value="">
@@ -958,19 +970,19 @@
                                                                     <div class="form-group text-normal">
                                                                         <label class="radio-inline">
                                                                             <div class="">
-                                                                                <input class="location" id="head_office_location_type_id_1" v-on:change="showHideHeadOffice" v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="1">
+                                                                                <input class="location" id="head_office_location_type_id_1" v-on:change="showHideHeadOffice" v-bind:disabled="enableDisableHOLocation"  v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="1">
                                                                             </div>
                                                                             সিটি কর্পো.
                                                                         </label>
                                                                         <label class="radio-inline">
                                                                             <div class="">
-                                                                                <input class="location" id="head_office_location_type_id_2" v-on:change="showHideHeadOffice"  v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="2">
+                                                                                <input class="location" id="head_office_location_type_id_2" v-on:change="showHideHeadOffice" v-bind:disabled="enableDisableHOLocation"  v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="2">
                                                                             </div>
                                                                             পৌরসভা
                                                                         </label>
                                                                         <label class="radio-inline">
                                                                             <div class="">
-                                                                                <input class="location" id="head_office_location_type_id_3" v-on:change="showHideHeadOffice"  v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="3">
+                                                                                <input class="location" id="head_office_location_type_id_3" v-on:change="showHideHeadOffice" v-bind:disabled="enableDisableHOLocation"   v-model="census.HEAD_OFFICE_LOCATION_TYPE_ID" type="radio" value="3">
                                                                             </div>
                                                                             ইউনিয়ন
                                                                         </label>
@@ -983,7 +995,7 @@
                                                                 <td> <label for="city_corp_id">  সিটি কর্পোরেশন</label></td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control select2-md" v-model="census.HEAD_OFFICE_CITY_CORP_ID">
+                                                                        <select class="select form-control select2-md" v-bind:disabled="enableDisableHOCity" v-model="census.HEAD_OFFICE_CITY_CORP_ID">
                                                                             <option value="0"></option>
                                                                             <option v-for="item in headOfficeCityCorporation" :value="item.ID">
                                                                                 {{item.NAME}}
@@ -1004,6 +1016,7 @@
                                                                                 @change="loadHeadOfficeUnionWard"
                                                                                 id="head-office-thana-upz"
                                                                                 name="head_office_thana_upz"
+                                                                                v-bind:disabled="enableDisableHOThana"
                                                                                 v-model="census.HEAD_OFFICE_THANA_UPZ"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected"
@@ -1019,7 +1032,7 @@
                                                                 <td><label for="paurashava_id">  পৌরসভা</label></td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control select2-md" @change="loadHeadOfficeUnionWardByPourasabha" v-model="census.HEAD_OFFICE_PAURASHAVA_ID">
+                                                                        <select class="select form-control select2-md" @change="loadHeadOfficeUnionWardByPourasabha" v-bind:disabled="enableDisableHOPourasabha" v-model="census.HEAD_OFFICE_PAURASHAVA_ID">
                                                                             <option value="0"></option>
                                                                             <option v-for="item in headOfficePourosabha" :value="item.ID">
                                                                                 {{item.NAME}}
@@ -1039,6 +1052,7 @@
                                                                                 @change="loadHeadOfficeMauza"
                                                                                 id="head-office-ward-union"
                                                                                 name="head_office_ward_union"
+                                                                                v-bind:disabled="enableDisableHOWardUnion"
                                                                                 v-model="census.HEAD_OFFICE_WARD_UNION"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected"
@@ -1059,6 +1073,7 @@
                                                                         <select class="select form-control select2-md"
                                                                                 id="head-office-mauza"
                                                                                 name="head_office_mauza"
+                                                                                v-bind:disabled="enableDisableHOMauza"
                                                                                 v-model="census.HEAD_OFFICE_MAUZA"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected"
@@ -1079,6 +1094,7 @@
                                                                         <select class="select form-control select2-md"
                                                                                 id="head-office-rmo-code"
                                                                                 name="head_office_rmo_code"
+                                                                                v-bind:disabled="enableDisableHORmo"
                                                                                 v-model="census.HEAD_OFFICE_RMO_CODE"
                                                                                 tabindex="-1" aria-hidden="true">
                                                                             <option selected="selected"

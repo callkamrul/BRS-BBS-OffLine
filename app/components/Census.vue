@@ -75,6 +75,25 @@
                 enableEntGroupId2: true,
                 enableEnterprise: true,
                 enableClosingReasonOther: true,
+                enableDisableHOName: false,
+                enableDisableHOMahallah: false,
+                enableDisableHOHouse: false,
+                enableDisableHORoad: false,
+                enableDisableHOFloor: false,
+                enableDisableHOHolding: false,
+                enableDisableHOPhone: false,
+                enableDisableHOFax: false,
+                enableDisableHOEmail: false,
+                enableDisableHOWebsite: false,
+                enableDisableHODivision: false,
+                enableDisableHODistrict: false,
+                enableDisableHOCity: false,
+                enableDisableHOThana: false,
+                enableDisableHOPourasabha: false,
+                enableDisableHOWardUnion: false,
+                enableDisableHOMauza: false,
+                enableDisableHORmo: false,
+                enableDisableHOLocation: false,
                 rmos: [],
 
                 rmos: [],
@@ -143,7 +162,7 @@
                 return this.districts.filter(
                     district => district.division_id == division_id
                 );
-            }
+            },
         },
         methods: {
             updateOnlineStatus() {
@@ -207,6 +226,32 @@
                                 this.headOfficePourosabha = cityCorpList;
                             }, Census.HEAD_OFFICE_THANA_UPZ, 2);
                         }
+
+                        if(this.census.UNIT_MODE_CODE == 1 || this.census.UNIT_MODE_CODE == 6){
+
+                            //disableHeadOfficeAddress
+                            this.enableDisableHOName = true;
+                            this.enableDisableHOMahallah = true;
+                            this.enableDisableHOHouse = true;
+                            this.enableDisableHORoad = true;
+                            this.enableDisableHOFloor = true;
+                            this.enableDisableHOHolding = true;
+                            this.enableDisableHOPhone = true;
+                            this.enableDisableHOFax = true;
+                            this.enableDisableHOEmail = true;
+                            this.enableDisableHOWebsite = true;
+                            this.enableDisableHODivision = true;
+                            this.enableDisableHODistrict = true;
+                            this.enableDisableHOLocation = true;
+                            this.enableDisableHOCity = true;
+                            this.enableDisableHOThana = true;
+                            this.enableDisableHOPourasabha = true;
+                            this.enableDisableHOWardUnion = true;
+                            this.enableDisableHOMauza = true;
+                            this.enableDisableHORmo = true;
+
+                        }
+
                         // Load address (division, district, thana list) in edit mode
                         this.districts = this.all_districts.filter(f => String(f.DIVISION_ID) == Census.DIVISION_ID);
                         this.thanaUpazilla = this.all_thanaUpazilla.filter(f => String(f.DISTRICT_ID) == Census.DISTRICT_ID);
@@ -615,6 +660,115 @@
                     this.isHeadOfficePouro = false;
                 }
             },
+            typeOfInstitution: function () {
+                var institutionType = this.census.UNIT_MODE_CODE;
+                if(institutionType == 1){
+                    this.census.HEAD_OFFICE_NAME = this.census.NAME_OF_UNIT;
+                    this.census.HEAD_OFFICE_MAHALLAH = this.census.NAME_OF_MAHALLAH;
+                    this.census.HEAD_OFFICE_HOUSE = this.census.NAME_OF_HOUSE;
+                    this.census.HEAD_OFFICE_ROAD = this.census.NO_NAME_OF_ROAD;
+                    this.census.HEAD_OFFICE_FLOOR_LEVEL = this.census.FLOOR_LEVEL;
+                    this.census.HEAD_OFFICE_HOLIDING_NO = this.census.HOLIDING_NO;
+                    this.census.HEAD_OFFICE_PHONE = this.census.PHONE;
+                    this.census.HEAD_OFFICE_FAX = this.census.FAX;
+                    this.census.HEAD_OFFICE_EMAIL = this.census.EMAIL;
+                    this.census.HEAD_OFFICE_WEBSITE = this.census.WEBSITE;
+
+                    this.census.HEAD_OFFICE_DIVISION = this.census.DIVISION_ID;
+
+                    this.HeadOfficedistricts = this.districts;
+                    this.census.HEAD_OFFICE_DISTRICT = this.census.DISTRICT_ID;
+
+                    this.headOfficeThanaUpazilla = this.thanaUpazilla;
+                    this.census.HEAD_OFFICE_THANA_UPZ = this.census.THANA_UPZ_ID;
+
+                    this.headOfficeUnionWards = this.unionWards;
+                    this.census.HEAD_OFFICE_WARD_UNION = this.census.WARD_UNION_ID;
+
+                    this.headOfficeMauza = this.mauzaMahalla;
+                    this.census.HEAD_OFFICE_MAUZA = this.census.MAHALLAH_ID;
+                    this.census.HEAD_OFFICE_RMO_CODE = this.census.RMO_CODE;
+                    this.census.HEAD_OFFICE_LOCATION_TYPE_ID = this.census.LOCATION_TYPE_ID;
+                    var locationTypeId = this.census.LOCATION_TYPE_ID;
+                    if(locationTypeId == 1){
+                        this.isHeadOfficeCity = true;
+                        this.headOfficeCityCorporation = this.city_corporation;
+                        this.census.HEAD_OFFICE_CITY_CORP_ID = this.census.CITY_CORP_ID;
+                    } else if (locationTypeId == 2) {
+                        this.isHeadOfficePouro = true;
+                        this.headOfficePourosabha = this.pourosabha;
+                        this.census.HEAD_OFFICE_PAURASHAVA_ID = this.census.PAURASHAVA_ID;
+                    } else {
+                        this.isHeadOfficeCity = false;
+                        this.isHeadOfficePouro = false;
+                    }
+
+                    //disableHeadOfficeAddress
+                    this.enableDisableHOName = true;
+                    this.enableDisableHOMahallah = true;
+                    this.enableDisableHOHouse = true;
+                    this.enableDisableHORoad = true;
+                    this.enableDisableHOFloor = true;
+                    this.enableDisableHOHolding = true;
+                    this.enableDisableHOPhone = true;
+                    this.enableDisableHOFax = true;
+                    this.enableDisableHOEmail = true;
+                    this.enableDisableHOWebsite = true;
+                    this.enableDisableHODivision = true;
+                    this.enableDisableHODistrict = true;
+                    this.enableDisableHOLocation = true;
+                    this.enableDisableHOCity = true;
+                    this.enableDisableHOThana = true;
+                    this.enableDisableHOPourasabha = true;
+                    this.enableDisableHOWardUnion = true;
+                    this.enableDisableHOMauza = true;
+                    this.enableDisableHORmo = true;
+
+                } else if(institutionType == 6){
+                    //disableHeadOfficeAddress
+                    this.enableDisableHOName = true;
+                    this.enableDisableHOMahallah = true;
+                    this.enableDisableHOHouse = true;
+                    this.enableDisableHORoad = true;
+                    this.enableDisableHOFloor = true;
+                    this.enableDisableHOHolding = true;
+                    this.enableDisableHOPhone = true;
+                    this.enableDisableHOFax = true;
+                    this.enableDisableHOEmail = true;
+                    this.enableDisableHOWebsite = true;
+                    this.enableDisableHODivision = true;
+                    this.enableDisableHODistrict = true;
+                    this.enableDisableHOLocation = true;
+                    this.enableDisableHOCity = true;
+                    this.enableDisableHOThana = true;
+                    this.enableDisableHOPourasabha = true;
+                    this.enableDisableHOWardUnion = true;
+                    this.enableDisableHOMauza = true;
+                    this.enableDisableHORmo = true;
+                } else {
+                    //disableHeadOfficeAddress
+                    this.enableDisableHOName = false;
+                    this.enableDisableHOMahallah = false;
+                    this.enableDisableHOHouse = false;
+                    this.enableDisableHORoad = false;
+                    this.enableDisableHOFloor = false;
+                    this.enableDisableHOHolding = false;
+                    this.enableDisableHOPhone = false;
+                    this.enableDisableHOFax = false;
+                    this.enableDisableHOEmail = false;
+                    this.enableDisableHOWebsite = false;
+                    this.enableDisableHODivision = false;
+                    this.enableDisableHODistrict = false;
+                    this.enableDisableHOLocation = false;
+                    this.enableDisableHOCity = false;
+                    this.enableDisableHOThana = false;
+                    this.enableDisableHOPourasabha = false;
+                    this.enableDisableHOWardUnion = false;
+                    this.enableDisableHOMauza = false;
+                    this.enableDisableHORmo = false;
+                }
+            },
+
         }
     };
 </script>
