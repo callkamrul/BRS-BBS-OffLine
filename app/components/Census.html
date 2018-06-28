@@ -299,7 +299,7 @@
                                                     </td>
                                                     <td class="form-group ">
                                                         <select id="rmo-code" class="select form-control"
-                                                                required="required" name="rmo_code" tabindex="-1"
+                                                                required="required" name="rmo_code"
                                                                 v-model="census.RMO_CODE">
                                                             <option selected="selected" value=""></option>
                                                             <option v-for="rmo in rmos" :value="rmo.ID">{{rmo.NAME}}
@@ -473,8 +473,7 @@
                                         <td rowspan="2" class="padding-10 valign-middle">
                                             <select class="select form-control select2-sm" id="legal-ownership-code"
                                                     style="width: 500px" name="legal_ownership_code"
-                                                    v-model="census.LEGAL_OWNERSHIP_CODE" tabindex="-1"
-                                                    aria-hidden="true">
+                                                    v-model="census.LEGAL_OWNERSHIP_CODE">
                                                 <option selected="selected" value=""></option>
                                                 <option v-for="item in legal_ownerships" :value="item.ID">
                                                     {{item.NAME}}
@@ -486,7 +485,7 @@
                                         <td rowspan="2" class="padding-10 valign-middle">
                                             <select class="select form-control select2-sm" id="type-of-ownership"
                                                     name="type_of_ownership" v-model="census.TYPE_OF_OWNERSHIP"
-                                                    tabindex="-1" aria-hidden="true">
+                                                    >
                                                 <option selected="selected" value=""></option>
                                                 <option v-for="item in type_of_ownerships" :value="item.ID">
                                                     {{item.NAME}}
@@ -506,7 +505,7 @@
                                                     <td class="padding-10">
                                                         <select class="select form-control select2-sm" id="head-gender-code"
                                                                 name="head_gender_code"
-                                                                v-model="census.HEAD_GENDER_CODE" tabindex="-1"
+                                                                v-model="census.HEAD_GENDER_CODE"
                                                                 aria-hidden="true">
                                                             <option selected="selected" value=""></option>
                                                             <option v-for="item in genders" :value="item.ID">
@@ -525,7 +524,7 @@
                                                     <td class="padding-10">
                                                         <select class="select form-control select2-sm" id="head-education-code"
                                                                 name="head_education_code"
-                                                                v-model="census.HEAD_EDUCATION_CODE" tabindex="-1"
+                                                                v-model="census.HEAD_EDUCATION_CODE"
                                                                 aria-hidden="true">
                                                             <option selected="selected" value=""></option>
                                                             <option v-for="item in educations" :value="item.ID">
@@ -552,7 +551,7 @@
 
                                                         <select class="select form-control select2-sm" @change="checkUnitType"
                                                                 id="unit-type-code" required="required"
-                                                                name="unit_type_code" tabindex="-1" aria-hidden="true"
+                                                                name="unit_type_code"
                                                                 aria-required="true" v-model="census.UNIT_TYPE_CODE">
                                                             <option selected="selected" value=""></option>
                                                             <option v-for="item in unit_types" :value="item.ID">
@@ -589,7 +588,7 @@
                                                                     @change="checkIsUnderEntGroup"
                                                                     v-bind:disabled="enableIsUnderEntGroup"
                                                                     id="is-under-ent-group"
-                                                                    name="is_under_ent_group" tabindex="-1"
+                                                                    name="is_under_ent_group"
                                                                     aria-hidden="true"
                                                                     v-model="census.IS_UNDER_ENT_GROUP">
                                                                 <option selected="selected" value=""></option>
@@ -643,7 +642,7 @@
                                                                         v-bind:disabled="enableIsUnderEnt"
                                                                         name="is_under_enterprise"
                                                                         v-model="census.IS_UNDER_ENTERPRISE"
-                                                                        tabindex="-1" aria-hidden="true">
+                                                                        >
                                                                     <option selected="selected" value=""></option>
                                                                     <option v-for="item in yesNo" :value="item.ID">
                                                                         {{item.NAME}}
@@ -683,7 +682,7 @@
                                                                         id="is-under-ent-group-2"
                                                                         v-bind:disabled="enableIsUnderEnt2"
                                                                         v-model="census.IS_UNDER_ENT_GROUP2"
-                                                                        name="is_under_ent_group2" tabindex="-1"
+                                                                        name="is_under_ent_group2"
                                                                         aria-hidden="true">
                                                                     <option selected="selected" value=""></option>
                                                                     <option v-for="item in yesNo" :value="item.ID">
@@ -713,7 +712,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control " id="unit-mode-code" @change="typeOfInstitution"
                                                         name="unit_mode_code" v-model="census.UNIT_MODE_CODE"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in unitMode" :value="item.ID">{{item.NAME}}
                                                     </option>
@@ -925,7 +924,7 @@
                                                                                 @change="loadHeadOfficeDistricts"
                                                                                 id="head-office-division"
                                                                                 name="head_office_division"
-                                                                                tabindex="-1" aria-hidden="true"
+
                                                                                 v-bind:disabled="enableDisableHODivision"
                                                                                 v-model="census.HEAD_OFFICE_DIVISION">
                                                                             <option selected="selected"
@@ -950,7 +949,7 @@
                                                                                 name="head_office_district"
                                                                                 v-bind:disabled="enableDisableHODistrict"
                                                                                 v-model="census.HEAD_OFFICE_DISTRICT"
-                                                                                tabindex="-1" aria-hidden="true">
+                                                                                >
                                                                             <option selected="selected" value="">
                                                                             </option>
                                                                             <option v-for="item in HeadOfficedistricts"
@@ -1018,7 +1017,7 @@
                                                                                 name="head_office_thana_upz"
                                                                                 v-bind:disabled="enableDisableHOThana"
                                                                                 v-model="census.HEAD_OFFICE_THANA_UPZ"
-                                                                                tabindex="-1" aria-hidden="true">
+                                                                                >
                                                                             <option selected="selected"
                                                                                     value="0"></option>
                                                                             <option v-for="item in headOfficeThanaUpazilla"
@@ -1054,7 +1053,7 @@
                                                                                 name="head_office_ward_union"
                                                                                 v-bind:disabled="enableDisableHOWardUnion"
                                                                                 v-model="census.HEAD_OFFICE_WARD_UNION"
-                                                                                tabindex="-1" aria-hidden="true">
+                                                                                >
                                                                             <option selected="selected"
                                                                                     value="0"></option>
                                                                             <option v-for="item in headOfficeUnionWards"
@@ -1075,7 +1074,7 @@
                                                                                 name="head_office_mauza"
                                                                                 v-bind:disabled="enableDisableHOMauza"
                                                                                 v-model="census.HEAD_OFFICE_MAUZA"
-                                                                                tabindex="-1" aria-hidden="true">
+                                                                                >
                                                                             <option selected="selected"
                                                                                     value="0"></option>
                                                                             <option v-for="item in headOfficeMauza"
@@ -1096,7 +1095,7 @@
                                                                                 name="head_office_rmo_code"
                                                                                 v-bind:disabled="enableDisableHORmo"
                                                                                 v-model="census.HEAD_OFFICE_RMO_CODE"
-                                                                                tabindex="-1" aria-hidden="true">
+                                                                                >
                                                                             <option selected="selected"
                                                                                     value=""></option>
                                                                             <option v-for="rmo in rmos" :value="rmo.ID">
@@ -1128,7 +1127,7 @@
                                                             <select class="select form-control" id="is-reporting-unit"
                                                                     name="is_reporting_unit"
                                                                     v-model="census.IS_REPORTING_UNIT"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in yesNo" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1154,7 +1153,7 @@
                                                             <select class="select form-control " id="has-trade-license"
                                                                     name="has_trade_license"
                                                                     v-model="census.HAS_TRADE_LICENSE"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in yesNoOthers" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1181,7 +1180,7 @@
                                                                     id="trade-license-authority"
                                                                     name="trade_license_authority"
                                                                     v-model="census.TRADE_LICENSE_AUTHORITY"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option value="1">01 - সিটি কর্পোরেশন</option>
                                                                 <option value="2">02 - পৌরসভা</option>
@@ -1227,7 +1226,7 @@
                                                         <div class="form-group">
                                                             <select class="select form-control " id="is-registered"
                                                                     name="is_registered" v-model="census.IS_REGISTERED"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in yesNo" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1263,7 +1262,7 @@
                                                                         <select class="select form-control"
                                                                                 data-placeholder="" name="reg_org_code1"
                                                                                 v-model="census.REG_ORG_CODE1"
-                                                                                tabindex="-1"
+
                                                                                 aria-hidden="true">
                                                                             <option selected="selected"
                                                                                     value=""></option>
@@ -1281,7 +1280,7 @@
                                                                         <select class="select form-control"
                                                                                 data-placeholder="" name="reg_org_code2"
                                                                                 v-model="census.REG_ORG_CODE2"
-                                                                                tabindex="-1"
+
                                                                                 aria-hidden="true">
                                                                             <option selected="selected"
                                                                                     value=""></option>
@@ -1299,7 +1298,7 @@
                                                                         <select class="select form-control"
                                                                                 data-placeholder="" name="reg_org_code3"
                                                                                 v-model="census.REG_ORG_CODE3"
-                                                                                tabindex="-1"
+
                                                                                 aria-hidden="true">
                                                                             <option selected="selected"
                                                                                     value=""></option>
@@ -1396,7 +1395,7 @@
                                                 <select class="select form-control" id="is-under-permission-auth"
                                                         name="is_under_permission_auth"
                                                         v-model="census.IS_UNDER_PERMISSION_AUTH"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
                                                     </option>
@@ -1412,7 +1411,7 @@
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id1"
                                                                     v-model="census.PERMISSION_AUTH_ID1"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in permissionAuth" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1427,7 +1426,7 @@
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id2"
                                                                     v-model="census.PERMISSION_AUTH_ID2"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in permissionAuth" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1443,7 +1442,7 @@
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id3"
                                                                     v-model="census.PERMISSION_AUTH_ID3"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in permissionAuth" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1459,7 +1458,7 @@
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id4"
                                                                     v-model="census.PERMISSION_AUTH_ID4"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in permissionAuth" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1475,7 +1474,7 @@
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id5"
                                                                     v-model="census.PERMISSION_AUTH_ID5"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in permissionAuth" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1491,7 +1490,7 @@
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id6"
                                                                     v-model="census.PERMISSION_AUTH_ID6"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in permissionAuth" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1576,7 +1575,7 @@
                                                 <select class="select form-control " id="has-environmental-control"
                                                         name="has_environmental_control"
                                                         v-model="census.HAS_ENVIRONMENTAL_CONTROL"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
                                                     </option>
@@ -1589,7 +1588,7 @@
                                                 <select class="select form-control" id="pollution_control_measure_id"
                                                         name="pollution_control_measure_id"
                                                         v-model="census.POLLUTION_CONTROL_MEASURE_ID"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in pollutionControl" :value="item.ID">
                                                         {{item.NAME}}
@@ -1603,7 +1602,7 @@
                                                 <select class="select form-control " id="has-specialized-zone"
                                                         name="has_specialized_zone"
                                                         v-model="census.HAS_SPECIALIZED_ZONE"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
                                                     </option>
@@ -1615,7 +1614,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control" id="specialty-code-id"
                                                         name="specialty_code_id" v-model="census.SPECIALTY_CODE_ID"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in specialtyCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -1628,7 +1627,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control" id="has-membership"
                                                         name="has_membership" v-model="census.HAS_MEMBERSHIP"
-                                                        tabindex="-1"
+
                                                         aria-hidden="true">
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
@@ -1661,7 +1660,7 @@
                                                 <select class="select form-control" id="has-chamber-membership"
                                                         name="has_chamber_membership"
                                                         v-model="census.HAS_CHAMBER_MEMBERSHIP"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
                                                     </option>
@@ -1760,7 +1759,7 @@
                                                 <select class="select form-control" id="unit-current-status"
                                                         name="current_status_of_unit"
                                                         v-model="census.CURRENT_STATUS_OF_UNIT"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in unitCurrentStatus" :value="item.ID">
                                                         {{item.NAME}}
@@ -1777,7 +1776,7 @@
                                                     <select class="select form-control " id="reopen-month"
                                                             name="tmp_closed_reopen_month"
                                                             v-model="census.TMP_CLOSED_REOPEN_MONTH"
-                                                            tabindex="-1" aria-hidden="true">
+                                                            >
                                                         <option selected="selected" value=""></option>
                                                         <option value="1">01 - জানুয়ারী</option>
                                                         <option value="2">02 - ফেব্রুয়ারী</option>
@@ -1824,7 +1823,7 @@
                                                             @change="checkClosingReasonsOthers"
                                                             name="reason_of_close_code"
                                                             v-model="census.REASON_OF_CLOSE_CODE"
-                                                            tabindex="-1" aria-hidden="true">
+                                                            >
                                                         <option selected="selected" value=""></option>
                                                         <option v-for="item in closingReasons" :value="item.ID">
                                                             {{item.NAME}}
@@ -1860,7 +1859,7 @@
                                                     <select class="select form-control select2-control"
                                                             id="main-industrial-code" name="main_industrial_code"
                                                             v-model="census.MAIN_INDUSTRIAL_CODE"
-                                                            tabindex="-1" aria-hidden="true">
+                                                            >
                                                         <option selected="selected" value=""></option>
                                                         <option v-for="item in industrialCode" :value="item.ID">
                                                             {{item.NAME}}
@@ -1892,7 +1891,7 @@
                                                             <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="minor_industrial_code1"
                                                                     v-model="census.MINOR_INDUSTRIAL_CODE1"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in industrialCode" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1916,7 +1915,7 @@
                                                             <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="minor_industrial_code2"
                                                                     v-model="census.MINOR_INDUSTRIAL_CODE2"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in industrialCode" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1940,7 +1939,7 @@
                                                             <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="minor_industrial_code3"
                                                                     v-model="census.MINOR_INDUSTRIAL_CODE3"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in industrialCode" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1974,7 +1973,7 @@
                                                             <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="supporting_industrial_code1"
                                                                     v-model="census.SUPPORTING_INDUSTRIAL_CODE1"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in industrialCode" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1998,7 +1997,7 @@
                                                             <select class="select form-control select2-sm" data-placeholder=""
                                                                     name="supporting_industrial_code2"
                                                                     v-model="census.SUPPORTING_INDUSTRIAL_CODE2"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    >
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in industrialCode" :value="item.ID">
                                                                     {{item.NAME}}
@@ -2055,7 +2054,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code1" v-model="census.PRODUCT_BSIC_CODE1"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2076,7 +2075,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code2" v-model="census.PRODUCT_BSIC_CODE2"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2097,7 +2096,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code3" v-model="census.PRODUCT_BSIC_CODE3"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2118,7 +2117,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code4" v-model="census.PRODUCT_BSIC_CODE4"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2139,7 +2138,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code5" v-model="census.PRODUCT_BSIC_CODE5"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2162,7 +2161,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="product_bsic_code6" v-model="census.PRODUCT_BSIC_CODE6"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2199,7 +2198,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code1" v-model="census.SERVICE_BSIC_CODE1"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2224,7 +2223,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code2" v-model="census.SERVICE_BSIC_CODE2"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2248,7 +2247,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code3" v-model="census.SERVICE_BSIC_CODE3"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2273,7 +2272,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code4" v-model="census.SERVICE_BSIC_CODE4"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2298,7 +2297,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code5" v-model="census.SERVICE_BSIC_CODE5"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2323,7 +2322,7 @@
                                             <div class="form-group padding-3">
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="service_bsic_code6" v-model="census.SERVICE_BSIC_CODE6"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2354,7 +2353,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control " id="is-export" name="is_export"
                                                         v-model="census.IS_EXPORT"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
                                                     </option>
@@ -2374,7 +2373,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control " id="is-export-product-services"
                                                         v-model="census.IS_EXPORT_PRODUCT_SERVICES"
-                                                        name="is_export_product_services" tabindex="-1"
+                                                        name="is_export_product_services"
                                                         aria-hidden="true">
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
@@ -2405,7 +2404,7 @@
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="export_product_services1"
                                                         v-model="census.EXPORT_PRODUCT_SERVICES1"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2418,7 +2417,7 @@
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="export_product_services2"
                                                         v-model="census.EXPORT_PRODUCT_SERVICES2"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2431,7 +2430,7 @@
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="export_product_services3"
                                                         v-model="census.EXPORT_PRODUCT_SERVICES3"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2457,7 +2456,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control " id="is-import" name="is_import"
                                                         v-model="census.IS_IMPORT"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
                                                     </option>
@@ -2493,7 +2492,7 @@
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="import_product_services1"
                                                         v-model="census.IMPORT_PRODUCT_SERVICES1"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2506,7 +2505,7 @@
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="import_product_services2"
                                                         v-model="census.IMPORT_PRODUCT_SERVICES2"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2519,7 +2518,7 @@
                                                 <select class="select form-control select2-sm" data-placeholder=""
                                                         name="import_product_services3"
                                                         v-model="census.IMPORT_PRODUCT_SERVICES3"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        >
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in productSubClassCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -2633,7 +2632,7 @@
                                 <div class="form-group">
                                     <select class="select form-control " id="has-foreign-res-investment"
                                             v-model="census.HAS_FOREIGN_RES_INVESTEMENT"
-                                            name="has_foreign_res_investement" tabindex="-1" aria-hidden="true">
+                                            name="has_foreign_res_investement" >
                                         <option selected="selected" value=""></option>
                                         <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
                                     </select>
@@ -2717,7 +2716,7 @@
                                 <div class="form-group">
                                     <select class="select form-control " id="have-any-loan" name="have_any_loan"
                                             v-model="census.HAVE_ANY_LOAN"
-                                            tabindex="-1" aria-hidden="true">
+                                            >
                                         <option selected="selected" value=""></option>
                                         <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
                                     </select>
@@ -2750,7 +2749,7 @@
                                 <div class="form-group">
                                     <select class="select form-control select2-md" id="loan-fin-org-type" name="loan_fin_org_type"
                                             v-model="census.LOAN_FIN_ORG_TYPE"
-                                            tabindex="-1" aria-hidden="true">
+                                            >
                                         <option selected="selected" value=""></option>
                                         <option v-for="item in economicOrgs" :value="item.ID">{{item.NAME}}</option>
                                     </select>
@@ -2797,7 +2796,7 @@
                                 <div class="form-group">
                                     <select class="select form-control " id="have-accounting-account"
                                             name="have_accounting_account" v-model="census.HAVE_ACCOUNTING_ACCOUNT"
-                                            tabindex="-1" aria-hidden="true">
+                                            >
                                         <option selected="selected" value=""></option>
                                         <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}</option>
                                     </select>
@@ -2810,7 +2809,7 @@
                                     <select class="select form-control select2-md" id="loan-org-type"
                                             name="accounting_account_type_id"
                                             v-model="census.ACCOUNTING_ACCOUNT_TYPE_ID"
-                                            tabindex="-1" aria-hidden="true">
+                                            >
                                         <option selected="selected" value=""></option>
                                         <option v-for="item in accountingType" :value="item.ID">{{item.NAME}}</option>
                                     </select>
