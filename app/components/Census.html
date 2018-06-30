@@ -156,7 +156,7 @@
                                                         <div class="form-group">
                                                             <select class="select form-control"
                                                                     @change="loadThanaUpazilla" id="district-id"
-                                                                    required="required" tabindex="2" name="district_id"
+                                                                    required="required" name="district_id"
                                                                     v-model="census.DISTRICT_ID" aria-required="true">
                                                                 <option value="0"></option>
                                                                 <option v-for="item in districts" :value="item.ID">
@@ -192,6 +192,7 @@
                                                                 </div>
                                                                 ইউনিয়ন
                                                             </label>
+                                                            <label class="validation-error-label text-danger small">{{msg_location_type}}</label>
                                                         </div>
 
                                                     </td>
@@ -220,7 +221,7 @@
                                                         <div class="form-group">
                                                             <select class="select form-control"
                                                                     @change="loadUnionWard" id="thana-upz-id"
-                                                                    required="required" tabindex="2"
+                                                                    required="required"
                                                                     name="thana_upz_id" v-model="census.THANA_UPZ_ID"
                                                                      aria-required="true">
                                                                 <option value="0"></option>
@@ -653,10 +654,17 @@
                                                         <div class="text-center">
                                                             <label for="enterprise">এন্টারপ্রাইজ</label>
                                                             <div class="form-group ">
-                                                                <input class="form-control text-uppercase"
-                                                                       id="enterprise" name="enterprise"
-                                                                       v-bind:disabled="enableEnterprise"
-                                                                       v-model="census.ENTERPRISE_ID" type="text">
+
+                                                                <select class="select form-control "
+                                                                        id="enterprise"
+                                                                        v-bind:disabled="enableIsUnderEnt"
+                                                                        name="enterprise"
+                                                                        v-model="census.ENTERPRISE_ID">
+                                                                    <option selected="selected" value=""></option>
+                                                                    <option v-for="item in enterprise" :value="item.ID">
+                                                                        {{item.NAME}}
+                                                                    </option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -737,7 +745,7 @@
                                             <table class="table-full-width table-item-bordered" width="900">
                                                 <tbody>
                                                 <tr>
-                                                    <th colspan="2" class="padding-10">৮. প্রতিষ্ঠানের প্রধান কার্যালয়ের
+                                                    <th colspan="2" class="padding-10 text-center">৮. প্রতিষ্ঠানের প্রধান কার্যালয়ের
                                                         পূর্ণ ঠিকানা (ইংরেজি বড় অক্ষরে লিখুন)
                                                     </th>
                                                 </tr>
@@ -2021,7 +2029,7 @@
                     </table>
 
                     <table class="main-form-structure table-full-width table-item-bordered has-table-separator"
-                           style="width: 2475px">
+                           style="width: 2525px">
                         <thead>
                         <tr>
                             <th class="padding-10">২৩. উৎপাদনকারী প্রতিষ্ঠানের প্রধান প্রধান উৎপাদিত দ্রব্যাদির বিবরণ
@@ -2538,7 +2546,7 @@
                     </table>
 
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2525px">
                         <tbody>
                         <tr>
                             <td class="padding-10">২৬. বর্তমানে মোট সম্পদের পরিমাণ
@@ -2730,7 +2738,7 @@
                         </tbody>
                     </table>
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2525px">
                         <tbody>
 
                         <tr>
@@ -2996,7 +3004,7 @@
                         </tbody>
                     </table>
 
-                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2475px">
+                    <table class="main-form-structure table-full-width table-item-bordered" style="width: 2525px">
                         <tbody>
 
                         <tr>
@@ -3198,7 +3206,7 @@
                         </tbody>
                     </table>
 
-                    <nav id="form-nav" style="width: 2475px">
+                    <nav class="" id="form-nav" style="width: 2525px;">
                         <div class="row">
                             <div class="col-sm-8 mt-5 text-muted">
                             </div>
@@ -3208,7 +3216,7 @@
                                     <i class="icon-floppy-disk"></i> Close
                                 </button>
                                 <button class="btn btn-primary" type="button" @click="saveCensus" value="submit">
-                                    <i class="icon-paperplane"></i> সাবমিট
+                                    <i class="icon-paperplane"></i> Save
                                 </button>
                             </div>
                         </div>

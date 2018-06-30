@@ -280,6 +280,7 @@
             saveCensus(e) {
                 this.msg_division = '';
                 this.msg_districts = '';
+                this.msg_location_type = '';
                 this.msg_unionWards = '';
                 this.msg_thanaUpazilla = '';
                 this.msg_mauzaMahalla = '';
@@ -303,12 +304,15 @@
                     !this.census.MAHALLAH_ID || !this.census.RMO_CODE ||
                     !this.census.SERIAL_NO_UNIT || !this.census.NAME_OF_UNIT ||
                     !this.census.NAME_OF_MAHALLAH || !this.census.UNIT_TYPE_CODE ||
+                    !this.census.LOCATION_TYPE_ID ||
                     this.msg_provider_nid || this.msg_collector_nid) {
 
                     if (!this.census.DIVISION_ID)
                         this.msg_division = "This field is required.";
                     if (!this.census.DISTRICT_ID)
                         this.msg_districts = "This field is required.";
+                    if (!this.census.LOCATION_TYPE_ID)
+                        this.msg_location_type = "This field is required.";
                     if (!this.census.THANA_UPZ_ID)
                         this.msg_thanaUpazilla = "This field is required.";
                     if (!this.census.WARD_UNION_ID)
