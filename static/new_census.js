@@ -10,6 +10,27 @@ jQuery(document).ready(function($) {
         }, 5000);
     });
 
+    $('#inception-year').on('keyup', function() {
+        $('.msg-inception-year').text('');
+       var establishmentYear = $('#establishment-year').val();
+       var inceptionYear = $(this).val();
+        establishmentYear = parseInt(establishmentYear);
+        inceptionYear = parseInt(inceptionYear);
+       var status = false;
+       if(!establishmentYear && inceptionYear){
+           $('.msg-inception-year').text('Please provide establishment-year first');
+           status = true;
+       }
+        if(!inceptionYear){
+            status = false;
+        }
+       if(establishmentYear > inceptionYear){
+            $('.msg-inception-year').text('This field must greater than or equal to establishment-year');
+           status = true;
+       }
+        $('.btnSave').prop("disabled", status);
+    });
+
     var amount_fields = $('#total-assets-amount, #current-capital-amount, #land_factory_buildings_value,' +
         '#yearly-turnover, #last-year-invested-capital, #foreign-res-investment, #last-year-production-raw-materials,' +
         '#last-year-salary-amount, #loan-last-year, #last-year-other-expenses-amount');
