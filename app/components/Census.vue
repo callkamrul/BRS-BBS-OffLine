@@ -94,6 +94,8 @@
                 enableDisableHOMauza: false,
                 enableDisableHORmo: false,
                 enableDisableHOLocation: false,
+                enableDisableTradeLicenseAuth: false,
+                TRADE_LICENSE_NUMBER: false,
                 rmos: [],
 
                 rmos: [],
@@ -250,6 +252,11 @@
                             this.enableDisableHOMauza = true;
                             this.enableDisableHORmo = true;
 
+                        }
+
+                        if(Census.HAS_TRADE_LICENSE == 2){
+                            this.enableDisableTradeLicenseAuth = true;
+                            this.enableDisableTradeLicenseNumber = true;
                         }
 
                         // Load address (division, district, thana list) in edit mode
@@ -771,6 +778,19 @@
                     this.enableDisableHOMauza = false;
                     this.enableDisableHORmo = false;
                 }
+            },
+            hasTradeLicense:function () {
+                var hasTradeLicense = this.census.HAS_TRADE_LICENSE;
+                if(hasTradeLicense == 1){
+                    this.enableDisableTradeLicenseAuth = false;
+                    this.enableDisableTradeLicenseNumber = false;
+                } else if(hasTradeLicense == 2) {
+                    this.enableDisableTradeLicenseAuth = true;
+                    this.enableDisableTradeLicenseNumber = true;
+                    this.census.TRADE_LICENSE_NUMBER = '';
+                    this.census.TRADE_LICENSE_AUTHORITY = '';
+                }
+
             },
 
         }

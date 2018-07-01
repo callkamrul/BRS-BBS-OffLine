@@ -12,7 +12,7 @@
                         @click="syncSetup" value="submit" data-toggle="modal" data-target="#login-modal">
 					<i class="fa fa-arrow-circle-down"></i> Sync Setup
 				</button>-->
-					
+
                 <span v-show="onLine == true" class="pull-right label label-success"><i class="fa fa-circle"></i> Online</span>
                 <span v-show="onLine == false" class="pull-right label label-danger"><i class="fa fa-circle"></i> Offline</span>
 		</span>
@@ -42,7 +42,7 @@
                         <td>{{Census.is_registred}}</td>
                         <td>
 
-                            <button v-if="!Census.unit_identification_code" @click="editCensus(id)" class="btn btn-success">
+                            <button v-if="!Census.unit_identification_code" @click="editCensus(id)" class="btn btn-success trigger-edit-form">
                                 <i class="edit fa fa-edit"></i> Edit
                             </button>
                             <button v-if="!Census.unit_identification_code" @click="deleteCensus(id)" class="btn btn-danger">
@@ -65,7 +65,7 @@
     <div id="census-modal" v-show="isEdit == true">
         <!-- <h4 class="modal-title">{{census.id > 0 ? 'Edit census' : 'Add a new census' }}</h4> -->
         <div class="census-modal-body">
-            <form @submit="checkForm" class="ui form">
+            <form id="census-form" class="ui form">
 
                 <div id="census-form-container">
                     <table class="main-form-structure table-full-width"
@@ -176,19 +176,19 @@
                                                         <div class="form-group text-normal">
                                                             <label class="radio-inline less-padding">
                                                                 <div class="">
-                                                                    <input class="location" id="location_type_id_1" v-on:change="showHide" v-model="census.LOCATION_TYPE_ID" type="radio" value="1">
+                                                                    <input class="location" id="location_type_id_1" name="location_type_id" v-on:change="showHide" v-model="census.LOCATION_TYPE_ID" type="radio" value="1">
                                                                 </div>
                                                                 সিটি কর্পো.
                                                             </label>
                                                             <label class="radio-inline less-padding">
                                                                 <div class="">
-                                                                    <input class="location" id="location_type_id_2" v-on:change="showHide"  v-model="census.LOCATION_TYPE_ID" type="radio" value="2">
+                                                                    <input class="location" id="location_type_id_2" name="location_type_id" v-on:change="showHide"  v-model="census.LOCATION_TYPE_ID" type="radio" value="2">
                                                                 </div>
                                                                 পৌরসভা
                                                             </label>
                                                             <label class="radio-inline less-padding">
                                                                 <div class="">
-                                                                    <input class="location" id="location_type_id_3" v-on:change="showHide"  v-model="census.LOCATION_TYPE_ID" type="radio" value="3">
+                                                                    <input class="location" id="location_type_id_3" name="location_type_id" v-on:change="showHide"  v-model="census.LOCATION_TYPE_ID" type="radio" value="3" required="required">
                                                                 </div>
                                                                 ইউনিয়ন
                                                             </label>
@@ -475,7 +475,7 @@
                                             <select class="select form-control select2-sm" id="legal-ownership-code"
                                                     style="width: 500px" name="legal_ownership_code"
                                                     v-model="census.LEGAL_OWNERSHIP_CODE">
-                                                <option selected="selected" value=""></option>
+                                                <option value=""></option>
                                                 <option v-for="item in legal_ownerships" :value="item.ID">
                                                     {{item.NAME}}
                                                 </option>
@@ -485,7 +485,7 @@
                                         </td>
                                         <td rowspan="2" class="padding-10 valign-middle">
                                             <select class="select form-control select2-sm" id="type-of-ownership"
-                                                    name="type_of_ownership" v-model="census.TYPE_OF_OWNERSHIP"
+                                                    name="type_of_ownership" v-model.lazy="census.TYPE_OF_OWNERSHIP"
                                                     >
                                                 <option selected="selected" value=""></option>
                                                 <option v-for="item in type_of_ownerships" :value="item.ID">
@@ -1160,6 +1160,7 @@
                                                         <div class="form-group">
                                                             <select class="select form-control " id="has-trade-license"
                                                                     name="has_trade_license"
+                                                                    @change = "hasTradeLicense"
                                                                     v-model="census.HAS_TRADE_LICENSE"
                                                                     >
                                                                 <option selected="selected" value=""></option>
@@ -1187,9 +1188,10 @@
                                                             <select class="select form-control"
                                                                     id="trade-license-authority"
                                                                     name="trade_license_authority"
+                                                                    :disabled="enableDisableTradeLicenseAuth"
                                                                     v-model="census.TRADE_LICENSE_AUTHORITY"
                                                                     >
-                                                                <option selected="selected" value=""></option>
+                                                                <option value=""></option>
                                                                 <option value="1">01 - সিটি কর্পোরেশন</option>
                                                                 <option value="2">02 - পৌরসভা</option>
                                                                 <option value="3">03 - ইউনিয়ন পরিষদ</option>
@@ -1212,7 +1214,8 @@
                                                     <td class="padding-10">
                                                         <div class="form-group">
                                                             <input class="form-control" id="trade-license-number"
-                                                                   maxlength="10" name="trade_license_number"
+                                                                   maxlength="100" name="trade_license_number"
+                                                                   :disabled="enableDisableTradeLicenseNumber"
                                                                    v-model="census.TRADE_LICENSE_NUMBER"
                                                                    type="text">
                                                         </div>

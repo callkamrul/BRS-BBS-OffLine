@@ -212,7 +212,8 @@ store.addCensus = (Census) => {
         var bindValues = '';
         var c = 0;
         for (var key in Census) {
-            if (Census.hasOwnProperty(key) && key != 'ID') {
+            if (Census.hasOwnProperty(key) && key != 'ID' && key != 'CITY_CORP_ID' && key != 'PAURASHAVA_ID' &&
+                key != 'HEAD_OFFICE_CITY_CORP_ID' && key != 'HEAD_OFFICE_PAURASHAVA_ID') {
                 /**
                  * Check if condition because every field comming from form with double
                  * one for for v-model and other for input control name
@@ -226,58 +227,44 @@ store.addCensus = (Census) => {
                         bindValues += `,`;
                     }
 
-                    if(key == 'CITY_CORP_ID' || key == 'PAURASHAVA_ID'){
-                        sqlParam+= `'CITY_CORP_PAURASAVA_ID'`;
-                    } else if(key == 'HEAD_OFFICE_CITY_CORP_ID' || key == 'HEAD_OFFICE_PAURASHAVA_ID') {
-                        sqlParam+= `'HEAD_OFFICE_CITY_CORP_PAURASAV'`;
-                    } else {
-                        sqlParam+= `'` + key.toUpperCase() + `'`;
-                    }
+                    sqlParam+= `'` + key.toUpperCase() + `'`;
 
                     if(Census[key]){
                         if(Census[key] && uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
                             values+= `'` + Census[key].toUpperCase() + `'`;
                         }else {
-                            if(key == 'CITY_CORP_ID' || key == 'PAURASHAVA_ID'){
-                                if(Census.LOCATION_TYPE_ID == 1) {
-                                    values+= `'` + Census.CITY_CORP_ID + `'`;
-                                    delete Census.PAURASHAVA_ID;
-                                } else if(Census.LOCATION_TYPE_ID == 2){
-                                    values+= `'` + Census.PAURASHAVA_ID + `'`;
-                                    delete Census.CITY_CORP_ID;
-                                } else {
-                                    values+= `'` + 0 + `'`;
-                                    delete Census.PAURASHAVA_ID;
-                                    delete Census.CITY_CORP_ID;
-                                }
-                            } else if(key == 'HEAD_OFFICE_CITY_CORP_ID' || key == 'HEAD_OFFICE_PAURASHAVA_ID'){
-                                if(Census.HEAD_OFFICE_LOCATION_TYPE_ID == 1) {
-                                    values+= `'` + Census.HEAD_OFFICE_CITY_CORP_ID + `'`;
-                                    delete Census.HEAD_OFFICE_PAURASHAVA_ID;
-                                } else if(Census.HEAD_OFFICE_LOCATION_TYPE_ID == 2){
-                                    values+= `'` + Census.HEAD_OFFICE_PAURASHAVA_ID + `'`;
-                                    delete Census.HEAD_OFFICE_CITY_CORP_ID;
-                                } else {
-                                    values+= `'` + 0 + `'`;
-                                    delete Census.HEAD_OFFICE_PAURASHAVA_ID;
-                                    delete Census.HEAD_OFFICE_CITY_CORP_ID;
-                                }
-                            } else {
-                                values+= `'` + Census[key] + `'`;
-                            }
+                            values+= `'` + Census[key] + `'`;
                         }
                     }else {
                         values+= `(NULL)`;
                     }
                 }
-                //bindValues+= `'` + Census[key] + `'`;
-                /*if(!Census[key]){
-                    bindValues+= null;
-				}else {
-                    bindValues+= `'` + Census[key] + `'`;
-				}*/
             }
         }
+
+        if(Census.LOCATION_TYPE_ID){
+            sqlParam += `,'CITY_CORP_PAURASAVA_ID'`;
+            values += `,`;
+            if(Census.LOCATION_TYPE_ID == 1) {
+                values+= `'` + Census.CITY_CORP_ID + `'`;
+            } else if(Census.LOCATION_TYPE_ID == 2){
+                values+= `'` + Census.PAURASHAVA_ID + `'`;
+            } else {
+                values+= `'` + 0 + `'`;
+            }
+        }
+        if(Census.HEAD_OFFICE_LOCATION_TYPE_ID){
+            sqlParam += `,'HEAD_OFFICE_CITY_CORP_PAURASAV'`;
+            values += `,`;
+            if(Census.HEAD_OFFICE_LOCATION_TYPE_ID == 1) {
+                values+= `'` + Census.HEAD_OFFICE_CITY_CORP_ID + `'`;
+            } else if(Census.HEAD_OFFICE_LOCATION_TYPE_ID == 2){
+                values+= `'` + Census.HEAD_OFFICE_PAURASHAVA_ID + `'`;
+            } else {
+                values+= `'` + 0 + `'`;
+            }
+        }
+
         sqlParam += `)`
         values += `)`
 		var sql = sqlParam + values ;
