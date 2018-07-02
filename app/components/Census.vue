@@ -135,24 +135,6 @@
             store.getDivisionList((err, list) => {
                 this.divisions = list;
             });
-            store.getDistrictList((err, list) => {
-                this.all_districts = list;
-                this.districts = list;
-            });
-
-            store.getThanaUpazillaByDistrict((err, thanaList) => {
-                this.all_thanaUpazilla = thanaList;
-                this.thanaUpazilla = thanaList;
-            });
-            store.getUnionWardByThanaUpazilla((err, unionList) => {
-                this.all_unionWards = unionList;
-                this.unionWards = unionList;
-
-            });
-            store.getMauzaMahallahByUnionWard((err, list) => {
-                this.all_mauzaMahalla = list;
-                this.mauzaMahalla = list;
-            });
 
             this.updateOnlineStatus();
             window.addEventListener("online", this.updateOnlineStatus);
@@ -192,6 +174,34 @@
                 };
                 this.isEdit = true;
                 this.setAllCommonConfigList();
+                var selectDropDown = $(".select").select2();
+                selectDropDown.on('select2:select', function (e) {
+                    var event = new Event('change');
+                    e.target.dispatchEvent(event);
+                });
+                $('.select-size-xs').select2({
+                    containerCssClass: 'select-xs',
+                    placeholder: "Select",
+                    allowClear: true
+                });
+
+                $('.select2-sm').select2({
+                    containerCssClass: 'select2-sm',
+                    placeholder: "Select",
+                    allowClear: true
+                });
+
+                $('.select2-md').select2({
+                    containerCssClass: 'select2-md',
+                    placeholder: "Select",
+                    allowClear: true
+                });
+
+                $('.select2-lg').select2({
+                    containerCssClass: 'select2-lg',
+                    placeholder: "Select",
+                    allowClear: true
+                });
             },
             editCensus(CensusId) {
                 this.census = {}
@@ -278,10 +288,56 @@
                         store.getMauzaMahallahByUnionWard((err, list) => {
                             this.headOfficeMauza = list;
                         }, Census.HEAD_OFFICE_WARD_UNION);
+
+
+                        store.getDistrictList((err, list) => {
+                            this.districts = list;
+                        },Census.DIVISION_ID);
+
+                        store.getThanaUpazillaByDistrict((err, thanaList) => {
+                            this.thanaUpazilla = thanaList;
+                        },Census.DISTRICT_ID);
+                        store.getUnionWardByThanaUpazilla((err, unionList) => {
+                            this.unionWards = unionList;
+                        },Census.THANA_UPZ_ID);
+                        store.getMauzaMahallahByUnionWard((err, list) => {
+                            this.mauzaMahalla = list;
+                        },Census.WARD_UNION_ID);
+
                     }
                 });
                 setTimeout(function () {
                     $('#census-form-container').floatingScroll();
+
+                    var selectDropDown = $(".select").select2();
+                    selectDropDown.on('select2:select', function (e) {
+                        var event = new Event('change');
+                        e.target.dispatchEvent(event);
+                    });
+                    $('.select-size-xs').select2({
+                        containerCssClass: 'select-xs',
+                        placeholder: "Select",
+                        allowClear: true
+                    });
+
+                    $('.select2-sm').select2({
+                        containerCssClass: 'select2-sm',
+                        placeholder: "Select",
+                        allowClear: true
+                    });
+
+                    $('.select2-md').select2({
+                        containerCssClass: 'select2-md',
+                        placeholder: "Select",
+                        allowClear: true
+                    });
+
+                    $('.select2-lg').select2({
+                        containerCssClass: 'select2-lg',
+                        placeholder: "Select",
+                        allowClear: true
+                    });
+
                 }, 5000);
             },
             saveCensus(e) {
@@ -361,28 +417,39 @@
                 eventHub.$emit("sync-census", CensusId);
             },
             loadDistricts: function () {
-                this.census.DISTRICT_ID = 0;
-                this.districts = this.all_districts.filter(f => String(f.DIVISION_ID) == this.census.DIVISION_ID);
-                //$('#division-id').val(this.census.DISTRICT_ID)
+                this.districts = [];
+                var division_id = this.census.DIVISION_ID;
+                $('#district-id').val('').trigger('change');
+                store.getDistrictList((err, list) => {
+                    this.districts = list;
+                }, division_id);
+
             },
             loadThanaUpazilla: function (e) {
                 var district_id = this.census.DISTRICT_ID;
-                this.census.THANA_UPZ_ID = 0;
                 this.city_corporation = [];
-                this.thanaUpazilla = this.all_thanaUpazilla.filter(f => String(f.DISTRICT_ID) == this.census.DISTRICT_ID);
-                //$('#thana_upz_id').val(this.census.THANA_UPZ_ID)
+                this.thanaUpazilla = [];
+                store.getThanaUpazillaByDistrict((err, thanaList) => {
+                    this.thanaUpazilla = thanaList;
+                }, district_id);
+
                 store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
                     this.city_corporation = cityCorpList;
                 }, district_id,1);
+
             },
             loadUnionWard() {
-                this.census.WARD_UNION_ID = 0;
                 var thana_id = this.census.THANA_UPZ_ID;
                 this.pourosabha = [];
-                this.unionWards = this.all_unionWards.filter(f => String(f.THANA_UPAZILA_ID) == this.census.THANA_UPZ_ID);
+                this.unionWards = [];
+
+                store.getUnionWardByThanaUpazilla((err, unionList) => {
+                    this.unionWards = unionList;
+                }, thana_id);
                 store.getCityCorporationPourosabhaByDistrict((err, cityCorpList) => {
                     this.pourosabha = cityCorpList;
                 }, thana_id,2);
+
 
             },
             loadUnionWardByPourasabha() {
@@ -395,14 +462,13 @@
 
             },
             loadMauzaMahalla() {
-                this.census.MAHALLAH_ID = 0;
-                this.mauzaMahalla = this.all_mauzaMahalla.filter(f => String(f.UNION_WARD_ID) == this.census.WARD_UNION_ID);
 
-                /*this.mauzaMahalla = [];
+                this.mauzaMahalla = [];
                  var unionWardId = this.census.WARD_UNION_ID;
                  store.getMauzaMahallahByUnionWard((err, list) => {
                  this.mauzaMahalla = list;
-                 }, unionWardId);*/
+                 }, unionWardId);
+
             },
 
             loadHeadOfficeDistricts() {
@@ -686,29 +752,42 @@
                     this.census.HEAD_OFFICE_WEBSITE = this.census.WEBSITE;
 
                     this.census.HEAD_OFFICE_DIVISION = this.census.DIVISION_ID;
+                    $('#head-office-division').val(this.census.DIVISION_ID).trigger('change');
 
+                    $('#head-office-district').val('').trigger('change');
                     this.HeadOfficedistricts = this.districts;
                     this.census.HEAD_OFFICE_DISTRICT = this.census.DISTRICT_ID;
+                    $('#head-office-district').val(this.census.DISTRICT_ID).trigger('change');
 
+                    $('#head-office-thana-upz').val('').trigger('change');
                     this.headOfficeThanaUpazilla = this.thanaUpazilla;
                     this.census.HEAD_OFFICE_THANA_UPZ = this.census.THANA_UPZ_ID;
+                    $('#head-office-thana-upz').val(this.census.THANA_UPZ_ID).trigger('change');
 
+                    $('#head-office-ward-union').val('').trigger('change');
                     this.headOfficeUnionWards = this.unionWards;
                     this.census.HEAD_OFFICE_WARD_UNION = this.census.WARD_UNION_ID;
+                    $('#head-office-ward-union').val(this.census.WARD_UNION_ID).trigger('change');
 
                     this.headOfficeMauza = this.mauzaMahalla;
                     this.census.HEAD_OFFICE_MAUZA = this.census.MAHALLAH_ID;
+                    $('#head-office-mauza').val(this.census.MAHALLAH_ID).trigger('change');
+
                     this.census.HEAD_OFFICE_RMO_CODE = this.census.RMO_CODE;
+                    $('#head-office-rmo-code').val(this.census.RMO_CODE).trigger('change');
+
                     this.census.HEAD_OFFICE_LOCATION_TYPE_ID = this.census.LOCATION_TYPE_ID;
                     var locationTypeId = this.census.LOCATION_TYPE_ID;
                     if(locationTypeId == 1){
                         this.isHeadOfficeCity = true;
                         this.headOfficeCityCorporation = this.city_corporation;
                         this.census.HEAD_OFFICE_CITY_CORP_ID = this.census.CITY_CORP_ID;
+                        $('#head-office-city-corp-id').val(this.census.CITY_CORP_ID).trigger('change');
                     } else if (locationTypeId == 2) {
                         this.isHeadOfficePouro = true;
                         this.headOfficePourosabha = this.pourosabha;
                         this.census.HEAD_OFFICE_PAURASHAVA_ID = this.census.PAURASHAVA_ID;
+                        $('#head_office_paurashava_id').val(this.census.PAURASHAVA_ID).trigger('change');
                     } else {
                         this.isHeadOfficeCity = false;
                         this.isHeadOfficePouro = false;
