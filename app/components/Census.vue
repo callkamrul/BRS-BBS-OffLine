@@ -97,6 +97,11 @@
                 enableDisableTradeLicenseAuth: false,
                 TRADE_LICENSE_NUMBER: false,
                 isRegistered: true,
+                hasPermission: true,
+                hasEnvCtrl: true,
+                hasSpZone: true,
+                hasMembership: true,
+                hasChamberMembership: true,
                 rmos: [],
 
                 rmos: [],
@@ -276,6 +281,27 @@
                         // enable question 11.1 & 11.2 if question 11 is yes
                         if(Census.IS_REGISTERED == 1){
                             this.isRegistered = false;
+                        }
+                        // enable question 12.1 & 12.2 if question 12 is yes
+                        if(Census.IS_UNDER_PERMISSION_AUTH == 1){
+                            this.hasPermission = false;
+                        }
+                        // enable question 13.1 if question 13 is yes
+                        if(Census.HAS_ENVIRONMENTAL_CONTROL == 1){
+                            this.hasEnvCtrl = false;
+                        }
+
+                        // enable question 14.1 if question 14 is yes
+                        if(Census.HAS_SPECIALIZED_ZONE == 1){
+                            this.hasSpZone = false;
+                        }
+
+
+                        if(Census.HAS_MEMBERSHIP == 1){
+                            this.hasMembership = false;
+                        }
+                        if(Census.HAS_CHAMBER_MEMBERSHIP == 1){
+                            this.hasChamberMembership = false;
                         }
 
                         // Load address (division, district, thana list) in edit mode
@@ -889,7 +915,6 @@
                     this.isRegistered = false;
                 } else if(hasRegistration == 2) {
                     this.isRegistered = true;
-                    this.enableDisableTradeLicenseNumber = true;
                     this.census.REG_ORG_CODE1 = '';
                     this.census.REG_ORG_CODE2 = '';
                     this.census.REG_ORG_CODE3 = '';
@@ -901,6 +926,73 @@
                     this.census.REGISTRATION_NO3 = '';
                 }
 
+            },
+            checkPermissionAuth:function () {
+                var hasPermission = this.census.IS_UNDER_PERMISSION_AUTH;
+                if(hasPermission == 1){
+                    this.hasPermission = false;
+                } else if(hasPermission == 2) {
+                    this.hasPermission = true;
+                    this.census.APPROVAL_REGISTRATION_NO1 = '';
+                    this.census.APPROVAL_REGISTRATION_NO2 = '';
+                    this.census.APPROVAL_REGISTRATION_NO3 = '';
+                    this.census.APPROVAL_REGISTRATION_NO4 = '';
+                    this.census.APPROVAL_REGISTRATION_NO5 = '';
+                    this.census.APPROVAL_REGISTRATION_NO6 = '';
+
+                    this.census.PERMISSION_AUTH_ID1 = '';
+                    this.census.PERMISSION_AUTH_ID2 = '';
+                    this.census.PERMISSION_AUTH_ID3 = '';
+                    this.census.PERMISSION_AUTH_ID4 = '';
+                    this.census.PERMISSION_AUTH_ID5 = '';
+                    this.census.PERMISSION_AUTH_ID6 = '';
+                    $('#permission-auth-id1').val(null).trigger('change');
+                    $('#permission-auth-id2').val(null).trigger('change');
+                    $('#permission-auth-id3').val(null).trigger('change');
+                    $('#permission-auth-id4').val(null).trigger('change');
+                    $('#permission-auth-id5').val(null).trigger('change');
+                    $('#permission-auth-id6').val(null).trigger('change');
+                }
+            },
+            checkEnvironmentalControl:function () {
+                var hasEnvCtrl = this.census.HAS_ENVIRONMENTAL_CONTROL;
+                if(hasEnvCtrl == 1){
+                    this.hasEnvCtrl = false;
+                } else if(hasEnvCtrl == 2) {
+                    this.hasEnvCtrl = true;
+                    this.census.POLLUTION_CONTROL_MEASURE_ID = '';
+                    $('#pollution_control_measure_id').val(null).trigger('change');
+                }
+            },
+            checkSpecializedZone:function () {
+                var hasSpZone = this.census.HAS_SPECIALIZED_ZONE;
+                if(hasSpZone == 1){
+                    this.hasSpZone = false;
+                } else if(hasSpZone == 2) {
+                    this.hasSpZone = true;
+                    this.census.SPECIALTY_CODE_ID = '';
+                    $('#specialty-code-id').val(null).trigger('change');
+                }
+            },
+            checkMembership:function () {
+                var hasMembership = this.census.HAS_MEMBERSHIP;
+                if(hasMembership == 1){
+                    this.hasMembership = false;
+                } else if(hasMembership == 2) {
+                    this.hasMembership = true;
+                    this.census.MEMBERSHIP_AUTHORITY = '';
+                    this.census.MEMBERSHIP_NUMBER = '';
+                }
+            },
+            checkChamberMembership:function () {
+                var chamberMembership = this.census.HAS_CHAMBER_MEMBERSHIP;
+                if(chamberMembership == 1){
+                    this.hasChamberMembership = false;
+                } else if(chamberMembership == 2) {
+                    this.hasChamberMembership = true;
+                    this.census.CHAMBER_NAME = '';
+                    this.census.CHAMBER_MEMBERSHIP_NUMBER = '';
+                }
             },
 
         }

@@ -1406,6 +1406,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control" id="is-under-permission-auth"
                                                         name="is_under_permission_auth"
+                                                        @change="checkPermissionAuth"
                                                         v-model="census.IS_UNDER_PERMISSION_AUTH"
                                                         >
                                                     <option selected="selected" value=""></option>
@@ -1421,6 +1422,8 @@
                                                     <td>
                                                         <div class="form-group">
                                                             <select class="select form-control" data-placeholder=""
+                                                                    :disabled="hasPermission"
+                                                                    id="permission-auth-id1"
                                                                     name="permission_auth_id1"
                                                                     v-model="census.PERMISSION_AUTH_ID1"
                                                                     >
@@ -1437,6 +1440,8 @@
                                                         <div class="form-group">
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id2"
+                                                                    id="permission-auth-id2"
+                                                                    :disabled="hasPermission"
                                                                     v-model="census.PERMISSION_AUTH_ID2"
                                                                     >
                                                                 <option selected="selected" value=""></option>
@@ -1453,6 +1458,8 @@
                                                         <div class="form-group">
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id3"
+                                                                    id="permission-auth-id3"
+                                                                    :disabled="hasPermission"
                                                                     v-model="census.PERMISSION_AUTH_ID3"
                                                                     >
                                                                 <option selected="selected" value=""></option>
@@ -1469,6 +1476,8 @@
                                                         <div class="form-group">
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id4"
+                                                                    id="permission-auth-id4"
+                                                                    :disabled="hasPermission"
                                                                     v-model="census.PERMISSION_AUTH_ID4"
                                                                     >
                                                                 <option selected="selected" value=""></option>
@@ -1485,6 +1494,8 @@
                                                         <div class="form-group">
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id5"
+                                                                    id="permission-auth-id5"
+                                                                    :disabled="hasPermission"
                                                                     v-model="census.PERMISSION_AUTH_ID5"
                                                                     >
                                                                 <option selected="selected" value=""></option>
@@ -1501,6 +1512,8 @@
                                                         <div class="form-group">
                                                             <select class="select form-control" data-placeholder=""
                                                                     name="permission_auth_id6"
+                                                                    id="permission-auth-id6"
+                                                                    :disabled="hasPermission"
                                                                     v-model="census.PERMISSION_AUTH_ID6"
                                                                     >
                                                                 <option selected="selected" value=""></option>
@@ -1523,6 +1536,7 @@
                                                         <div class="form-group">
                                                             <input class="form-control input-medium" maxlength="10"
                                                                    name="approval_registration_no1"
+                                                                   :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO1"
                                                                    type="text">
                                                         </div>
@@ -1533,6 +1547,7 @@
                                                         <div class="form-group">
                                                             <input class="form-control input-medium" maxlength="10"
                                                                    name="approval_registration_no2"
+                                                                   :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO2"
                                                                    type="text">
                                                         </div>
@@ -1543,6 +1558,7 @@
                                                         <div class="form-group">
                                                             <input class="form-control input-medium" maxlength="10"
                                                                    name="approval_registration_no3"
+                                                                   :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO3"
                                                                    type="text">
                                                         </div>
@@ -1553,6 +1569,7 @@
                                                         <div class="form-group">
                                                             <input class="form-control input-medium" maxlength="10"
                                                                    name="approval_registration_no4"
+                                                                   :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO4"
                                                                    type="text">
                                                         </div>
@@ -1563,6 +1580,7 @@
                                                         <div class="form-group">
                                                             <input class="form-control input-medium" maxlength="10"
                                                                    name="approval_registration_no5"
+                                                                   :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO5"
                                                                    type="text">
                                                         </div>
@@ -1573,6 +1591,7 @@
                                                         <div class="form-group">
                                                             <input class="form-control input-medium" maxlength="10"
                                                                    name="approval_registration_no6"
+                                                                   :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO6"
                                                                    type="text">
                                                         </div>
@@ -1586,6 +1605,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control " id="has-environmental-control"
                                                         name="has_environmental_control"
+                                                        @change="checkEnvironmentalControl"
                                                         v-model="census.HAS_ENVIRONMENTAL_CONTROL"
                                                         >
                                                     <option selected="selected" value=""></option>
@@ -1597,8 +1617,9 @@
                                         </td>
                                         <td class="padding-10 valign-middle">
                                             <div class="form-group">
-                                                <select class="select form-control" id="pollution_control_measure_id"
+                                                <select class="select form-control select2-md" id="pollution_control_measure_id"
                                                         name="pollution_control_measure_id"
+                                                        :disabled="hasEnvCtrl"
                                                         v-model="census.POLLUTION_CONTROL_MEASURE_ID"
                                                         >
                                                     <option selected="selected" value=""></option>
@@ -1613,6 +1634,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control " id="has-specialized-zone"
                                                         name="has_specialized_zone"
+                                                        @change="checkSpecializedZone"
                                                         v-model="census.HAS_SPECIALIZED_ZONE"
                                                         >
                                                     <option selected="selected" value=""></option>
@@ -1625,7 +1647,7 @@
                                         <td class="padding-10 valign-middle">
                                             <div class="form-group">
                                                 <select class="select form-control select2-md" id="specialty-code-id"
-                                                        name="specialty_code_id" v-model="census.SPECIALTY_CODE_ID">
+                                                        name="specialty_code_id" :disabled="hasSpZone" v-model="census.SPECIALTY_CODE_ID">
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in specialtyCode" :value="item.ID">
                                                         {{item.NAME}}
@@ -1638,8 +1660,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control" id="has-membership"
                                                         name="has_membership" v-model="census.HAS_MEMBERSHIP"
-
-                                                        aria-hidden="true">
+                                                        @change="checkMembership" aria-hidden="true">
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in yesNo" :value="item.ID">{{item.NAME}}
                                                     </option>
@@ -1650,7 +1671,7 @@
                                                 <label for="membership-authority">১৫.১ অ্যাসোসিয়েশনের নাম</label>
                                                 <div class="form-group">
                                                     <input class="form-control" id="membership-authority"
-                                                           name="membership_authority"
+                                                           :disabled="hasMembership" name="membership_authority"
                                                            v-model="census.MEMBERSHIP_AUTHORITY" type="text">
                                                 </div>
 
@@ -1659,7 +1680,7 @@
                                                 <label for="membership-number">১৫.২ সদস্য নম্বর</label>
                                                 <div class="form-group">
                                                     <input class="form-control" id="membership-number"
-                                                           name="membership_number" v-model="census.MEMBERSHIP_NUMBER"
+                                                           :disabled="hasMembership" name="membership_number" v-model="census.MEMBERSHIP_NUMBER"
                                                            type="text">
                                                 </div>
 
@@ -1669,7 +1690,7 @@
                                         <td class="padding-10">
                                             <div class="form-group">
                                                 <select class="select form-control" id="has-chamber-membership"
-                                                        name="has_chamber_membership"
+                                                        @change="checkChamberMembership" name="has_chamber_membership"
                                                         v-model="census.HAS_CHAMBER_MEMBERSHIP"
                                                         >
                                                     <option selected="selected" value=""></option>
@@ -1682,7 +1703,7 @@
                                                 <label for="chamber-name">১৬.১ চেম্বারের নাম</label>
                                                 <div class="form-group">
                                                     <input class="form-control" id="chamber-name" name="chamber_name"
-                                                           v-model="census.CHAMBER_NAME" type="text">
+                                                           :disabled="hasChamberMembership" v-model="census.CHAMBER_NAME" type="text">
                                                 </div>
 
                                             </div>
@@ -1690,7 +1711,7 @@
                                                 <label for="chamber-membership-number">১৬.২ সদস্য নম্বর</label>
                                                 <div class="form-group">
                                                     <input class="form-control" id="chamber-membership-number"
-                                                           name="chamber_membership_number"
+                                                           name="chamber_membership_number" :disabled="hasChamberMembership"
                                                            v-model="census.CHAMBER_MEMBERSHIP_NUMBER"
                                                            type="text">
                                                 </div>
