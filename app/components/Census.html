@@ -1233,8 +1233,7 @@
                                                     <td class="padding-10">
                                                         <div class="form-group">
                                                             <select class="select form-control " id="is-registered"
-                                                                    name="is_registered" v-model="census.IS_REGISTERED"
-                                                                    >
+                                                                    name="is_registered" @change="checkRegistration" v-model="census.IS_REGISTERED">
                                                                 <option selected="selected" value=""></option>
                                                                 <option v-for="item in yesNo" :value="item.ID">
                                                                     {{item.NAME}}
@@ -1267,13 +1266,13 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control"
+                                                                        <select class="select form-control" id="reg-org-code1"
                                                                                 data-placeholder="" name="reg_org_code1"
+                                                                                :disabled="isRegistered"
                                                                                 v-model="census.REG_ORG_CODE1"
 
                                                                                 aria-hidden="true">
-                                                                            <option selected="selected"
-                                                                                    value=""></option>
+                                                                            <option selected="selected" value=""></option>
                                                                             <option v-for="item in regOrgCode"
                                                                                     :value="item.ID">{{item.NAME}}
                                                                             </option>
@@ -1285,8 +1284,9 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control"
+                                                                        <select class="select form-control" id="reg-org-code2"
                                                                                 data-placeholder="" name="reg_org_code2"
+                                                                                :disabled="isRegistered"
                                                                                 v-model="census.REG_ORG_CODE2"
 
                                                                                 aria-hidden="true">
@@ -1303,8 +1303,9 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="select form-control"
+                                                                        <select class="select form-control" id="reg-org-code3"
                                                                                 data-placeholder="" name="reg_org_code3"
+                                                                                :disabled="isRegistered"
                                                                                 v-model="census.REG_ORG_CODE3"
 
                                                                                 aria-hidden="true">
@@ -1331,6 +1332,7 @@
                                                                     <div class="form-group">
                                                                         <input class="form-control" maxlength="10"
                                                                                name="registration_no1"
+                                                                               :disabled="isRegistered"
                                                                                v-model="census.REGISTRATION_NO1"
                                                                                type="text">
                                                                     </div>
@@ -1341,6 +1343,7 @@
                                                                     <div class="form-group">
                                                                         <input class="form-control" maxlength="10"
                                                                                name="registration_no2"
+                                                                               :disabled="isRegistered"
                                                                                v-model="census.REGISTRATION_NO2"
                                                                                type="text">
                                                                     </div>
@@ -1351,6 +1354,7 @@
                                                                     <div class="form-group">
                                                                         <input class="form-control" maxlength="10"
                                                                                name="registration_no3"
+                                                                               :disabled="isRegistered"
                                                                                v-model="census.REGISTRATION_NO3"
                                                                                type="text">
                                                                     </div>
@@ -1620,9 +1624,8 @@
                                         </td>
                                         <td class="padding-10 valign-middle">
                                             <div class="form-group">
-                                                <select class="select form-control" id="specialty-code-id"
-                                                        name="specialty_code_id" v-model="census.SPECIALTY_CODE_ID"
-                                                        >
+                                                <select class="select form-control select2-md" id="specialty-code-id"
+                                                        name="specialty_code_id" v-model="census.SPECIALTY_CODE_ID">
                                                     <option selected="selected" value=""></option>
                                                     <option v-for="item in specialtyCode" :value="item.ID">
                                                         {{item.NAME}}

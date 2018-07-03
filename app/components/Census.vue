@@ -96,6 +96,7 @@
                 enableDisableHOLocation: false,
                 enableDisableTradeLicenseAuth: false,
                 TRADE_LICENSE_NUMBER: false,
+                isRegistered: true,
                 rmos: [],
 
                 rmos: [],
@@ -174,7 +175,10 @@
                 };
                 this.isEdit = true;
                 this.setAllCommonConfigList();
-                var selectDropDown = $(".select").select2();
+                var selectDropDown = $(".select").select2({
+                    placeholder: "Select",
+                    allowClear: true
+                });
                 selectDropDown.on('select2:select', function (e) {
                     var event = new Event('change');
                     e.target.dispatchEvent(event);
@@ -269,6 +273,11 @@
                             this.enableDisableTradeLicenseNumber = true;
                         }
 
+                        // enable question 11.1 & 11.2 if question 11 is yes
+                        if(Census.IS_REGISTERED == 1){
+                            this.isRegistered = false;
+                        }
+
                         // Load address (division, district, thana list) in edit mode
                         this.districts = this.all_districts.filter(f => String(f.DIVISION_ID) == Census.DIVISION_ID);
                         this.thanaUpazilla = this.all_thanaUpazilla.filter(f => String(f.DISTRICT_ID) == Census.DISTRICT_ID);
@@ -309,7 +318,10 @@
                 setTimeout(function () {
                     $('#census-form-container').floatingScroll();
 
-                    var selectDropDown = $(".select").select2();
+                    var selectDropDown = $(".select").select2({
+                        placeholder: "Select",
+                        allowClear: true
+                    });
                     selectDropDown.on('select2:select', function (e) {
                         var event = new Event('change');
                         e.target.dispatchEvent(event);
@@ -868,6 +880,25 @@
                     this.enableDisableTradeLicenseNumber = true;
                     this.census.TRADE_LICENSE_NUMBER = '';
                     this.census.TRADE_LICENSE_AUTHORITY = '';
+                }
+
+            },
+            checkRegistration:function () {
+                var hasRegistration = this.census.IS_REGISTERED;
+                if(hasRegistration == 1){
+                    this.isRegistered = false;
+                } else if(hasRegistration == 2) {
+                    this.isRegistered = true;
+                    this.enableDisableTradeLicenseNumber = true;
+                    this.census.REG_ORG_CODE1 = '';
+                    this.census.REG_ORG_CODE2 = '';
+                    this.census.REG_ORG_CODE3 = '';
+                    $('#reg-org-code1').val(null).trigger('change');
+                    $('#reg-org-code2').val(null).trigger('change');
+                    $('#reg-org-code3').val(null).trigger('change');
+                    this.census.REGISTRATION_NO1 = '';
+                    this.census.REGISTRATION_NO2 = '';
+                    this.census.REGISTRATION_NO3 = '';
                 }
 
             },
