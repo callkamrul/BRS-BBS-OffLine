@@ -225,3 +225,15 @@ label {
   margin-bottom: 6px;
   font-weight: 400;
 }
+
+.notifications {
+  position: fixed;
+  width: 350px;
+  z-index: 1;
+}
+.waa {
+  opacity:0;
+}
+.baa {
+  opacity:1;
+}

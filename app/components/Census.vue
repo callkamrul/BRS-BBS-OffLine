@@ -24,6 +24,7 @@
 
                 onLine: false,
                 isEdit: false,
+                isSuccess: false,
                 isCity: false,
                 isHeadOfficePouro: false,
                 isHeadOfficeCity: false,
@@ -441,6 +442,15 @@
                     store.addCensus(this.census);
                 }
                 this.isEdit = false;
+                this.isSuccess = true;
+
+                setTimeout(function() {
+                    $('.notifications').slideDown("slow");
+                }, 800);
+                setTimeout(function() {
+                    $('.notifications').slideUp("slow");
+                    this.isSuccess = false;
+                }, 4000);
             },
             deleteCensus(CensusId) {
                 if (confirm("Are you sure to delete this Census?")) {
@@ -659,14 +669,14 @@
             checkNIDLength: function() {
                 this.msg_provider_nid = '';
                 var nid = this.census.PROVIDER_NID;
-                if(nid.length != 10 && nid.length != 13 && nid.length != 17){
+                if(nid && nid.length != 10 && nid.length != 13 && nid.length != 17){
                     this.msg_provider_nid = "Only 10 or 13 or 17 characters are accepted"
                 }
             },
             checkCollectorNIDLength: function() {
                 this.msg_collector_nid = '';
                 var nid = this.census.COLLECTOR_NID;
-                if(nid.length != 10 && nid.length != 13 && nid.length != 17){
+                if(nid && nid.length != 10 && nid.length != 13 && nid.length != 17){
                     this.msg_collector_nid = "Only 10 or 13 or 17 characters are accepted"
                 }
             },

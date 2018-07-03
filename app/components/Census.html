@@ -17,6 +17,19 @@
                 <span v-show="onLine == false" class="pull-right label label-danger"><i class="fa fa-circle"></i> Offline</span>
 		</span>
     </h2>
+    <div  class="container">
+        <div align="center" class="row">
+            <div class="col-sm-3"></div>
+            <div id="success" class="col-sm-6">
+                <div  v-show="isSuccess == true" class="alert alert-success notifications">
+                    <strong>Success!</strong> Information Has Been Saved Successfully.
+                </div>
+
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+
     <div v-show="isEdit == false" id="censuses">
         <div class="container">
             <div>
