@@ -105,6 +105,7 @@
                 hasMembership: true,
                 isSpecificLegalOwnership: false,
                 hasChamberMembership: true,
+                isUnitStatusClosed: true,
                 rmos: [],
 
                 rmos: [],
@@ -341,6 +342,11 @@
 
                         if (Census.IS_UNDER_ENT_GROUP == 1) {
                             this.enableEntGroup = false;
+                        }
+
+
+                        if(Census.CURRENT_STATUS_OF_UNIT == 2 || Census.CURRENT_STATUS_OF_UNIT == 3 || Census.CURRENT_STATUS_OF_UNIT == 4){
+                            this.isUnitStatusClosed = false;
                         }
 
                         // Load address (division, district, thana list) in edit mode
@@ -1115,6 +1121,21 @@
                     this.census.FEMALE_OWNER = '';
                     this.census.MALE_UNPAID_WORKER = '';
                     this.census.FEMALE_UNPAID_WORKER = '';
+                }
+            },
+            checkCurrentStatusUnit:function () {
+                var currentStatus = this.census.CURRENT_STATUS_OF_UNIT;
+                if(currentStatus == 1){
+                    this.isUnitStatusClosed = true;
+                    this.census.TMP_CLOSED_REOPEN_MONTH = '';
+                    this.census.TMP_CLOSED_REOPEN_YEAR = '';
+                    this.census.TMP_PERMANENTLY_CLOSE_YEAR = '';
+                    this.census.REASON_OF_CLOSE_CODE = '';
+                    this.census.REASON_OF_CLOSE_OTHER = '';
+                    $("#reopen-month").val(null).trigger('change');
+                    $("#closing-reason").val(null).trigger('change');
+                } else {
+                    this.isUnitStatusClosed = false;
                 }
             },
 

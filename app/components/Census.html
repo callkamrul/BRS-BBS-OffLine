@@ -4,7 +4,9 @@
                 <button v-show="isEdit == false" @click="addCensus" class="btn btn-primary trigger-form" type="button">
 					<i class="fa fa-plus"></i> Add Business Register Information
 				</button>
-                <a v-show="isEdit == false" class="btn btn-primary" href="javascript:location.reload(true)">Reload</a>
+                <a v-show="isEdit == false" class="btn btn-primary" href="javascript:location.reload(true)">
+                    <i class="icon-reload-alt position-left"></i>Reload
+                </a>
 			    <i v-show="isEdit==true" @click="backToList" class="glyphicon glyphicon-arrow-left"></i>
 
 
@@ -1807,6 +1809,7 @@
                                             <div class="form-group">
                                                 <select class="select form-control" id="unit-current-status"
                                                         name="current_status_of_unit"
+                                                        @change="checkCurrentStatusUnit"
                                                         v-model="census.CURRENT_STATUS_OF_UNIT"
                                                         >
                                                     <option selected="selected" value=""></option>
@@ -1824,6 +1827,7 @@
 
                                                     <select class="select form-control " id="reopen-month"
                                                             name="tmp_closed_reopen_month"
+                                                            :disabled="isUnitStatusClosed"
                                                             v-model="census.TMP_CLOSED_REOPEN_MONTH"
                                                             >
                                                         <option selected="selected" value=""></option>
@@ -1850,7 +1854,7 @@
                                                 <div class="form-group">
                                                     <input class="form-control" id="reopen-year" placeholder="eg. 1970"
                                                            pattern="[0-9]" maxlength="4" name="tmp_closed_reopen_year"
-                                                           v-model="census.TMP_CLOSED_REOPEN_YEAR"
+                                                           :disabled="isUnitStatusClosed" v-model="census.TMP_CLOSED_REOPEN_YEAR"
                                                            type="text">
                                                 </div>
                                             </div>
@@ -1861,7 +1865,7 @@
                                             <div class="form-group">
                                                 <input class="form-control" id="perma-close-year" placeholder="eg. 1970"
                                                        pattern="[0-9]" maxlength="4" name="tmp_permanently_close_year"
-                                                       v-model="census.TMP_PERMANENTLY_CLOSE_YEAR"
+                                                       :disabled="isUnitStatusClosed" v-model="census.TMP_PERMANENTLY_CLOSE_YEAR"
                                                        type="text">
                                             </div>
                                         </td>
@@ -1870,7 +1874,7 @@
                                                 <div class="form-group">
                                                     <select class="select form-control" id="closing-reason"
                                                             @change="checkClosingReasonsOthers"
-                                                            name="reason_of_close_code"
+                                                            name="reason_of_close_code" :disabled="isUnitStatusClosed"
                                                             v-model="census.REASON_OF_CLOSE_CODE"
                                                             >
                                                         <option selected="selected" value=""></option>
