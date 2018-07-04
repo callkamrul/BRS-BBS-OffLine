@@ -6,7 +6,7 @@ store.getDivisionList = function(cb)
 {
 	var list =[];
 	db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME
-	From DIVISIONS`, function (err, row) {
+	From DIVISIONS ORDER BY NAME`, function (err, row) {
 				list.push(row);
 			}, function (err, rowCount) {
 				cb(null, list);
@@ -18,14 +18,14 @@ store.getDistrictList = function(cb, $division_id = null)
     var list =[];
     if($division_id){
         db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, DIVISION_ID
-	From DISTRICTS where DIVISION_ID=${$division_id}`, function (err, row) {
+	From DISTRICTS where DIVISION_ID=${$division_id} ORDER BY NAME`, function (err, row) {
             list.push(row);
         }, function (err, rowCount) {
             cb(null, list);
         });
     }else {
         db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, DIVISION_ID
-				 From DISTRICTS`, function (err, row) {
+				 From DISTRICTS ORDER BY NAME`, function (err, row) {
             list.push(row);
         }, function (err, rowCount) {
             cb(null, list);
@@ -42,7 +42,7 @@ store.getThanaUpazillaByDistrict = function(cb, $districtId = null)
 
     var thanaList =[];
     db.each(`SELECT ID, (GEO_CODE ||' - '|| NAME) AS NAME, DISTRICT_ID
-	From THANA_UPAZILAS ${$condition}`, function (err, row) {
+	From THANA_UPAZILAS ${$condition} ORDER BY NAME`, function (err, row) {
         thanaList.push(row);
     }, function (err, rowCount) {
         cb(null, thanaList);

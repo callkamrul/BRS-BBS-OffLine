@@ -97,7 +97,9 @@ body{
     width: 24px;
 }
 .select2-sm {
-  width: 220px; }
+  width: 220px;
+  position:relative;
+}
 
 @media (max-width: 412px) {
   .select2-sm {
@@ -218,6 +220,9 @@ body{
 .padding-3 {
   padding: 3px;
 }
+.padding-10 {
+  padding: 10px;
+}
 th {
   font-weight: 500;
 }
@@ -231,9 +236,6 @@ label {
   width: 350px;
   z-index: 1;
 }
-.waa {
-  opacity:0;
-}
-.baa {
-  opacity:1;
+.valign-middle {
+    vertical-align: middle !important;
 }

@@ -588,7 +588,7 @@
                                                 <tbody>
                                                 <tr>
                                                     <th colspan="2" class="text-center"
-                                                        style="border-bottom: 1px solid #ccc">প্রশ্ন ৬.১ এর উত্তর কোড ১
+                                                        style="border-bottom: 1px solid #ccc">প্রশ্ন ৬.১ এর উত্তর কোড 1
                                                         (এন্টারপ্রাইজ) হলে
                                                     </th>
                                                 </tr>
@@ -634,7 +634,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th colspan="3" class="padding-10 text-center">প্রশ্ন ৬.১ এর উত্তর কোড ২
+                                        <th colspan="3" class="padding-10 text-center">প্রশ্ন ৬.১ এর উত্তর কোড 2
                                             (এস্টাবলিশমেন্ট) হলে
                                         </th>
                                         <th class="padding-10 text-center">৭. প্রতিষ্ঠানের ধরন</th>
@@ -653,7 +653,7 @@
 
                                                         <div class="text-center">
                                                             <div class="form-group select2-width--auto ">
-                                                                <select class="select form-control "
+                                                                <select class="select form-control select2-sm"
                                                                         @change="checkIsEntGroup" id="is-under-ent"
                                                                         v-bind:disabled="enableIsUnderEnt"
                                                                         name="is_under_enterprise"
@@ -700,7 +700,7 @@
                                                         <div class="text-center">
 
                                                             <div class="form-group select2-width--auto">
-                                                                <select class="select form-control "
+                                                                <select class="select form-control select2-sm"
                                                                         @change="checkIsEntGroupId2"
                                                                         id="is-under-ent-group-2"
                                                                         v-bind:disabled="enableIsUnderEnt2"
@@ -1345,8 +1345,8 @@
                                                             <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" maxlength="10"
+                                                                    <div class="form-group" style="width: 60%;">
+                                                                        <input class="form-control" maxlength="50"
                                                                                name="registration_no1"
                                                                                :disabled="isRegistered"
                                                                                v-model="census.REGISTRATION_NO1"
@@ -1356,8 +1356,8 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" maxlength="10"
+                                                                    <div class="form-group" style="width: 60%;">
+                                                                        <input class="form-control" maxlength="50"
                                                                                name="registration_no2"
                                                                                :disabled="isRegistered"
                                                                                v-model="census.REGISTRATION_NO2"
@@ -1367,8 +1367,8 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" maxlength="10"
+                                                                    <div class="form-group" style="width: 60%;">
+                                                                        <input class="form-control" maxlength="50"
                                                                                name="registration_no3"
                                                                                :disabled="isRegistered"
                                                                                v-model="census.REGISTRATION_NO3"
@@ -1550,7 +1550,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="form-group">
-                                                            <input class="form-control input-medium" maxlength="10"
+                                                            <input class="form-control input-medium" maxlength="50"
                                                                    name="approval_registration_no1"
                                                                    :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO1"
@@ -1561,7 +1561,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="form-group">
-                                                            <input class="form-control input-medium" maxlength="10"
+                                                            <input class="form-control input-medium" maxlength="50"
                                                                    name="approval_registration_no2"
                                                                    :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO2"
@@ -1572,7 +1572,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="form-group">
-                                                            <input class="form-control input-medium" maxlength="10"
+                                                            <input class="form-control input-medium" maxlength="50"
                                                                    name="approval_registration_no3"
                                                                    :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO3"
@@ -1583,7 +1583,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="form-group">
-                                                            <input class="form-control input-medium" maxlength="10"
+                                                            <input class="form-control input-medium" maxlength="50"
                                                                    name="approval_registration_no4"
                                                                    :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO4"
@@ -1594,7 +1594,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="form-group">
-                                                            <input class="form-control input-medium" maxlength="10"
+                                                            <input class="form-control input-medium" maxlength="50"
                                                                    name="approval_registration_no5"
                                                                    :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO5"
@@ -1605,7 +1605,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="form-group">
-                                                            <input class="form-control input-medium" maxlength="10"
+                                                            <input class="form-control input-medium" maxlength="50"
                                                                    name="approval_registration_no6"
                                                                    :disabled="hasPermission"
                                                                    v-model="census.APPROVAL_REGISTRATION_NO6"
@@ -2590,7 +2590,7 @@
                     <table class="main-form-structure table-full-width table-item-bordered" style="width: 2525px">
                         <tbody>
                         <tr>
-                            <td class="padding-10">২৬. বর্তমানে মোট সম্পদের পরিমাণ
+                            <td class="padding-10">২৬. বর্তমান মোট সম্পদের পরিমাণ
                                 <small>(লক্ষ টাকায়)</small>
                             </td>
                             <td class="padding-10">২৭.বর্তমান মোট স্থায়ী সম্পদের পরিমাণ
@@ -2599,7 +2599,7 @@
                             <td class="padding-10">২৮. জমি ও কারখানা ভবনের মোট মূল্য
                                 <small>(লক্ষ টাকায়)</small>
                             </td>
-                            <td class="padding-10">২৯. গত অর্থবছরে (২০১৬-১৭) মোট আয়</td>
+                            <td class="padding-10">২৯. গত অর্থবছরে (২০১৬-১৭) মোট আয় <small>(লক্ষ টাকায়)</small></td>
                             <td class="padding-10" colspan="2">৩০. গত অর্থবছরে (২০১৬-১৭) বিনিয়োগের পরিমাণ
                                 <small>(লক্ষ টাকায়)</small>
                             </td>
@@ -2823,7 +2823,7 @@
                                     </tr>
                                     <tr>
                                         <td class="padding-10">
-                                            ৩৩.৩ শুধুমাত্র গত অর্থবছরে (২০১৬-১৭) গৃহীত ঋণ পরিমাণ
+                                            ৩৩.৩ শুধুমাত্র গত অর্থবছরে (২০১৬-১৭) গৃহীত ঋণের পরিমাণ
                                             <small>(লক্ষ টাকায়)</small>
                                             <div class="input-group">
                                                 <div class="input-group-addon">৳</div>
@@ -3057,7 +3057,7 @@
                                         <td class="padding-10">
                                             ৩৭. প্রতিষ্ঠানটির ই-টিআইএন (e-TIN) নং (যদি থাকে)
                                             <div class="form-group">
-                                                <input class="form-control" maxlength="12" id="tin-number" name="tin_no"
+                                                <input class="form-control" maxlength="50" id="tin-number" name="tin_no"
                                                        v-model="census.TIN_NO" type="text">
                                             </div>
 
@@ -3067,7 +3067,7 @@
                                         <td class="padding-10">
                                             ৩৮. প্রতিষ্ঠানটির ভ্যাট (VAT) নং (যদি থাকে)
                                             <div class="form-group">
-                                                <input class="form-control" maxlength="12" id="vat-number" name="vat_no"
+                                                <input class="form-control" maxlength="50" id="vat-number" name="vat_no"
                                                        v-model="census.VAT_NO" type="text">
                                             </div>
 
