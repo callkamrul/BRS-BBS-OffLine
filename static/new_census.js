@@ -66,12 +66,16 @@ jQuery(document).ready(function($) {
         var ew = event.which;
         if(48 <= ew && ew <= 57)
             return true;
+        if(ew <= 89)
+            return true;
         return false;
     });
 
     $('#loan_received_2016_2017').keypress(function(event){
         var ew = event.which;
         if(48 <= ew && ew <= 57)
+            return true;
+        if(ew <= 89)
             return true;
         return false;
     });
