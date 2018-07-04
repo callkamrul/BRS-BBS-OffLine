@@ -96,12 +96,14 @@
                 enableDisableHORmo: false,
                 enableDisableHOLocation: false,
                 enableDisableTradeLicenseAuth: false,
+                isTradeLicense: false,
                 TRADE_LICENSE_NUMBER: false,
                 isRegistered: true,
                 hasPermission: true,
                 hasEnvCtrl: true,
                 hasSpZone: true,
                 hasMembership: true,
+                isSpecificLegalOwnership: false,
                 hasChamberMembership: true,
                 rmos: [],
 
@@ -303,6 +305,42 @@
                         }
                         if(Census.HAS_CHAMBER_MEMBERSHIP == 1){
                             this.hasChamberMembership = false;
+                        }
+
+                        // Disable question 5, 10, 35.1 & 35.2 if code of question 3 is 6,7,8
+                        var ownership = Census.LEGAL_OWNERSHIP_CODE;
+                        if(ownership == 5 || ownership == 6 || ownership == 7){
+
+                            this.isSpecificLegalOwnership = true;
+                            this.isTradeLicense = true;
+                            this.enableDisableTradeLicenseAuth = true;
+                            this.enableDisableTradeLicenseNumber = true;
+
+                        } else if(ownership == 1) {
+                            this.isTradeLicense = true;
+                            this.enableDisableTradeLicenseAuth = true;
+                            this.enableDisableTradeLicenseNumber = true;
+                        }
+
+                        // Enable question 6.2 if  code of question 6 is 1
+                        // or enable question 6.3,6.4 if code of question 6 is 2
+                        var unit_type = Census.UNIT_TYPE_CODE;
+                        if (unit_type == 1) {
+                            this.enableIsUnderEntGroup = false;
+                        }
+                        if (unit_type == 2) {
+                            this.enableIsUnderEnt = false;
+                            this.enableIsUnderEnt2 = false;
+                        }
+
+                        // Enable question
+                        var yesNo = Census.IS_UNDER_ENT_GROUP2;
+                        if (yesNo == 1) {
+                            this.enableEntGroupId2 = false;
+                        }
+
+                        if (Census.IS_UNDER_ENT_GROUP == 1) {
+                            this.enableEntGroup = false;
                         }
 
                         // Load address (division, district, thana list) in edit mode
@@ -1002,6 +1040,81 @@
                     this.hasChamberMembership = true;
                     this.census.CHAMBER_NAME = '';
                     this.census.CHAMBER_MEMBERSHIP_NUMBER = '';
+                }
+            },
+            checkOwnership:function () {
+                var ownership = this.census.LEGAL_OWNERSHIP_CODE;
+                if(ownership == 5 || ownership == 6 || ownership == 7){
+
+                    this.census.TYPE_OF_OWNERSHIP = 1;
+                    $("#type-of-ownership").val(1).trigger('change');
+                    this.isSpecificLegalOwnership = true;
+                    this.census.HEAD_GENDER_CODE = '';
+                    $("#head-gender-code").val(null).trigger('change');
+                    this.census.HEAD_OF_UNIT_AGE = '';
+                    this.census.HEAD_EDUCATION_CODE = '';
+                    $("#head-education-code").val(null).trigger('change');
+
+                    this.isTradeLicense = true;
+                    this.enableDisableTradeLicenseAuth = true;
+                    this.enableDisableTradeLicenseNumber = true;
+                    this.census.HAS_TRADE_LICENSE = '';
+                    this.census.TRADE_LICENSE_AUTHORITY = '';
+                    this.census.TRADE_LICENSE_NUMBER = '';
+                    $("#has-trade-license").val(null).trigger('change');
+                    $("#trade-license-authority").val(null).trigger('change');
+
+                    this.census.MALE_OWNER = '';
+                    this.census.FEMALE_OWNER = '';
+                    this.census.MALE_UNPAID_WORKER = '';
+                    this.census.FEMALE_UNPAID_WORKER = '';
+
+
+                } else if(ownership == 1) {
+                    this.census.TYPE_OF_OWNERSHIP = '';
+                    $("#type-of-ownership").val(null).trigger('change');
+                    this.isSpecificLegalOwnership = false;
+                    this.census.HEAD_GENDER_CODE = '';
+                    $("#head-gender-code").val(null).trigger('change');
+                    this.census.HEAD_OF_UNIT_AGE = '';
+                    this.census.HEAD_EDUCATION_CODE = '';
+
+                    this.isTradeLicense = true;
+                    this.enableDisableTradeLicenseAuth = true;
+                    this.enableDisableTradeLicenseNumber = true;
+                    this.census.HAS_TRADE_LICENSE = '';
+                    this.census.TRADE_LICENSE_AUTHORITY = '';
+                    this.census.TRADE_LICENSE_NUMBER = '';
+                    $("#has-trade-license").val(null).trigger('change');
+                    $("#trade-license-authority").val(null).trigger('change');
+
+                    this.census.MALE_OWNER = '';
+                    this.census.FEMALE_OWNER = '';
+                    this.census.MALE_UNPAID_WORKER = '';
+                    this.census.FEMALE_UNPAID_WORKER = '';
+                }
+                else {
+                    this.census.TYPE_OF_OWNERSHIP = '';
+                    $("#type-of-ownership").val(null).trigger('change');
+                    this.isSpecificLegalOwnership = false;
+                    this.census.HEAD_GENDER_CODE = '';
+                    $("#head-gender-code").val(null).trigger('change');
+                    this.census.HEAD_OF_UNIT_AGE = '';
+                    this.census.HEAD_EDUCATION_CODE = '';
+
+                    this.isTradeLicense = false;
+                    this.enableDisableTradeLicenseAuth = false;
+                    this.enableDisableTradeLicenseNumber = false;
+                    this.census.HAS_TRADE_LICENSE = '';
+                    this.census.TRADE_LICENSE_AUTHORITY = '';
+                    this.census.TRADE_LICENSE_NUMBER = '';
+                    $("#has-trade-license").val(null).trigger('change');
+                    $("#trade-license-authority").val(null).trigger('change');
+
+                    this.census.MALE_OWNER = '';
+                    this.census.FEMALE_OWNER = '';
+                    this.census.MALE_UNPAID_WORKER = '';
+                    this.census.FEMALE_UNPAID_WORKER = '';
                 }
             },
 

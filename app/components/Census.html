@@ -487,6 +487,7 @@
                                         <td rowspan="2" class="padding-10 valign-middle">
                                             <select class="select form-control select2-sm" id="legal-ownership-code"
                                                     style="width: 500px" name="legal_ownership_code"
+                                                    @change="checkOwnership"
                                                     v-model="census.LEGAL_OWNERSHIP_CODE">
                                                 <option value=""></option>
                                                 <option v-for="item in legal_ownerships" :value="item.ID">
@@ -519,6 +520,7 @@
                                                     <td class="padding-10">
                                                         <select class="select form-control select2-sm" id="head-gender-code"
                                                                 name="head_gender_code"
+                                                                :disabled="isSpecificLegalOwnership"
                                                                 v-model="census.HEAD_GENDER_CODE"
                                                                 aria-hidden="true">
                                                             <option selected="selected" value=""></option>
@@ -531,13 +533,13 @@
                                                     <td class="padding-10">
                                                         <input class="form-control input-small" id="head-unit-age"
                                                                min="0" placeholder="(পূর্ণ বছরে লিখুন)" pattern="[0-9]"
-                                                               maxlength="2"
+                                                               maxlength="2" :disabled="isSpecificLegalOwnership"
                                                                name="head_of_unit_age" v-model="census.HEAD_OF_UNIT_AGE"
                                                                type="text">
                                                     </td>
                                                     <td class="padding-10">
                                                         <select class="select form-control select2-sm" id="head-education-code"
-                                                                name="head_education_code"
+                                                                name="head_education_code" :disabled="isSpecificLegalOwnership"
                                                                 v-model="census.HEAD_EDUCATION_CODE"
                                                                 aria-hidden="true">
                                                             <option selected="selected" value=""></option>
@@ -719,7 +721,7 @@
                                                                 <input class="form-control text-uppercase"
                                                                        id="enterprise-group-id-2"
                                                                        name="enterprise_group_id_2"
-                                                                       v-bind:disabled="enableEntGroupId2"
+                                                                       :disabled="enableEntGroupId2"
                                                                        v-model="census.ENTERPRISE_GROUP_ID_2"
                                                                        type="text">
                                                             </div>
@@ -1171,6 +1173,7 @@
                                                             <select class="select form-control " id="has-trade-license"
                                                                     name="has_trade_license"
                                                                     @change = "hasTradeLicense"
+                                                                    :disabled="isTradeLicense"
                                                                     v-model="census.HAS_TRADE_LICENSE"
                                                                     >
                                                                 <option selected="selected" value=""></option>
@@ -2884,7 +2887,7 @@
                                                     </div>
                                                     <input class="form-control input-small" id="male-owner"
                                                            placeholder="পুরুষ" pattern="[0-9]" maxlength="2"
-                                                           name="male_owner"
+                                                           :disabled="isSpecificLegalOwnership" name="male_owner"
                                                            v-model="census.MALE_OWNER" type="text">
                                                 </div>
                                             </div>
@@ -2895,7 +2898,7 @@
                                                     </div>
                                                     <input class="form-control input-small" id="female-owner"
                                                            placeholder="মহিলা" pattern="[0-9]" maxlength="2"
-                                                           name="female_owner"
+                                                           :disabled="isSpecificLegalOwnership" name="female_owner"
                                                            v-model="census.FEMALE_OWNER" type="text">
                                                 </div>
                                             </div>
@@ -2909,7 +2912,7 @@
                                                     </div>
                                                     <input class="form-control input-small" id="male-unpaid-worker"
                                                            placeholder="পুরুষ" pattern="[0-9]" maxlength="2"
-                                                           name="male_unpaid_worker"
+                                                           :disabled="isSpecificLegalOwnership" name="male_unpaid_worker"
                                                            v-model="census.MALE_UNPAID_WORKER" type="text">
                                                 </div>
                                             </div>
@@ -2920,7 +2923,7 @@
                                                     </div>
                                                     <input class="form-control input-small" id="female-unpaid-worker"
                                                            placeholder="মহিলা" pattern="[0-9]" maxlength="2"
-                                                           name="female_unpaid_worker"
+                                                           :disabled="isSpecificLegalOwnership" name="female_unpaid_worker"
                                                            v-model="census.FEMALE_UNPAID_WORKER" type="text">
                                                 </div>
                                             </div>
