@@ -294,10 +294,11 @@ store.editCensus = (catId, Census) => {
         for (var key in Census) {
             if (Census.hasOwnProperty(key) && key != 'ID') {
                 c++;
-				if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
-                    rawSql += `,`;
-				}
+
                 if(Census[key]){
+                    if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
+                        rawSql += `,`;
+                    }
                     if(Census[key] && uppercaseField.indexOf(key) >= 0){   // Make some specific field value to upper case letter.
                         rawSql+= key +`= "`+ Census[key].toUpperCase() + `"`;
                     }else {
@@ -334,6 +335,9 @@ store.editCensus = (catId, Census) => {
                 }else {
                     if(key == 'CITY_CORP_ID' || key == 'PAURASHAVA_ID'){
                         if(!Census.CITY_CORP_ID && !Census.PAURASHAVA_ID){
+                            if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
+                                rawSql += `,`;
+                            }
                             rawSql+= 'CITY_CORP_PAURASAVA_ID' +`= (NULL)`;
                             delete Census.CITY_CORP_ID;
                             delete Census.PAURASHAVA_ID;
@@ -341,11 +345,17 @@ store.editCensus = (catId, Census) => {
 
                     } else if(key == 'HEAD_OFFICE_CITY_CORP_ID' || key == 'HEAD_OFFICE_PAURASHAVA_ID'){
                         if(!Census.HEAD_OFFICE_CITY_CORP_ID && !Census.HEAD_OFFICE_PAURASHAVA_ID){
+                            if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
+                                rawSql += `,`;
+                            }
                             rawSql+= 'HEAD_OFFICE_CITY_CORP_PAURASAV' +`= (NULL)`;
                             delete Census.HEAD_OFFICE_CITY_CORP_ID;
                             delete Census.HEAD_OFFICE_PAURASHAVA_ID;
                         }
                     } else {
+                        if(c > 1){	// So that a comma(,) is placed after every key value but not before first key value
+                            rawSql += `,`;
+                        }
                         rawSql+= key +`= (NULL)`;
                     }
                 }

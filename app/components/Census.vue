@@ -521,7 +521,14 @@
             loadThanaUpazilla: function (e) {
                 var district_id = this.census.DISTRICT_ID;
                 this.city_corporation = [];
+                this.pourosabha = [];
                 this.thanaUpazilla = [];
+                this.census.CITY_CORP_ID = '';
+                this.census.THANA_UPZ_ID = '';
+                this.census.PAURASHAVA_ID = '';
+                $('#city_corp_id').val(null).trigger('change');
+                $('#thana-upz-id').val(null).trigger('change');
+                $('#paurashava_id').val(null).trigger('change');
                 store.getThanaUpazillaByDistrict((err, thanaList) => {
                     this.thanaUpazilla = thanaList;
                 }, district_id);

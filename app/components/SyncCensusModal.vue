@@ -49,6 +49,8 @@ export default {
 
   methods: {
     authenticateThenSyncCensus() {
+        //$('#loader').text('Loading........');
+        $('#loader').html("<div class='loading'> <div align='center' class='loader'></div> </div>");
       var user_name = this.user_name;
       var password = this.password;
       var census = this.census;
@@ -68,19 +70,23 @@ export default {
               //Validate
               if (census.DIVISION_ID != auth_obj.division_id) {
                 alert("Division not matched.");
+                  $('#loader').html('');
                 return 0;
               }
 
               if (census.DISTRICT_ID != auth_obj.district_id) {
                 alert("District not matched.");
+                  $('#loader').html('');
                 return 0;
               }
                 if (census.THANA_UPZ_ID != auth_obj.thana_upazila_id) {
                     alert("Thana/Upazila not matched.");
+                    $('#loader').html('');
                     return 0;
                 }
                 if (census.WARD_UNION_ID != auth_obj.union_ward_id) {
                     alert("Union/Ward not matched.");
+                    $('#loader').html('');
                     return 0;
                 }
 
@@ -108,6 +114,7 @@ export default {
                 .catch(function(error) {
                   alert("Error in data syncing");
                 });
+                $('#loader').html('');
             };
 
             syncCensus(response.data.token);
@@ -121,6 +128,7 @@ export default {
         .catch(function(error) {
           console.log(error);
           alert("Error");
+            $('#loader').html('');
         });
 
       $("#login-modal-syncup").modal("hide");
