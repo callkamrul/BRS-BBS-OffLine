@@ -192,6 +192,7 @@
                     var event = new Event('change');
                     e.target.dispatchEvent(event);
                 });
+
                 $('.select-size-xs').select2({
                     containerCssClass: 'select-xs',
                     placeholder: "Select",
@@ -1074,6 +1075,7 @@
                     this.census.FEMALE_OWNER = '';
                     this.census.MALE_UNPAID_WORKER = '';
                     this.census.FEMALE_UNPAID_WORKER = '';
+                    $("#unit-type-code").select2('open');
 
 
                 } else if(ownership == 1) {

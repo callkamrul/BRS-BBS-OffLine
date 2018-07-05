@@ -9,7 +9,11 @@ jQuery(document).ready(function($) {
             $('#census-form-container').floatingScroll();
         }, 5000);
     });
-
+    $(document).on('focus', '.select2', function (e) {
+        if (e.originalEvent) {
+            $(this).siblings('select').select2('open');
+        }
+    });
 
 
     /*setTimeout(function(){

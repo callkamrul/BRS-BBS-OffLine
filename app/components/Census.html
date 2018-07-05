@@ -54,7 +54,7 @@
                         <td>{{Census.location}}</td>
                         <td>{{Census.unit_type_name}}</td>
                         <td>{{Census.census_year}}</td>
-                        <td>{{Census.is_registred}}</td>
+                        <td>{{Census.is_registred == 1 ? 'হ্যাঁঁ':'না'}}</td>
                         <td>
 
                             <button v-if="!Census.unit_identification_code" @click="editCensus(id)" class="btn btn-success trigger-edit-form">
@@ -568,15 +568,15 @@
                                                     <td class="padding-10 ">
 
                                                         <select class="select form-control select2-sm" @change="checkUnitType"
-                                                                id="unit-type-code" required="required"
+                                                                id="unit-type-code" required
                                                                 name="unit_type_code"
-                                                                aria-required="true" v-model="census.UNIT_TYPE_CODE">
+                                                                v-model="census.UNIT_TYPE_CODE">
                                                             <option selected="selected" value=""></option>
                                                             <option v-for="item in unit_types" :value="item.ID">
                                                                 {{item.NAME}}
                                                             </option>
                                                         </select>
-                                                        <label class="validation-error-label text-danger small">{{msg_unit_type_code}}</label>
+                                                        <div class="text-danger small">{{msg_unit_type_code}}</div>
                                                     </td>
                                                 </tr>
                                                 </tbody>
