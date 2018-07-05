@@ -40,8 +40,8 @@ import eventHub from "../shared/EventHub";
 export default {
   data() {
     return {
-      user_name: "operator",
-      password: "123456",
+      user_name: "",
+      password: "",
       users: [],
       census: {}
     };
@@ -60,17 +60,10 @@ export default {
           password: password
         })
         .then(function(response) {
-          //this.users =response;
-
-          // console.log(response.token);
-          // return 0;
           if (response.status == 200) {
-            //console.log(response.data.token);
 
             var syncCensus = function(token) {
               var auth_obj = token;
-                //console.log(census);
-                console.log(auth_obj);
 
               //Validate
               if (census.DIVISION_ID != auth_obj.division_id) {
@@ -82,6 +75,16 @@ export default {
                 alert("District not matched.");
                 return 0;
               }
+                if (census.THANA_UPZ_ID != auth_obj.thana_upazila_id) {
+                    alert("Thana/Upazila not matched.");
+                    return 0;
+                }
+                if (census.WARD_UNION_ID != auth_obj.union_ward_id) {
+                    alert("Union/Ward not matched.");
+                    return 0;
+                }
+
+
               census.api_mode = "api";
               census.offline_user_id = auth_obj.id;
               census.offline_office_id = auth_obj.office_id;
@@ -93,18 +96,17 @@ export default {
                   //console.log(response);
 
                   if (response.status == 200) {
-                    console.log(response);
-                    console.log(response.data.id);
                     var sql = `UPDATE CENSUS SET SERVER_ID = ${response.data.id }, UNIT_IDENTIFICATION_CODE = "${response.data.unit_identification_code}" WHERE ID=${census.ID}`;
                       db.run(sql);
+                  // Through Success message
+                      alert("Data has been synced successfully.")
                   } else {
                     alert(response.token);
                     return 0;
                   }
                 })
                 .catch(function(error) {
-                  console.log(error);
-                  alert("Error census posting");
+                  alert("Error in data syncing");
                 });
             };
 
