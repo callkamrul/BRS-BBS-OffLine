@@ -963,9 +963,14 @@
                 if(hasTradeLicense == 1){
                     this.enableDisableTradeLicenseAuth = false;
                     this.enableDisableTradeLicenseNumber = false;
+                    $("#trade-license-authority").select2({
+                        placeholder: "Select",
+                        allowClear: true
+                    });
                 } else if(hasTradeLicense == 2) {
                     this.enableDisableTradeLicenseAuth = true;
                     this.enableDisableTradeLicenseNumber = true;
+                    $("#trade-license-authority").val('').select2('destroy');
                     this.census.TRADE_LICENSE_NUMBER = '';
                     this.census.TRADE_LICENSE_AUTHORITY = '';
                 }
